@@ -19,8 +19,12 @@ yarn-error.log*
 # env files (track .env.example; never commit .env.local)
 .env*
 !.env.example
+!.env.production.template
 
-# Payload / SQLite (track payload.sqlite; ignore WAL sidecars)
+# Payload / SQLite (ignore WAL sidecars)
+# Do NOT ignore payload.sqlite for the initial Hostinger deploy seed.
+# After first deploy, you may add it back to prevent overwriting prod data.
+# payload.sqlite
 payload.sqlite-*
 .payload
 
