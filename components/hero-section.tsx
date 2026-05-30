@@ -6,7 +6,6 @@ import { ArrowRight, Play, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn, onHashAnchorClick } from "@/lib/utils"
 import type { HeroSlideContent, HeroStatContent } from "@/lib/cms/content-types"
-import { useContactModal } from "@/components/contact-modal-context"
 
 /** Primary CTA opens the contact modal when the slide targets `#msc-contact` (or default empty). */
 function heroPrimaryOpensContactModal(href: string): boolean {
@@ -86,7 +85,6 @@ export function HeroSection({
     [cmsStats],
   )
 
-  const { openContactModal } = useContactModal()
   const [current, setCurrent] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
 

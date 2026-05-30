@@ -13,7 +13,6 @@ import {
   scrollPropForResolvedNav,
   shouldReplaceHashLink,
 } from "@/lib/hash-nav"
-import { useContactModal } from "@/components/contact-modal-context"
 
 export type HeaderNavItem = {
   label: string
@@ -41,7 +40,6 @@ export function Header({
   const pathname = usePathname()
   const path = pathname ?? "/"
   const ctaDemosHref = resolveNavHashHref(path, "#msc-demos")
-  const { openContactModal } = useContactModal()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   /** Desktop flyout only (hover). */
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null)

@@ -2,7 +2,6 @@
 
 import { Check, Sparkles, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useContactModal } from "@/components/contact-modal-context"
 
 const packages: Array<{
   name: string
@@ -66,7 +65,6 @@ const packages: Array<{
 ]
 
 export function PackagesSection() {
-  const { openContactModal } = useContactModal()
 
   return (
     <section 

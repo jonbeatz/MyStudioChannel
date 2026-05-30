@@ -2,7 +2,6 @@
 
 import { Mic, Video, GraduationCap, Users, Tv, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useContactModal } from "@/components/contact-modal-context"
 
 const creatorTypes = [
   {
@@ -33,7 +32,6 @@ const creatorTypes = [
 ]
 
 export function BuiltForCreatorsSection() {
-  const { openContactModal } = useContactModal()
 
   return (
     <section 

@@ -5,7 +5,6 @@ import NextImage from "next/image"
 import type { LucideIcon } from "lucide-react"
 import { Image, Film, Video, Globe, Server, CheckCircle2, ArrowRight, Sparkles } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useContactModal } from "@/components/contact-modal-context"
 import { Button } from "@/components/ui/button"
 
 type RequirementCard = {
@@ -70,7 +69,6 @@ const requirements: RequirementCard[] = [
 
 export function RequirementsSection() {
   const [activeItem, setActiveItem] = useState<number | null>(null)
-  const { openContactModal } = useContactModal()
 
   return (
     <section 
