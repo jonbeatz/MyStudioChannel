@@ -19,7 +19,7 @@
 
 | Metric              | Value                                                                  |
 | ------------------- | ---------------------------------------------------------------------- |
-| **Version**         | v1.0.24                                                                |
+| **Version**         | v2.0.0                                                                 |
 | **Stack**           | Next.js 15 (React 19) + Payload CMS 3.81.0                             |
 | **CMS Engine**      | ✅ MSC PRO ENGINE Studio Mode — Gold Sidebar + Dashboard               |
 | **Deployment**      | ✅ Tiered FTPS (Hostinger/hPanel) via `PushItUP`                       |
@@ -128,4 +128,12 @@ MIT © My Studio Channel
 
 ---
 
-Built with ☕ and Cursor · Powered by the MSC PRO ENGINE
+## 👥 Contributors
+
+- **Jon Beatz** - Creator & Developer
+  - GitHub: [@jonbeatz](https://github.com/jonbeatz)
+  - Email: jonbeatz@gmail.com
+
+---
+
+Built with ☕ and Cursor · Powered by the MSC Media Engine | Version: v2.0.0
