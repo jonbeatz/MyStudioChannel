@@ -10,13 +10,50 @@ Whenever you create or adapt workflows, update this cheat sheet so you always ha
 
 These commands are bound to automated workflows inside `.cursor/prompts/` and are coordinated by `.cursor/rules/workflow.mdc`.
 
-| Command / Phrase | Action | File Location | Expected Behavior |
-|:---|:---|:---|:---|
-| **`"Start Project"`** <br>*(or "Begin Project", "Start Session", "Cold Start")* | Cold-start handshake | `.cursor/prompts/Start-Project.md` | Loads `README.md`, `START-HERE.md`, `project-log.md`, `Checkpoint.md`; performs node preflight; checks git status; asks to start Google API; prints start handshake. |
-| **`"End Project"`** <br>*(or "End Session", "Close Session", "Session Closeout")* | Session closeout & cleanup | `.cursor/prompts/End-Project.md` | Summarizes changed/added/deleted files; logs session to `project-log.md`; performs Git audit; stops local services (dev server, LiteLLM) and cleans ports; prints closeout block. |
-| **`"update docs"`** | Documentation sync & audit | `.cursor/prompts/Update-Docs.md` | Scans documents for outdated paths, names, and contradictions; synchronizes version info; logs bug fixes into `ISSUES-RESOLVED.md`; commits and pushes documentation changes. |
-| **`"Update Project"`** <br>*(or "Sync Project")* | Git-to-docs tracker sync | `.cursor/prompts/Update-Project.md` | Reads recent git logs (last 10 commits) and file diffs; appends updates to `project-log.md`; updates dates, versions, and milestones in `Checkpoint.md`. |
-| **`"backup project"`** | Interactive/Non-interactive backups | `.cursor/custom-scriptz/backup-system/CURSOR.md` | Initiates the backup system. Runs standard or full backups with custom notes, git meta tracking, and exports to `G:\Cursor_Project_BackUpz\MyStudioChannel`. |
+### ➡️ `"Start Project"`  
+*Alternative phrasings: `"Begin Project"`, `"Start Session"`, `"Cold Start"`*
+- **Action:** Cold-start handshake ritual.
+- **Workflow File:** `.cursor/prompts/Start-Project.md`
+- **Expected Behavior:** 
+  1. Automatically reads critical files (`README.md`, `START-HERE.md`, `project-log.md`, `Checkpoint.md`).
+  2. Runs lightweight preflight node/git environment checks.
+  3. Optionally prompts to start the Google API / LiteLLM proxy.
+  4. Outputs a beautiful, green session start handshake.
+
+### ➡️ `"End Project"`  
+*Alternative phrasings: `"End Session"`, `"Close Session"`, `"Session Closeout"`*
+- **Action:** Session closeout & cleanup.
+- **Workflow File:** `.cursor/prompts/End-Project.md`
+- **Expected Behavior:** 
+  1. Identifies and summarizes modified, added, and deleted files.
+  2. Appends logs to `.cursor/docs/project-log.md`.
+  3. Runs a Git audit and asks if you would like to commit and push.
+  4. Cleans up ports (kills dev server on `3000` and LiteLLM on `4000`).
+  5. Outputs goodbye handshake.
+
+### ➡️ `"update docs"`  
+- **Action:** Documentation sync & audit.
+- **Workflow File:** `.cursor/prompts/Update-Docs.md`
+- **Expected Behavior:** 
+  1. Scans project folders for outdated paths, names, and contradictions.
+  2. Synchronizes version info.
+  3. Logs bug fixes and temporary changes to `ISSUES-RESOLVED.md`.
+  4. Automatically stages, commits, and pushes doc updates.
+
+### ➡️ `"Update Project"`  
+*Alternative phrasings: `"Sync Project"`*
+- **Action:** Git-to-docs tracker sync.
+- **Workflow File:** `.cursor/prompts/Update-Project.md`
+- **Expected Behavior:** 
+  1. Reads git logs and diffs.
+  2. Automatically syncs milestone dates, versions, and lists inside `project-log.md` and `Checkpoint.md`.
+
+### ➡️ `"backup project"`  
+- **Action:** Interactive/Non-interactive standard & full backups.
+- **Module File:** `.cursor/custom-scriptz/backup-system/CURSOR.md`
+- **Expected Behavior:** 
+  1. Guides you through Type, Destination, Folder, and custom note steps.
+  2. Packages files and exports them safely to `G:\Cursor_Project_BackUpz\MyStudioChannel`.
 
 ---
 
@@ -24,37 +61,71 @@ These commands are bound to automated workflows inside `.cursor/prompts/` and ar
 
 For AI development, API testing, and model integrations.
 
-| Command / Phrase | Action | Underlying Command | Expected Outcome |
-|:---|:---|:---|:---|
-| **`"start google-api"`** | Start LiteLLM Vertex AI proxy + ngrok | `npm run msc:google-api:start` | Stops any current LiteLLM instance, starts LiteLLM on port `4000` mapped to Vertex AI, and initializes a secure public ngrok tunnel. |
-| **`"verify google-api"`** | Test proxy tunnel connections | `npm run msc:litellm:test:ngrok` | Verifies LiteLLM connection status, checks ngrok health, and outputs active URL endpoints. |
-| **`"stop google-api"`** | Stop LiteLLM proxy | `npm run msc:litellm:stop` | Safely kills the active LiteLLM python and proxy processes on port 4000. |
+### ➡️ `"start google-api"`  
+- **Action:** Start LiteLLM Vertex AI proxy + ngrok tunnel.
+- **Script Command:** `npm run msc:google-api:start`
+- **Expected Outcome:** Launches LiteLLM on port `4000` mapped to Vertex AI and mounts an active public HTTPS ngrok tunnel.
+
+### ➡️ `"verify google-api"`  
+- **Action:** Test proxy tunnel connections.
+- **Script Command:** `npm run msc:litellm:test:ngrok`
+- **Expected Outcome:** Tests endpoint connections and lists the active tunnel URLs for Cursor.
+
+### ➡️ `"stop google-api"`  
+- **Action:** Stop active proxy instance.
+- **Script Command:** `npm run msc:litellm:stop`
+- **Expected Outcome:** Safely terminates the Python LiteLLM proxy process on port `4000`.
 
 ---
 
 ## 📦 Hostinger Deployment (Tiered FTPS)
 
-Use these commands for deploying to Hostinger (hPanel/shared hosting) from your PC terminal.
+Commands for deploying code changes to Hostinger from your PC terminal.
 
-| Command / Phrase | Action | Script Run | Scope |
-|:---|:---|:---|:---|
-| **`"Push my branding"`** | Tier 1 Fast FTP (Look & Feel only) | `npm run pushitup:admin-branding` | Uploads CSS/SCSS and admin panel layouts only (`custom.scss`, custom admin components, `Users.ts`). Fast, no build step. |
-| **`"Lets Push It Live"`** | Tier 2 Full Production Sync | `npm run pushit:live` | Triggers Next.js build; uploads compiled `.next/`, local SQLite `payload.sqlite` database, and uploaded media to `/public_html/`. Requires live App stopping first. |
-| **`"Push server config"`** | Tier 3 Server/Node Contract | `npm run pushitup:server-config` | Syncs `server.js`, `package.json`, `package-lock.json`, and `.env.example`. Required after changing dependencies. |
-| **`"Lets test FTP"`** | Read-Only FTP connection smoke | `npm run test:hostinger-ftp` | Validates FTPS credentials and folder permissions by executing a read-only LIST of `/public_html/`. |
+### ➡️ `"Push my branding"`  
+- **Action:** Tier 1 Fast FTP (Look & Feel only).
+- **Script Command:** `npm run pushitup:admin-branding`
+- **Scope:** Uploads SCSS and admin graphics files (`custom.scss`, `Users.ts`, admin components). No full build step. Followed by hPanel Node app restart.
+
+### ➡️ `"Lets Push It Live"`  
+- **Action:** Tier 2 Full Production Sync.
+- **Script Command:** `npm run pushit:live`
+- **Scope:** Builds Next.js; uploads `.next/` bundle, SQLite `payload.sqlite` database, and `public/media/` to `/public_html/`. Requires live app stopping first. Followed by hPanel Node app restart.
+
+### ➡️ `"Push server config"`  
+- **Action:** Tier 3 Server/Node Contract.
+- **Script Command:** `npm run pushitup:server-config`
+- **Scope:** Syncs `server.js`, `package.json`, and `.env.example`. Followed by server-side `npm install` and hPanel restart.
+
+### ➡️ `"Lets test FTP"`  
+- **Action:** Read-Only FTP connection smoke test.
+- **Script Command:** `npm run test:hostinger-ftp`
+- **Scope:** Runs a quick READ-ONLY LIST of the remote directory to check FTPS logins and paths.
 
 ---
 
 ## 🛠️ Environment Recovery & Diagnostics
 
-Use these prompts when things break or localhost goes down.
+Troubleshooting and maintenance triggers when things break.
 
-| Command / Phrase | Action | Core Solution | Probes Run |
-|:---|:---|:---|:---|
-| **`"Fix Local"`** | Recover broken localhost server | `npm run dev:recover` <br>*(or `npm run repair:dev` for complete rebuild)* | Stops any process on port 3000, wipes Next cache files, spins up fresh dev server, and runs local smoke curls. |
-| **`"Take a snapshot"`** | Fast checkpoint creation | Guides you to create `Restore-Points.md` | Stages local documentation updates, commits with active branch/SHA details, and generates branch recovery steps. |
-| **`"Clean my folders"`** | Consolidate stray media | `npm run media:consolidate` | Cleans up workspace by moving media files scattered outside of `public/media/`. |
-| **`"Sync my media"`** | Rebuild media DB registration | `npm run media:sync` | Scans `public/media/` and automatically populates database tables to register local images in Payload CMS. |
+### ➡️ `"Fix Local"`  
+- **Action:** Local dev recovery.
+- **Script Command:** `npm run dev:recover` *(or `npm run repair:dev` for complete rebuild)*
+- **Expected Outcome:** Kills stale node listeners, clears Next.js caches, restarts dev server on port `3000`, and probes local URLs to ensure 200 OK.
+
+### ➡️ `"Take a snapshot"`  
+- **Action:** Milestone checkpointing.
+- **Expected Outcome:** Updates local documentation files, summarizes progress, commits, and creates a recovery branch for rollback safety.
+
+### ➡️ `"Clean my folders"`  
+- **Action:** Consolidate stray media.
+- **Script Command:** `npm run media:consolidate`
+- **Expected Outcome:** Moves files outside `public/media/` back into their correct structured folders.
+
+### ➡️ `"Sync my media"`  
+- **Action:** Bulk Media Database sync.
+- **Script Command:** `npm run media:sync`
+- **Expected Outcome:** Scans `public/media/` and automatically registers physical files as database rows in Payload CMS, bypassing Alt text constraints.
 
 ---
 
