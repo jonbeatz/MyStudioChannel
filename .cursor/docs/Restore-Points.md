@@ -1,4 +1,4 @@
-# Restore points — MSC Next (`msc-new`)
+# Restore points — MyStudioChannel (`MyStudioChannel`)
 
 Human-named checkpoints so you can roll back mentally or on disk if a change goes wrong.
 
@@ -8,7 +8,7 @@ Human-named checkpoints so you can roll back mentally or on disk if a change goe
    If the repo is under version control: tag after each checkpoint, e.g. `git tag restore-2026-04-08-cms-globals`.
 
 2. **No git**  
-   Copy the whole **`msc-new`** folder, or at minimum:
+   Copy the whole **`MyStudioChannel`** folder, or at minimum:
    - `payload.sqlite` (all CMS data: users, media, bookings, globals, leads)
    - `patch/` + `package-lock.json` if you rely on patched deps
 
@@ -22,6 +22,7 @@ Human-named checkpoints so you can roll back mentally or on disk if a change goe
 | ID | Date | Summary |
 |----|------|---------|
 | **RP-2026-05-30-hostinger-mcp-audit** | 2026-05-30 | **Hostinger Connectivity & Audit:** Established working Hostinger MCP connection and completed a full pre-deployment audit. Created `HOSTINGER-DEPLOY.md` and `.env.production.template`. **Restore:** `git checkout main && git pull`. |
+| **RP-2026-05-30-unified-workflow-setup** | 2026-05-30 | **Unified Workflow System:** Created robust prompt runners (`Start-Project.md`, `End-Project.md`, `Update-Project.md`, `Update-Docs.md`) and tracking logs (`project-log.md`, `Checkpoint.md`) coordinated by `workflow.mdc` under `MSC-Website-v2`. Clean, custom, and anonymous (no Vader-Engine refs). **Restore:** `git fetch origin && git checkout MSC-Website-v2 && git pull`. |
 | **RP-2026-05-30-initial-release-v100** | 2026-05-30 | **Initial GitHub release:** Created public repo `jonbeatz/MyStudioChannel` and tagged/released `v1.0.0` on `main`. **Restore:** `git fetch origin && git checkout v1.0.0`. |
 | **RP-2026-05-30-workspace-sync-rename** | 2026-05-30 | **Workspace sync complete:** Updated all hardcoded paths to `D:\Cursor_Projectz\MyStudioChannel` across docs and scripts after project directory rename. **Status:** Verified health via `npm run verify:local`. |
 | **RP-2026-05-29-litellm-gemini-3.5-flash** | 2026-05-29 | **LiteLLM Google API Proxy + ngrok fully verified:** Vertex AI Gemini 3.5 Flash (`vader-3.5-flash`) and `google-api/ngrok.exe` are fully set up. LiteLLM runs on port **4000** and ngrok provides secure public HTTPS tunneling on port **4040** (inspector). **Restore:** Run `npm run msc:google-api:start` (starts both) and check connectivity using `npm run msc:litellm:test:ngrok`. |

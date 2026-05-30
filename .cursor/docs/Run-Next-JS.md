@@ -54,9 +54,9 @@ From the directory with **`package.json`**:
 - Start with **`npm run start`** (or your platform’s Next adapter).
 - Use a **hosted Postgres** (e.g. Neon) in production: change **`payload.config.ts`** to **`@payloadcms/db-postgres`** and set **`DATABASE_URI`** per Payload docs; SQLite is for local/dev convenience.
 
-### Shared-host memory fallback (Spaceship / cPanel)
+### Shared-host memory fallback (Hostinger / hPanel)
 
-Step-by-step **build → FTP → when to Restart** (including **zip vs whole `.next` folder**): see **[Spaceship.md](./Spaceship.md)** → *Same-day deploy cheat sheet*.
+Step-by-step **build → FTP → when to Restart** (including **zip vs whole `.next` folder**): see **[HOSTINGER-DEPLOY.md](./HOSTINGER-DEPLOY.md)** → *Same-day deploy cheat sheet*.
 
 If host-side `npm run build` fails with:
 
@@ -71,14 +71,13 @@ Use this flow instead:
 2. Host terminal:
    - `npm install --legacy-peer-deps`
    - remove/replace `.next` from uploaded zip
-3. Restart Node app from panel.
+3. Restart Node app from hPanel.
 
-### cPanel operational shortcuts (session-scoped)
+### hPanel operational shortcuts (session-scoped)
 
-- **Terminal** and **NodeJS Selector** links include `cpsess...` and expire after session timeout/logout.
 - Practical labels used in this project:
-  - **Terminal**: cPanel Terminal page (for `npm install`, unzip, quick checks)
-  - **ReStartIt**: NodeJS app detail page (`/applications/mystudiochannel.com`) for `RESTART` / `STOP APP` / `START APP`
+  - **Terminal**: Hostinger SSH/Terminal page (for `npm install`, unzip, quick checks)
+  - **ReStartIt**: NodeJS app detail page for `RESTART` / `STOP APP` / `START APP`
 - Use **ReStartIt -> RESTART** after most code deploys. If behavior looks stale, use full bounce (`STOP APP`, wait 2-3s, then `START APP`).
 
 ---

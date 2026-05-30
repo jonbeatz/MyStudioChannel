@@ -112,7 +112,7 @@ Use this when opening a new Agent/chat and you want fast context restore.
 Lets Continue.
 
 Use this project’s docs as source of truth and rehydrate context:
-- .cursor/docs/Spaceship.md
+- .cursor/docs/HOSTINGER-DEPLOY.md
 - .cursor/docs/Jedi-List.md
 - .cursor/docs/ReCall.md
 - package.json scripts
@@ -208,7 +208,7 @@ Please do this in order:
 1) Review and update only necessary docs for today's changes:
    - .cursor/docs/START-HERE.md
    - .cursor/docs/Agent-Runbook.md
-   - .cursor/docs/Spaceship.md
+   - .cursor/docs/HOSTINGER-DEPLOY.md
    - .cursor/docs/Jedi-List.md
    - .cursor/docs/ReCall.md
    - .cursor/docs/Restore-Points.md (only if this is a meaningful milestone)
@@ -233,7 +233,7 @@ Lets Checkpoint Docs.
 Please review today's work and update only the necessary docs:
 - .cursor/docs/START-HERE.md
 - .cursor/docs/Agent-Runbook.md
-- .cursor/docs/Spaceship.md
+- .cursor/docs/HOSTINGER-DEPLOY.md
 - .cursor/docs/Jedi-List.md
 - .cursor/docs/ReCall.md
 - .cursor/docs/Restore-Points.md (only if this is a meaningful milestone)
@@ -400,7 +400,7 @@ Please do this:
 1) Read `package.json` scripts.
 2) Compare script names/behavior to:
    - `.cursor/docs/Jedi-List.md`
-   - `.cursor/docs/Spaceship.md`
+   - `.cursor/docs/HOSTINGER-DEPLOY.md`
    - `.cursor/docs/Agent-Runbook.md`
 3) List mismatches in command names or step order.
 4) Apply minimal doc edits so docs match real scripts exactly.
@@ -464,7 +464,7 @@ Please do this in order:
 2) Review/update only necessary docs for today's changes:
    - .cursor/docs/START-HERE.md
    - .cursor/docs/Agent-Runbook.md
-   - .cursor/docs/Spaceship.md
+   - .cursor/docs/HOSTINGER-DEPLOY.md
    - .cursor/docs/Jedi-List.md
    - .cursor/docs/ReCall.md
    - .cursor/docs/Restore-Points.md (if milestone/incident)

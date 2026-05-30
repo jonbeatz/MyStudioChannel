@@ -1,5 +1,5 @@
 ---
-description: Payload CMS — prefer typed blocks fields for admin sections (NovaMira / msc-new)
+description: Payload CMS — prefer typed blocks fields for admin sections (NovaMira / MyStudioChannel)
 globs:
   - collections/**/*.ts
   - globals/**/*.ts
@@ -8,7 +8,7 @@ globs:
 alwaysApply: false
 ---
 
-# Payload admin: blocks-first authoring (msc-new)
+# Payload admin: blocks-first authoring (MyStudioChannel)
 
 When adding or refactoring **Payload** fields in this repo:
 

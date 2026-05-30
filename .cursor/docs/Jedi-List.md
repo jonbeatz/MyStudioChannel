@@ -1,6 +1,6 @@
 # Jedi List — project commands
 
-Quick reference for **npm scripts** and related tooling wired up in **`package.json`** (msc-new / Payload + Next.js). Run everything from the repo root (folder with `package.json`).
+Quick reference for **npm scripts** and related tooling wired up in **`package.json`** (MyStudioChannel / Payload + Next.js). Run everything from the repo root (folder with `package.json`).
 
 ## Hostinger Deployment (MCP)
 

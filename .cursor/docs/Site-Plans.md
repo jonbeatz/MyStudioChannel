@@ -1,12 +1,12 @@
 # Site plans — Next.js backend, CMS, and data
 
-Reference doc for choosing and implementing how the MSC Next site (`msc-new`) connects to a database, admin panel, and signup flows. Last updated for review alongside [Development.md](./Development.md), [ReCall.md](./ReCall.md), and [Restore-Points.md](./Restore-Points.md).
+Reference doc for choosing and implementing how the MSC Next site (`MyStudioChannel`) connects to a database, admin panel, and signup flows. Last updated for review alongside [Development.md](./Development.md), [ReCall.md](./ReCall.md), and [Restore-Points.md](./Restore-Points.md).
 
 ---
 
 ## Original goals (summary)
 
-- Next.js marketing site at **`https://mystudiochannel.com`** — **current `msc-new` ships as a full Next.js + Payload app** with persisted data (SQLite locally; Postgres recommended for production).
+- Next.js marketing site at **`https://mystudiochannel.com`** — **current `MyStudioChannel` ships as a full Next.js + Payload app** with persisted data (SQLite locally; Postgres recommended for production).
 - **Simple admin** for copy, hero, Media, bookings, and leads is handled in **Payload** today.
 - **Signups / verification** flows use Payload collections + Resend where wired.
 - Comfortable with **WordPress**; **headless WordPress** remains an optional parallel track (see **Headless-WP-Backend-Plan.md**), not a requirement for the live MSC bundle.
@@ -26,7 +26,7 @@ Reference doc for choosing and implementing how the MSC Next site (`msc-new`) co
 
 ## Option comparison (short)
 
-| Option | Admin / CMS | Typical DB | Fit with **current `msc-new` (Next + Payload, no `out/`)** | Notes |
+| Option | Admin / CMS | Typical DB | Fit with **current `MyStudioChannel` (Next + Payload, no `out/`)** | Notes |
 |--------|-------------|------------|-----------------------------------------------------------|--------|
 | **Headless WordPress** | WP Admin (familiar) | MySQL (often already on host) | **Optional add-on** — REST/GraphQL for extra flows or content if you split concerns | You already have WP **live on Hostinger** and **LocalWP** locally. Not required for the core MSC site today. |
 | **Payload 3** (this repo) | Payload admin | SQLite locally; Postgres in prod | **Primary** — Node host required; see Development.md | Neon/Postgres recommended for production. |
