@@ -11,7 +11,7 @@ Use this file as the high-level base. Detailed guidance is split into scoped fil
 
 1. `.cursor/docs/START-HERE.md`
 2. `.cursor/docs/Agent-Runbook.md`
-3. `.cursor/docs/Spaceship.md`
+3. `.cursor/docs/HOSTINGER-DEPLOY.md`
 4. `.cursor/docs/Jedi-List.md`
 5. `.cursor/docs/ReCall.md` and `.cursor/docs/Restore-Points.md`
 

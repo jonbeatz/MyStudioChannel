@@ -164,7 +164,7 @@
         { "title": "Images & Show Artwork", "description": "High-resolution logos, professional headshots, and any specific branding graphics (layered .PSD or .AI files are preferred if available)." },
         { "title": "Thumbnails", "description": "Eye-catching, high-contrast images (1920 x 1080px) that clearly represent your episodes or categories at a glance." },
         { "title": "Video and/or Audio Files", "description": "Direct download links (Dropbox/Drive) or hosted URLs (YouTube/Vimeo) for the primary media content you want featured on the site." },
-        { "title": "Domain Name", "description": "The registered web address (URL) you intend to use, along with the login credentials for your registrar (e.g., SiteGround or Spaceship)." },
+        { "title": "Domain Name", "description": "The registered web address (URL) you intend to use, along with the login credentials for your registrar (e.g., SiteGround or Hostinger)." },
         { "title": "Hosting Account Access", "description": "Login credentials for your hosting provider (e.g., SiteGround, Cloudways). We recommend managed WordPress hosting for optimal performance." }
       ],
       "image": "podcast.jpg"

@@ -28,7 +28,7 @@
     "pushitupzip": "powershell -ExecutionPolicy Bypass -File scripts/PushItUPzip.ps1",
     "pushitup:ftp-smoke": "powershell -ExecutionPolicy Bypass -File scripts/PushItUP.ps1 ftp-path-smoke-test.txt",
     "verify:ftp-smoke": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-ftp-smoke-remote.ps1",
-    "test:spaceship-ftp": "powershell -ExecutionPolicy Bypass -File scripts/Test-SpaceshipFtp.ps1",
+    "test:hostinger-ftp": "powershell -ExecutionPolicy Bypass -File scripts/Test-HostingerFtp.ps1",
     "parity:ftp": "powershell -ExecutionPolicy Bypass -File scripts/ftp-parity-check.ps1",
     "verify:media:blank-alt": "node scripts/verify-media-blank-alt.mjs",
     "verify:local": "powershell -ExecutionPolicy Bypass -File scripts/verify-local.ps1",

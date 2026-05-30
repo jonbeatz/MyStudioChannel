@@ -15,7 +15,7 @@ Maintain a small **core docs set** for daily use, plus optional/archive docs for
 
 1. `START-HERE.md` (entrypoint + source order)
 2. `Agent-Runbook.md` (copy/paste triggers)
-3. deploy/host doc (e.g. `Spaceship.md`)
+3. deploy/host doc (e.g. `HOSTINGER-DEPLOY.md`)
 4. command reference (e.g. `Jedi-List.md`)
 5. restore/checkpoint log (e.g. `Restore-Points.md`)
 

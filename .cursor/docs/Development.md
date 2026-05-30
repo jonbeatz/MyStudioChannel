@@ -41,7 +41,7 @@ npm run dev:payload
 
 If anything still looks cached or broken, delete **`.next`** once, then restart dev.
 
-### Production on Spaceship (shared-host memory limits)
+### Production on Hostinger (shared-host memory limits)
 
 - **Observed issue:** host-side `npm run build` can fail with `RangeError: WebAssembly.instantiate(): Out of memory`.
 - **Recommended deployment path on low-memory hosts:**

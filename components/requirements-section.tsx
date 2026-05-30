@@ -53,7 +53,7 @@ const requirements: RequirementCard[] = [
     icon: Globe,
     title: "Domain Name",
     subtitle: "",
-    description: "The registered web address (URL) you intend to use, along with the login credentials for your registrar (e.g., SiteGround or Spaceship).",
+    description: "The registered web address (URL) you intend to use, along with the login credentials for your registrar (e.g., SiteGround or Hostinger).",
     specs: ["Registered URL", "Registrar login access", "DNS management", "Secure credentials"],
     highlight: false
   },

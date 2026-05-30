@@ -49,7 +49,7 @@ Operational guide for agents and operators:
 
 - **[START-HERE.md](./.cursor/docs/START-HERE.md)** — Daily startup, source-of-truth order, and cPanel links.
 - **[Agent-Runbook.md](./.cursor/docs/Agent-Runbook.md)** — Standardized prompts for consistent workflow.
-- **[Spaceship.md](./.cursor/docs/Spaceship.md)** — The production hosting playbook and incident recovery.
+- **[HOSTINGER-DEPLOY.md](./.cursor/docs/HOSTINGER-DEPLOY.md)** — The production hosting playbook and incident recovery.
 - **[Jedi-List.md](./.cursor/docs/Jedi-List.md)** — Command quick-reference for all npm scripts.
 - **[Restore-Points.md](./.cursor/docs/Restore-Points.md)** — Milestone checkpoints and rollback instructions.
 

@@ -1,5 +1,5 @@
 # Read-only: LIST configured remotePath and confirm ftp-path-smoke-test.txt exists (same session as PushItUP).
-# Spaceship.md § FTP documents remotePath (usually "/") vs cPanel shell cd — do not confuse them.
+# HOSTINGER-DEPLOY.md § FTP documents remotePath (usually "/") — do not confuse them.
 $ErrorActionPreference = "Stop"
 [System.Net.ServicePointManager]::SecurityProtocol =
   [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12

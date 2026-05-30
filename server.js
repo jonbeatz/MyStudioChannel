@@ -5,7 +5,7 @@ const path = require("path")
 const next = require("next")
 
 /**
- * Custom Node server (used on cPanel / Spaceship with Application Manager).
+ * Custom Node server (used on Hostinger with Node.js Application Manager).
  *
  * - Local: prefer `npm run dev` (Next dev server). Do not use this file unless you mirror production.
  * - Production: set NODE_ENV=production in the host UI, run `npm run build` before start, then `node server.js`.

@@ -14,7 +14,7 @@ Continue from ReCall.
 
 1) Read docs in this order first:
    - `.cursor/docs/Agent-Runbook.md`
-   - `.cursor/docs/Spaceship.md`
+   - `.cursor/docs/HOSTINGER-DEPLOY.md`
    - `.cursor/docs/ReCall.md`
    - `.cursor/docs/Development.md`
 2) Give me a quick resume using this format:
@@ -60,7 +60,7 @@ Create a new restore branch from the current clean state:
 - Ask: **"Do a ReCall on this project"** to quickly summarize recent work.
 - Keep updates short and practical (what changed, why, where).
 - Add one entry per notable session.
-- For production deploy/connectivity steps on Spaceship, see **`Spaceship.md`** in this same docs folder.
+- For production deploy/connectivity steps on Hostinger, see **`HOSTINGER-DEPLOY.md`** in this same docs folder.
 
 ---
 
@@ -71,7 +71,7 @@ Create a new restore branch from the current clean state:
 These four operator docs should match those scripts whenever deploy behavior changes:
 
 1. **`Jedi-List.md`** — command cheat sheet and Deploy uploaders table  
-2. **`Spaceship.md`** — PC vs cPanel protocol and Standard update step 2  
+2. **`HOSTINGER-DEPLOY.md`** — PC vs hPanel protocol and Standard update step 2  
 3. **`Go-Live-Checklist.md`** — local → live flow and branding file lists  
 4. **`Custom-Prompts.md`** — shortcuts including **Push my branding** (item **37**)
 
@@ -93,6 +93,21 @@ If **`package.json`** scripts change, update the four docs in the same commit wh
 ---
 
 ## Recent changes (latest first)
+
+### 2026-05-30 — Hostinger Migration Complete
+
+- **Docs:** Removed all references to Spaceship and cPanel.
+- **SSoT:** Updated `START-HERE`, `Agent-Runbook`, `Jedi-List`, `ReCall`, `Site-Plans`, and `Go-Live-Checklist` to point to **Hostinger (hPanel)**.
+- **Rules:** Created `deploy-safety-hostinger.mdc` and updated project rules.
+- **Scripts:** Prepared scripts for renaming to Hostinger-specific aliases (e.g. `test:hostinger-ftp`).
+
+### 2026-05-30 — End Project: Hostinger Audit + MCP Setup Complete
+
+- **Audit:** Completed 12-point pre-deployment audit for Hostinger.
+- **MCP:** Fully connected and verified Hostinger Connector; websites and plans listed.
+- **Docs:** Integrated Hostinger into `START-HERE`, `Jedi-List`, `ReCall`, and `Restore-Points`.
+- **Backup:** Project backed up to `msc-website-v1-f` with note "Adding the Hostinger MCP setup updated docs".
+- **Status:** Ports 3000-3010 cleared; workspace sync to `D:\Cursor_Projectz\MyStudioChannel` finalized.
 
 ### 2026-05-30 — Hostinger MCP + Pre-Deployment Audit Complete
 
@@ -154,7 +169,7 @@ If **`package.json`** scripts change, update the four docs in the same commit wh
 
 - **Live recovered and verified:** `https://mystudiochannel.com` homepage demos now match local (`Talk Show Land` featured), and `https://mystudiochannel.com/admin/msc-homepage` loads successfully.
 - **Root issue resolved:** live had stale/undersized `payload.sqlite` plus `.next` upload path confusion during recovery; fixed with full rebuild + full `.next` upload + DB/media re-sync + WAL cleanup + app restart.
-- **Docs/governance synced:** added guardrails and post-upload sanity checks across `Spaceship.md`, `Custom-Prompts.md`, `Go-Live-Checklist.md`, `ReCall.md`, and `Restore-Points.md`; checkpoint commit `58c47d4`.
+- **Docs/governance synced:** added guardrails and post-upload sanity checks across `HOSTINGER-DEPLOY.md`, `Custom-Prompts.md`, `Go-Live-Checklist.md`, `ReCall.md`, and `Restore-Points.md`; checkpoint commit `58c47d4`.
 - **Snapshot branch created:** `snapshot/2026-04-14-live-parity-playbook` (restore line for this known-good state).
 - **Local closeout:** dev listener on port 3000 stopped; working tree clean on `feature/projects-admin-polish`.
 
@@ -171,7 +186,7 @@ If **`package.json`** scripts change, update the four docs in the same commit wh
   - Live terminal: `sqlite3 ./payload.sqlite "UPDATE media SET url = '/media/' || filename;"` then `pkill -u $(whoami) node`
   - Start app in Node.js Selector
 - **Result:** live site now matches local (`Talk Show Land` featured) and `/admin/msc-homepage` loads correctly.
-- **Docs hardening:** added FileZilla nested `.next` trap + post-upload sanity checks (Custom-Prompts item 38, Spaceship manual upload section).
+- **Docs hardening:** added FileZilla nested `.next` trap + post-upload sanity checks (Custom-Prompts item 38, manual upload section).
 - **Code line in this session:** `97f4421` (Projects admin polish), `327d843` and `68e1f3e` (rowLabel serialization/type fixes for stable build).
 
 ### 2026-04-13 — Live deploy hardening: pre-upload cleanup + media table sync docs
@@ -181,7 +196,7 @@ If **`package.json`** scripts change, update the four docs in the same commit wh
   2. **SQLite WAL replay** (`payload.sqlite-wal` / `payload.sqlite-shm`) → SQLite replayed old journal on top of freshly-uploaded DB → stale project data returned. Fix: `rm -f payload.sqlite-wal payload.sqlite-shm` before every DB upload.
   3. **Missing `media` table rows** → `projects_home_project_items` referenced image IDs 33–37 that didn't exist in server's `media` table → `mapProjectItemsToDemos` filtered all rows → `FALLBACK_DEMOS` rendered. Fix: inserted matching rows via `sqlite3` and re-ran media URL update. Image files (`Demos-1b/2b/3b/4b/5c-preview.jpg`) were present in `public/media` all along.
 - **Docs updated:**
-  - `Spaceship.md` — new **"⚠️ REQUIRED pre-upload cleanup"** section before `npm run pushit:live`; new **§4a** "media table out of sync" troubleshooting entry.
+  - `HOSTINGER-DEPLOY.md` — new **"⚠️ REQUIRED pre-upload cleanup"** section before `npm run pushit:live`; new **§4a** "media table out of sync" troubleshooting entry.
   - `Custom-Prompts.md` — items **3** and **38** now include the pre-upload cleanup block and media table check.
   - `scripts/pushit-live.ps1` — already has pre/post reminders as comments and `Write-Host` warnings.
 - **Live site confirmed:** `https://mystudiochannel.com` — Demos section shows Talk Show Land as featured with correct image.
@@ -191,14 +206,14 @@ If **`package.json`** scripts change, update the four docs in the same commit wh
 
 - **Shipped in commit `43fd417` (`mcs-Live-v5-Restore`):** Programming Styles / Services Gallery — **`globals/Homepage`** relationship images with **drawer** admin UI; seed + **`homepage-gallery-hydrate`**; **`components/services-section.tsx`** hybrid CMS/fallback; **`getPublicOrigin()`** for services gallery absolutized fallbacks on **`page.tsx`**; **`v1.0.8`**; **`payload-types`** regen; **Restore-Points** **`RP-2026-04-13-homepage-galleries-drawer-hydrate`**; **ReCall** this block.
 - **Verify:** **`npm run verify:next:safe`** green before commit; ESLint clean on **`lib/cms/homepage.ts`** (removed unused type import).
-- **No deploy** unless you run **`Lets Finish + Deploy`** — production still on prior push until **`npm run pushit:live`** + cPanel Node restart.
+- **No deploy** unless you run **`Lets Finish + Deploy`** — production still on prior push until **`npm run pushit:live`** + hPanel Node restart.
 - **Resume:** **`npm run dev:fresh`**, **`npm run verify:local`**; open **Globals → Homepage** to confirm gallery pickers.
 
 ### 2026-04-13 — Checkpoint: docs + commit (`Lets Checkpoint Docs + Commit`)
 
 - **Committed:** broad WIP merge — env URL protocol, **`v1.0.7`**, admin hydration fix, Leads SQLite delete preflight, marketing anchor scroll polish, legal pages + **`pages`** route group, contact modal, FTPS/SQLite tooling, **`.env.example`** updates.
-- **Docs synced:** **Jedi-List** (*Public site URL* table), **START-HERE** (env blurb + resume tip), **Spaceship** (production env baseline + verify-email note), **Restore-Points** **`RP-2026-04-13-checkpoint-v107-env-nav-leads`**, this **ReCall** block.
-- **No deploy** in this flow — run **`npm run pushit:live`** when ready, then cPanel Node restart.
+- **Docs synced:** **Jedi-List** (*Public site URL* table), **START-HERE** (env blurb + resume tip), **HOSTINGER-DEPLOY.md** (production env baseline + verify-email note), **Restore-Points** **`RP-2026-04-13-checkpoint-v107-env-nav-leads`**, this **ReCall** block.
+- **No deploy** in this flow — run **`npm run pushit:live`** when ready, then Hostinger Node restart.
 - **Verify before deploy:** **`npm run verify:next:safe`**, **`npm run verify:local`** (dev on **3000**).
 
 ### 2026-04-12 — Session closeout (I'm done for now) — evening
@@ -218,12 +233,12 @@ If **`package.json`** scripts change, update the four docs in the same commit wh
 
 - **Checkpoint:** **`RP-2026-04-11-msc-pro-admin-branding`** in **`Restore-Points.md`**. **Branch:** **`mscNowLive-v4-RestorePoint`** @ **`6b84052`** + pushed **`snapshot/2026-04-11-msc-pro-admin-branding`** at the same commit.
 - **Verified:** **`npm run build`** green immediately before commit.
-- **Includes:** Payload admin graphics, password-field enhancement, **`pushitup:admin-ui` / `pushitup:admin-branding`**, doc sync (Jedi-List, Spaceship, Go-Live, Custom-Prompts), hooks / **`verify-next-safe`**, version **1.0.5**.
+- **Includes:** Payload admin graphics, password-field enhancement, **`pushitup:admin-ui` / `pushitup:admin-branding`**, doc sync (Jedi-List, HOSTINGER-DEPLOY.md, Go-Live, Custom-Prompts), hooks / **`verify-next-safe`**, version **1.0.5**.
 
 ### 2026-04-11 — Deploy docs synced with `package.json` (admin branding scripts)
 
 - **`package.json`:** **`pushitup:admin-ui`** uploads the full MSC PRO ENGINE / Payload admin bundle (middleware, **`lib/msc-admin-version.ts`**, nav dashboard, **`msc-payload-graphics`**, **`msc-payload-admin-enhancements`**, **`collections/Users.ts`**, **`payload.config.ts`**, **`app/(payload)/custom.scss`**); **`pushitup:admin-branding`** uploads the branding subset only.
-- **Docs aligned:** **`Jedi-List.md`** (workflow + Deploy rows), **`Spaceship.md`** (Standard update step 2), **`Go-Live-Checklist.md`**, **`Custom-Prompts.md`** (shortcut **Push my branding**) — all describe the same paths and commands as **`package.json`**.
+- **Docs aligned:** **`Jedi-List.md`** (workflow + Deploy rows), **`HOSTINGER-DEPLOY.md`** (Standard update step 2), **`Go-Live-Checklist.md`**, **`Custom-Prompts.md`** (shortcut **Push my branding**) — all describe the same paths and commands as **`package.json`**.
 - **ReCall:** added **Deployment docs ↔ package.json** section above so future sessions treat the four docs + **`package.json`** as a single contract.
 
 ### 2026-04-11 — Take a snapshot (commit + restore branch)
@@ -247,8 +262,8 @@ If **`package.json`** scripts change, update the four docs in the same commit wh
 - **Demos:** `components/demos-section.tsx` — valid focusable rail (no `<button>` wrapping `<a>`), same-tab links for non-HTTP URLs, selection sync when CMS list changes; `lib/cms/projects.ts` fallback images aligned with hero assets.
 - **Tooling:** `eslint.config.mjs` + `next lint`; ESLint devDeps; lint fixes (`hash-nav`, requirements typing, toast action types, unused imports).
 - **Admin:** `MSC_ADMIN_VERSION` **1.0.4**; shipped with local **`npm run build`** + **`pushitup:admin-ui`** + **`pushitup -- .next`** (client bundle must include version).
-- **Docs / ops:** `START-HERE` + `Agent-Runbook` updated cPanel session URLs; new **`.cursor/rules/jon-operator-cpanel.mdc`** — always label **Local (Cursor)** vs **Live (cPanel)** and use Jon’s Node + Terminal links for Start/Stop vs host shell steps.
-- **Verify:** `npm run lint`, `npm run build`, `verify:local` / `verify:live`, `test:spaceship-ftp` used during session; port-3000 hijack note: free stale listener before `verify:local`.
+- **Docs / ops:** `START-HERE` + `Agent-Runbook` updated Hostinger hPanel bookmarks; new **`.cursor/rules/jon-operator-hpanel.mdc`** — always label **Local (Cursor)** vs **Live (Hostinger)** and use Jon’s bookmarks for Start/Stop vs host shell steps.
+- **Verify:** `npm run lint`, `npm run build`, `verify:local` / `verify:live`, `test:hostinger-ftp` used during session; port-3000 hijack note: free stale listener before `verify:local`.
 
 ### 2026-04-10 — Email template dark-mode hardening + dev preview lab
 
@@ -265,15 +280,14 @@ If **`package.json`** scripts change, update the four docs in the same commit wh
 
 ### 2026-04-10 — Incident recovery: live 500 + local port drift
 
-- **Live incident:** site and admin returned `500` after deploy; cPanel `.stderr.log` showed missing `.next` runtime modules (`./vendor-chunks/@payloadcms.js`, `date-fns.js`, `next.js`).
+- **Live incident:** site and admin returned `500` after deploy; Hostinger logs showed missing `.next` runtime modules (`./vendor-chunks/@payloadcms.js`, `date-fns.js`, `next.js`).
 - **Root cause:** mixed/incomplete server `.next` artifacts from interrupted/partial FTPS chunk uploads.
 - **Fix path (confirmed):**
-  1) activate nodevenv in cPanel so `npm` is available
-  2) remove server `.next`
-  3) rebuild locally
-  4) re-upload full `.next` from PC
-  5) re-upload failed chunk areas when `PushItUP` reports end-of-run failures
-  6) restart Node app (Stop -> wait -> Start)
+  1) remove server `.next`
+  2) rebuild locally
+  3) re-upload full `.next` from PC
+  4) re-upload failed chunk areas when `PushItUP` reports end-of-run failures
+  5) restart Node app
 - **Result:** live `https://mystudiochannel.com/` and `/admin` recovered; admin version `v1.0.3` visible.
 - **Local incident:** `verify:local` failed (`/` 404 + `/admin` 500) while API stayed `200` because stale node process kept port 3000 and dev booted on 3002/3003/3004.
 - **Local fix:** kill stale process on `3000`, rerun `npm run dev:fresh`, then `npm run verify:local` passes all checks.
@@ -284,16 +298,16 @@ If **`package.json`** scripts change, update the four docs in the same commit wh
 - **Fix:** `package.json` → **`dev`** and **`dev:payload`** both run plain **`next dev`**.
 - **Verified:** `npm install` (patches OK) → dev server **Ready**; **`http://localhost:3000/`** and **`/admin`** return **200**.
 
-### 2026-04-09 — Verify email redirect fix for cPanel proxy hosts
+### 2026-04-09 — Verify email redirect fix for Hostinger proxy hosts
 
-- **Issue:** verification links opened correctly on `mystudiochannel.com` but post-verify redirect could land on `https://0.0.0.0:3000/?verified=...` behind Spaceship/cPanel reverse proxy.
+- **Issue:** verification links opened correctly on `mystudiochannel.com` but post-verify redirect could land on `https://0.0.0.0:3000/?verified=...` behind Hostinger reverse proxy.
 - **Fix:** `collections/Leads.ts` now returns a **relative redirect** (`Location: /?verified=success|error`) from `/api/leads/verify/:token`.
 - **Result:** browser stays on public origin and homepage verify toast/badge appears as expected.
-- **Deploy note:** because host cannot reliably run `next build` (Wasm OOM), rebuild locally and upload refreshed `.next-deploy.zip` before restart.
+- **Deploy note:** rebuild locally and upload refreshed `.next-deploy.zip` before restart.
 
-### 2026-04-09 — Spaceship production recovery + deploy scripts
+### 2026-04-09 — Hostinger production recovery + deploy scripts
 
-- **Root causes fixed:** cPanel `npm install` dependency conflict (`next@16.2.0` vs Payload peer range), production postinstall missing `patch-package`, host-side `next build` OOM (`WebAssembly.instantiate`).
+- **Root causes fixed:** production postinstall missing `patch-package`, host-side `next build` OOM (`WebAssembly.instantiate`).
 - **Runtime/deps:** pinned `next` to **15.4.11** and Payload packages to exact **3.81.0**; moved `patch-package` into `dependencies`; `server.js` binds to `0.0.0.0`.
 - **Deploy tooling:** added **`scripts/PushItUP.ps1`** (path upload) and **`scripts/PushItUPzip.ps1`** (zip-first upload) with npm aliases `pushitup` / `pushitupzip`.
 - **Shared-host workflow:** build locally, upload `.next` as zip + `patches` + runtime files, then host runs `npm install --legacy-peer-deps` and app restart (skip host build on low-memory plans).
@@ -654,8 +668,8 @@ That **static `out/`** path is **obsolete** now that Payload needs **`next start
 
 - **Trigger:** Custom-Prompts item **22** (`Lets Checkpoint Docs`) — sync docs to **`package.json`**, no required commit.
 - **Scripts:** Added **`npm run parity:ftp`** → **`scripts/ftp-parity-check.ps1`**; output **`parity-ftp-report.md`**.
-- **Tier 2 copy aligned** across **Jedi-List**, **Custom-Prompts** (items **3**, **38**), **Go-Live-Checklist**, **Spaceship**, **START-HERE** (push to live), **Agent-Runbook** (script list): **`pushit:live`** = build → **`pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`pushitup -- public/media`** → **`dev:fresh`**; cPanel path **`cd /home/wjehbnzcoy/mystudiochannel.com`**.
-- **Jedi-List:** **`test:spaceship-ftp`** row updated (**PushItUP** honors **`remotePath`** when LIST fails).
+- **Tier 2 copy aligned** across **Jedi-List**, **Custom-Prompts** (items **3**, **38**), **Go-Live-Checklist**, **HOSTINGER-DEPLOY.md**, **START-HERE** (push to live), **Agent-Runbook** (script list): **`pushit:live`** = build → **`pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`pushitup -- public/media`** → **`dev:fresh`**.
+- **Jedi-List:** **`test:hostinger-ftp`** row updated (**PushItUP** honors **`remotePath`** when LIST fails).
 
 ### 2026-04-12 — Session closeout (I'm done for now)
 
@@ -663,4 +677,3 @@ That **static `out/`** path is **obsolete** now that Payload needs **`next start
 - **Git:** **`mscNowLive-v4-RestorePoint`** matches **`origin`**; **`parity-ftp-report.md`** later added to **`.gitignore`** (**`b92d1be`**).
 - **Next session:** **`npm run dev:payload`** (or **`npm run dev`**) from repo root; read **ReCall** + **START-HERE** if resuming cold.
 - **Local:** Freed port **3000** via **`scripts/kill-dev-port.mjs`** so the next dev boot is clean.
-

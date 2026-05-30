@@ -42,7 +42,7 @@ Only do this once at flow start (not every follow-up).
 
 1. `START-HERE.md`
 2. `Agent-Runbook.md`
-3. `Spaceship.md` (or host/deploy equivalent)
+3. `HOSTINGER-DEPLOY.md` (or host/deploy equivalent)
 4. `Jedi-List.md` (or commands equivalent)
 5. `Restore-Points.md`
 

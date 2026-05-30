@@ -42,7 +42,7 @@ if (-not (Test-Path -LiteralPath $dbFile)) {
 Write-Host ""
 Write-Host "pushit:live - 1/6 npm run build (NEXT_PUBLIC_SERVER_URL -> live origin for this step only)" -ForegroundColor Yellow
 # `.env.local` usually sets NEXT_PUBLIC_SERVER_URL=http://localhost:3000. Next.js loads dotenv but does not
-# overwrite existing process env — temporarily set the live origin so the production client bundle matches Spaceship.
+# overwrite existing process env — temporarily set the live origin so the production client bundle matches Hostinger.
 $pushitSavedNextPublic = $env:NEXT_PUBLIC_SERVER_URL
 $prodPublicUrl = "https://mystudiochannel.com"
 if ($env:MSC_CANONICAL_SITE_ORIGIN -and $env:MSC_CANONICAL_SITE_ORIGIN.Trim().Length -gt 0) {

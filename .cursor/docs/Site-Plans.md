@@ -16,7 +16,7 @@ Reference doc for choosing and implementing how the MSC Next site (`msc-new`) co
 
 ## Critical constraint: static export vs full-stack Next (resolved)
 
-**Current state:** The migration from **static export** to a **full Next.js + Payload** bundle is **complete**. **`output: 'export'` is not used.** Deploy with **`next build`** + upload **`.next`** + **`next start`** on the host (Spaceship Node app), same as **Development.md** / **Spaceship.md**.
+**Current state:** The migration from **static export** to a **full Next.js + Payload** bundle is **complete**. **`output: 'export'` is not used.** Deploy with **`next build`** + upload **`.next`** + **`next start`** on the host (Hostinger Node app), same as **Development.md** / **HOSTINGER-DEPLOY.md**.
 
 **Assets:** All site static images live under **`public/media`** and are addressed as **`/media/...`** (Payload **Media** + `npm run media:sync` / `npm run media:consolidate`). There is no parallel **`out/`**-only marketing deploy for this repo.
 
@@ -28,7 +28,7 @@ Reference doc for choosing and implementing how the MSC Next site (`msc-new`) co
 
 | Option | Admin / CMS | Typical DB | Fit with **current `msc-new` (Next + Payload, no `out/`)** | Notes |
 |--------|-------------|------------|-----------------------------------------------------------|--------|
-| **Headless WordPress** | WP Admin (familiar) | MySQL (often already on host) | **Optional add-on** — REST/GraphQL for extra flows or content if you split concerns | You already have WP **live on Spaceship** and **LocalWP** locally. Not required for the core MSC site today. |
+| **Headless WordPress** | WP Admin (familiar) | MySQL (often already on host) | **Optional add-on** — REST/GraphQL for extra flows or content if you split concerns | You already have WP **live on Hostinger** and **LocalWP** locally. Not required for the core MSC site today. |
 | **Payload 3** (this repo) | Payload admin | SQLite locally; Postgres in prod | **Primary** — Node host required; see Development.md | Neon/Postgres recommended for production. |
 | **Supabase** | Not a full marketing CMS by itself | Postgres | **Adjunct** — client SDK for auth/tables alongside Payload | Great for **auth / signups / tables** if you extend beyond Payload. |
 | **Firebase** | Not WP-like CMS | Firestore etc. | **Adjunct** | Good for auth/notifications; Payload remains content/booking hub. |
@@ -38,7 +38,7 @@ Reference doc for choosing and implementing how the MSC Next site (`msc-new`) co
 
 ## Recommendation snapshot
 
-- **Shipped path for MSC:** **Payload + Next** in one repo, **Node** on Spaceship, assets in **`/media/`** — see **Spaceship.md** and **Go-Live-Checklist.md**.
+- **Shipped path for MSC:** **Payload + Next** in one repo, **Node** on Hostinger, assets in **`/media/`** — see **HOSTINGER-DEPLOY.md** and **Go-Live-Checklist.md**.
 - **Optional:** **headless WordPress** for WP-native content or endpoints (**Headless-WP-Backend-Plan.md**) if you want WP and Payload to coexist for different surfaces.
 - **Signups / verification:** Payload **Leads** / **Bookings** + email adapters today; **Supabase** or WP endpoints remain optional if product needs grow.
 
@@ -46,7 +46,7 @@ Reference doc for choosing and implementing how the MSC Next site (`msc-new`) co
 
 ## Headless WordPress — architecture (approved direction)
 
-**Your setup:** WordPress **live on Spaceship** and **LocalWP** for local dev — ideal for dev → deploy of the same plugin/theme.
+**Your setup:** WordPress **live on Hostinger** and **LocalWP** for local dev — ideal for dev → deploy of the same plugin/theme.
 
 ```mermaid
 flowchart LR
@@ -57,7 +57,7 @@ flowchart LR
     end
     subgraph prod [Production]
         NS[Next + Payload app]
-        WS[Spaceship WP wp-json]
+        WS[Hostinger WP wp-json]
         NS -. optional .-> WS
     end
 ```
@@ -124,11 +124,13 @@ Remove Payload, restore **`output: 'export'`**, and use **headless WordPress** o
 
 ## Related docs in this repo
 
-- [Development.md](./Development.md) — stack, Payload, schedule dialog, booking env.
-- [MCP-SETUP.md](./MCP-SETUP.md) — Cursor MCP config and env sync.
-- [ReCall.md](./ReCall.md) — session memory and checkpoints.
-- [Restore-Points.md](./Restore-Points.md) — dated restore checkpoints and `payload.sqlite` backup.
-- [Run-Next-JS.md](./Run-Next-JS.md) — build and serve commands.
+| Doc | Description |
+|---|---|
+| [Development.md](./Development.md) | Stack, Payload, schedule dialog, booking env. |
+| [MCP-SETUP.md](./MCP-SETUP.md) | Cursor MCP config and env sync. |
+| [ReCall.md](./ReCall.md) | Session memory and checkpoints. |
+| [Restore-Points.md](./Restore-Points.md) | Dated restore checkpoints and `payload.sqlite` backup. |
+| [Run-Next-JS.md](./Run-Next-JS.md) | Build and serve commands. |
 
 ---
 
@@ -136,6 +138,7 @@ Remove Payload, restore **`output: 'export'`**, and use **headless WordPress** o
 
 | Date | Note |
 |------|------|
+| 2026-05-30 | **Hostinger Migration:** Removed all references to Spaceship; updated to Hostinger (hPanel) deployment model. |
 | 2026-05-29 | **MCP reorg:** Global trimmed to 7 servers; WordPress MCPs in project **`.cursor/mcp.json`**; **`npm run sync:mcp-env`**; **MCP-SETUP.md** documents Payload skip + **`user-payload`** workspace MCP. |
 | 2026-04-11 | **Architecture lock-in:** Docs updated to state **full Next.js + Payload** bundle (no static **`out/`** deploy), unified static assets in **`public/media`** / **`/media/...`**, and **`media:sync` / `media:consolidate`** as the operational scripts. Option table and recommendations aligned with **START-HERE** source order. |
 | 2026-04-08 | Created `Site-Plans.md` — consolidates backend/CMS options, static-export vs Payload, headless WP architecture, and phased plan for reference. |

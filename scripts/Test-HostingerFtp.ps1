@@ -54,7 +54,7 @@ function Test-FtpList {
   $response.Close()
 }
 
-Write-Host "Spaceship FTPS test (read-only LIST)"
+Write-Host "Hostinger FTPS test (read-only LIST)"
 Write-Host "Server: ${ftpServer}:${ftpPort} (SSL=$useSsl, Passive=$usePassive)"
 Write-Host "User: $username"
 

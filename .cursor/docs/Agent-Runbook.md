@@ -18,7 +18,7 @@ When starting/resuming from docs, begin with a short handshake line using the op
 
 This is the confirmation that docs/context were read correctly.
 
-**Command locality:** Whenever you tell Jon to run a command, label **Local (Cursor / PC repo root)** vs **Live (cPanel → Terminal)**. Use Jon’s Node.js and Terminal URLs from **`START-HERE.md`** (session `cpsess` updates when links expire).
+**Command locality:** Whenever you tell Jon to run a command, label **Local (Cursor / PC repo root)** vs **Live (Hostinger hPanel)**.
 
 Trigger rule (for custom prompt flows):
 
@@ -52,14 +52,14 @@ Operator: Jon. Use handshake: "Ok Jon - Ready to begin. Full sync from docs and 
 You must actually read these files (not from memory) in this order:
 1) .cursor/docs/START-HERE.md — source-of-truth order, daily rules, Jon’s cPanel session links (Node.js + Terminal), fast workflow.
 2) .cursor/docs/Agent-Runbook.md — operator handshake + command locality (Local Cursor vs Live cPanel).
-3) .cursor/docs/Spaceship.md — deploy protocol: pushitup/pushit:live on PC only; cPanel = restart / optional npm install; never pushitup on host.
-4) .cursor/docs/Jedi-List.md — npm scripts (dev:fresh, dev:recover, verify:next:safe, build, lint, verify:local, verify:live, verify:next, media:sync, media:consolidate, pushit:live, parity:ftp, test:spaceship-ftp, sync:mcp-env, test:github-api, test:tavily-api).
+3) .cursor/docs/HOSTINGER-DEPLOY.md — deploy protocol: pushitup/pushit:live on PC only; hPanel = restart / optional npm install; never pushitup on host.
+4) .cursor/docs/Jedi-List.md — npm scripts (dev:fresh, dev:recover, verify:next:safe, build, lint, verify:local, verify:live, verify:next, media:sync, media:consolidate, pushit:live, parity:ftp, test:hostinger-ftp, sync:mcp-env, test:github-api, test:tavily-api).
 5) .cursor/docs/ReCall.md — "Current focus" + latest "Recent changes" entry.
 6) Skim .cursor/docs/Restore-Points.md — newest checkpoint row only (if any).
 
 Also load project constraints:
 - Read .cursorrules if present.
-- List and skim .cursor/rules/*.mdc — at minimum include operator/cPanel rules (e.g. jon-operator-cpanel.mdc): Jon’s bookmarks, always label Local vs Live when giving commands.
+- List and skim .cursor/rules/*.mdc — at minimum include operator/hPanel rules (e.g. jon-operator-hpanel.mdc): Jon’s bookmarks, always label Local vs Live when giving commands.
 - Note: **`npm run parity:ftp`** writes **`parity-ftp-report.md`** at repo root for drift review; the file is **gitignored** (regenerate anytime; do not expect it in `git status` as untracked).
 
 Then run Local (Cursor) checks from repo root:
@@ -96,8 +96,8 @@ Please run startup for this repo and confirm each step:
 2) Start local dev safely on http://localhost:3000 using our stable flow (dev:fresh if needed).
 3) Confirm localhost / and /admin are healthy.
 4) Confirm FTP deploy tooling is ready (pushitup scripts available).
-5) Remind me of the current live deploy command and cPanel restart step.
-6) Briefly summarize known recurring issues and prevention (stale .next, partial uploads, cPanel command confusion).
+5) Remind me of the current live deploy command and Hostinger restart step.
+6) Briefly summarize known recurring issues and prevention (stale .next, partial uploads, Hostinger command confusion).
 
 Do not deploy anything yet.
 ```
@@ -120,7 +120,7 @@ Use this project’s docs as source of truth and rehydrate context:
 Then tell me in 5 bullets:
 1) Current branch and git status
 2) What workflow commands we use (especially pushit:live / pushitup / dev:fresh)
-3) Current deployment protocol (PC vs cPanel responsibilities)
+3) Current deployment protocol (PC vs Hostinger responsibilities)
 4) Any active local service/process state that matters
 5) Next recommended action based on current repo changes
 
@@ -163,9 +163,9 @@ Lets Finish + Deploy.
 Do normal Lets Finish steps, then:
 1) Run pushit:live from repo root.
 2) Show upload progress and report completion.
-3) Give clickable cPanel links for:
+3) Give clickable Hostinger links for:
    - Node Start/Stop page
-   - cPanel Terminal page
+   - Hostinger Terminal page
 4) Tell me to restart app and validate live in incognito.
 
 Ask me to confirm before running the deploy step.
@@ -183,18 +183,16 @@ Lets Push It Live.
 From repo root D:\Cursor_Projectz\MyStudioChannel:
 1) Run npm run pushit:live
 2) Stream upload/build progress until complete
-3) When done, give me these clickable links (Jon’s current `cpsess`; refresh in `START-HERE.md` if expired):
-   - Start/Stop (Node.js app) — **Live (cPanel)**:
-     https://server9.shared.spaceship.host:2083/cpsess0827945513/frontend/jupiter/lveversion/nodejs-selector.html.tt#/applications/mystudiochannel.com
-   - Terminal — **Live (cPanel → Terminal)**:
-     https://server9.shared.spaceship.host:2083/cpsess0827945513/frontend/jupiter/terminal/index.html
-4) Tell me the exact next action: **Live (cPanel)** — restart app, then test live in incognito. Always label commands as **Local (Cursor)** vs **Live (cPanel)** when giving run instructions.
+3) When done, give me these clickable links (Jon’s current hPanel bookmarks):
+   - hPanel:
+     https://hpanel.hostinger.com/
+4) Tell me the exact next action: **Live (Hostinger)** — restart app, then test live in incognito. Always label commands as **Local (Cursor)** vs **Live (Hostinger)** when giving run instructions.
 
 If pushit:live fails, stop and tell me the exact failing step + shortest recovery command.
 If upload finishes with failures, re-run upload for failed paths before restart.
-Default: pushit:live does not auto-start local dev. Optional: PUSHIT_LIVE_RUN_DEV_FRESH=1 (PowerShell) to run dev:fresh after Tier 2 — see Spaceship.md.
-Brief FTPS errors on 1–2 .next files that retry successfully are normal (Spaceship.md).
-cPanel Terminal cd must use /home/<user>/mystudiochannel.com, not /<user>/... (Spaceship.md → Small mistakes).
+Default: pushit:live does not auto-start local dev. Optional: PUSHIT_LIVE_RUN_DEV_FRESH=1 (PowerShell) to run dev:fresh after Tier 2 — see HOSTINGER-DEPLOY.md.
+Brief FTPS errors on 1–2 .next files that retry successfully are normal (HOSTINGER-DEPLOY.md).
+Hostinger Terminal cd must be used in the correct directory (HOSTINGER-DEPLOY.md → Small mistakes).
 ```
 
 ---
@@ -267,7 +265,7 @@ Please do this in order:
 4) Ask me to confirm deploy.
 5) Run npm run pushit:live.
 6) Show progress and completion.
-7) Give clickable cPanel links for:
+7) Give clickable Hostinger links for:
    - Node Start/Stop page
    - Terminal page
 8) Tell me exact next step: restart app, then verify live in incognito.
@@ -334,7 +332,7 @@ From repo root D:\Cursor_Projectz\MyStudioChannel:
 1) Run npm run pushit:live:safe
 2) Show preflight results from verify:local
 3) If preflight passes, continue deploy and stream progress
-4) When done, give clickable cPanel links and tell me to restart app
+4) When done, give clickable Hostinger links and tell me to restart app
 5) If preflight fails, stop and give shortest recovery command only
 ```
 
@@ -539,8 +537,8 @@ Please run these checks in order:
 2) Live health check:
    - `npm run verify:live`
 3) FTP connection check:
-   - `npm run test:spaceship-ftp`
-   - Optional path proof: `npm run verify:ftp-smoke` (confirms `ftp-path-smoke-test.txt` exists at configured `remotePath`; see Spaceship.md § FTP — `remotePath` is not the same as cPanel `cd`)
+   - `npm run test:hostinger-ftp`
+   - Optional path proof: `npm run verify:ftp-smoke` (confirms `ftp-path-smoke-test.txt` exists at configured `remotePath`; see HOSTINGER-DEPLOY.md § FTP — `remotePath` is not the same as Hostinger path)
 4) Repo readiness check:
    - `git status --short`
 
@@ -562,9 +560,9 @@ Rules:
 
 ## Notes
 
-- If the agent is unsure what to trust, tell it: **"Use Agent-Runbook.md then Spaceship.md as source of truth."**
-- `pushitup` commands run on your PC (Cursor terminal), not cPanel Terminal.
-- cPanel links with `cpsess...` can expire after logout/session timeout.
+- If the agent is unsure what to trust, tell it: **"Use Agent-Runbook.md then HOSTINGER-DEPLOY.md as source of truth."**
+- `pushitup` commands run on your PC (Cursor terminal), not Hostinger Terminal.
+- Hostinger links can expire after logout/session timeout.
 - For app/admin code changes, use full build + full `.next` upload (via `npm run pushit:live`).
 - When prompts are added/changed in this runbook, mirror the same entries (with short descriptions) in `.cursor/docs/Custom-Prompts.md`.
 
@@ -581,7 +579,7 @@ Use these as quick "commands in plain English" for the agent.
    - Rehydrates context from docs + git and gives a concise "what matters now" summary.
 
 3. **`Lets Push It Live`**  
-   - Runs `npm run pushit:live`, streams progress, then gives cPanel links + exact restart step.
+   - Runs `npm run pushit:live`, streams progress, then gives Hostinger links + exact restart step.
 
 4. **`Lets Finish`**  
    - End-of-day closeout without forced deploy: status, docs update, confirm commit/push, stop local services.
@@ -608,7 +606,7 @@ Use these as quick "commands in plain English" for the agent.
     - Updates key docs for today’s work, summarizes changes, then confirms and commits/pushes (no live deploy).
 
 12. **`Lets Checkpoint + Deploy`**  
-    - Runs docs checkpoint + commit/push, then deploys (`pushit:live`) with confirm gates and cPanel restart links.
+    - Runs docs checkpoint + commit/push, then deploys (`pushit:live`) with confirm gates and Hostinger restart links.
 
 13. **`Lets Cut New Branch`**  
     - Creates a clean branch from current HEAD, pushes upstream, and confirms active branch/status.
@@ -659,7 +657,7 @@ Use these as quick "commands in plain English" for the agent.
     - Alias for running `verify:live` and returning pass/fail only.
 
 29. **`Lets test FTP`**  
-    - Runs `test:spaceship-ftp` for a quick FTPS login/list check and reports ready/not-ready. If deploys hit the wrong directory, follow **Spaceship.md** § FTP (`remotePath` vs shell `cd`) and use **`npm run pushitup:ftp-smoke`** / **`npm run verify:ftp-smoke`**.
+    - Runs `test:hostinger-ftp` for a quick FTPS login/list check and reports ready/not-ready. If deploys hit the wrong directory, follow **HOSTINGER-DEPLOY.md** § FTP (`remotePath` vs Hostinger path) and use **`npm run pushitup:ftp-smoke`** / **`npm run verify:ftp-smoke`**.
 
 30. **`Lets run system check`**  
     - Runs local + live + FTP + repo-status checks and returns one consolidated readiness report.

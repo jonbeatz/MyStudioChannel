@@ -3,7 +3,7 @@
 Use these as quick "commands in plain English" for the agent.
 
 0. **`Ready to begin`**  
-   - **Full sync:** agent reads **START-HERE → Agent-Runbook → Spaceship → Jedi-List → ReCall** (+ newest **Restore-Points**), loads **`.cursorrules`** and **`.cursor/rules`**, then git status + local dev health + optional **`verify:local`**. Use when you want to be fully aligned before coding (best for a new chat or after a break). Canonical wording: **`.cursor/docs/Agent-Runbook.md`** → **§0 Ready to begin (full sync)**.
+   - **Full sync:** agent reads **START-HERE → Agent-Runbook → HOSTINGER-DEPLOY → Jedi-List → ReCall** (+ newest **Restore-Points**), loads **`.cursorrules`** and **`.cursor/rules`**, then git status + local dev health + optional **`verify:local`**. Use when you want to be fully aligned before coding (best for a new chat or after a break). Canonical wording: **`.cursor/docs/Agent-Runbook.md`** → **§0 Ready to begin (full sync)**.
 
    **Paste this (or say `Ready to begin.` in chat — same intent):**
 
@@ -14,16 +14,16 @@ Use these as quick "commands in plain English" for the agent.
    Operator: Jon. Use handshake: "Ok Jon - Ready to begin. Full sync from docs and repo."
 
    You must actually read these files (not from memory) in this order:
-   1) .cursor/docs/START-HERE.md — source-of-truth order, daily rules, Jon’s cPanel session links (Node.js + Terminal), fast workflow.
-   2) .cursor/docs/Agent-Runbook.md — operator handshake + command locality (Local Cursor vs Live cPanel).
-   3) .cursor/docs/Spaceship.md — deploy protocol: pushitup/pushit:live on PC only; cPanel = restart / optional npm install; never pushitup on host.
-   4) .cursor/docs/Jedi-List.md — npm scripts (dev:fresh, dev:recover, verify:next:safe, build, lint, verify:local, verify:live, verify:next, media:sync, media:consolidate, pushit:live, parity:ftp, test:spaceship-ftp, pushitup:ftp-smoke, verify:ftp-smoke, sync:mcp-env, test:github-api, test:tavily-api).
+   1) .cursor/docs/START-HERE.md — source-of-truth order, daily rules, Jon’s hPanel bookmarks, fast workflow.
+   2) .cursor/docs/Agent-Runbook.md — operator handshake + command locality (Local Cursor vs Live Hostinger).
+   3) .cursor/docs/HOSTINGER-DEPLOY.md — deploy protocol: pushitup/pushit:live on PC only; hPanel = restart / optional npm install; never pushitup on host.
+   4) .cursor/docs/Jedi-List.md — npm scripts (dev:fresh, dev:recover, verify:next:safe, build, lint, verify:local, verify:live, verify:next, media:sync, media:consolidate, pushit:live, parity:ftp, test:hostinger-ftp, pushitup:ftp-smoke, verify:ftp-smoke, sync:mcp-env, test:github-api, test:tavily-api).
    5) .cursor/docs/ReCall.md — "Current focus" + latest "Recent changes" entry.
    6) Skim .cursor/docs/Restore-Points.md — newest checkpoint row only (if any).
 
    Also load project constraints:
    - Read .cursorrules if present.
-   - List and skim .cursor/rules/*.mdc — at minimum include operator/cPanel rules (e.g. jon-operator-cpanel.mdc): Jon’s bookmarks, always label Local vs Live when giving commands.
+   - List and skim .cursor/rules/*.mdc — at minimum include operator/hPanel rules (e.g. jon-operator-hpanel.mdc): Jon’s bookmarks, always label Local vs Live when giving commands.
    - Note: **`npm run parity:ftp`** writes **`parity-ftp-report.md`** locally; it is **gitignored** (safe to regenerate; it will not show as an untracked file).
 
    Then run Local (Cursor) checks from repo root:
@@ -33,7 +33,7 @@ Use these as quick "commands in plain English" for the agent.
 
    Respond with:
    A) Confirmed docs read (one line).
-   B) Operator + locality reminder (Jon; Local vs Live; where cPanel links live).
+   B) Operator + locality reminder (Jon; Local vs Live; where Hostinger links live).
    C) Git: branch + clean/dirty + notable untracked if any.
    D) Local: port + dev status + verify:local result if you ran it.
    E) ReCall "Current focus" in 2–4 bullets.
@@ -50,7 +50,7 @@ Use these as quick "commands in plain English" for the agent.
    - Rehydrates context from docs + git and gives a concise "what matters now" summary.
 
 3. **`Lets Push It Live`**  
-   - **Tier 2** full deploy — same as **item 38** (`npm run pushit:live`: build with live public URL → admin bundle → `.next` → **`payload.sqlite`** → **`public/media`**; step **6/6** local dev is **skipped by default** — set **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** to auto-run **`dev:fresh`**). Requires a local **`payload.sqlite`** at repo root. Occasional **1–2 FTPS errors** mid-`.next` upload usually clear on **retry** (normal). Then **Live (cPanel Terminal)** — URL fix + `pkill` (see item **38**); **Node.js Selector → Start**; Incognito validation. **⚠️ Run the pre-upload cleanup first** (stop app → `rm -rf .next` → `rm -f payload.sqlite-wal payload.sqlite-shm` on server) — see full steps in **item 38**.
+   - **Tier 2** full deploy — same as **item 38** (`npm run pushit:live`: build with live public URL → admin bundle → `.next` → **`payload.sqlite`** → **`public/media`**; step **6/6** local dev is **skipped by default** — set **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** to auto-run **`dev:fresh`**). Requires a local **`payload.sqlite`** at repo root. Occasional **1–2 FTPS errors** mid-`.next` upload usually clear on **retry** (normal). Then **Live (Hostinger hPanel)** — restart app (see item **38**); Incognito validation. **⚠️ Run the pre-upload cleanup first** (stop app → `rm -rf .next` → `rm -f payload.sqlite-wal payload.sqlite-shm` on server) — see full steps in **item 38**.
 
 4. **`Lets Finish`**  
    - End-of-day closeout without forced deploy: status, docs update, confirm commit/push, stop local services.
@@ -77,7 +77,7 @@ Use these as quick "commands in plain English" for the agent.
     - Updates key docs for today’s work, summarizes changes, then confirms and commits/pushes (no live deploy).
 
 12. **`Lets Checkpoint + Deploy`**  
-    - Runs docs checkpoint + commit/push, then deploys (`pushit:live`) with confirm gates and cPanel restart links.
+    - Runs docs checkpoint + commit/push, then deploys (`pushit:live`) with confirm gates and Hostinger restart links.
 
 13. **`Lets Cut New Branch`**  
     - Creates a clean branch from current HEAD, pushes upstream, and confirms active branch/status.
@@ -128,14 +128,14 @@ Use these as quick "commands in plain English" for the agent.
     - Alias for running `verify:live` and returning pass/fail only.
 
 29. **`Lets test FTP`**  
-    - Runs `test:spaceship-ftp` for a quick FTPS login/list check and reports ready/not-ready.  
-    - If uploads landed in the wrong tree (double **`mystudiochannel.com`**, or **`home/wjehbnzcoy/...`** under FTP), read **Spaceship.md** § **FTP connection profile** — **`remotePath`** is **not** the same as cPanel **`cd /home/wjehbnzcoy/mystudiochannel.com`**. After fixing **`remotePath`**, run **`npm run pushitup:ftp-smoke`** and confirm **`ftp-path-smoke-test.txt`** sits next to **`package.json`** in FileZilla; **`npm run verify:ftp-smoke`** confirms from the PC.
+    - Runs `test:hostinger-ftp` for a quick FTPS login/list check and reports ready/not-ready.  
+    - If uploads landed in the wrong tree, read **HOSTINGER-DEPLOY.md** § FTP connection profile — **`remotePath`** is **not** always the same as the app path. After fixing **`remotePath`**, run **`npm run pushitup:ftp-smoke`** and confirm **`ftp-path-smoke-test.txt`** sits next to **`package.json`** in FileZilla; **`npm run verify:ftp-smoke`** confirms from the PC.
 
 30. **`Lets run system check`**  
     - Runs local + live + FTP + repo-status checks and returns one consolidated readiness report. Optional: include **`npm run verify:ftp-smoke`** when validating deploy paths (exits non-zero if the marker file is missing on the server).
 
 31. **`Ready to begin`**  
-    - Same full-sync flow as **item 0** above (and **`Agent-Runbook.md` §0**): read **START-HERE**, **Agent-Runbook**, **Spaceship**, **Jedi-List**, **ReCall** (+ skim **Restore-Points**), **`.cursorrules`** + **`.cursor/rules`**, then **Local (Cursor)** git status, healthy **`localhost:3000`** (free port **3000** / **`dev:fresh`** if needed), optional **`verify:local`**; reply in sections **A–G**; handshake **`Ok Jon - Ready to begin`**; **no deploy**. Say **`Ready to begin.`** in chat or paste the block under **item 0**.
+    - Same full-sync flow as **item 0** above (and **`Agent-Runbook.md` §0**): read **START-HERE**, **Agent-Runbook**, **HOSTINGER-DEPLOY**, **Jedi-List**, **ReCall** (+ skim **Restore-Points**), **`.cursorrules`** + **`.cursor/rules`**, then **Local (Cursor)** git status, healthy **`localhost:3000`** (free port **3000** / **`dev:fresh`** if needed), optional **`verify:local`**; reply in sections **A–G**; handshake **`Ok Jon - Ready to begin`**; **no deploy**. Say **`Ready to begin.`** in chat or paste the block under **item 0**.
 
 32. **`I'm done for now`** (or **`Continue later`**)  
     - End-of-session closeout: short **ReCall.md** append (what shipped, next step), confirm docs saved if edited, optionally stop **Local (Cursor)** dev on port **3000**; no deploy unless you say otherwise.
@@ -150,31 +150,29 @@ Use these as quick "commands in plain English" for the agent.
     - Runs **Clean my folders** followed by **Sync my media**. Verifies all UI components use `/media/` paths and confirms the project is **Ready to begin** for design or deploy.
 
 36. **`Fix localhost (white screen / 500 / fallback chunks)`**  
-   - **Local (Cursor / repo root):** explain the usual cause (**`.next`** deleted while **`next dev`** was still running — often **`verify:next`** or **`clean:next`** in a second terminal). Run **`npm run dev:recover`** (or **`npm run repair:dev`**). For production checks when dev might be on port **3000**, use **`npm run verify:next:safe`** instead of raw **`verify:next`**. Remind: Cursor hooks block **`verify:next`** when **3000** is busy.
+    - **Local (Cursor / repo root):** explain the usual cause (**`.next`** deleted while **`next dev`** was still running — often **`verify:next`** or **`clean:next`** in a second terminal). Run **`npm run dev:recover`** (or **`npm run repair:dev`**). For production checks when dev might be on port **3000**, use **`npm run verify:next:safe`** instead of raw **`verify:next`**. Remind: Cursor hooks block **`verify:next`** when **3000** is busy.
 
 37. **`Push my branding`**  
-   - **Tier 1 — Fast FTP (look and feel only).** **Local (Cursor / repo root):** runs **`npm run pushitup:admin-branding`** — **`PushItUP.ps1`** uploads **only** these paths: **`components/msc-payload-graphics.tsx`**, **`components/msc-payload-admin-enhancements.tsx`**, **`collections/Users.ts`**, **`payload.config.ts`**, **`app/(payload)/custom.scss`**. No production build in this command: use for quick SCSS/config/docs tweaks when you accept that **bundled** admin UI may not change until you run **Tier 2**. If you changed React behavior that affects the compiled admin bundle, run **`Lets Push It Live`** (item **38**) instead. After upload, **Live (cPanel)** — Restart the Node.js app for `mystudiochannel.com`.
+   - **Tier 1 — Fast FTP (look and feel only).** **Local (Cursor / repo root):** runs **`npm run pushitup:admin-branding`** — **`PushItUP.ps1`** uploads **only** these paths: **`components/msc-payload-graphics.tsx`**, **`components/msc-payload-admin-enhancements.tsx`**, **`collections/Users.ts`**, **`payload.config.ts`**, **`app/(payload)/custom.scss`**. No production build in this command: use for quick SCSS/config/docs tweaks when you accept that **bundled** admin UI may not change until you run **Tier 2**. If you changed React behavior that affects the compiled admin bundle, run **`Lets Push It Live`** (item **38**) instead. After upload, **Live (Hostinger)** — Restart the Node.js app.
 
 38. **`Lets Push It Live`**  
    - **Tier 2 — Full build + DB + media ship (“zero footprint” sync).**  
-   - **⚠ REQUIRED pre-upload cleanup (every Tier 2 deploy):** **Live (cPanel UI) → STOP APP first**, then **Live (cPanel → Terminal)**:  
+   - **⚠ REQUIRED pre-upload cleanup (every Tier 2 deploy):** **Live (Hostinger hPanel) → STOP APP first**, then **Live (Hostinger Terminal)**:  
      ```bash
-     cd /home/wjehbnzcoy/mystudiochannel.com
      rm -rf .next                                 # FTP merges files -- old webpack-runtime causes "Cannot find module vendor-chunks" 500
      rm -f payload.sqlite-wal payload.sqlite-shm  # SQLite WAL replays on top of new DB and restores stale data
      ```
-   - **Local (Cursor / repo root):** **`npm run pushit:live`** runs: **`npm run build`** (script sets live **`NEXT_PUBLIC_SERVER_URL`** for this step only) → **`npm run pushitup:admin-ui`** → **`npm run pushitup -- .next`** → **`npm run pushitup -- payload.sqlite`** → **`npm run pushitup -- public/media`**. Step **6/6** (**`dev:fresh`**) runs only if **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** — otherwise you start **`npm run dev`** / **`dev:fresh`** yourself (**Spaceship.md**). Aborts if **`payload.sqlite`** is missing locally. If the log shows **one or two FTPS upload errors** then **"Retry succeeded"**, that is **normal**.  
-   - **Live (cPanel → Terminal) after upload:** **`cd /home/wjehbnzcoy/mystudiochannel.com`** — must be **`/home/<user>/...`**, not **`/<user>/...`** (see **Spaceship.md** → *Small mistakes*); **`sqlite3 ./payload.sqlite "UPDATE media SET url = '/media/' || filename;"`**; **`pkill -u $(whoami) node`** if needed.  
-   - **Live (cPanel UI):** **Node.js Selector → Start** `mystudiochannel.com` (wait 20—30 s). **Verification:** **`/`** and **`/admin`** in **Incognito**; Demos section and Media should match local. Same intent as **item 3** above.  
-   - **If Demos section shows wrong/fallback content after restart:** `media` table may be missing rows for recently-added images — see **Spaceship.md §4a** for the fix.  
-  - **Before** trusting a big **`.next`** upload, ensure **`.vscode/sftp.json`** **`remotePath`** matches **Spaceship.md** (usually **`/`** for FTPS — not the same string as the **`cd`** line above); **`npm run verify:ftp-smoke`** should pass. **Optional:** upload **`.next`** only via **FileZilla** if you follow **Spaceship.md** → *Manual `.next` upload* and still ship the other Tier 2 artifacts.
-  - **Post-upload sanity checks (required):**
+   - **Local (Cursor / repo root):** **`npm run pushit:live`** runs: **`npm run build`** (script sets live **`NEXT_PUBLIC_SERVER_URL`** for this step only) → **`npm run pushitup:admin-ui`** → **`npm run pushitup -- .next`** → **`npm run pushitup -- payload.sqlite`** → **`npm run pushitup -- public/media`**. Step **6/6** (**`dev:fresh`**) runs only if **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** — otherwise you start **`npm run dev`** / **`dev:fresh`** yourself (**HOSTINGER-DEPLOY.md**). Aborts if **`payload.sqlite`** is missing locally. If the log shows **one or two FTPS upload errors** then **"Retry succeeded"**, that is **normal**.  
+   - **Live (Hostinger hPanel)**: **Restart** the Node.js app. **Verification:** **`/`** and **`/admin`** in **Incognito**; Demos section and Media should match local. Same intent as **item 3** above.  
+   - **If Demos section shows wrong/fallback content after restart:** `media` table may be missing rows for recently-added images — see **HOSTINGER-DEPLOY.md §4a** for the fix.  
+   - **Before** trusting a big **`.next`** upload, ensure **`.vscode/sftp.json`** **`remotePath`** matches **HOSTINGER-DEPLOY.md** (usually **`/`** or **`/public_html`** for FTPS); **`npm run verify:ftp-smoke`** should pass. **Optional:** upload **`.next`** only via **FileZilla** if you follow **HOSTINGER-DEPLOY.md** → *Manual `.next` upload* and still ship the other Tier 2 artifacts.
+   - **Post-upload sanity checks (required):**
     1) `.next` must not be nested (`/.next/.next` is wrong).  
     2) `payload.sqlite` size on live should be close to local (if live is tiny/old, demos/admin content will regress).  
     3) If `pushitup -- .next` reports a very small file count after a deploy reset, run a fresh **`npm run build`** and re-upload `.next` immediately.
 
 39. **`Push server config`**  
-   - **Tier 3 — Hosting / Node runtime contract.** **Local (Cursor / repo root):** runs **`npm run pushitup:server-config`** — FTPS **`server.js`**, **`package.json`**, **`package-lock.json`**, and **`.env.example`**. Use when dependencies, engine constraints, or startup wiring changed; then **Live (cPanel → Terminal)** — `source` nodevenv, **`cd`** app root, **`npm install --legacy-peer-deps`**, then **Restart** the Node app (see **Go-Live-Checklist.md** §5). Do **not** run **`pushitup`** on the host.
+   - **Tier 3 — Hosting / Node runtime contract.** **Local (Cursor / repo root):** runs **`npm run pushitup:server-config`** — FTPS **`server.js`**, **`package.json`**, **`package-lock.json`**, and **`.env.example`**. Use when dependencies, engine constraints, or startup wiring changed; then **Live (Hostinger Terminal)** — **`npm install --legacy-peer-deps`**, then **Restart** the Node app (see **Go-Live-Checklist.md** §5). Do **not** run **`pushitup`** on the host.
 
 40. **`Fix Local`**  
    - **Intent:** Deep recovery of the **Local (Cursor / repo root)** environment when **`/`** or **`/admin`** show white screen, **500**, missing **vendor-chunks**, or **404** on **`/_next/static/...`**.  

@@ -23,9 +23,8 @@ When docs differ, use this priority:
 
 1. `START-HERE.md` (this file)
 2. `Agent-Runbook.md` (copy/paste prompts)
-3. `Spaceship.md` (deploy + cPanel)
-4. `HOSTINGER-DEPLOY.md` (Hostinger deployment guide)
-5. `Jedi-List.md` (commands quick reference)
+3. `HOSTINGER-DEPLOY.md` (Hostinger deployment guide)
+4. `Jedi-List.md` (commands quick reference)
 5. `Development.md` (architecture details)
 6. `ReCall.md` / `Restore-Points.md` (history + checkpoints)
 
@@ -37,7 +36,7 @@ These are the only docs you should need most days:
 
 - `START-HERE.md`
 - `Agent-Runbook.md`
-- `Spaceship.md`
+- `HOSTINGER-DEPLOY.md`
 - `Jedi-List.md`
 - `Restore-Points.md`
 
@@ -59,10 +58,9 @@ Project rules layout:
 |---|---|---|
 | `START-HERE.md` | Daily startup/deploy guardrails | Daily |
 | `Agent-Runbook.md` | Copy/paste prompts (`Ready to begin`, `Lets Start`, etc.) | Daily |
-| `Spaceship.md` | Production deploy + cPanel + FTP rules | Daily |
+| `HOSTINGER-DEPLOY.md` | Hostinger hPanel deployment guide | Deployment |
 | `Jedi-List.md` | Commands and script meanings | Daily |
 | `Restore-Points.md` | Known-good checkpoints + rollback notes | Daily (after milestones) |
-| `HOSTINGER-DEPLOY.md` | Hostinger hPanel deployment guide | Deployment |
 | `ReCall.md` | Session history and resume context | Optional |
 | `ToDo.md` | Next ideas / tomorrow’s focus (lightweight; not a full backlog) | Optional |
 | `Development.md` | Architecture and deep implementation details | Optional |
@@ -76,7 +74,7 @@ Project rules layout:
 | `NovaMira-MSC-PRO-ENGINE.md` | Branding/engine reference notes | Archive/Optional |
 
 If an agent over-reads history/planning docs, tell it:
-`Use only START-HERE, Agent-Runbook, Spaceship, Jedi-List, and Restore-Points unless asked otherwise.`
+`Use only START-HERE, Agent-Runbook, HOSTINGER-DEPLOY, Jedi-List, and Restore-Points unless asked otherwise.`
 
 ---
 
@@ -96,7 +94,7 @@ If local breaks with missing vendor chunks (`date-fns`, etc.), after **`pushit:l
 ### Public site URL (`.env.local` + production)
 
 - **Local:** set **`NEXT_PUBLIC_SERVER_URL`** in **`.env.local`** to your dev origin (see **`.env.example`**) so Payload admin **CSRF** and **View site** match what you open in the browser.
-- **Production:** set **`NEXT_PUBLIC_SERVER_URL`** and/or **`PAYLOAD_PUBLIC_SERVER_URL`** on the host (see **Spaceship.md**). If both are missing at build/runtime, the app falls back to **`https://mystudiochannel.com`** (override with **`MSC_CANONICAL_SITE_ORIGIN`**). Details: **`Jedi-List.md`** → *Public site URL*.
+- **Production:** set **`NEXT_PUBLIC_SERVER_URL`** and/or **`PAYLOAD_PUBLIC_SERVER_URL`** on the host (see **HOSTINGER-DEPLOY.md**). If both are missing at build/runtime, the app falls back to **`https://mystudiochannel.com`** (override with **`MSC_CANONICAL_SITE_ORIGIN`**). Details: **`Jedi-List.md`** → *Public site URL*.
 - **MCP secrets:** after changing **`GITHUB_PERSONAL_ACCESS_TOKEN`**, **`RESEND_API_KEY`**, **`TAVILY_API_KEY`**, **`NGROK_AUTHTOKEN`**, or **`WORDPRESS_*`** in **`.env.local`**, run **`npm run sync:mcp-env`** and reload MCP in Cursor (**`MCP-SETUP.md`**).
 
 ### Google API Proxy (LiteLLM + ngrok)
@@ -118,37 +116,32 @@ That pattern almost always means **`.next` was deleted or overwritten while `nex
 
 From repo root on PC:
 
-1. Run `npm run pushit:live` (ships **admin-ui sources**, **`.next`**, **`payload.sqlite`**, and **`public/media`** per **Spaceship.md**; build step uses live public URL briefly). By default it **does not** auto-start local dev — run **`npm run dev`** or **`npm run dev:fresh`** afterward. To **auto-run** **`dev:fresh`** after upload, set **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** first (**Spaceship.md**).
+1. Run `npm run pushit:live` (ships **admin-ui sources**, **`.next`**, **`payload.sqlite`**, and **`public/media`** per **HOSTINGER-DEPLOY.md**; build step uses live public URL briefly). By default it **does not** auto-start local dev — run **`npm run dev`** or **`npm run dev:fresh`** afterward. To **auto-run** **`dev:fresh`** after upload, set **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** first (**HOSTINGER-DEPLOY.md**).
 2. Wait for build/upload completion. **One or two FTPS errors** on random `.next` chunks with **retry OK** at the end is normal.
-3. In cPanel, run any **Terminal** steps the script printed (sqlite URL fix / `pkill` if applicable), then restart the Node app (Stop → wait → Start). **Terminal `cd`:** **`/home/<username>/mystudiochannel.com`**, not **`/<username>/...`**.
+3. In hPanel, restart the Node app.
 4. Validate live in Incognito.
 
-Important: `pushitup` runs on PC, not cPanel Terminal. You may upload **`.next`** with **FileZilla** instead if you follow **Spaceship.md** → *Manual `.next` upload* and still deploy the rest of Tier 2 when needed.
+Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.next`** with **FileZilla** instead if you follow **HOSTINGER-DEPLOY.md** → *Manual `.next` upload* and still deploy the rest of Tier 2 when needed.
 
-**FTPS target folder:** **`.vscode/sftp.json`** **`remotePath`** must match **Spaceship.md** (this host: **`/`**). The shell path **`cd /home/wjehbnzcoy/mystudiochannel.com`** is only for **cPanel Terminal**, not for **`remotePath`**. After any **`remotePath`** edit, run **`npm run verify:ftp-smoke`** (or **`pushitup:ftp-smoke`** + check FileZilla) so **`.next`** does not upload into a nested junk tree.
+**FTPS target folder:** **`.vscode/sftp.json`** **`remotePath`** must match **HOSTINGER-DEPLOY.md** (usually **`/`** or **`/public_html`**). After any **`remotePath`** edit, run **`npm run verify:ftp-smoke`** (or **`pushitup:ftp-smoke`** + check FileZilla) so **`.next`** does not upload into a nested junk tree.
 
 ---
 
-## cPanel links (session-scoped)
+## Hostinger links (session-scoped)
 
-**Jon’s current bookmarks** (update this block when `cpsess…` expires after logout):
+**Jon’s current bookmarks**:
 
-- Node app Start/Stop page:  
-  <https://server9.shared.spaceship.host:2083/cpsess0827945513/frontend/jupiter/lveversion/nodejs-selector.html.tt#/applications/mystudiochannel.com>
-- Terminal page:  
-  <https://server9.shared.spaceship.host:2083/cpsess0827945513/frontend/jupiter/terminal/index.html>
+- hPanel:  
+  <https://hpanel.hostinger.com/>
 
-These `cpsess...` links can expire. If they do, log in at:
-<https://server9.shared.spaceship.host:2083/>
-
-**Agent instruction:** When telling Jon to run something, always say whether it is **Local (Cursor / PC repo root)** or **Live (cPanel → Terminal)**. For Start/Stop, use the Node link above; for host shell steps, use the Terminal link above.
+**Agent instruction:** When telling Jon to run something, always say whether it is **Local (Cursor / PC repo root)** or **Live (Hostinger hPanel)**.
 
 ---
 
 ## Top 7 rules (avoid pain)
 
-1. Do not run `pushitup` in cPanel Terminal.
-2. For app/admin code changes: full `npm run build` + full `.next` upload. Keep **`.vscode/sftp.json`** **`remotePath`** aligned with **Spaceship.md** (FTPS **`/`** vs cPanel **`cd`**); run **`npm run verify:ftp-smoke`** if anything about the upload target folder is uncertain.
+1. Do not run `pushitup` in Hostinger Terminal.
+2. For app/admin code changes: full `npm run build` + full `.next` upload. Keep **`.vscode/sftp.json`** **`remotePath`** aligned with **HOSTINGER-DEPLOY.md** (FTPS **`/`** vs Hostinger path); run **`npm run verify:ftp-smoke`** if anything about the upload target folder is uncertain.
 3. Do not partially upload random files inside `.next`.
 4. If you delete server `.next`, immediately re-upload `.next` from PC.
 5. Only run server `npm install --legacy-peer-deps` when `package.json`, lockfile, or `patches/` changed.
@@ -164,15 +157,12 @@ These `cpsess...` links can expire. If they do, log in at:
    - kill stale node process on `3000`
    - rerun `npm run dev:fresh`
 3. Live 500 with `vendor-chunks` module errors:
-   - Stop app in cPanel
+   - Restart app in hPanel
    - remove server `.next`
    - re-upload full `.next` from PC
    - Start app again
-4. In cPanel Terminal, if `npm: command not found`, activate nodevenv first:
-   - `source ~/nodevenv/mystudiochannel.com/*/bin/activate`
-5. Use correct log files in app root:
-   - `.stderr.log`
-   - `.stdout.log`
+4. In Hostinger Terminal, ensure you are in the correct directory for `npm`.
+5. Use correct log files in app root.
 
 ---
 
@@ -180,12 +170,12 @@ These `cpsess...` links can expire. If they do, log in at:
 
 **Full session sync (recommended):** say **`Ready to begin`** or paste the block from **`Custom-Prompts.md` → item 0** — same content as **`Agent-Runbook.md` → §0 Ready to begin (full sync)**. The agent reads core docs, rules, and git/local health before coding; first reply should start with **`Ok Jon - Ready to begin.`** (see **Agent-Runbook** handshake).
 
-**Known-good resume tip:** newest dated row in **`Restore-Points.md`** (e.g. **`RP-2026-04-13-*`**) — stay on **`mscNowLive-v4-RestorePoint`** and **`git pull`** for latest.
+**Known-good resume tip:** newest dated row in **`Restore-Points.md`** (e.g. **`RP-2026-05-30-*`**) — stay on **`main`** and **`git pull`** for latest.
 
 **Minimal bootstrap:** paste this:
 
 ```text
-Use `.cursor/docs/START-HERE.md` then `.cursor/docs/Agent-Runbook.md` and `.cursor/docs/Spaceship.md` as source of truth.
+Use `.cursor/docs/START-HERE.md` then `.cursor/docs/Agent-Runbook.md` and `.cursor/docs/HOSTINGER-DEPLOY.md` as source of truth.
 Project root is D:\Cursor_Projectz\MyStudioChannel.
 Use operator handshake with my name: Jon.
 ```
@@ -205,4 +195,3 @@ Use this lightweight pattern after meaningful milestones:
 - **Known caveats:** env/dependency notes
 
 This gives fast "go back to known good" context for future sessions.
-

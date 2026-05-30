@@ -20,7 +20,7 @@ When user asks for other docs updates/checkpoints:
 2. Prefer minimal edits in:
    - `START-HERE.md`
    - `Agent-Runbook.md`
-   - `Spaceship.md`
+   - `HOSTINGER-DEPLOY.md`
    - `Jedi-List.md`
    - `ReCall.md`
    - `Restore-Points.md` (only for meaningful milestones/incidents)

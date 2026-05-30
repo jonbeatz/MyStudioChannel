@@ -17,7 +17,7 @@ When docs differ, use this priority:
 
 1. **`START-HERE.md`** (daily guardrails + source-of-truth root)
 2. **`Agent-Runbook.md`** (daily prompts / operating workflow)
-3. **`Spaceship.md`** (deploy + cPanel responsibilities)
+3. **`HOSTINGER-DEPLOY.md`** (deploy + hPanel responsibilities)
 4. **`Jedi-List.md`** (command quick reference)
 5. **`Development.md`** (architecture details)
 6. **`ReCall.md`** (session log/history)
@@ -39,16 +39,16 @@ Fast triage pattern:
 
 ---
 
-## Repeatable workflow: local → Spaceship → Terminal → Node restart
+## Repeatable workflow: local → Hostinger → hPanel → Node restart
 
-**Authoritative step-by-step (numbered checklist, PC vs cPanel, what not to run on the server):** **Spaceship.md** → **Successful live update protocol**.
+**Authoritative step-by-step (numbered checklist, PC vs Hostinger, what not to run on the server):** **HOSTINGER-DEPLOY.md** → **Successful live update protocol**.
 
 | Step | Where | Action |
 |------|--------|--------|
 | 1 | **PC (repo root)** | Develop with **`npm run dev:payload`**. Before production upload, **`npm run build`** must succeed. |
 | 2 | **PC** | Upload: for **deps / startup / env template** use **`npm run pushitup:server-config`** (see table), or **`npm run pushitup -- package.json package-lock.json server.js patches middleware.ts`** (adjust if you changed more). For **Payload admin / MSC PRO ENGINE look and feel**, run **`npm run pushitup:admin-ui`** (full admin bundle; see **Deploy uploaders** table below). For **branding-only** FTPS (smaller list), **`npm run pushitup:admin-branding`**. Then **`npm run pushitup -- .next`** (full folder; no zip required). |
-| 3 | **cPanel → Terminal** | Only if **`package.json` / lockfile / `patches`** changed: activate Node venv, **`cd`** to the app folder, **`npm install --legacy-peer-deps`** (see **Spaceship.md**). **Do not** run **`pushitup`** here. |
-| 4 | **cPanel → Node.js Selector** | **Restart** the app (or Stop → Start). |
+| 3 | **Hostinger → Terminal** | Only if **`package.json` / lockfile / `patches`** changed: **`npm install --legacy-peer-deps`** (see **HOSTINGER-DEPLOY.md**). **Do not** run **`pushitup`** here. |
+| 4 | **Hostinger → hPanel** | **Restart** the app in the Node.js Application manager. |
 
 **Admin version check:** After deploy, open **`/admin`** — you should see **`v1.0.x`** near the sidebar **Log out** area (bottom-left). Bump `lib/msc-admin-version.ts` when you ship admin-facing changes.
 
@@ -65,7 +65,7 @@ Fast triage pattern:
 | **`npm run build`** | Production build (`next build`). Use before `next start` or before zipping `.next` for low-memory hosts. Requires env (see **Run-Next-JS.md**). |
 | **`npm run start`** | Serves the **last build** (`next start`). Use for a local smoke test after `build`. |
 | **`npm run verify:local`** | Local pre-deploy smoke checks for `/`, `/admin`, and `api/globals/projects-home`; exits non-zero if any check fails. |
-| **`npm run verify:live`** | Live smoke checks for `https://mystudiochannel.com/`, `/admin`, and `api/globals/projects-home`; exits non-zero if any check fails. |
+| **`npm run verify:live`** | Live smoke checks for `https://mystudiochannel.com/`, `/admin`, and `api/globals/projects-home`; exits non-zero if any check fails. (Verified for Hostinger). |
 | **`npm run verify:next`** | **`clean:next`** + **`next build`** — production build gate after app/config edits (see **`.cursor/rules/local-runtime-recovery.mdc`**). **Never** run while **`next dev`** is on port **3000** (deletes **`.next`** → **500** + broken **`/_next/static/chunks/fallback/*`**). |
 | **`npm run verify:next:safe`** | Frees port **3000** (stops stray **`next dev`**), then **`verify:next`**. Use whenever you need a build check and are not sure nothing is listening on **3000**. |
 | **`npm run dev:recover`** | Same as **`npm run restart:dev`** — kill **3000**, then **`npm run dev:fresh`** (**`clean:next`** + **`next dev`**). Use for white screen / vendor-chunk **500s** / **`/admin`** broken after **`clean:next`** overlapped a running dev server. |
@@ -146,7 +146,7 @@ These align the **local SQLite** schema with Payload when **`db.push: false`** o
 | **`npm run migrate:sqlite:site-settings-sticky-header`** | `scripts/migrate-sqlite-site-settings-sticky-header.py` — sticky header field on site settings global. |
 | **`npm run migrate:sqlite:homepage-hero-secondary-cta`** | `scripts/migrate-sqlite-homepage-hero-secondary-cta.py` — homepage hero secondary CTA columns. |
 | **`npm run migrate:sqlite:blocks-id-to-text`** | `scripts/migrate-sqlite-blocks-id-to-text.py` — block table PKs **INTEGER → TEXT** for Payload 3 object IDs. |
-| **`npm run migrate:sqlite:fix-bookings-table`** | `scripts/fix-sqlite-bookings-table.py` — fixes **`malformed database schema (bookings_…_idx) - no such table: main.bookings`** (orphan **`bookings`** indexes). See **Spaceship.md** § shared-host **4)**. |
+| **`npm run migrate:sqlite:fix-bookings-table`** | `scripts/fix-sqlite-bookings-table.py` — fixes **`malformed database schema (bookings_…_idx) - no such table: main.bookings`** (orphan **`bookings`** indexes). See **HOSTINGER-DEPLOY.md** § shared-host **4)**. |
 
 **Before risky migrations:** back up **`payload.sqlite`** (see **Restore-Points.md**).
 
@@ -178,32 +178,32 @@ Secrets live in **`.env.local`** only. After changing GitHub, Resend, WordPress,
 
 ---
 
-## Deploy uploaders (Spaceship / FTPS)
+## Deploy uploaders (Hostinger / FTPS)
 
-**Windows:** PowerShell with **ExecutionPolicy** satisfied (scripts use **Bypass**). Credentials/target host come from your environment or script config as documented in **Spaceship.md** / **Development.md**.
+**Windows:** PowerShell with **ExecutionPolicy** satisfied (scripts use **Bypass**). Credentials/target host come from your environment or script config as documented in **HOSTINGER-DEPLOY.md** / **Development.md**.
 
 **Paths with parentheses** (e.g. **`app/(payload)/...`**): PowerShell treats **`(`** as special. Either **quote** the path: `npm run pushitup -- "app/(payload)/custom.scss"` or use **`npm run pushitup:admin-ui`** / **`npm run pushitup:admin-branding`** (both include **`app/(payload)/custom.scss`** without manual quoting).
 
 | Command | What it does |
 |--------|----------------|
-| **`npm run pushitup`** (or **`npm run PushItUP`**) | **`scripts/PushItUP.ps1`** — uploads listed **files or folders** directly over FTPS. **Spaceship default:** `npm run pushitup -- .next` after **`npm run build`** = full build folder, **no zip/unzip** (see **Spaceship.md** cheat sheet). Example: `npm run pushitup -- server.js` |
+| **`npm run pushitup`** (or **`npm run PushItUP`**) | **`scripts/PushItUP.ps1`** — uploads listed **files or folders** directly over FTPS. **Hostinger default:** `npm run pushitup -- .next` after **`npm run build`** = full build folder, **no zip/unzip** (see **HOSTINGER-DEPLOY.md** cheat sheet). Example: `npm run pushitup -- server.js` |
 | **`npm run pushitup:admin-ui`** | **Primary MSC PRO ENGINE / Payload admin bundle:** uploads **`middleware.ts`**, **`lib/msc-admin-version.ts`**, **`components/msc-payload-nav-dashboard.tsx`**, **`components/msc-payload-graphics.tsx`**, **`components/msc-payload-admin-enhancements.tsx`**, **`collections/Users.ts`**, **`payload.config.ts`**, **`app/(payload)/custom.scss`**. Matches **`package.json`**; safe on Windows (no manual quoting for the SCSS path). |
 | **`npm run pushitup:admin-branding`** | **Branding-only subset:** **`components/msc-payload-graphics.tsx`**, **`components/msc-payload-admin-enhancements.tsx`**, **`collections/Users.ts`**, **`payload.config.ts`**, **`app/(payload)/custom.scss`**. Use when you only changed admin look-and-feel sources; you still need **`npm run build`** + **`pushitup -- .next`** if React/admin bundle output must change on the host. Shortcut: **Custom-Prompts.md** → **Push my branding** (item **37**). |
-| **`npm run pushitup:server-config`** | **Tier 3 / hosting:** uploads **`server.js`**, **`package.json`**, **`package-lock.json`**, **`.env.example`**. Then **cPanel → Terminal** → **`npm install --legacy-peer-deps`** if lockfile changed. Shortcut: **Custom-Prompts.md** → **Push server config** (item **39**). Add **`patches/`** or extra paths with **`npm run pushitup -- …`** when needed. |
-| **`npm run pushit:live`** | **`npm run build`** (live **`NEXT_PUBLIC_SERVER_URL`** for that step only) → **`pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`pushitup -- public/media`**. Step **6/6** **`dev:fresh`** runs only if **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** (default: skip — start **`npm run dev`** / **`dev:fresh`** yourself). Prints cPanel reminders. Say *“push it live”* / *“run pushit live”* in chat to mean this. |
+| **`npm run pushitup:server-config`** | **Tier 3 / hosting:** uploads **`server.js`**, **`package.json`**, **`package-lock.json`**, **`.env.example`**. Then **Hostinger → Terminal** → **`npm install --legacy-peer-deps`** if lockfile changed. Shortcut: **Custom-Prompts.md** → **Push server config** (item **39**). Add **`patches/`** or extra paths with **`npm run pushitup -- …`** when needed. |
+| **`npm run pushit:live`** | **`npm run build`** (live **`NEXT_PUBLIC_SERVER_URL`** for that step only) → **`pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`pushitup -- public/media`**. Step **6/6** **`dev:fresh`** runs only if **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** (default: skip — start **`npm run dev`** / **`dev:fresh`** yourself). Prints Hostinger reminders. Say *“push it live”* / *“run pushit live”* in chat to mean this. |
 | **`npm run pushit:live:safe`** | Runs **`verify:local`** preflight first; if all checks pass, runs full **`pushit:live`** flow. Use when you want extra guardrails. |
 | **`npm run pushitupzip`** (or **`npm run PushItUPzip`**) | **`scripts/PushItUPzip.ps1`** — zips each target under **`.pushitupzips/`**, then uploads. For **`.next`**, the file is **`next-build.zip`** (not **`.next.zip`**, so cPanel shows it). Remote path: **`.pushitupzips/next-build.zip`** under your FTPS root. Example: `npm run pushitupzip -- .next` |
-| **`npm run test:spaceship-ftp`** | **`scripts/Test-SpaceshipFtp.ps1`** — read-only FTPS check using **`.vscode/sftp.json`** (login + LIST). Does not upload. **PushItUP** uses configured **`remotePath`** even when LIST on that path fails (chroot); see **Spaceship.md**. |
-| **`npm run pushitup:ftp-smoke`** | Uploads repo-root **`ftp-path-smoke-test.txt`** only — use after changing **`.vscode/sftp.json`** **`remotePath`** to confirm files land **next to `package.json`** on the server (see **Spaceship.md** § FTP). |
-| **`npm run verify:ftp-smoke`** | **`scripts/verify-ftp-smoke-remote.ps1`** — read-only **`LIST`** at configured **`remotePath`** and exits **0** only if **`ftp-path-smoke-test.txt`** is present (same session as **PushItUP**). |
+| **`npm run test:hostinger-ftp`** | **`scripts/Test-HostingerFtp.ps1`** — read-only FTPS check using **`.vscode/sftp.json`** (login + LIST). Does not upload. **PushItUP** uses configured **`remotePath`** even when LIST on that path fails; see **HOSTINGER-DEPLOY.md**. |
+| **`npm run pushitup:ftp-smoke`** | Uploads repo-root **`ftp-path-smoke-test.txt`** only — use after changing **`.vscode/sftp.json`** **`remotePath`** to confirm files land **next to `package.json`** on the server (see **HOSTINGER-DEPLOY.md** § FTP). |
+| **`npm run verify:ftp-smoke`** | **`scripts/verify-ftp-smoke-remote.ps1`** — read-only **`LIST`** at configured **`remotePath`** and exits **0** only if **`ftp-path-smoke-test.txt`** is present (same session as **PushItUP**). Verified for Hostinger. |
 | **`npm run parity:ftp`** | **`scripts/ftp-parity-check.ps1`** — compares local **`.next`**, **`public/media`**, **`payload.sqlite`** vs FTPS under **`.vscode/sftp.json`** `remotePath`; writes **`parity-ftp-report.md`** at repo root (**gitignored** — open the file locally after the run). Run after a big deploy to spot drift (compare **`.next`** only after **`npm run build`**, not while **`next dev`** owns **`.next`**). Wrong **`remotePath`** makes parity compare the wrong tree — run **`verify:ftp-smoke`** first if unsure. |
 
-Default workflow: **`npm run pushit:live`** (build + admin-ui + full `.next` + **`payload.sqlite`** + **`public/media`**; local **`dev:fresh`** only if **`PUSHIT_LIVE_RUN_DEV_FRESH=1`**) then restart Node in cPanel. After Tier 2, run **`npm run dev`** or **`dev:fresh`** locally when you want **localhost** again.  
-Use **`pushitupzip`** only when explicitly needed (bandwidth/workaround scenario documented in **Spaceship.md**).
+Default workflow: **`npm run pushit:live`** (build + admin-ui + full `.next` + **`payload.sqlite`** + **`public/media`**; local **`dev:fresh`** only if **`PUSHIT_LIVE_RUN_DEV_FRESH=1`**) then restart Node in hPanel. After Tier 2, run **`npm run dev`** or **`dev:fresh`** locally when you want **localhost** again.  
+Use **`pushitupzip`** only when explicitly needed (bandwidth/workaround scenario documented in **HOSTINGER-DEPLOY.md**).
 
-You may upload the **full** **`.next`** folder with **FileZilla** instead of **`pushitup -- .next`** if you follow **Spaceship.md** → *Manual `.next` upload* (same app root, full tree, preserve **`@`** in **`vendor-chunks`**). You must still ship **admin-ui sources**, **`payload.sqlite`**, and **`public/media`** when those changed.
+You may upload the **full** **`.next`** folder with **FileZilla** instead of **`pushitup -- .next`** if you follow **HOSTINGER-DEPLOY.md** → *Manual `.next` upload* (same app root, full tree, preserve **`@`** in **`vendor-chunks`**). You must still ship **admin-ui sources**, **`payload.sqlite`**, and **`public/media`** when those changed.
 
-**Transient FTPS errors:** one or two **“Unable to connect…”** lines mid-upload are common; **PushItUP** retries failed files once. If the log ends with all files uploaded, no action needed (**Spaceship.md** → *FTPS: occasional failed files*).
+**Transient FTPS errors:** one or two **“Unable to connect…”** lines mid-upload are common; **PushItUP** retries failed files once. If the log ends with all files uploaded, no action needed (**HOSTINGER-DEPLOY.md** → *FTPS: occasional failed files*).
 
 If `pushitup -- .next` ends with `PushItUP completed with failures`, immediately re-run `pushitup` for failed areas (usually `.next/static/chunks` and `.next/server/chunks`) before restarting app.
 
@@ -219,7 +219,7 @@ If `pushitup -- .next` ends with `PushItUP completed with failures`, immediately
 - **GitHub-Cheat-Sheet.md** — daily git commands + restore from **`.bundle`** backups.
 - **ReCall.md** — session memory and resume checklist.
 - **Restore-Points.md** — checkpoints and DB backups.
-- **Spaceship.md** — production host notes, **cPanel login + how to open Terminal / Node.js** (session `cpsess` links expire; stable links are in that doc).
+- **HOSTINGER-DEPLOY.md** — production host notes, **hPanel login + how to open Terminal / Node.js** (stable links are in that doc).
 - **Agent-Runbook.md** — copy/paste prompts (**Lets Start / Continue / Finish / Finish + Deploy / Push It Live**).
 
 ---
@@ -228,7 +228,7 @@ If `pushitup -- .next` ends with `PushItUP completed with failures`, immediately
 
 Natural-language requests for Cursor. The agent runs real terminal commands under the hood; you don’t have to paste **`npm …`** yourself unless you want to.
 
-**Deep copy/paste checklist:** **ReCall.md** → *Session Resume Prompt*. **Spaceship / FTP / cPanel paths:** **Spaceship.md** (do not commit credentials—local **`.vscode/sftp.json`** is git-ignored).
+**Deep copy/paste checklist:** **ReCall.md** → *Session Resume Prompt*. **Hostinger / FTP paths:** **HOSTINGER-DEPLOY.md** (do not commit credentials—local **`.vscode/sftp.json`** is git-ignored).
 
 ---
 
@@ -258,22 +258,22 @@ Natural-language requests for Cursor. The agent runs real terminal commands unde
 
 ---
 
-### Spaceship, PushIt, deploy
+### Hostinger, PushIt, deploy
 
 | You say (examples) | What it usually triggers |
 |--------------------|---------------------------|
-| **Deploy to Spaceship** / **Push this to production.** | Follow **Spaceship.md**: small change → **`npm run pushitup -- …`** + remind host restart; deps change → upload **`package.json`** / lockfile + **`npm install --legacy-peer-deps`** on host; full refresh → local **`npm run build`** + **`pushitupzip -- .next`** (or your zip name) + host unzip + restart. |
-| **Run PushIt** / **PushItUP** / **pushitup** for [files]. | Runs **`npm run pushitup -- <paths>`** (direct FTPS upload). Example intent: *push **`server.js`** and **`collections/Leads.ts`***. |
+| **Deploy to Hostinger** / **Push this to production.** | Follow **HOSTINGER-DEPLOY.md**: small change → **`npm run pushitup -- …`** + remind host restart; deps change → upload **`package.json`** / lockfile + **`npm install --legacy-peer-deps`** on host; full refresh → local **`npm run build`** + **`pushitupzip -- .next`** (or your zip name) + host unzip + restart. |
+| **Run PushIt** / **PushItUP** / **pushitup** for [files]. | Runs **`npm run pushitup -- <paths>`** (direct FTPS upload). |
 | **Zip and upload .next** / **Use pushitupzip.** | **`npm run build`** (if needed), then **`npm run pushitupzip -- .next`**; archives land in **`.pushitupzips/`** then upload. |
-| **Connect me to Spaceship** / **How do I FTP to the host?** | Points to **Spaceship.md**: server profile, that credentials live in **`.vscode/sftp.json`**, cPanel/Node selector links, **no secrets in git**. |
-| **Fix the deploy** / **503 on the live site** / **Production app won’t start.** | **Spaceship.md** troubleshooting: restart Node app in cPanel, **`npm install --legacy-peer-deps`**, **`node server.js`** on host for errors, env vars (**`NEXT_PUBLIC_SERVER_URL`**, **`PAYLOAD_SECRET`**, etc.). |
-| **Verify email still goes to localhost or 0.0.0.0.** | Check **`NEXT_PUBLIC_SERVER_URL`**, latest **`collections/Leads.ts`** deployed, relative redirects—per **Spaceship.md**. |
+| **Connect me to Hostinger** / **How do I FTP to the host?** | Points to **HOSTINGER-DEPLOY.md**: server profile, that credentials live in **`.vscode/sftp.json`**, hPanel links, **no secrets in git**. |
+| **Fix the deploy** / **503 on the live site** / **Production app won’t start.** | **HOSTINGER-DEPLOY.md** troubleshooting: restart Node app in hPanel, **`npm install --legacy-peer-deps`**, **`node server.js`** on host for errors, env vars (**`NEXT_PUBLIC_SERVER_URL`**, **`PAYLOAD_SECRET`**, etc.). |
+| **Verify email still goes to localhost or 0.0.0.0.** | Check **`NEXT_PUBLIC_SERVER_URL`**, latest **`collections/Leads.ts`** deployed, relative redirects—per **HOSTINGER-DEPLOY.md**. |
 
 ---
 
 ### Host actions you describe in plain English
 
-You can say things like: *“On Spaceship, replace `.next` from the zip I uploaded”* or *“Remind me the host terminal cd + venv activate lines.”* The agent should pull exact commands from **Spaceship.md** (venv path, **`unzip`**, restart **ReStartIt**).
+You can say things like: *“On Hostinger, replace `.next` from the zip I uploaded”* or *“Remind me the host terminal cd lines.”* The agent should pull exact commands from **HOSTINGER-DEPLOY.md** (restart instructions).
 
 ---
 

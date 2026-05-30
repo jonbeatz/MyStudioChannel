@@ -191,8 +191,8 @@ $baseFtpUrl = "ftp://$ftpServer`:$ftpPort"
 $credential = New-Object System.Net.NetworkCredential($username, $password)
 
 $candidateRemoteBase = if ([string]::IsNullOrWhiteSpace($remoteBaseFromConfig)) { "/" } else { $remoteBaseFromConfig.Trim() }
-# Always honor sftp.json remotePath. On Spaceship FTPS the session is usually chrooted to the app root — use "/"
-# (see Spaceship.md). Wrong values: "/home/USER/mystudiochannel.com/" (nested home/... on server) or
+# Always honor sftp.json remotePath. On Hostinger FTPS the session is usually chrooted to the app root — use "/"
+# (see HOSTINGER-DEPLOY.md). Wrong values: "/home/USER/mystudiochannel.com/" (nested home/... on server) or
 # "/mystudiochannel.com/" (double mystudiochannel.com folder). LIST on remotePath may still fail (550); STOR can work.
 $remoteBase = $candidateRemoteBase
 if ($remoteBase -ne "/" -and -not (Test-FtpDirectory -BaseFtpUrl $baseFtpUrl -DirPath $remoteBase -Credential $credential -UseSsl $useSsl -UsePassive $usePassive)) {

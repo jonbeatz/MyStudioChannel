@@ -24,7 +24,7 @@ npm run test:spaceship-ftp
 npm run verify:ftp-smoke
 ```
 
-**FTPS path sanity:** **`cd /home/wjehbnzcoy/mystudiochannel.com`** (cPanel Terminal) is correct for shell commands only. **`.vscode/sftp.json`** **`remotePath`** for Spaceship FTPS is usually **`/`** — not **`/home/...`** and not **`/mystudiochannel.com/`** — or **`PushItUP`** writes under the wrong nested folder (see **Spaceship.md** § FTP). **`npm run verify:ftp-smoke`** must pass before you trust a full **`.next`** upload.
+**FTPS path sanity:** **`.vscode/sftp.json`** **`remotePath`** for Hostinger FTPS is usually **`/`** — not a nested home folder — or **`PushItUP`** writes under the wrong nested folder (see **HOSTINGER-DEPLOY.md** § FTP). **`npm run verify:ftp-smoke`** must pass before you trust a full **`.next`** upload.
 
 **Post-upload sanity checks (do not skip):**
 - Live app root should contain **one** `.next` folder (not `/.next/.next` nesting).
@@ -54,7 +54,7 @@ Wait until build completes successfully.
 
 ---
 
-## 2) Upload to Spaceship (PC) — tiered deploy
+## 2) Upload to Hostinger (PC) — tiered deploy
 
 **Shortcuts (see `Custom-Prompts.md`):** **`Push my branding`** (item **37**) · **`Lets Push It Live`** (items **3** / **38**) · **`Push server config`** (item **39**).
 
@@ -65,7 +65,7 @@ Wait until build completes successfully.
 | Tier | Name | Command (Local / repo root) | What it ships | When to use |
 |------|------|----------------------------|---------------|-------------|
 | **1** | **Branding — Fast FTP** | `npm run pushitup:admin-branding` | **Only:** `components/msc-payload-graphics.tsx`, `components/msc-payload-admin-enhancements.tsx`, `collections/Users.ts`, `payload.config.ts`, `app/(payload)/custom.scss` | Quick look-and-feel / config / SCSS tweaks; **no** `build` or `.next` in this step. |
-| **2** | **Admin logic / pages — Full build + UI + `.next` + DB + media** | `npm run pushit:live` | **`npm run build`** (live **`NEXT_PUBLIC_SERVER_URL`** for that step) → **`npm run pushitup:admin-ui`** → **`npm run pushitup -- .next`** (or manual **FileZilla** full **`.next`** per **Spaceship.md**) → **`npm run pushitup -- payload.sqlite`** → **`npm run pushitup -- public/media`** → optional **`npm run dev:fresh`** only if **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** | Default for anything that must match compiled Next output and ship the local SQLite + on-disk **`public/media`** (routes, React admin UI, CMS data, `/media/*` assets). **Master** deploy. |
+| **2** | **Admin logic / pages — Full build + UI + `.next` + DB + media** | `npm run pushit:live` | **`npm run build`** (live **`NEXT_PUBLIC_SERVER_URL`** for that step) → **`npm run pushitup:admin-ui`** → **`npm run pushitup -- .next`** (or manual **FileZilla** full **`.next`** per **HOSTINGER-DEPLOY.md**) → **`npm run pushitup -- payload.sqlite`** → **`npm run pushitup -- public/media`** → optional **`npm run dev:fresh`** only if **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** | Default for anything that must match compiled Next output and ship the local SQLite + on-disk **`public/media`** (routes, React admin UI, CMS data, `/media/*` assets). **Master** deploy. |
 | **3** | **Hosting — server / package config** | `npm run pushitup:server-config` | **`server.js`**, **`package.json`**, **`package-lock.json`**, **`.env.example`** | Deps, lockfile, startup file, or documented env template changed; follow **§5** for **`npm install`** on the host. |
 
 **Tier 2** is the **full** pipeline: it uploads the **admin source bundle**, the **entire `.next`** output, **`payload.sqlite`**, and **`public/media`** so the live app, **`/admin`**, CMS data, and **`/media/...`** files stay consistent.
@@ -102,14 +102,14 @@ npm run pushitup -- .next
 
 ---
 
-## 3) Restart app in cPanel
+## 3) Restart app in hPanel
 
 Custom prompt helper:
 - `Lets Push It Live` returns the exact next restart step + links
 
-In cPanel Node.js app page for `mystudiochannel.com`:
+In Hostinger hPanel Node.js app page for `mystudiochannel.com`:
 1. Stop
-2. Wait 10 seconds
+2. Wait 5 seconds
 3. Start
 
 ---
@@ -138,15 +138,13 @@ Custom prompt helper:
 - `Lets Push It Live (Safe)` (good before dependency-sensitive deploys)
 - **`Push server config`** (item **39**) to upload **`package.json`**, **`package-lock.json`**, **`server.js`**, **`.env.example`** before install
 
-Use cPanel Terminal only if `package.json`, lockfile, or `patches/` changed.
+Use Hostinger Terminal only if `package.json`, lockfile, or `patches/` changed.
 
 ```bash
-source ~/nodevenv/mystudiochannel.com/*/bin/activate
-cd ~/mystudiochannel.com
 npm install --legacy-peer-deps
 ```
 
-Then restart Node app again (Stop -> wait -> Start).
+Then restart Node app again.
 
 ---
 
@@ -157,11 +155,10 @@ Custom prompt helper:
 
 If live shows `Cannot find module './vendor-chunks/...` or other **chunk / vendor** runtime errors, the fix is a **clean rebuild + full `.next` upload** on the PC (and **`public/media`** must still be deployed with the app so **`/media/...`** assets exist on the server—verify **`public/media`** under your app path on the host if images are broken).
 
-1. Stop app in cPanel
-2. In cPanel terminal:
+1. Stop app in hPanel
+2. In Hostinger terminal:
 
 ```bash
-cd ~/mystudiochannel.com
 rm -rf .next
 ```
 
@@ -174,14 +171,14 @@ npm run pushitup -- .next
 
 If **`/media/`** images are wrong or 404 after deploy, sync **`public/media`** to the host (same relative path under the app root) or re-run your usual upload so **`public/media`** is not missing.
 
-4. Start app in cPanel
+4. Start app in hPanel
 5. Re-test live
 
 ---
 
 ## Ground rules
 
-- Run `pushitup` on PC terminal, not cPanel Terminal.
+- Run `pushitup` on PC terminal, not Hostinger Terminal.
 - For app/admin code changes, prefer **Tier 2** (`pushit:live`): full build + full `.next` upload.
 - Do not partially upload random files in `.next` unless recovering failed chunk uploads.
 
@@ -193,9 +190,9 @@ Use this if you want to run go-live mostly by prompt commands:
 
 1. `Lets run system check`
 2. Choose tier:
-   - **Branding-only FTP:** `Push my branding` (item **37**) → restart Node in cPanel.
+   - **Branding-only FTP:** `Push my branding` (item **37**) → restart Node in hPanel.
    - **Full app + admin:** `Lets Push It Live` (items **3** / **38**) or `Lets Push It Live (Safe)` — then restart Node.
-   - **Deps / server files:** `Push server config` (item **39**) → cPanel Terminal **`npm install --legacy-peer-deps`** → restart Node.
-3. Restart Node app in cPanel when you uploaded anything that affects runtime (Stop -> wait -> Start)
+   - **Deps / server files:** `Push server config` (item **39**) → Hostinger Terminal **`npm install --legacy-peer-deps`** → restart Node.
+3. Restart Node app in hPanel when you uploaded anything that affects runtime (Stop -> wait -> Start)
 4. `Lets Verify Live`
 5. Optional: `Lets Checkpoint Docs` (docs only) or `Lets Checkpoint Docs + Commit`
