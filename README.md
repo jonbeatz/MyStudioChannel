@@ -1,4 +1,4 @@
-# My Studio Channel (MSC) — Next-Gen Creator Platforms
+# My Studio Channel (MSC) — Next-Gen Creator Platform
 
 **The production-hardened development operating system for creator platforms.**  
 **Build studio-style websites with a visual command center,** 
@@ -52,11 +52,11 @@ Most templates give you a website. **MSC gives you a complete media broadcasting
 ![Built for Creators](.cursor/design-references/MSC-Pages/MSC-Pages-v2.jpg)
 *Structured layouts for Podcasters, Content Creators, and Network Builders.*
 
-### Dynamic Show Previews
+### Custom Add-Ons & Recommendations
 ![View Demos](.cursor/design-references/MSC-Pages/MSC-Pages-v6.jpg)
 *Integrated demo viewer with pro-grade video production website designs.*
 
-### Add-Ons & Recommendations
+### High Quality Showcase Templates
 ![Add-Ons](.cursor/design-references/MSC-Pages/MSC-Pages-v5.jpg)
 *Complete platform guidance from domain setup to social media graphics packages.*
 
@@ -118,6 +118,7 @@ Optimized for **Hostinger (hPanel)** using our Tiered FTPS strategy:
 | [Agent-Runbook.md](./.cursor/docs/Agent-Runbook.md) | Standardized prompts for consistent workflow       |
 | [HOSTINGER-DEPLOY.md](./.cursor/docs/HOSTINGER-DEPLOY.md) | Production hosting playbook & recovery            |
 | [Jedi-List.md](./.cursor/docs/Jedi-List.md)       | Command quick-reference for npm scripts           |
+| [CHANGELOG.md](./CHANGELOG.md)                    | Release history                                   |
 | [Restore-Points.md](./.cursor/docs/Restore-Points.md) | Milestone checkpoints & rollback instructions |
 
 ---
@@ -126,7 +127,7 @@ Optimized for **Hostinger (hPanel)** using our Tiered FTPS strategy:
 
 - **Jon Beatz** - Creator & Developer
   - GitHub: [@jonbeatz](https://github.com/jonbeatz)
-  - Email: jonbeatz@gmail.com
+  - Email: createmystudiochannel@gmail.com
 
 ---
 
@@ -136,6 +137,6 @@ MIT © My Studio Channel
 
 ---
 
-<p align="left">
+<p align="center">
   <sub>· Powered by the MSC Media Engine</sub>
 </p>
