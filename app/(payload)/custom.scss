@@ -1,0 +1,146 @@
+/* Optional: Payload admin theme overrides */
+
+/* Brand graphics: login (`graphics.Logo`) + sidebar (`graphics.Icon`) — see `components/msc-payload-graphics.tsx` */
+.msc-payload-admin-graphic--logo img {
+  display: block;
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.msc-payload-admin-graphic--icon img {
+  display: block;
+  max-height: 40px;
+  width: auto;
+  height: auto;
+}
+
+/* Login password visibility (DOM enhancement on `/admin/login`) */
+.msc-payload-login-password-field {
+  position: relative;
+}
+
+.msc-payload-login-password__toggle {
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--theme-elevation-800);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.msc-payload-login-password__toggle:hover,
+.msc-payload-login-password__toggle:focus-visible {
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.12);
+  outline: none;
+}
+
+.msc-payload-login-password__icon {
+  display: flex;
+  line-height: 0;
+}
+
+.nav-group__toggle {
+  color: #d4af37;
+  font-weight: 600;
+}
+
+.nav-group__toggle:hover,
+.nav-group__toggle:focus-visible {
+  color: #f5d981;
+}
+
+.nav-group__toggle .stroke {
+  stroke: #d4af37;
+}
+
+.msc-payload-nav-dashboard {
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--theme-elevation-150);
+}
+
+.msc-payload-nav-dashboard__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.msc-payload-nav-dashboard__link {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #d4af37;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.msc-payload-nav-dashboard__link:hover {
+  opacity: 0.85;
+  text-decoration: underline;
+}
+
+.msc-payload-nav-dashboard__link--external::after {
+  content: " ↗";
+  font-size: 0.75em;
+  opacity: 0.85;
+}
+
+.msc-payload-account-logout-inline {
+  margin-top: 0.75rem;
+  margin-bottom: 0.2rem;
+}
+
+.msc-payload-account-logout-inline__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d4af37;
+  border-radius: 0.625rem;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.1);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.msc-payload-account-logout-inline__link:hover {
+  background: rgba(212, 175, 55, 0.18);
+  text-decoration: none;
+}
+
+.msc-payload-sidebar-version {
+  margin-top: 0.45rem;
+  margin-bottom: 0.2rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #a8a29e;
+  text-transform: none;
+}
+
+/* Relationship / drawer fields (e.g. Homepage gallery image slots): clear affordance */
+.field-type-relationship button:not(:disabled),
+.field-type-relationship [role="button"]:not([aria-disabled="true"]),
+.field-type-upload button:not(:disabled),
+[class*="relationship"] button:not(:disabled),
+[class*="relationship"] [type="button"]:not(:disabled) {
+  cursor: pointer;
+}

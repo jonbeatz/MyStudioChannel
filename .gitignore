@@ -1,0 +1,69 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (track .env.example; never commit .env.local)
+.env*
+!.env.example
+
+# Payload / SQLite (track payload.sqlite; ignore WAL sidecars)
+payload.sqlite-*
+.payload
+
+# vercel
+.vercel
+
+# Cursor stop-hook machine-local HEAD pointer (not source of truth)
+.cursor/.last-stop-hook-commit
+
+# MCP sync script backups (local; regenerate on sync)
+.cursor/*.sync-bak
+
+# Personal secrets vault (never commit — local only)
+.cursor/docs/Personal-Secrets-Vault.md
+.cursor/docs/Personal-Secrets-Vault-Credentials.md
+
+# Local GitHub repo backups (large; regenerate with npm run backup:github-repos)
+.cursor/GitHub-Repo-BackUps/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# local editor deploy secrets
+.vscode/sftp.json
+.vscode/cpanel-bookmarks.txt
+
+# local deploy artifacts / logs (keep out of Git; large binaries)
+parity-ftp-report.md
+stderr.log
+.pushitupzips/
+# Deployment archives (created by PushItUP scripts)
+*.zip
+!*.example.zip
+!*.template.zip
+
+# google-api-proxy (never commit service account JSON or ngrok token files)
+config/gcp-service-account.json
+google-api/gcp_key.json
+google-api/ngrok.exe
+**/Ngrok-API.md
+**/gcp-service-account.json
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
