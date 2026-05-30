@@ -24,7 +24,8 @@ When docs differ, use this priority:
 1. `START-HERE.md` (this file)
 2. `Agent-Runbook.md` (copy/paste prompts)
 3. `Spaceship.md` (deploy + cPanel)
-4. `Jedi-List.md` (commands quick reference)
+4. `HOSTINGER-DEPLOY.md` (Hostinger deployment guide)
+5. `Jedi-List.md` (commands quick reference)
 5. `Development.md` (architecture details)
 6. `ReCall.md` / `Restore-Points.md` (history + checkpoints)
 
@@ -61,6 +62,7 @@ Project rules layout:
 | `Spaceship.md` | Production deploy + cPanel + FTP rules | Daily |
 | `Jedi-List.md` | Commands and script meanings | Daily |
 | `Restore-Points.md` | Known-good checkpoints + rollback notes | Daily (after milestones) |
+| `HOSTINGER-DEPLOY.md` | Hostinger hPanel deployment guide | Deployment |
 | `ReCall.md` | Session history and resume context | Optional |
 | `ToDo.md` | Next ideas / tomorrow’s focus (lightweight; not a full backlog) | Optional |
 | `Development.md` | Architecture and deep implementation details | Optional |
@@ -83,7 +85,8 @@ If an agent over-reads history/planning docs, tell it:
 ### Start work (local)
 
 1. Open terminal in repo root.
-2. Run **`npm run dev`** (frees port **3000**, then **`next dev`** — no full **`.next`** wipe on every start).
+2. Ensure Hostinger MCP is connected in Cursor Settings (Sign in to Hostinger Connector).
+3. Run **`npm run dev`** (frees port **3000**, then **`next dev`** — no full **`.next`** wipe on every start).
 3. Verify:
    - `http://localhost:3000/`
    - `http://localhost:3000/admin`

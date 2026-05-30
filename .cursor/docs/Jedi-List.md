@@ -2,6 +2,13 @@
 
 Quick reference for **npm scripts** and related tooling wired up in **`package.json`** (msc-new / Payload + Next.js). Run everything from the repo root (folder with `package.json`).
 
+## Hostinger Deployment (MCP)
+
+When deploying to Hostinger:
+- Use **`HOSTINGER-DEPLOY.md`** for the full pre-deployment audit.
+- Once the **Hostinger Connector** is signed in, you can use the MCP tools to list websites, domains, and perform JS application deployments.
+- Verify production environment variables match **`.env.production.template`**.
+
 ---
 
 ## Source of truth order (for agents and new sessions)

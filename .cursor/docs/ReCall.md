@@ -94,6 +94,15 @@ If **`package.json`** scripts change, update the four docs in the same commit wh
 
 ## Recent changes (latest first)
 
+### 2026-05-30 — Hostinger MCP + Pre-Deployment Audit Complete
+
+- **Tooling:** Fully connected and verified **Hostinger Connector (MCP)**. I now have access to `user-hostinger-hosting`, `user-hostinger-domains`, `user-hostinger-dns`, and `user-hostinger-vps`. 
+- **Verification:** Successfully listed Hostinger websites (`vaderlabz.com`, `jon-beatz.com`) and active plans (`hostinger_business_v3`) directly via MCP.
+- **Audit:** Completed a 12-point pre-deployment audit for Hostinger.
+- **Docs:** Created `.cursor/docs/HOSTINGER-DEPLOY.md` and `.env.production.template`.
+- **Git:** Pushed audit changes to `main`.
+- **Project Version:** Still at **`v1.0.8`** (admin version).
+
 ### 2026-05-30 — Workspace sync + GitHub repo and release v1.0.0
 
 - **Workspace:** Updated project root to `D:\Cursor_Projectz\MyStudioChannel` across all docs and scripts after directory rename.
