@@ -3,7 +3,7 @@
 ## Project Identity
 - **Name:** MyStudioChannel
 - **Type:** Next.js (15.4) + Payload CMS (3.81) application
-- **Primary Branch:** `MSC-Website-v2`
+- **Primary Branch:** `MSC-Website-v3`
 - **Repository:** [https://github.com/jonbeatz/MyStudioChannel](https://github.com/jonbeatz/MyStudioChannel)
 - **Primary Domain:** [https://mystudiochannel.com](https://mystudiochannel.com)
 
@@ -108,5 +108,5 @@ When booting up a session, you **must** execute the following sequence:
 
 ---
 
-*Last Updated: 2026-05-30*  
+*Last Updated: 2026-05-30 (v3.0.0)*  
 <sub>· Powered by the MyStudioChannel Media Engine</sub>

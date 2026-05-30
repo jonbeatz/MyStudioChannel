@@ -21,7 +21,7 @@ When the user says "update docs", execute this workflow:
 
 3. **Check for inconsistencies:**
    - Outdated paths (D:\Cursor_Projectz\MSC_Clean_v2\msc-new vs D:\Cursor_Projectz\MyStudioChannel)
-   - Old branch names (MSC-Site-Updates-v1 vs MSC-Website-v2)
+   - Old branch names (MSC-Website-v2 vs MSC-Website-v3)
    - Missing sections or TODOs
    - Contradictory instructions
    - Broken internal links
@@ -31,7 +31,7 @@ When the user says "update docs", execute this workflow:
 4. **Update paths across all docs:**
    - Replace any `msc-new` references with `MyStudioChannel`
    - Update any hardcoded drive paths to relative or current workspace
-   - Update branch names to current workflow (`main`, `MSC-Website-v2`)
+   - Update branch names to current workflow (`main`, `MSC-Website-v3`)
 
 5. **Update version information:**
    - Check `package.json` version
@@ -86,7 +86,7 @@ When the user says "update docs", execute this workflow:
     ```bash
     git add .cursor/docs/ .cursor/rules/ .cursor/prompts/ README.md CHANGELOG.md
     git commit -m "docs: update synchronization [YYYY-MM-DD HH:MM]"
-    git push origin MSC-Website-v2
+    git push origin MSC-Website-v3
     ```
 
 ## Output Format

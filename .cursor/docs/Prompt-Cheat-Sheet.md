@@ -271,5 +271,5 @@ Commands to manually free processes and manage port bindings.
 
 ---
 
-*Last Updated: 2026-05-30*  
+*Last Updated: 2026-05-30 (v3.0.0)*  
 <sub>· Powered by the MSC Media Engine</sub>

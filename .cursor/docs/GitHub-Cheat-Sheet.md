@@ -27,10 +27,10 @@ git push -u origin HEAD   # first push on new branch
 git push                  # after upstream is set
 ```
 
-**Current workflow branch example:** `MSC-Website-v2`
+**Current workflow branch example:** `MSC-Website-v3`
 
 ```bash
-git push origin MSC-Website-v2
+git push origin MSC-Website-v3
 ```
 
 ---
@@ -47,7 +47,7 @@ git checkout -b feature/my-task-name
 Or branch from current work:
 
 ```bash
-git checkout -b MSC-Website-v2
+git checkout -b MSC-Website-v3
 ```
 
 ---
@@ -106,7 +106,7 @@ Avoid `git reset --hard` and `git push --force` on shared branches unless you me
 ## Merge main into your branch
 
 ```bash
-git checkout MSC-Website-v2
+git checkout MSC-Website-v3
 git fetch origin
 git merge origin/main
 # fix conflicts if any, then:
