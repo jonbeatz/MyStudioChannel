@@ -1,0 +1,31 @@
+---
+description: Documentation synchronization rules - auto-enforced when "update docs" runs
+---
+
+# Docs Sync Rules
+
+## Path Standards
+- Always keep START-HERE.md as the primary entry point
+- All paths must be relative or use ${workspace} variable
+- Never hardcode absolute paths like `D:\Cursor_Projectz\...`
+- Use `MyStudioChannel` not `msc-new` for project name
+
+## Version Tracking
+- Update CHANGELOG.md when package.json version changes
+- ReCall.md must capture every significant session outcome
+- Restore-Points.md must be updated at every milestone
+
+## Issue Management
+- Every bug fix gets logged in ISSUES-RESOLVED.md
+- Include root cause and prevention steps
+- Reference related files changed
+
+## Rules Management
+- Never have contradictory rules across .mdc files
+- When deleting a feature, document it in ISSUES-RESOLVED.md with reason
+- Flag duplicate or conflicting rules during sync
+
+## Commit Discipline
+- Documentation changes go in separate commits from code changes
+- Use `docs:` prefix for doc-only commits
+- Always update docs when changing behavior
