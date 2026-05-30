@@ -20,7 +20,7 @@ Run these from your PC terminal in repo root:
 ```bash
 npm run verify:local
 npm run verify:live
-npm run test:spaceship-ftp
+npm run test:hostinger-ftp
 npm run verify:ftp-smoke
 ```
 
@@ -56,7 +56,7 @@ Wait until build completes successfully.
 
 ## 2) Upload to Hostinger (PC) — tiered deploy
 
-**Shortcuts (see `Custom-Prompts.md`):** **`Push my branding`** (item **37**) · **`Lets Push It Live`** (items **3** / **38**) · **`Push server config`** (item **39**).
+**Shortcuts (see `Prompt-Cheat-Sheet.md`):** **`Push my branding`** (item **37**) · **`Lets Push It Live`** (items **3** / **38**) · **`Push server config`** (item **39**).
 
 **Before / alongside upload:** confirm marketing assets are present locally under **`public/media`** (that folder is what the live site serves as **`/media/...`**). If you added or replaced files there, commit them and ensure they are included in what you deploy; missing **`public/media`** files on the server means broken images even when **`.next`** is healthy.
 

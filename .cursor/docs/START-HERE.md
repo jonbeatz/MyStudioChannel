@@ -21,10 +21,11 @@ Use this as a quick confidence signal that docs were read.
 
 When docs differ, use this priority:
 
-1. `START-HERE.md` (this file)
-2. `Agent-Runbook.md` (copy/paste prompts)
-3. `HOSTINGER-DEPLOY.md` (Hostinger deployment guide)
-4. `Jedi-List.md` (commands quick reference)
+1. **[`TRUTH.md`](../../TRUTH.md)** (absolute master blueprint - read first!)
+2. `START-HERE.md` (this file - daily operations)
+3. `Agent-Runbook.md` (copy/paste prompts)
+4. `HOSTINGER-DEPLOY.md` (Hostinger deployment guide)
+5. `Jedi-List.md` (commands quick reference)
 5. `Development.md` (architecture details)
 6. `ReCall.md` / `Restore-Points.md` (history + checkpoints)
 

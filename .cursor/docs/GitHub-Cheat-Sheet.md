@@ -1,4 +1,4 @@
-# Git quick reference (Jon / MSC)
+# Git quick reference (Jon / MyStudioChannel)
 
 **Local (Cursor / PC repo root)** — run from `D:\Cursor_Projectz\MyStudioChannel` unless noted.
 
@@ -27,10 +27,10 @@ git push -u origin HEAD   # first push on new branch
 git push                  # after upstream is set
 ```
 
-**Current workflow branch example:** `MSC-Site-Updates-v1`
+**Current workflow branch example:** `MSC-Website-v2`
 
 ```bash
-git push origin MSC-Site-Updates-v1
+git push origin MSC-Website-v2
 ```
 
 ---
@@ -47,7 +47,7 @@ git checkout -b feature/my-task-name
 Or branch from current work:
 
 ```bash
-git checkout -b MSC-Site-Updates-v2
+git checkout -b MSC-Website-v2
 ```
 
 ---
@@ -106,7 +106,7 @@ Avoid `git reset --hard` and `git push --force` on shared branches unless you me
 ## Merge main into your branch
 
 ```bash
-git checkout MSC-Site-Updates-v1
+git checkout MSC-Website-v2
 git fetch origin
 git merge origin/main
 # fix conflicts if any, then:
@@ -126,7 +126,7 @@ gh pr create --title "Title" --body "Summary"
 
 ---
 
-## MSC repo helpers (not plain git)
+## MyStudioChannel repo helpers (not plain git)
 
 ```bash
 npm run test:github-api      # token OK?
@@ -170,8 +170,8 @@ A bundle is a portable copy of **all branches and tags** at backup time.
 
 ```powershell
 cd D:\Cursor_Projectz\MyStudioChannel\.cursor\GitHub-Repo-BackUps\GitHub-Bundle-Archive
-git bundle verify msc-new.bundle
-git bundle list-heads msc-new.bundle
+git bundle verify MyStudioChannel.bundle
+git bundle list-heads MyStudioChannel.bundle
 ```
 
 **2. Clone from the bundle into a new folder**
@@ -182,13 +182,13 @@ Pick a restore location **outside** the backup folder (e.g. `D:\Cursor_Projectz\
 mkdir D:\Cursor_Projectz\RESTORED -Force
 cd D:\Cursor_Projectz\RESTORED
 
-git clone "D:\Cursor_Projectz\MyStudioChannel\.cursor\GitHub-Repo-BackUps\GitHub-Bundle-Archive\msc-new.bundle" msc-new-RESTORED
-cd msc-new-RESTORED
+git clone "D:\Cursor_Projectz\MyStudioChannel\.cursor\GitHub-Repo-BackUps\GitHub-Bundle-Archive\MyStudioChannel.bundle" MyStudioChannel-RESTORED
+cd MyStudioChannel-RESTORED
 git branch -a
 git log --oneline -5
 ```
 
-Replace `msc-new.bundle` / `msc-new-RESTORED` with the repo you need (e.g. `MSC-CRM.bundle`, `NovaMira-v1-local-wp.bundle`).
+Replace `MyStudioChannel.bundle` / `MyStudioChannel-RESTORED` with the repo you need (e.g. `MSC-CRM.bundle`, `NovaMira-v1-local-wp.bundle`).
 
 **3. Re-attach GitHub remote (so you can push/pull again)**
 
@@ -282,7 +282,7 @@ git show branch-name:path/to/file.tsx > recovered-file.tsx
 
 Check **`GitHub-Bundle-Archive\`** for files like:
 
-- `msc-new.bundle`
+- `MyStudioChannel.bundle`
 - `MSC-CRM.bundle`
 - `MSC-Projectz.bundle`
 - `NovaMira-v1-local-wp.bundle`

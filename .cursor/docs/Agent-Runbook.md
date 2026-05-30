@@ -50,8 +50,8 @@ Project root: D:\Cursor_Projectz\MyStudioChannel
 Operator: Jon. Use handshake: "Ok Jon - Ready to begin. Full sync from docs and repo."
 
 You must actually read these files (not from memory) in this order:
-1) .cursor/docs/START-HERE.md — source-of-truth order, daily rules, Jon’s cPanel session links (Node.js + Terminal), fast workflow.
-2) .cursor/docs/Agent-Runbook.md — operator handshake + command locality (Local Cursor vs Live cPanel).
+1) .cursor/docs/START-HERE.md — source-of-truth order, daily rules, Jon’s hPanel bookmarks, fast workflow.
+2) .cursor/docs/Agent-Runbook.md — operator handshake + command locality (Local Cursor vs Live Hostinger).
 3) .cursor/docs/HOSTINGER-DEPLOY.md — deploy protocol: pushitup/pushit:live on PC only; hPanel = restart / optional npm install; never pushitup on host.
 4) .cursor/docs/Jedi-List.md — npm scripts (dev:fresh, dev:recover, verify:next:safe, build, lint, verify:local, verify:live, verify:next, media:sync, media:consolidate, pushit:live, parity:ftp, test:hostinger-ftp, sync:mcp-env, test:github-api, test:tavily-api).
 5) .cursor/docs/ReCall.md — "Current focus" + latest "Recent changes" entry.
@@ -69,7 +69,7 @@ Then run Local (Cursor) checks from repo root:
 
 Respond with:
 A) Confirmed docs read (one line).
-B) Operator + locality reminder (Jon; Local vs Live; where cPanel links live).
+B) Operator + locality reminder (Jon; Local vs Live; where Hostinger links live).
 C) Git: branch + clean/dirty + notable untracked if any.
 D) Local: port + dev status + verify:local result if you ran it.
 E) ReCall "Current focus" in 2–4 bullets.
@@ -163,9 +163,7 @@ Lets Finish + Deploy.
 Do normal Lets Finish steps, then:
 1) Run pushit:live from repo root.
 2) Show upload progress and report completion.
-3) Give clickable Hostinger links for:
-   - Node Start/Stop page
-   - Hostinger Terminal page
+3) Give clickable Hostinger links for hPanel Node application.
 4) Tell me to restart app and validate live in incognito.
 
 Ask me to confirm before running the deploy step.
@@ -183,9 +181,8 @@ Lets Push It Live.
 From repo root D:\Cursor_Projectz\MyStudioChannel:
 1) Run npm run pushit:live
 2) Stream upload/build progress until complete
-3) When done, give me these clickable links (Jon’s current hPanel bookmarks):
-   - hPanel:
-     https://hpanel.hostinger.com/
+3) When done, give me these clickable links (Jon’s hPanel):
+   - hPanel: https://hpanel.hostinger.com/
 4) Tell me the exact next action: **Live (Hostinger)** — restart app, then test live in incognito. Always label commands as **Local (Cursor)** vs **Live (Hostinger)** when giving run instructions.
 
 If pushit:live fails, stop and tell me the exact failing step + shortest recovery command.
@@ -265,9 +262,7 @@ Please do this in order:
 4) Ask me to confirm deploy.
 5) Run npm run pushit:live.
 6) Show progress and completion.
-7) Give clickable Hostinger links for:
-   - Node Start/Stop page
-   - Terminal page
+7) Give clickable Hostinger hPanel links.
 8) Tell me exact next step: restart app, then verify live in incognito.
 9) Ask if I want a new branch cut now.
 10) If yes: ask for branch name, create it from current HEAD, push -u, confirm active branch.
@@ -348,7 +343,7 @@ Look at Source of Truth and confirm working mode.
 Start with handshake line: "Ok Jon - source-of-truth check started."
 
 Please do this in order:
-1) Read `.cursor/docs/START-HERE.md` first.
+1) Read `START-HERE.md` or `TRUTH.md` first.
 2) Confirm source-of-truth order you will follow for this session.
 3) List only the core docs you will actively use unless asked otherwise.
 4) Tell me the current working mode in one line (implementing vs planning vs review).
@@ -564,7 +559,7 @@ Rules:
 - `pushitup` commands run on your PC (Cursor terminal), not Hostinger Terminal.
 - Hostinger links can expire after logout/session timeout.
 - For app/admin code changes, use full build + full `.next` upload (via `npm run pushit:live`).
-- When prompts are added/changed in this runbook, mirror the same entries (with short descriptions) in `.cursor/docs/Custom-Prompts.md`.
+- When prompts are added/changed in this runbook, mirror the same entries (with short descriptions) in `Prompt-Cheat-Sheet.md`.
 
 ---
 

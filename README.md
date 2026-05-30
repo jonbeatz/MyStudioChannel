@@ -15,6 +15,8 @@
 
 ---
 
+> 🔮 **Single Source of Truth:** Read **[`TRUTH.md`](TRUTH.md)** for our master project identity, core commands, and architectural blueprint.
+
 ## 📊 Current Status
 
 | Metric              | Value                                                                  |

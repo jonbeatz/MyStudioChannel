@@ -1,6 +1,6 @@
 # MCP setup (Cursor)
 
-How Model Context Protocol servers are configured for **msc-new** and Jon’s global Cursor profile.
+How Model Context Protocol servers are configured for **MyStudioChannel** and Jon’s global Cursor profile.
 
 **Related:** [Development.md](./Development.md) (env vars), [ReCall.md](./ReCall.md) (Payload MCP finding §2026-04-08).
 
@@ -86,10 +86,6 @@ Global `mcp.json` lives **outside the repo** and is never committed.
 | `browserbase` | Cloud browser automation with Browserbase and Stagehand |
 | `21st-dev-magic` | AI-driven UI component generation with 21st.dev |
 | `markdownify` | Convert web pages, PDFs, and files to Markdown |
-| `browsermcp` | Control your actual open Chrome/Edge browser locally |
-| `browserbase` | Cloud browser automation with Browserbase and Stagehand |
-| `21st-dev-magic` | AI-driven UI component generation with 21st.dev |
-| `markdownify` | Convert web pages, PDFs, and files to Markdown |
 
 ### Workspace / plugins (examples — not in mcp.json)
 
@@ -145,10 +141,6 @@ Prefer **remove + archive** over `"disabled": true` — Cursor may still connect
 |--------|--------|
 | `npm run sync:mcp-env` | Sync `.env.local` → global + project MCP configs |
 | `npm run sync:mcp-all` | Same + confirmation echo |
-| `npm run msc:backup` | Standard project backup following the Ritual |
-| `npm run msc:google-api:start` | Shorthand to stop/start LiteLLM + ngrok on port 4000 |
-| `npm run msc:backup` | Standard project backup (follows Ritual) |
-| `npm run msc:google-api:start` | Start LiteLLM + ngrok proxy on port 4000 |
 | `npm run msc:backup` | Standard project backup following the Ritual |
 | `npm run msc:google-api:start` | Start LiteLLM + ngrok proxy on port 4000 |
 | `npm run sync:github-mcp` | Alias for `sync:mcp-env` |

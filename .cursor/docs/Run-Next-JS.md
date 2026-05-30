@@ -39,7 +39,7 @@ From the directory with **`package.json`**:
 | Dev (alt) | `npm run dev` | Same as **`dev:payload`** |
 | Production build | `npm run build` | Requires env vars (see above) |
 | Production serve | `npm run start` | After `build` -- local smoke test |
-| FTP upload (paths) | `npm run pushitup -- <target...>` | Upload files/folders to Spaceship FTPS |
+| FTP upload (paths) | `npm run pushitup -- <target...>` | Upload files/folders to Hostinger FTPS |
 | FTP upload (zip-first) | `npm run pushitupzip -- <target...>` | Packs target(s) to zip(s), then uploads |
 
 **First visit:** open **`/admin`** and create the first admin user.
