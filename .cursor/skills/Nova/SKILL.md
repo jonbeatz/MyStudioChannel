@@ -118,7 +118,7 @@ If the active repo already uses different prefixes (e.g. legacy `nova_` / `dt_`)
 
 ## 6. Next.js Static Export & Deployment
 - **Config Audit:** Ensure `next.config.mjs` contains `output: 'export'` and `unoptimized: true`. Reference `public/` files with root-relative paths (e.g. **`/media/...`**). Add `basePath` / `assetPrefix` only when the deployed URL is under a subdirectory—and never duplicate that prefix inside `src`.
-- **Image Optimization:** In static mode, bypass the Next.js Image loader; use `unoptimized: true` to prevent 404s on Spaceship.
+- **Image Optimization:** In static mode, bypass the Next.js Image loader; use `unoptimized: true` to prevent 404s on Hostinger.
 - **Deployment Protocol:**
   1. `npm install` (if node_modules is missing/corrupt).
   2. `npm run build:wp-theme` (using the mjs pipeline).

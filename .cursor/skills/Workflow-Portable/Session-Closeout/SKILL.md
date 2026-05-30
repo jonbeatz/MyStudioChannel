@@ -28,6 +28,6 @@ After safe closeout, ask confirmation, then run project deploy command (e.g. `pu
 
 Always end with:
 
-- exact cPanel/server restart step
+- exact hPanel/server restart step
 - live verification checklist
 

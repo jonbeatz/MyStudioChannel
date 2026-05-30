@@ -11,7 +11,7 @@
  *   node scripts/rebuild-media.mjs
  *   node scripts/rebuild-media.mjs --dry-run
  *
- * Live (cPanel → Terminal), after venv + cd to app:
+ * Live (hPanel → Terminal), after venv + cd to app:
  *   source …/nodevenv/.../activate
  *   cd /path/to/app
  *   node scripts/rebuild-media.mjs

@@ -31,6 +31,6 @@ Maintain a small **core docs set** for daily use, plus optional/archive docs for
 1. Compare runbook prompts vs real scripts.
 2. Compare deploy docs vs actual deploy command.
 3. Confirm operator/profile handshake rules are present.
-4. Confirm cPanel/server links or access path are current.
+4. Confirm hPanel/server links or access path are current.
 5. Update one-line summaries in core docs after major changes.
 

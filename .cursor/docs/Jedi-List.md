@@ -79,7 +79,7 @@ Fast triage pattern:
 | Variable | Role |
 |----------|------|
 | **`NEXT_PUBLIC_SERVER_URL`** | Inlined on client + server. **Local:** set in **`.env.local`** to your dev origin so admin **View site** and Payload **CSRF** match the browser. **Production build:** set to **`https://mystudiochannel.com`** (or rely on fallback below). |
-| **`PAYLOAD_PUBLIC_SERVER_URL`** | Runtime on cPanel/Node; **first** in **`getPublicOrigin()`** / emails / **`payload.config.ts`** **`serverURL`** when set. |
+| **`PAYLOAD_PUBLIC_SERVER_URL`** | Runtime on hPanel/Node; **first** in **`getPublicOrigin()`** / emails / **`payload.config.ts`** **`serverURL`** when set. |
 | **`MSC_CANONICAL_SITE_ORIGIN`** | Optional override for the code fallback when both URLs above are unset (default **`https://mystudiochannel.com`** in **`lib/site-origin-defaults.ts`**). |
 | **`PAYLOAD_CSRF_EXTRA_ORIGINS`** | Optional comma-separated extra origins for Payload CSRF (staging, etc.). |
 
@@ -192,7 +192,7 @@ Secrets live in **`.env.local`** only. After changing GitHub, Resend, WordPress,
 | **`npm run pushitup:server-config`** | **Tier 3 / hosting:** uploads **`server.js`**, **`package.json`**, **`package-lock.json`**, **`.env.example`**. Then **Hostinger → Terminal** → **`npm install --legacy-peer-deps`** if lockfile changed. Shortcut: **Custom-Prompts.md** → **Push server config** (item **39**). Add **`patches/`** or extra paths with **`npm run pushitup -- …`** when needed. |
 | **`npm run pushit:live`** | **`npm run build`** (live **`NEXT_PUBLIC_SERVER_URL`** for that step only) → **`pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`pushitup -- public/media`**. Step **6/6** **`dev:fresh`** runs only if **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** (default: skip — start **`npm run dev`** / **`dev:fresh`** yourself). Prints Hostinger reminders. Say *“push it live”* / *“run pushit live”* in chat to mean this. |
 | **`npm run pushit:live:safe`** | Runs **`verify:local`** preflight first; if all checks pass, runs full **`pushit:live`** flow. Use when you want extra guardrails. |
-| **`npm run pushitupzip`** (or **`npm run PushItUPzip`**) | **`scripts/PushItUPzip.ps1`** — zips each target under **`.pushitupzips/`**, then uploads. For **`.next`**, the file is **`next-build.zip`** (not **`.next.zip`**, so cPanel shows it). Remote path: **`.pushitupzips/next-build.zip`** under your FTPS root. Example: `npm run pushitupzip -- .next` |
+| **`npm run pushitupzip`** (or **`npm run PushItUPzip`**) | **`scripts/PushItUPzip.ps1`** — zips each target under **`.pushitupzips/`**, then uploads. For **`.next`**, the file is **`next-build.zip`** (not **`.next.zip`**, so hPanel shows it). Remote path: **`.pushitupzips/next-build.zip`** under your FTPS root. Example: `npm run pushitupzip -- .next` |
 | **`npm run test:hostinger-ftp`** | **`scripts/Test-HostingerFtp.ps1`** — read-only FTPS check using **`.vscode/sftp.json`** (login + LIST). Does not upload. **PushItUP** uses configured **`remotePath`** even when LIST on that path fails; see **HOSTINGER-DEPLOY.md**. |
 | **`npm run pushitup:ftp-smoke`** | Uploads repo-root **`ftp-path-smoke-test.txt`** only — use after changing **`.vscode/sftp.json`** **`remotePath`** to confirm files land **next to `package.json`** on the server (see **HOSTINGER-DEPLOY.md** § FTP). |
 | **`npm run verify:ftp-smoke`** | **`scripts/verify-ftp-smoke-remote.ps1`** — read-only **`LIST`** at configured **`remotePath`** and exits **0** only if **`ftp-path-smoke-test.txt`** is present (same session as **PushItUP**). Verified for Hostinger. |
@@ -288,4 +288,4 @@ You can say things like: *“On Hostinger, replace `.next` from the zip I upload
 
 ---
 
-**Tip:** Combine one “mode” line with one concrete task, e.g. *Continue from ReCall* + *Then: push the Leads fix with pushitup and tell me what to do in cPanel.*
+**Tip:** Combine one “mode” line with one concrete task, e.g. *Continue from ReCall* + *Then: push the Leads fix with pushitup and tell me what to do in hPanel.*

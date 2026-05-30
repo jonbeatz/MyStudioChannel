@@ -1,4 +1,4 @@
-# ngrok setup (msc-new / google-api-proxy)
+# ngrok setup (MyStudioChannel / google-api-proxy)
 
 Live token: **`NGROK_AUTHTOKEN`** in **`.env.local`** only (never commit).
 

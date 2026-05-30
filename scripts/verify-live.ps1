@@ -58,7 +58,7 @@ foreach ($r in $results) {
 Write-Host ""
 if ($failed.Count -gt 0) {
   Write-Host ("verify:live failed ({0} checks failed)." -f $failed.Count) -ForegroundColor Red
-  Write-Host "Tip: restart Node app in cPanel (Stop -> wait -> Start), then rerun npm run verify:live." -ForegroundColor Yellow
+  Write-Host "Tip: restart Node app in hPanel (Stop -> wait -> Start), then rerun npm run verify:live." -ForegroundColor Yellow
   exit 1
 }
 

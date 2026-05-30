@@ -39,7 +39,7 @@
       "args": []
     },
     "postgres": {
-      "_comment": "Removed — msc-new uses SQLite (payload.sqlite), not Postgres.",
+      "_comment": "Removed — MyStudioChannel uses SQLite (payload.sqlite), not Postgres.",
       "command": "C:\\Users\\JONBEATZ\\.cursor\\venvs\\postgres-mcp312\\Scripts\\postgres-mcp.exe",
       "args": ["--access-mode=unrestricted"],
       "env": {
@@ -47,7 +47,7 @@
       }
     },
     "neon-postgres": {
-      "_comment": "Removed — msc-new uses SQLite locally; Neon not configured.",
+      "_comment": "Removed — MyStudioChannel uses SQLite locally; Neon not configured.",
       "url": "https://mcp.neon.tech/mcp",
       "transport": "streamableHttp"
     },

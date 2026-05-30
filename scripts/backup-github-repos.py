@@ -61,7 +61,7 @@ def fetch_repos_via_api(token: str) -> list[dict]:
                 "Authorization": f"Bearer {token}",
                 "Accept": "application/vnd.github+json",
                 "X-GitHub-Api-Version": "2022-11-28",
-                "User-Agent": "msc-new-github-backup",
+                "User-Agent": "MyStudioChannel-github-backup",
             },
         )
         with urllib.request.urlopen(req, timeout=60) as resp:

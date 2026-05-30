@@ -35,7 +35,7 @@ foreach ($rawTarget in $Targets) {
 
     $name = Split-Path -Path $fullPath -Leaf
     if ([string]::IsNullOrWhiteSpace($name)) { $name = "target" }
-    # `.next.zip` is often hidden in cPanel (leading dot). Use a visible name for the .next folder.
+    # `.next.zip` is often hidden in hPanel (leading dot). Use a visible name for the .next folder.
     if ($name -eq ".next") {
       $safeName = "next-build"
     } else {

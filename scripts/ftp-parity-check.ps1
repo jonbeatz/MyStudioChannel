@@ -47,7 +47,7 @@ function New-FtpRequest {
   return $request
 }
 
-# Parse a typical UNIX "ls -l" style FTP LIST line (Spaceship/cPanel).
+# Parse a typical UNIX "ls -l" style FTP LIST line (Hostinger/hPanel).
 function Parse-FtpListLine {
   param([string]$Line)
   $t = $Line.Trim()

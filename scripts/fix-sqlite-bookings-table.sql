@@ -1,4 +1,4 @@
--- Live (cPanel Terminal): run ONLY if SQLite errors with
+-- Live (hPanel Terminal): run ONLY if SQLite errors with
 --   malformed database schema (bookings_updated_at_idx) - no such table: main.bookings
 -- Stop the Node app first. Prefer: remove payload.sqlite-wal and payload.sqlite-shm, then
 -- re-upload payload.sqlite from PC; use this SQL if you must repair in place.

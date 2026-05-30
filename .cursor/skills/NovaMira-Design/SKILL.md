@@ -17,7 +17,7 @@ This skill complements **`.cursor/skills/Nova/SKILL.md`** (code conventions) and
 
 **Modern label:** often **SaaS Dark** or **glass UI**: dark base, layered neutrals, thin borders, sparse bright accents.
 
-**MSC “Gold Standard” (this stack):** For **MyStudioChannel / MSC-branded** surfaces — especially the **`msc-new` Next.js marketing site** — treat **Studio Gold** as the **default strategic accent** (CTAs, badges, highlights, glows). **Nova Red** remains canonical for **DiviGear red-pill filters**, **destructive actions**, and **other WordPress-centric projects**; do not replace Gold with Red on MSC public marketing unless the user asks for a one-off experiment.
+**MSC “Gold Standard” (this stack):** For **MyStudioChannel / MSC-branded** surfaces — especially the **MyStudioChannel Next.js marketing site** — treat **Studio Gold** as the **default strategic accent** (CTAs, badges, highlights, glows). **Nova Red** remains canonical for **DiviGear red-pill filters**, **destructive actions**, and **other WordPress-centric projects**; do not replace Gold with Red on MSC public marketing unless the user asks for a one-off experiment.
 
 ---
 
@@ -136,6 +136,6 @@ These stay **non-negotiable** for NovaMira public UI unless the user overrides:
 
 ## When this skill should not override project facts
 
-If a client build or legacy page uses a different palette or layout system, **don’t mass-refactor** without a scoped task. For **new** NovaMira-branded surfaces (especially MSC admin, **msc-new** marketing, and studio-style dashboards), prefer this direction — **Gold-first for MSC public UI**, **Red where DiviGear / destructive / legacy Nova red-pill specs apply** — unless product says otherwise.
+If a client build or legacy page uses a different palette or layout system, **don’t mass-refactor** without a scoped task. For **new** NovaMira-branded surfaces (especially MyStudioChannel admin, MyStudioChannel marketing, and studio-style dashboards), prefer this direction — **Gold-first for MSC public UI**, **Red where DiviGear / destructive / legacy Nova red-pill specs apply** — unless product says otherwise.
 
 

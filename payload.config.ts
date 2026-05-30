@@ -127,7 +127,7 @@ export default buildConfig({
     outputFile: path.resolve(process.cwd(), "payload-types.ts"),
   },
   db: sqliteAdapter({
-    // Default false (cPanel / prod). Local: if SQLite errors mention missing tables
+    // Default false (hPanel / prod). Local: if SQLite errors mention missing tables
     // (e.g. `hero_slides`) or deletes fail with FK errors, run once:
     // `npm run migrate:sqlite:locked-docs-hero-slides-fk` — or set `PAYLOAD_DB_PUSH=true`
     // in `.env.local` so the adapter can align tables, then remove it.
@@ -138,7 +138,7 @@ export default buildConfig({
     },
     wal: true,
   }),
-  // Spaceship/cPanel: set PAYLOAD_DISABLE_SHARP=true when native sharp binaries are unavailable.
+  // Hostinger/hPanel: set PAYLOAD_DISABLE_SHARP=true when native sharp binaries are unavailable.
   ...(sharpOptional ? { sharp: sharpOptional } : {}),
   plugins: [
     seoPlugin({

@@ -1,5 +1,5 @@
 /**
- * Single place for “no env set” public origin defaults (Spaceship / production).
+ * Single place for “no env set” public origin defaults (Hostinger / production).
  * Local dev: set `NEXT_PUBLIC_SERVER_URL` in `.env.local` (e.g. to your dev origin).
  *
  * Override the default domain without code edits via `MSC_CANONICAL_SITE_ORIGIN`.

@@ -43,7 +43,7 @@ The agent should follow this file **without** you asking, after tasks that touch
 
 ## Execute local recovery — do not only tell Jon to run it
 
-Whenever fixing or checking **Local (Cursor / PC repo root)** health — including **`npm run dev:recover`**, **`npm run dev`** / **`dev:fresh`**, **`npm run repair:dev`**, **`npm run verify:next:safe`**, **`npm run verify:local`**, freeing port **3000**, or **`curl`** / **`Invoke-WebRequest`** smoke tests — the agent **must run those commands itself** from the repo root and report pass/fail. **Do not** substitute a handoff like “you should run …” unless the step is **Live (cPanel → Terminal)** or genuinely unsafe to automate (e.g. Jon’s browser Incognito check — say what you ran and suggest Incognito only as optional).
+Whenever fixing or checking **Local (Cursor / PC repo root)** health — including **`npm run dev:recover`**, **`npm run dev`** / **`dev:fresh`**, **`npm run repair:dev`**, **`npm run verify:next:safe`**, **`npm run verify:local`**, freeing port **3000**, or **`curl`** / **`Invoke-WebRequest`** smoke tests — the agent **must run those commands itself** from the repo root and report pass/fail. **Do not** substitute a handoff like “you should run …” unless the step is **Live (hPanel → Terminal)** or genuinely unsafe to automate (e.g. Jon’s browser Incognito check — say what you ran and suggest Incognito only as optional).
 
 ## Automatic local dev refresh (Cursor)
 

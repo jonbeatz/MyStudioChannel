@@ -20,7 +20,7 @@ def api_get(path: str, token: str) -> dict | list:
             "Authorization": f"Bearer {token}",
             "Accept": "application/vnd.github+json",
             "X-GitHub-Api-Version": "2022-11-28",
-            "User-Agent": "msc-new-github-test",
+            "User-Agent": "MyStudioChannel-github-test",
         },
     )
     with urllib.request.urlopen(req, timeout=30) as resp:

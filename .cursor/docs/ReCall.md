@@ -87,12 +87,19 @@ If **`package.json`** scripts change, update the four docs in the same commit wh
 - **Gallery hydration:** **`lib/cms/homepage-gallery-seed.ts`**, **`lib/cms/homepage-gallery-hydrate.ts`** (`afterRead` → full Media shape for admin + site).
 - **Public URLs:** **`lib/public-origin.ts`** + **`lib/site-origin-defaults.ts`** — **`PAYLOAD_PUBLIC_SERVER_URL`** / **`NEXT_PUBLIC_SERVER_URL`** / **`MSC_CANONICAL_SITE_ORIGIN`**; **`getPublicOriginClient()`** for admin Client Components; **`payload.config.ts`** **`serverURL`** + env-built **CSRF**.
 - **Marketing site:** Header/footer in-page hash scroll (mobile drawer defer); **`HomeHashScroll`**; **`middleware`** pathname-only rewrites (host-agnostic).
-- **Version:** **`v1.0.8`** — bump **`lib/msc-admin-version.ts`** when shipping more admin-facing changes.
+- **Version:** **`v3.0.0`** — bump **`lib/msc-admin-version.ts`** when shipping more admin-facing changes.
 - **Next ideas:** **`pushit:live`** when you want production on this line; optional Postgres / API hardening later; add **`WORDPRESS_*`** to **`.env.local`** + **`sync:mcp-env`** when using **`mcp-wordpress`** MCP.
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-05-30 — Version 3.0.0 Bump
+
+- **Audit:** Completed deep audit and consolidation; purged all legacy `msc-new` and `Spaceship` references.
+- **SSoT:** Established `TRUTH.md` as the single source of truth.
+- **Git:** Merged `MSC-Website-v3` into `main`, tagged `v3.0.0`, and created GitHub release.
+- **Status:** Project 100% healthy and standardized.
 
 ### 2026-05-30 — Hostinger Migration Complete
 

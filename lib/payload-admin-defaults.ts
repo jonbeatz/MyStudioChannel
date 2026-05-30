@@ -1,5 +1,5 @@
 /**
- * Payload admin defaults for msc-new.
+ * Payload admin defaults for MyStudioChannel.
  *
  * ## Blocks-first convention (admin UX)
  *
