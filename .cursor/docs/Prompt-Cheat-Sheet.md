@@ -57,6 +57,30 @@ These commands are bound to automated workflows inside `.cursor/prompts/` and ar
 
 ---
 
+## 🧪 Development & Testing
+
+Core triggers for local environment execution, compiling, and linting.
+
+### ➡️ `"start dev"`  
+*Alternative phrasings: `"dev"`, `"start local"`*
+- **Action:** Start local development server.
+- **Script Command:** `npm run dev` *(or `npm run dev:fresh` to clear cache)*
+- **Expected Outcome:** Launches the Next.js development server on `http://localhost:3000` with automated hot-reload.
+
+### ➡️ `"run build"`  
+*Alternative phrasings: `"build"`, `"compile"`*
+- **Action:** Create Next.js production build.
+- **Script Command:** `npm run build` *(or `npm run verify:next:safe` to build with safe port checks)*
+- **Expected Outcome:** Compiles the optimized production build to the `.next/` directory.
+
+### ➡️ `"run lint"`  
+*Alternative phrasings: `"lint"`, `"check formatting"`*
+- **Action:** Run code quality checks.
+- **Script Command:** `npm run lint`
+- **Expected Outcome:** Scans repository for TypeScript and ESLint syntax anomalies.
+
+---
+
 ## 📡 API Tunnels & Proxies
 
 For AI development, API testing, and model integrations.
@@ -126,6 +150,18 @@ Troubleshooting and maintenance triggers when things break.
 - **Action:** Bulk Media Database sync.
 - **Script Command:** `npm run media:sync`
 - **Expected Outcome:** Scans `public/media/` and automatically registers physical files as database rows in Payload CMS, bypassing Alt text constraints.
+
+---
+
+## 🔧 Utility Commands
+
+Commands to manually free processes and manage port bindings.
+
+### ➡️ `"kill port 3000"`  
+*Alternative phrasings: `"kill-port"`, `"free port"`*
+- **Action:** Kill process on a specific port manually.
+- **Script Command:** `node scripts/kill-dev-port.mjs`
+- **Expected Outcome:** Forcefully terminates any stale Node.js process bound to port `3000` to prevent `EADDRINUSE` errors.
 
 ---
 
