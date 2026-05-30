@@ -136,6 +136,6 @@ MIT © My Studio Channel
 
 ---
 
-<p align="center">
-  Powered by the MSC Media Engine | Version: v2.0.0
+<p align="left">
+  <sub>· Powered by the MSC Media Engine</sub>
 </p>
