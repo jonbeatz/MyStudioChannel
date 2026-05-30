@@ -3,6 +3,7 @@
 ## Project Identity
 - **Name:** MyStudioChannel
 - **Type:** Next.js (15.4) + Payload CMS (3.81) application
+- **OS/Shell:** Windows 10/11 + PowerShell (Core or Desktop)
 - **Primary Branch:** `MSC-Website-v3`
 - **Repository:** [https://github.com/jonbeatz/MyStudioChannel](https://github.com/jonbeatz/MyStudioChannel)
 - **Primary Domain:** [https://mystudiochannel.com](https://mystudiochannel.com)

@@ -17,6 +17,7 @@ Use this file as the high-level base. Detailed guidance is split into scoped fil
 
 ## Safety defaults
 
+- **Environment:** This is a **Windows 10/11 PowerShell** environment. Never use bash-specific constructs like HEREDOCS (`<<`). All multi-line strings for `git commit` or `gh` commands must be passed as native PowerShell strings or via temporary files.
 - Keep deploy actions explicit; do not run live deploy commands unless the user asks.
 - `pushitup` commands run on local PC terminal, not hPanel Host Terminal.
 - For app/admin changes, prefer full build + full `.next` upload.
