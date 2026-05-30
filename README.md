@@ -122,12 +122,6 @@ Optimized for **Hostinger (hPanel)** using our Tiered FTPS strategy:
 
 ---
 
-## 📄 License
-
-MIT © My Studio Channel
-
----
-
 ## 👥 Contributors
 
 - **Jon Beatz** - Creator & Developer
@@ -136,4 +130,12 @@ MIT © My Studio Channel
 
 ---
 
-Built with ☕ and Cursor · Powered by the MSC Media Engine | Version: v2.0.0
+## 📄 License
+
+MIT © My Studio Channel
+
+---
+
+<p align="center">
+  Powered by the MSC Media Engine | Version: v2.0.0
+</p>
