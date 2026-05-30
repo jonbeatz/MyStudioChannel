@@ -1,0 +1,30 @@
+---
+description: Workflow session rules for Start/End Project and tracking doc synchronization
+alwaysApply: true
+---
+
+# Workflow Session Rules
+
+## Start Project
+When user says "Start Project", "Begin Project", "Start Session", or "Cold Start":
+- Execute `.cursor/prompts/Start-Project.md` workflow
+- Read mandatory docs in order (README.md, START-HERE.md, project-log.md, Checkpoint.md)
+- Run lightweight pre-flight environment checks
+- DO NOT auto-start development servers
+
+## End Project
+When user says "End Project", "End Session", "Close Session", or "Session Closeout":
+- Execute `.cursor/prompts/End-Project.md` workflow
+- Summarize changes, update tracking logs, run Git audits, and prompt for commits
+- Clean up active listeners/ports (port 3000)
+
+## Update Docs
+When user says "update docs":
+- Execute `.cursor/prompts/Update-Docs.md` workflow
+- Scan, sync, and resolve any documentation inconsistencies
+- Log recent fixes to ISSUES-RESOLVED.md
+
+## Update Project
+When user says "Update Project" or "Sync Project":
+- Execute `.cursor/prompts/Update-Project.md` workflow
+- Automatically detect git history/recent commits to sync project-log.md and Checkpoint.md

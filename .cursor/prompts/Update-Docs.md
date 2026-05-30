@@ -13,9 +13,9 @@ When the user says "update docs", execute this workflow:
    - Any other .md files in root
 
 2. **Identify documentation types:**
-   - **Runbooks:** START-HERE.md, Development.md, Spaceship.md
+   - **Runbooks:** START-HERE.md, Development.md, HOSTINGER-DEPLOY.md
    - **Reference:** Jedi-List.md, GitHub-Cheat-Sheet.md
-   - **History:** ReCall.md, Restore-Points.md, CHANGELOG.md
+   - **History:** ReCall.md, Restore-Points.md, CHANGELOG.md, ISSUES-RESOLVED.md
    - **Rules:** All .mdc files in .cursor/rules/
    - **Deployment:** HOSTINGER-DEPLOY.md, Go-Live-Checklist.md
 
