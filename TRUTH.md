@@ -57,6 +57,7 @@ This is the canonical Source of Truth reading order for all human developers and
 | [`.cursor/docs/Checkpoint.md`](.cursor/docs/Checkpoint.md) | Active milestone and target tracking | When planning new feature updates |
 | [`.cursor/docs/Prompt-Cheat-Sheet.md`](.cursor/docs/Prompt-Cheat-Sheet.md) | Comprehensive command and trigger reference | Whenever looking up commands |
 | [`.cursor/docs/HOSTINGER-DEPLOY.md`](.cursor/docs/HOSTINGER-DEPLOY.md) | Deploy tier processes and hPanel commands | Before pushing any code change to live |
+| [`.cursor/docs/DEPLOYMENT-FIXES.md`](.cursor/docs/DEPLOYMENT-FIXES.md) | Hostinger deploy fixes and learnings (2026-06-01) | When live build fails or first-time zip deploy |
 | [`.cursor/docs/ISSUES-RESOLVED.md`](.cursor/docs/ISSUES-RESOLVED.md) | Debugging logs and resolutions index | During troubleshooting or after resolving a bug |
 | [`.cursor/docs/Restore-Points.md`](.cursor/docs/Restore-Points.md) | Backup history and local git rollbacks | When freezing a milestone or rolling back |
 
@@ -94,6 +95,27 @@ MyStudioChannel/
 │   └── custom-scriptz/   # Portable local modules (google-api-proxy, backup-system)
 └── TRUTH.md              # This file (Master Source of Truth Reference)
 ```
+
+---
+
+## Deployment (Hostinger)
+
+**Live:** [https://mystudiochannel.com](https://mystudiochannel.com) · **Branch:** `MSC-Website-v3`
+
+| Path | When | Local command |
+|------|------|----------------|
+| **Zip upload** | First deploy, WordPress replacement, full refresh | Stop dev → **`npm run build`** → upload **`MyStudioChannel-deploy.zip`** via hPanel |
+| **FTPS** | Day-to-day updates | **`npm run pushit:live`** |
+
+**Critical rules:**
+
+1. **Dependencies:** Packages imported in app/CSS/PostCSS must be in **`dependencies`** — Hostinger skips **`devDependencies`**. Audit: **`npm ls --omit=dev --depth=0`**.
+2. **Package manager:** **npm** only — ship **`package-lock.json`**, not **`pnpm-lock.yaml`**.
+3. **Env vars (hPanel):** `NODE_ENV`, `PAYLOAD_SECRET`, `DATABASE_URL`, `NEXT_PUBLIC_SERVER_URL`, `PAYLOAD_PUBLIC_SERVER_URL`, `RESEND_API_KEY`, `PAYLOAD_DISABLE_SHARP=true`.
+4. **hPanel build:** Next.js preset, Node **22.x**, **`npm run build`**, output **`.next`**.
+5. **After deploy:** Restart Node in hPanel; verify with **`npm run verify:live`** and Incognito **`/`** + **`/admin`**.
+
+**Docs:** [HOSTINGER-DEPLOY.md](.cursor/docs/HOSTINGER-DEPLOY.md) · [DEPLOYMENT-FIXES.md](.cursor/docs/DEPLOYMENT-FIXES.md) · [Go-Live-Checklist.md](.cursor/docs/Go-Live-Checklist.md)
 
 ---
 

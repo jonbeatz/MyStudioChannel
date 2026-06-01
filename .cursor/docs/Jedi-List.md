@@ -2,12 +2,40 @@
 
 Quick reference for **npm scripts** and related tooling wired up in **`package.json`** (MyStudioChannel / Payload + Next.js). Run everything from the repo root (folder with `package.json`).
 
-## Hostinger Deployment (MCP)
+## Hostinger Deployment
 
-When deploying to Hostinger:
-- Use **`HOSTINGER-DEPLOY.md`** for the full pre-deployment audit.
-- Once the **Hostinger Connector** is signed in, you can use the MCP tools to list websites, domains, and perform JS application deployments.
-- Verify production environment variables match **`.env.production.template`**.
+**Guides:** **`HOSTINGER-DEPLOY.md`** (full checklist) · **`DEPLOYMENT-FIXES.md`** (2026-06-01 fixes) · **`Go-Live-Checklist.md`**
+
+### Before every deploy (Local)
+
+```powershell
+node scripts/kill-dev-port.mjs
+npm ls --omit=dev --depth=0
+npm run build
+npm run verify:local
+```
+
+**Dependency rule:** Hostinger runs **`npm install --production`**. Packages used in app/CSS/PostCSS (**`@tailwindcss/postcss`**, **`postcss`**, **`tw-animate-css`**, etc.) must be in **`dependencies`**, not **`devDependencies`**. Use **npm** only — delete **`pnpm-lock.yaml`** if present.
+
+### Deploy paths
+
+| Path | Command / action |
+|------|------------------|
+| **Zip (first deploy / refresh)** | Create **`D:\Cursor_Projectz\MyStudioChannel-deploy.zip`** (exclude `node_modules`, `.next`, `.git`) → hPanel drag-and-drop → Deploy |
+| **FTPS (updates)** | **`npm run pushit:live`** or **`npm run pushit:live:safe`** |
+| **MCP** | **`hosting_deployJsApplication`** (Hostinger Connector signed in) |
+
+### hPanel env vars (required)
+
+`NODE_ENV=production`, `PAYLOAD_SECRET`, `DATABASE_URL=file:./payload.sqlite`, `NEXT_PUBLIC_SERVER_URL=https://mystudiochannel.com`, `PAYLOAD_PUBLIC_SERVER_URL=https://mystudiochannel.com`, `RESEND_API_KEY`, `PAYLOAD_DISABLE_SHARP=true`
+
+### After deploy
+
+```powershell
+npm run verify:live
+```
+
+hPanel → **Restart** Node.js app. Incognito: **`/`** + **`/admin`** → footer **`MyStudioChannel v3.0.0`**.
 
 ---
 

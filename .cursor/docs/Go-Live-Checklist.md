@@ -39,6 +39,24 @@ npm run dev:fresh
 
 ---
 
+## 0.5) Production dependency check (PC — before zip or first deploy)
+
+Hostinger runs **`npm install --production`** before **`npm run build`**. Anything imported in app code, CSS, or PostCSS must be in **`dependencies`**, not **`devDependencies`**.
+
+```powershell
+npm ls --omit=dev --depth=0
+```
+
+**Known required packages (2026-06-01):** `@tailwindcss/postcss`, `postcss`, `tw-animate-css`.
+
+If Hostinger build fails with **`Cannot find module '…'`** or **`Can't resolve '…'`**, move that package to **`dependencies`**, run **`npm install`**, rebuild, and redeploy.
+
+**Lockfile:** use **npm** + **`package-lock.json`** only — remove **`pnpm-lock.yaml`** from the deploy bundle.
+
+Details: **DEPLOYMENT-FIXES.md** · **HOSTINGER-DEPLOY.md** → *Path A step 1*.
+
+---
+
 ## 1) Build locally (PC)
 
 Custom prompt shortcut:

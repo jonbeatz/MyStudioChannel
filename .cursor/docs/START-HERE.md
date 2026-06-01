@@ -60,6 +60,7 @@ Project rules layout:
 | `START-HERE.md` | Daily startup/deploy guardrails | Daily |
 | `Agent-Runbook.md` | Copy/paste prompts (`Ready to begin`, `Lets Start`, etc.) | Daily |
 | `HOSTINGER-DEPLOY.md` | Hostinger hPanel deployment guide | Deployment |
+| `DEPLOYMENT-FIXES.md` | Hostinger deploy fixes & learnings (2026-06-01) | Deployment / troubleshooting |
 | `Jedi-List.md` | Commands and script meanings | Daily |
 | `Restore-Points.md` | Known-good checkpoints + rollback notes | Daily (after milestones) |
 | `ReCall.md` | Session history and resume context | Optional |
@@ -113,16 +114,29 @@ That pattern almost always means **`.next` was deleted or overwritten while `nex
 
 **Prevention:** Cursor blocks **`verify:next`** / **`clean:next`** when port **3000** is busy (see **`.cursor/hooks.json`**). Prefer **`verify:next:safe`** when you are not sure.
 
+### Deploy to Hostinger (read first)
+
+**Full guides:**
+
+- **[HOSTINGER-DEPLOY.md](./HOSTINGER-DEPLOY.md)** — env vars, hPanel build settings, zip vs FTPS, troubleshooting
+- **[DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md)** — 2026-06-01 successful deploy learnings (dependency rule, lockfile, zip flow)
+- **[Go-Live-Checklist.md](./Go-Live-Checklist.md)** — tiered FTPS checklist
+
+**First deploy / full refresh (zip):** stop dev → audit **`npm ls --omit=dev --depth=0`** → **`npm run build`** → upload **`MyStudioChannel-deploy.zip`** in hPanel → set env vars → Deploy → restart Node. See **HOSTINGER-DEPLOY.md** → *Path A*.
+
+**Ongoing updates (FTPS):** **`npm run pushit:live`** — see *Push to live* below.
+
 ### Push to live
 
 From repo root on PC:
 
+0. **Before upload:** run **`npm ls --omit=dev --depth=0`** — any package imported in app/CSS must be in **`dependencies`** (Hostinger skips **`devDependencies`**). See **DEPLOYMENT-FIXES.md**.
 1. Run `npm run pushit:live` (ships **admin-ui sources**, **`.next`**, **`payload.sqlite`**, and **`public/media`** per **HOSTINGER-DEPLOY.md**; build step uses live public URL briefly). By default it **does not** auto-start local dev — run **`npm run dev`** or **`npm run dev:fresh`** afterward. To **auto-run** **`dev:fresh`** after upload, set **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** first (**HOSTINGER-DEPLOY.md**).
 2. Wait for build/upload completion. **One or two FTPS errors** on random `.next` chunks with **retry OK** at the end is normal.
 3. In hPanel, restart the Node app.
 4. Validate live in Incognito.
 
-Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.next`** with **FileZilla** instead if you follow **HOSTINGER-DEPLOY.md** → *Manual `.next` upload* and still deploy the rest of Tier 2 when needed.
+Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.next`** with **FileZilla** instead if you follow **HOSTINGER-DEPLOY.md** and still deploy the rest of Tier 2 when needed.
 
 **FTPS target folder:** **`.vscode/sftp.json`** **`remotePath`** must match **HOSTINGER-DEPLOY.md** (usually **`/`** or **`/public_html`**). After any **`remotePath`** edit, run **`npm run verify:ftp-smoke`** (or **`pushitup:ftp-smoke`** + check FileZilla) so **`.next`** does not upload into a nested junk tree.
 
