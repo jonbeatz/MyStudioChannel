@@ -13,12 +13,13 @@
 
 ---
 
-## Two deploy paths (pick one)
+## Deploy paths overview
 
 | Path | When | Where it runs |
 |------|------|----------------|
 | **A — Zip upload (first deploy / full refresh)** | First Node.js setup, replacing WordPress, or when FTPS is not configured | **Local:** build zip → **Live (hPanel):** drag-and-drop → Deploy |
 | **B — FTPS `pushit:live` (updates)** | Day-to-day updates after initial live setup | **Local:** `npm run pushit:live` → **Live (hPanel):** restart Node |
+| **C — Daily updates (after first deploy)** | Ongoing changes — pick FTPS, Git rebuild, or MCP | See **Path C** below |
 
 Do **not** run `pushitup` or zip uploads in **Hostinger Terminal** — upload from **Local (PC repo root)** only.
 
@@ -160,6 +161,162 @@ Adjust `cd` path to your hPanel app root if different.
 
 ---
 
+## Path C — Daily updates (after first deploy)
+
+Once your site is live, use these methods for ongoing updates. **Full reference:** this section. **Quick card:** [START-HERE.md](./START-HERE.md) → *Pushing updates live*.
+
+### Quick reference: three update methods
+
+| Method | Command | When to use | Time | Restart needed? |
+|--------|---------|-------------|------|-----------------|
+| **FTPS (recommended)** | `npm run pushit:live` | Daily changes (CSS, components, images, admin UI) | ~2–3 min | Yes — hPanel |
+| **Git push + rebuild** | `git push origin main` | Major updates, new packages, when FTPS is not enough | ~5–6 min | Usually auto |
+| **Hostinger MCP** | Ask Cursor | Testing, automated deploys | Varies | Yes — hPanel |
+
+---
+
+### Method 1: FTPS — `npm run pushit:live` (fastest for daily updates)
+
+**What it uploads (Local → Live via FTPS):**
+
+- **`pushitup:admin-ui`** — Payload admin sources (middleware, branding, config, etc.)
+- **`.next/`** — production build
+- **`payload.sqlite`** — local CMS database
+- **`public/media/`** — on-disk media assets
+
+**What it does NOT upload (manage separately):**
+
+- **`node_modules/`** — host keeps its own install
+- **`package.json` / `package-lock.json`** — use **`npm run pushitup:server-config`**, zip deploy, Git rebuild, or hPanel Terminal **`npm install --legacy-peer-deps`**
+
+**Note:** `pushit:live` runs **`npm run build`** internally (live `NEXT_PUBLIC_SERVER_URL` for that step only). Running build first is still recommended for pre-flight.
+
+**Step-by-step (Local — repo root):**
+
+```bash
+# 1. Pre-flight (optional but recommended)
+npm run build
+npm run verify:local
+
+# 2. Push live (includes build + FTPS upload)
+npm run pushit:live
+
+# 3. Live (hPanel) → Restart Node.js app
+```
+
+Safer variant: **`npm run pushit:live:safe`** — runs **`verify:local`** first, then full **`pushit:live`**.
+
+**After adding new npm packages:** update **`package.json`** on the server (zip, Git rebuild, or **`pushitup:server-config`** + **`npm install --legacy-peer-deps`** on host). FTPS alone will **not** install new dependencies.
+
+---
+
+### Method 2: Git push + Hostinger rebuild
+
+If your Hostinger Node.js app is connected to GitHub:
+
+```bash
+git push origin main
+```
+
+Hostinger will typically:
+
+1. Pull latest code
+2. Run **`npm install`** (production)
+3. Run **`npm run build`**
+4. Restart the app
+
+**Best for:** new dependencies, major changes, or when FTPS fails.
+
+**Reminder:** apply **The Canonical Rule** — packages imported in app/CSS must be in **`dependencies`**, or the host build will fail.
+
+---
+
+### Method 3: From Cursor (Hostinger MCP)
+
+Tell Cursor:
+
+> Use the Hostinger MCP to deploy my latest changes to mystudiochannel.com
+
+The MCP can upload a source zip and trigger a server-side build (`hosting_deployJsApplication`).
+
+**Best for:** automated workflows, testing, first deploy–style refreshes without FTPS.
+
+**MCP cannot set environment variables** — set those in hPanel UI.
+
+---
+
+### Pre-update checklist (before any method)
+
+| Step | Command | Why |
+|------|---------|-----|
+| 1 | `npm run build` | Verify build passes locally |
+| 2 | `npm run verify:local` | Test all local endpoints |
+| 3 | `npm ls --omit=dev --depth=0` | Audit production deps ([DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md)) |
+| 4 | `git status` | Ensure clean working tree (or know what you're shipping) |
+
+---
+
+### Post-update verification
+
+After any update:
+
+```bash
+# Local smoke test (optional)
+npm run verify:live
+```
+
+**Manual checks (Incognito):**
+
+- [https://mystudiochannel.com](https://mystudiochannel.com)
+- [https://mystudiochannel.com/admin](https://mystudiochannel.com/admin)
+- Footer shows correct version (**`MyStudioChannel v3.0.0`**)
+
+---
+
+### Troubleshooting common update issues
+
+| Issue | Likely cause | Fix |
+|-------|--------------|-----|
+| Changes not showing | Forgot to restart Node app | Restart in hPanel |
+| Missing CSS | `tw-animate-css` not in **`dependencies`** | Move to **`dependencies`**, rebuild, redeploy |
+| API 500 errors | Env vars missing | Check hPanel environment variables |
+| Build fails on host | Missing package in **`dependencies`** | **`npm ls --omit=dev --depth=0`** to audit |
+| Old content showing | Browser cache | Hard refresh (Ctrl+Shift+R) or Incognito |
+| Vendor-chunk 500 | Stale **`.next`** on host | Remove **`.next`** on host; re-upload full **`.next`** after local build |
+
+---
+
+### Summary: which method should I use?
+
+| Change type | Recommended method |
+|-------------|-------------------|
+| Text / UI changes | FTPS (`pushit:live`) |
+| CSS / Tailwind updates | FTPS (`pushit:live`) |
+| Component logic | FTPS (`pushit:live`) |
+| Added npm package | Git push **or** new zip **or** server-config + `npm install` |
+| Payload collection change | Git push + migration plan |
+| Environment variable | Set in hPanel (no code deploy) |
+| Database / seed data | FTPS (uploads **`payload.sqlite`**) — **stop Node first** |
+
+---
+
+### Quick command card
+
+```bash
+# Local pre-flight
+npm run build && npm run verify:local
+
+# Push live (FTPS)
+npm run pushit:live
+
+# Then in hPanel: Restart Node.js app
+
+# Check live health
+npm run verify:live
+```
+
+---
+
 ## Hostinger MCP (optional)
 
 With **Hostinger Connector** signed in, agents can:
@@ -218,4 +375,4 @@ Zip path and **`package.json` dependency fixes** apply to MCP uploads the same w
 
 ---
 
-*Last updated: 2026-06-01 — first successful zip deploy to mystudiochannel.com*
+*Last updated: 2026-06-01 — Path C daily updates; first successful zip deploy to mystudiochannel.com*

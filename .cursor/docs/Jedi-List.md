@@ -37,6 +37,18 @@ npm run verify:live
 
 hPanel → **Restart** Node.js app. Incognito: **`/`** + **`/admin`** → footer **`MyStudioChannel v3.0.0`**.
 
+### Hostinger update commands
+
+| Command | Purpose |
+|---------|---------|
+| **`npm run pushit:live`** | FTPS upload (fast daily updates — build + admin-ui + `.next` + DB + media) |
+| **`npm run pushit:live:safe`** | Same as above, after **`verify:local`** preflight |
+| **`npm run verify:live`** | Smoke test live endpoints |
+| **`npm run build`** | Local production build |
+| **`npm ls --omit=dev --depth=0`** | Audit production dependencies |
+
+See **HOSTINGER-DEPLOY.md** → *Path C — Daily updates*.
+
 ---
 
 ## Source of truth order (for agents and new sessions)

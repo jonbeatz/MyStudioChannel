@@ -140,6 +140,18 @@ Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.nex
 
 **FTPS target folder:** **`.vscode/sftp.json`** **`remotePath`** must match **HOSTINGER-DEPLOY.md** (usually **`/`** or **`/public_html`**). After any **`remotePath`** edit, run **`npm run verify:ftp-smoke`** (or **`pushitup:ftp-smoke`** + check FileZilla) so **`.next`** does not upload into a nested junk tree.
 
+### Pushing updates live
+
+| I want to… | Command |
+|------------|---------|
+| Push daily changes | **`npm run pushit:live`** → restart in hPanel |
+| Push with new packages | **`git push origin main`** (auto rebuild, if Git connected) |
+| Check what Hostinger will install | **`npm ls --omit=dev --depth=0`** |
+| Verify build before push | **`npm run build && npm run verify:local`** |
+| Test live site | **`npm run verify:live`** |
+
+Full guide: **HOSTINGER-DEPLOY.md** → *Path C — Daily updates*.
+
 ---
 
 ## Hostinger links (session-scoped)
