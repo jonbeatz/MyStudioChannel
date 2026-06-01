@@ -4,7 +4,7 @@
 - **Date:** 2026-06-01
 - **Branch:** MSC-Website-v4 (active dev)
 - **Version:** 4.0.0 (`package.json` — sole release number)
-- **Tip:** `87ec9de` + docs sync (v4 live)
+- **Tip:** `8130609`
 - **Build Status:** Passing (`npm run verify:next:safe`)
 - **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v4.0.0** (Hostinger MCP deploy `MyStudioChannel-v4-deploy.zip`, build `019e8569-74dc-70e6-bc10-4a121aac92ad`)
 - **Git:** `main` synced with `MSC-Website-v4`; `MSC-Website-v3` frozen at v3.0.0
