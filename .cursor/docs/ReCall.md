@@ -73,9 +73,11 @@ These four operator docs should match those scripts whenever deploy behavior cha
 1. **`Jedi-List.md`** — command cheat sheet and Deploy uploaders table  
 2. **`HOSTINGER-DEPLOY.md`** — PC vs hPanel protocol and Standard update step 2  
 3. **`Go-Live-Checklist.md`** — local → live flow and branding file lists  
-4. **`Custom-Prompts.md`** — shortcuts including **Push my branding** (item **37**)
+4. **`Prompt-Cheat-Sheet.md`** — shortcuts including **Push my branding** (item **37**)
 
 If **`package.json`** scripts change, update the four docs in the same commit when possible.
+
+**Release version / admin bundle (2026-06-01):** Bump root **`package.json`** `"version"` only. **`pushitup:admin-ui`** ships **`lib/msc-app-version.ts`** + **`components/msc-payload-nav-logout.tsx`** (see **`package.json`** script). Older log entries may mention **`msc-admin-version.ts`** — historical only.
 
 **MCP / GitHub tooling scripts** (`sync:mcp-env`, `sync:mcp-all`, `test:github-api`, `test:tavily-api`, `backup:github-repos`): keep **`Jedi-List.md`**, **`MCP-SETUP.md`**, and **`.env.example`** in sync.
 
@@ -87,12 +89,21 @@ If **`package.json`** scripts change, update the four docs in the same commit wh
 - **Gallery hydration:** **`lib/cms/homepage-gallery-seed.ts`**, **`lib/cms/homepage-gallery-hydrate.ts`** (`afterRead` → full Media shape for admin + site).
 - **Public URLs:** **`lib/public-origin.ts`** + **`lib/site-origin-defaults.ts`** — **`PAYLOAD_PUBLIC_SERVER_URL`** / **`NEXT_PUBLIC_SERVER_URL`** / **`MSC_CANONICAL_SITE_ORIGIN`**; **`getPublicOriginClient()`** for admin Client Components; **`payload.config.ts`** **`serverURL`** + env-built **CSRF**.
 - **Marketing site:** Header/footer in-page hash scroll (mobile drawer defer); **`HomeHashScroll`**; **`middleware`** pathname-only rewrites (host-agnostic).
-- **Version:** **`v3.0.0`** — bump **`lib/msc-admin-version.ts`** when shipping more admin-facing changes.
+- **Version:** **`v3.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v3.0.0`**, admin **`MyStudioChannel Admin v3.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
+- **Branches:** **`main`** and **`MSC-Website-v3`** both at **`57910cd`** (fast-forward merge 2026-06-01); day-to-day dev on **`MSC-Website-v3`**.
 - **Next ideas:** **`pushit:live`** when you want production on this line; optional Postgres / API hardening later; add **`WORDPRESS_*`** to **`.env.local`** + **`sync:mcp-env`** when using **`mcp-wordpress`** MCP.
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-01 — Version consolidation + `main` sync
+
+- **Versioning:** Removed **`lib/msc-admin-version.ts`** / **`MSC_ADMIN_VERSION`**. Added **`lib/msc-app-version.ts`** reading **`package.json`** only. User-facing labels: **`MyStudioChannel v3.0.0`** (footer), **`MyStudioChannel Admin v3.0.0`** (Payload sidebar).
+- **Docs:** **`Jedi-List.md`** — operators bump **`package.json`** only; **`pushitup:admin-ui`** file list synced.
+- **Git:** Pushed **`MSC-Website-v3`**, fast-forward merged into **`main`**, pushed **`origin/main`**; continued dev on **`MSC-Website-v3`**.
+- **Other:** Hero slide 5 JPG (**`IWWI-Indie-WorldWide-Inc-Hero-6.jpg`**); **`scripts/test-mcps.mjs`** MCP health script.
+- **Commits:** **`50ae6b2`**, **`57910cd`** (docs).
 
 ### 2026-05-30 — Version 3.0.0 Bump
 

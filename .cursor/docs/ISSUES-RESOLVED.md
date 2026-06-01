@@ -17,6 +17,13 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-01] Dual version numbers (package vs admin) confused operators
+- **Error:** Footer showed `Release v1.0.24` while README/docs referenced `v3.0.0`; operators were told to bump `lib/msc-admin-version.ts` separately from `package.json`.
+- **Cause:** Legacy admin deploy marker (`MSC_ADMIN_VERSION`) ran parallel to npm semver after the v3 product bump.
+- **Solution:** Removed `lib/msc-admin-version.ts`. Added `lib/msc-app-version.ts` importing `package.json` only. User-facing strings: `MyStudioChannel v3.0.0` (footer), `MyStudioChannel Admin v3.0.0` (Payload sidebar). Updated `Jedi-List.md`, `Go-Live-Checklist.md`, deploy script file list in `package.json`.
+- **Files Changed:** `lib/msc-app-version.ts`, `components/footer.tsx`, `components/msc-payload-nav-logout.tsx`, `components/msc-payload-graphics.tsx`, `package.json` (deleted `lib/msc-admin-version.ts`)
+- **Prevention:** Bump **`package.json`** `"version"` only on release; confirm footer + `/admin` labels after deploy. See **Jedi-List** → *Release version*.
+
 ## [2026-05-30] Hero Section Images Mismatch
 - **Error:** Hero slides showing demo preview images instead of hero images
 - **Cause:** Database had wrong media IDs assigned (Demos-* images instead of hero-studio.jpg, show-artwork.jpg, on-air-bg.jpg, creator-in-mind.jpg)

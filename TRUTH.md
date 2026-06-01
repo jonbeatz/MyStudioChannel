@@ -109,5 +109,5 @@ When booting up a session, you **must** execute the following sequence:
 
 ---
 
-*Last Updated: 2026-05-30 (v3.0.0)*  
+*Last Updated: 2026-06-01 (v3.0.0 — `package.json` sole version; `lib/msc-app-version.ts` for UI labels)*  
 <sub>· Powered by the MyStudioChannel Media Engine</sub>
