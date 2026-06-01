@@ -50,7 +50,7 @@ Fast triage pattern:
 | 3 | **Hostinger → Terminal** | Only if **`package.json` / lockfile / `patches`** changed: **`npm install --legacy-peer-deps`** (see **HOSTINGER-DEPLOY.md**). **Do not** run **`pushitup`** here. |
 | 4 | **Hostinger → hPanel** | **Restart** the app in the Node.js Application manager. |
 
-**Admin version check:** After deploy, open **`/admin`** — you should see **`v1.0.x`** near the sidebar **Log out** area (bottom-left). Bump `lib/msc-admin-version.ts` when you ship admin-facing changes.
+**Release version check:** After deploy, open **`/admin`** — sidebar (bottom-left) should show **`MyStudioChannel Admin v3.0.0`** (matches root **`package.json`** **`"version"`**). Bump **`package.json`** only when you cut a new release (e.g. `3.0.0` → `3.0.1`); UI labels read from **`lib/msc-app-version.ts`** at build time.
 
 ---
 
@@ -114,9 +114,11 @@ Fast triage pattern:
 
 ---
 
-## Admin deploy version (visual check)
+## Release version (visual check)
 
-After **Payload admin** or **CMS panel** changes ship to production, bump **`MSC_ADMIN_VERSION`** in **`lib/msc-admin-version.ts`** (e.g. `1.0.6` → `1.0.7`). The sidebar shows **`v1.0.x`** near **Log out** so you can confirm the new build is live. Ship that file (and the rest of the **MSC PRO ENGINE** admin bundle) with **`npm run pushitup:admin-ui`** — see **Deploy uploaders** table above.
+**Single source of truth:** root **`package.json`** **`"version"`** (currently **`3.0.0`**). **`lib/msc-app-version.ts`** imports it for the marketing footer (**`MyStudioChannel v3.0.0`**) and Payload admin sidebar (**`MyStudioChannel Admin v3.0.0`**).
+
+When you ship a new release, bump **`package.json`** in the **same commit** as the code you deploy, then **`npm run build`** + full **`.next`** upload (or **`npm run pushit:live`**). After restart, confirm the new **`vX.Y.Z`** in **`/admin`** and on the site footer. For admin-only source changes (no version bump), still run **`npm run pushitup:admin-ui`** + rebuild/upload **`.next`** as needed — see **Deploy uploaders** above.
 
 ---
 
@@ -187,7 +189,7 @@ Secrets live in **`.env.local`** only. After changing GitHub, Resend, WordPress,
 | Command | What it does |
 |--------|----------------|
 | **`npm run pushitup`** (or **`npm run PushItUP`**) | **`scripts/PushItUP.ps1`** — uploads listed **files or folders** directly over FTPS. **Hostinger default:** `npm run pushitup -- .next` after **`npm run build`** = full build folder, **no zip/unzip** (see **HOSTINGER-DEPLOY.md** cheat sheet). Example: `npm run pushitup -- server.js` |
-| **`npm run pushitup:admin-ui`** | **Primary MSC PRO ENGINE / Payload admin bundle:** uploads **`middleware.ts`**, **`lib/msc-admin-version.ts`**, **`components/msc-payload-nav-dashboard.tsx`**, **`components/msc-payload-graphics.tsx`**, **`components/msc-payload-admin-enhancements.tsx`**, **`collections/Users.ts`**, **`payload.config.ts`**, **`app/(payload)/custom.scss`**. Matches **`package.json`**; safe on Windows (no manual quoting for the SCSS path). |
+| **`npm run pushitup:admin-ui`** | **Primary MSC PRO ENGINE / Payload admin bundle:** uploads **`middleware.ts`**, **`lib/msc-app-version.ts`**, **`components/msc-payload-nav-dashboard.tsx`**, **`components/msc-payload-nav-logout.tsx`**, **`components/msc-payload-graphics.tsx`**, **`components/msc-payload-admin-enhancements.tsx`**, **`collections/Users.ts`**, **`payload.config.ts`**, **`app/(payload)/custom.scss`**. Matches **`package.json`** script; safe on Windows (no manual quoting for the SCSS path). |
 | **`npm run pushitup:admin-branding`** | **Branding-only subset:** **`components/msc-payload-graphics.tsx`**, **`components/msc-payload-admin-enhancements.tsx`**, **`collections/Users.ts`**, **`payload.config.ts`**, **`app/(payload)/custom.scss`**. Use when you only changed admin look-and-feel sources; you still need **`npm run build`** + **`pushitup -- .next`** if React/admin bundle output must change on the host. Shortcut: **Custom-Prompts.md** → **Push my branding** (item **37**). |
 | **`npm run pushitup:server-config`** | **Tier 3 / hosting:** uploads **`server.js`**, **`package.json`**, **`package-lock.json`**, **`.env.example`**. Then **Hostinger → Terminal** → **`npm install --legacy-peer-deps`** if lockfile changed. Shortcut: **Custom-Prompts.md** → **Push server config** (item **39**). Add **`patches/`** or extra paths with **`npm run pushitup -- …`** when needed. |
 | **`npm run pushit:live`** | **`npm run build`** (live **`NEXT_PUBLIC_SERVER_URL`** for that step only) → **`pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`pushitup -- public/media`**. Step **6/6** **`dev:fresh`** runs only if **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** (default: skip — start **`npm run dev`** / **`dev:fresh`** yourself). Prints Hostinger reminders. Say *“push it live”* / *“run pushit live”* in chat to mean this. |
