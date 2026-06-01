@@ -9,6 +9,8 @@
 
 **hPanel:** [https://hpanel.hostinger.com/](https://hpanel.hostinger.com/)
 
+**Canonical rule:** [DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md) → *The Canonical Rule* — if it's imported in app code, it must be in **`dependencies`**, not **`devDependencies`**. Pre-deploy: **`npm ls --omit=dev --depth=0`**.
+
 ---
 
 ## Two deploy paths (pick one)
@@ -37,9 +39,17 @@ Confirm footer shows **`MyStudioChannel v3.0.0`** on `http://localhost:3000/`.
 
 ### 1) `package.json` — production dependency rule
 
-Hostinger runs **`npm install --production`** (or production-equivalent install) before **`npm run build`**. Packages in **`devDependencies` are not installed** on the server.
+See **[DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md) → The Canonical Rule.**
 
-**Rule:** Any package **imported in app code** (CSS `@import`, TS/TSX `import`, PostCSS plugins) **must** be in **`dependencies`**, not `devDependencies`.
+Hostinger runs **`npm install --production`** before **`npm run build`**. **`devDependencies` are not installed** on the server.
+
+**Pre-deploy check:**
+
+```bash
+npm ls --omit=dev --depth=0
+```
+
+If a build-time import is missing from that list → move it to **`dependencies`**, then **`npm install`**, rebuild, and recreate the deploy bundle.
 
 **Required in `dependencies` (as of 2026-06-01):**
 
@@ -49,13 +59,7 @@ Hostinger runs **`npm install --production`** (or production-equivalent install)
 | `postcss` | Build pipeline |
 | `tw-animate-css` | `@import 'tw-animate-css'` in `app/globals.css` |
 
-**Audit before every zip deploy:**
-
-```powershell
-npm ls --omit=dev --depth=0
-```
-
-If build fails with **`Cannot find module '…'`** or **`Can't resolve '…'`**, move that package from `devDependencies` → `dependencies`, run `npm install`, rebuild, recreate zip.
+**Audit before every zip deploy:** use the pre-deploy check above.
 
 **Lockfile:** Use **`npm`** only. Delete **`pnpm-lock.yaml`** from the project if present — Hostinger expects **`package-lock.json`**.
 

@@ -9,6 +9,22 @@ First production deploy: replaced temporary WordPress with Next.js 15 + Payload 
 
 ---
 
+## The Canonical Rule
+
+> **If it's imported in app code** (CSS `@import`, TS/TSX `import`, PostCSS plugin), **it must be in `dependencies`, not `devDependencies`.**
+
+**Why:** Hostinger runs **`npm install --production`** before **`npm run build`** — **`devDependencies` are never installed on the server.**
+
+### Pre-deploy check (Local — repo root)
+
+```bash
+npm ls --omit=dev --depth=0
+```
+
+This lists only what Hostinger will actually install. If a build-time import is missing from that list → move it to **`dependencies`** before zipping or pushing live.
+
+---
+
 ## Issues encountered & resolved
 
 | Issue | Error | Fix |
@@ -24,11 +40,7 @@ First production deploy: replaced temporary WordPress with Next.js 15 + Payload 
 
 ## Root cause: `devDependencies` on Hostinger
 
-Hostinger Node.js runs **`npm install --production`** before **`npm run build`**.
-
-Anything needed at **build time** (PostCSS plugins, CSS `@import` packages) must be in **`dependencies`**.
-
-**Rule:** If it appears in `app/`, `components/`, `postcss.config.mjs`, or any CSS `@import`, it belongs in **`dependencies`**.
+See **The Canonical Rule** above. In short: anything needed at build time must ship in **`dependencies`**.
 
 **Current production CSS deps (2026-06-01):**
 
