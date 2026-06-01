@@ -1,5 +1,11 @@
 # Project Session Log
 
+## [2026-06-01] - v4.0.0 development branch
+- **Branch:** MSC-Website-v4 (new from MSC-Website-v3 @ `8a44d95`)
+- **Changes:** Version bump to 4.0.0; operational docs updated for v4; `main` and `MSC-Website-v3` remain at v3.0.0
+- **Status:** In progress
+- **Next:** Feature development on v4; deploy to live when ready
+
 ## [2026-06-01] - Docs sync (Hostinger deploy + Path C)
 - **Branch:** MSC-Website-v3 @ `c0bdaac`
 - **Changes:** `HOSTINGER-DEPLOY.md` Path C daily updates; `DEPLOYMENT-FIXES.md` canonical dependency rule; cross-links in START-HERE, Jedi-List, Go-Live, TRUTH; ISSUES-RESOLVED + Restore-Points + ReCall synced.

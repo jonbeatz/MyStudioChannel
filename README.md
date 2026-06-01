@@ -21,7 +21,7 @@
 
 | Metric              | Value                                                                  |
 | ------------------- | ---------------------------------------------------------------------- |
-| **Version**         | v3.0.0                                                                 |
+| **Version**         | v4.0.0 (dev on `MSC-Website-v4`; live `main` at v3.0.0)              |
 | **Stack**           | Next.js 15 (React 19) + Payload CMS 3.81.0                             |
 | **CMS Engine**      | ✅ MSC PRO ENGINE Studio Mode — Gold Sidebar + Dashboard               |
 | **Deployment**      | ✅ Tiered FTPS (Hostinger/hPanel) via `PushItUP`                       |

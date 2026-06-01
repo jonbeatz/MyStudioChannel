@@ -90,15 +90,21 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Gallery hydration:** **`lib/cms/homepage-gallery-seed.ts`**, **`lib/cms/homepage-gallery-hydrate.ts`** (`afterRead` → full Media shape for admin + site).
 - **Public URLs:** **`lib/public-origin.ts`** + **`lib/site-origin-defaults.ts`** — **`PAYLOAD_PUBLIC_SERVER_URL`** / **`NEXT_PUBLIC_SERVER_URL`** / **`MSC_CANONICAL_SITE_ORIGIN`**; **`getPublicOriginClient()`** for admin Client Components; **`payload.config.ts`** **`serverURL`** + env-built **CSRF**.
 - **Marketing site:** Header/footer in-page hash scroll (mobile drawer defer); **`HomeHashScroll`**; **`middleware`** pathname-only rewrites (host-agnostic).
-- **Version:** **`v3.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v3.0.0`**, admin **`MyStudioChannel Admin v3.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
-- **Live:** **`https://mystudiochannel.com`** — first Hostinger zip deploy successful (2026-06-01); WordPress replaced with Next.js + Payload.
+- **Version:** **`v4.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v4.0.0`**, admin **`MyStudioChannel Admin v4.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
+- **Live:** **`https://mystudiochannel.com`** — production still on **v3.0.0** (`main`) until v4 deploy.
 - **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (Path A zip, Path B FTPS, **Path C daily updates**), **`DEPLOYMENT-FIXES.md`** (canonical dependency rule).
-- **Branches:** **`main`** and **`MSC-Website-v3`** both at **`c0bdaac`**; day-to-day dev on **`MSC-Website-v3`**.
-- **Next ideas:** Day-to-day **`pushit:live`** for UI/CSS; Git rebuild when adding npm packages; optional Postgres / API hardening later.
+- **Branches:** **`MSC-Website-v4`** (active dev, v4.0.0); **`main`** + **`MSC-Website-v3`** at v3.0.0 (`8a44d95`).
+- **Next ideas:** Feature work on v4; deploy when ready via **`pushit:live`** or zip.
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-01 — v4.0.0 development branch
+
+- **Branch:** Created **`MSC-Website-v4`** from **`MSC-Website-v3`** @ **`8a44d95`**.
+- **Version:** Bumped **`package.json`** to **`4.0.0`**; UI labels follow via **`lib/msc-app-version.ts`**.
+- **Policy:** **`main`** and **`MSC-Website-v3`** unchanged at v3.0.0 until v4 release.
 
 ### 2026-06-01 — Hostinger live deploy + deployment documentation
 

@@ -35,7 +35,7 @@ npm run verify:local
 npm run verify:live
 ```
 
-hPanel → **Restart** Node.js app. Incognito: **`/`** + **`/admin`** → footer **`MyStudioChannel v3.0.0`**.
+hPanel → **Restart** Node.js app. Incognito: **`/`** + **`/admin`** → footer **`MyStudioChannel v4.0.0`** (on v4 branch; live **`main`** may still show v3.0.0 until deploy).
 
 ### Hostinger update commands
 
@@ -90,7 +90,7 @@ Fast triage pattern:
 | 3 | **Hostinger → Terminal** | Only if **`package.json` / lockfile / `patches`** changed: **`npm install --legacy-peer-deps`** (see **HOSTINGER-DEPLOY.md**). **Do not** run **`pushitup`** here. |
 | 4 | **Hostinger → hPanel** | **Restart** the app in the Node.js Application manager. |
 
-**Release version check:** After deploy, open **`/admin`** — sidebar (bottom-left) should show **`MyStudioChannel Admin v3.0.0`** (matches root **`package.json`** **`"version"`**). Bump **`package.json`** only when you cut a new release (e.g. `3.0.0` → `3.0.1`); UI labels read from **`lib/msc-app-version.ts`** at build time.
+**Release version check:** After deploy, open **`/admin`** — sidebar (bottom-left) should show **`MyStudioChannel Admin v4.0.0`** (matches root **`package.json`** **`"version"`**). Bump **`package.json`** only when you cut a new release (e.g. `4.0.0` → `4.0.1`); UI labels read from **`lib/msc-app-version.ts`** at build time.
 
 ---
 
@@ -156,7 +156,7 @@ Fast triage pattern:
 
 ## Release version (visual check)
 
-**Single source of truth:** root **`package.json`** **`"version"`** (currently **`3.0.0`**). **`lib/msc-app-version.ts`** imports it for the marketing footer (**`MyStudioChannel v3.0.0`**) and Payload admin sidebar (**`MyStudioChannel Admin v3.0.0`**).
+**Single source of truth:** root **`package.json`** **`"version"`** (currently **`4.0.0`** on **`MSC-Website-v4`**). **`lib/msc-app-version.ts`** imports it for the marketing footer (**`MyStudioChannel v4.0.0`**) and Payload admin sidebar (**`MyStudioChannel Admin v4.0.0`**).
 
 When you ship a new release, bump **`package.json`** in the **same commit** as the code you deploy, then **`npm run build`** + full **`.next`** upload (or **`npm run pushit:live`**). After restart, confirm the new **`vX.Y.Z`** in **`/admin`** and on the site footer. For admin-only source changes (no version bump), still run **`npm run pushitup:admin-ui`** + rebuild/upload **`.next`** as needed — see **Deploy uploaders** above.
 

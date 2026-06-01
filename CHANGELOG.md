@@ -7,28 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.0] - 2026-06-01
+
+### Changed
+- **Version bump** to `4.0.0` on development branch **`MSC-Website-v4`**.
+- **Branch model:** `MSC-Website-v4` is the active dev line; **`main`** and **`MSC-Website-v3`** remain at **v3.0.0** until v4 is released to production.
+- Operational docs updated for v4 workflow (Checkpoint, TRUTH, HOSTINGER-DEPLOY examples, Jedi-List).
+
+## [3.0.0] - 2026-05-30 (live deploy 2026-06-01 on `main`)
+
 ### Added
 - **`scripts/test-mcps.mjs`** — MCP connectivity health checks.
 - Hero slide 5 asset: **`public/media/IWWI-Indie-WorldWide-Inc-Hero-6.jpg`**.
 - **Hostinger deployment docs:** `DEPLOYMENT-FIXES.md`; full **`HOSTINGER-DEPLOY.md`** (Path A zip, Path B FTPS, Path C daily updates); canonical production dependency rule.
+- **Master Source of Truth:** Created `TRUTH.md` at the project root as the definitive reference for project identity, core commands, and architectural blueprints.
+- **Hostinger hPanel Operator Rule:** Created `.cursor/rules/jon-operator-hpanel.mdc` with dedicated hPanel bookmarks and command locality guidance.
 
 ### Changed
 - **Single release version:** `lib/msc-app-version.ts` reads root **`package.json`** only; removed **`lib/msc-admin-version.ts`**.
 - **User-facing branding:** Footer and Payload admin sidebar show **MyStudioChannel** + **`v3.0.0`** (no separate admin semver).
 - **`pushitup:admin-ui`** file list: `lib/msc-app-version.ts`, `components/msc-payload-nav-logout.tsx`.
 - **Production dependencies:** `@tailwindcss/postcss`, `postcss`, `tw-animate-css` moved from `devDependencies` for Hostinger builds.
-- **`main`** fast-forwarded from **`MSC-Website-v3`** (2026-06-01, tip **`c0bdaac`**).
-
-### Fixed
-- **Hostinger build failures** from missing PostCSS / CSS packages when host runs `npm install --production`.
-
-## [3.0.0] - 2026-05-30
-
-### Added
-- **Master Source of Truth:** Created `TRUTH.md` at the project root as the definitive reference for project identity, core commands, and architectural blueprints.
-- **Hostinger hPanel Operator Rule:** Created `.cursor/rules/jon-operator-hpanel.mdc` with dedicated hPanel bookmarks and command locality guidance.
-
-### Changed
+- **`main`** fast-forwarded from **`MSC-Website-v3`** (2026-06-01, tip **`8a44d95`**).
 - **Version Bump:** Upgraded project to `v3.0.0` and established `MSC-Website-v3` as the primary working branch.
 - **Deep Audit & Consolidation:** 
   - Merged `Custom-Prompts.md` into `Prompt-Cheat-Sheet.md` for a unified session command reference.
@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Workflow Standardization:** Audited and refined prompt runners and coordination rules (`workflow.mdc`, `docs-sync.mdc`) for high-fidelity agent collaboration.
 
 ### Fixed
+- **Hostinger build failures** from missing PostCSS / CSS packages when host runs `npm install --production`.
 - **Local Identity Bleed:** Resolved 10+ instances of inconsistent project naming and outdated hosting paths across the documentation suite.
 
 ## [2.0.0] - 2026-05-30
@@ -58,5 +59,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[4.0.0]: https://github.com/jonbeatz/MyStudioChannel/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/jonbeatz/MyStudioChannel/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/jonbeatz/MyStudioChannel/compare/v1.0.24...v2.0.0

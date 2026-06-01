@@ -271,5 +271,5 @@ Commands to manually free processes and manage port bindings.
 
 ---
 
-*Last Updated: 2026-06-01 (v3.0.0 — Hostinger Path C daily updates)*  
+*Last Updated: 2026-06-01 (v4.0.0 — MSC-Website-v4 development branch)*  
 <sub>· Powered by the MSC Media Engine</sub>

@@ -2,7 +2,7 @@
 
 **Live site:** [https://mystudiochannel.com](https://mystudiochannel.com)  
 **Project root (Local):** `D:\Cursor_Projectz\MyStudioChannel`  
-**Branch:** `MSC-Website-v3`  
+**Branch:** `MSC-Website-v4`  
 **Stack:** Next.js 15 + Payload CMS 3 + SQLite · entry **`server.js`** (Hostinger may auto-detect **`next start`** for Next.js preset)
 
 **Related:** [DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md) (2026-06-01 learnings) · [Go-Live-Checklist.md](./Go-Live-Checklist.md) · [`.env.production.template`](../../.env.production.template)
@@ -36,7 +36,7 @@ npm run build
 npm run verify:local
 ```
 
-Confirm footer shows **`MyStudioChannel v3.0.0`** on `http://localhost:3000/`.
+Confirm footer shows **`MyStudioChannel v4.0.0`** on `http://localhost:3000/`.
 
 ### 1) `package.json` — production dependency rule
 
@@ -123,9 +123,9 @@ Template copy: [`.env.production.template`](../../.env.production.template)
 **Incognito:**
 
 - `https://mystudiochannel.com/` — Next.js site (not WordPress / `wp-content`)
-- Footer: **`MyStudioChannel v3.0.0`**
+- Footer: **`MyStudioChannel v4.0.0`**
 - `https://mystudiochannel.com/admin` — Payload login
-- After login: sidebar **`MyStudioChannel Admin v3.0.0`**
+- After login: sidebar **`MyStudioChannel Admin v4.0.0`**
 
 **Local smoke script:**
 
@@ -269,7 +269,7 @@ npm run verify:live
 
 - [https://mystudiochannel.com](https://mystudiochannel.com)
 - [https://mystudiochannel.com/admin](https://mystudiochannel.com/admin)
-- Footer shows correct version (**`MyStudioChannel v3.0.0`**)
+- Footer shows correct version (**`MyStudioChannel v4.0.0`**)
 
 ---
 
@@ -371,7 +371,7 @@ Zip path and **`package.json` dependency fixes** apply to MCP uploads the same w
 2. **`payload.sqlite`** is shipped on first deploy; avoid overwriting production DB from PC unless intentional.
 3. **`PAYLOAD_DISABLE_SHARP=true`** on Hostinger.
 4. Production URLs must be **`https://mystudiochannel.com`** (both `NEXT_PUBLIC_*` and `PAYLOAD_PUBLIC_*`).
-5. After deploy, confirm version labels: **`MyStudioChannel v3.0.0`** / **`MyStudioChannel Admin v3.0.0`**.
+5. After deploy, confirm version labels: **`MyStudioChannel v4.0.0`** / **`MyStudioChannel Admin v4.0.0`**.
 
 ---
 
