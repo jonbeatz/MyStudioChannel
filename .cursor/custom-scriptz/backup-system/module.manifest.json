@@ -11,7 +11,7 @@
   "prerequisites": ["scripts/lib/msc-load-env.mjs"],
   "envKeys": ["MSC_BACKUP_ROOT"],
   "defaults": {
-    "MSC_BACKUP_ROOT": "G:\\Cursor_Project_BackUpz"
+    "MSC_BACKUP_ROOT": "G:\\Cursor_Project_BackUpz\\MyStudioChannel"
   },
   "standardSkips": ["node_modules", ".next", "logs", "test-results"],
   "features": {

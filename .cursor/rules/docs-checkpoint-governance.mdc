@@ -11,7 +11,7 @@ globs:
 When user asks for **"update project"**, **"update docs"**, or **"backup project"**:
 
 1. **Follow the Backup Ritual** ([.cursor/custom-scriptz/backup-system/CURSOR.md](../custom-scriptz/backup-system/CURSOR.md) § Backup ritual) **one question at a time**.
-2. **Do not** automatically run the backup; ask Type, Destination, Folder Name, and Note first.
+2. **Do not** automatically run the backup; ask Type, Folder Name, and Note first (destination defaults to `G:\Cursor_Project_BackUpz\MyStudioChannel` unless the operator overrides).
 3. Once confirmed, run `npm run msc:backup -- --standard [folder] --yes --note "[note]"`.
 
 When user asks for other docs updates/checkpoints:

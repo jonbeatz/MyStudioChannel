@@ -31,8 +31,8 @@ Chat (Vader or after merging `global.mdc.fragment`): **`backup project`**
 
 ## Script flow (direct `npm run msc:backup`)
 
-1. Backup drive/folder (default `G:\Cursor_Project_BackUpz`, or `MSC_BACKUP_ROOT`)
-2. Folder name (project name + timestamp, or CLI arg)
+1. Backup drive/folder (default `G:\Cursor_Project_BackUpz\MyStudioChannel`, or `MSC_BACKUP_ROOT`)
+2. Folder name — **`msc-website-v1-a`** … **`msc-website-v1-z`** (next letter auto-suggested from existing folders), or CLI arg / custom name
 3. Confirm (interactive only)
 4. Optional note prompt (interactive only; use `--note` when using `--yes`)
 5. Robocopy, then write `.cursor/BackUp-Notez.md`
@@ -59,7 +59,7 @@ New entries **prepend** (newest first). Re-backup to the same folder preserves p
 
 | Key | Default |
 |-----|---------|
-| `MSC_BACKUP_ROOT` | `G:\Cursor_Project_BackUpz` (prompt default; set in `.env.local` to skip location prompt) |
+| `MSC_BACKUP_ROOT` | `G:\Cursor_Project_BackUpz\MyStudioChannel` (prompt default; set in `.env.local` to skip location prompt) |
 
 ## After restore (Standard)
 

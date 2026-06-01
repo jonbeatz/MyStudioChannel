@@ -31,11 +31,16 @@ Ask: `What type of backup? (1 = Standard / 2 = Full)`
 
 ### Step 2 — Destination
 
-Ask: `Destination drive? (1 = Same G: drive / 2 = Different)`
+**Default (always for MyStudioChannel):** `G:\Cursor_Project_BackUpz\MyStudioChannel`  
+Set in `scripts/msc-backup.mjs` (`DEFAULT_BACKUP_ROOT`) and optional `MSC_BACKUP_ROOT` in `.env.local`.
+
+Ask only if the operator might use another path: `Use default backup folder? (1 = Yes — G:\Cursor_Project_BackUpz\MyStudioChannel / 2 = Different — set MSC_BACKUP_ROOT or type path)`
+
+If **1**, use the default root. If **2**, ask for override path and pass via env or confirm they updated `.env.local`.
 
 ### Step 3 — Folder
 
-Scan destination for existing backups; suggest next name (e.g. `Vader-Engine-v1-v` → `v1-w`).
+Scan **`G:\Cursor_Project_BackUpz\MyStudioChannel`** (or `MSC_BACKUP_ROOT`) for existing **`msc-website-v1-*`** folders; suggest the next letter (e.g. `msc-website-v1-i` → **`msc-website-v1-j`**). The script lists existing folders and computes this automatically (`npm run msc:backup` / `scripts/msc-backup.mjs`).
 
 Ask: `Folder name? (1 = Use [suggested] / 2 = Enter custom)`
 
@@ -76,7 +81,7 @@ Example:
 npm run msc:backup -- --standard Vader-Engine-v1-v --yes --note "Added backup notes feature"
 ```
 
-Set `MSC_BACKUP_ROOT` in environment or `.env.local` when destination is not the default G: path.
+Override default only when needed: `MSC_BACKUP_ROOT` in `.env.local` (default for this repo: `G:\Cursor_Project_BackUpz\MyStudioChannel`).
 
 ### Step 8 — Report
 

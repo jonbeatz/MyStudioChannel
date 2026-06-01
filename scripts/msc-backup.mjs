@@ -9,7 +9,11 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
-const DEFAULT_BACKUP_ROOT = 'G:\\Cursor_Project_BackUpz';
+/** MyStudioChannel project default — override with MSC_BACKUP_ROOT in .env.local */
+const DEFAULT_BACKUP_ROOT = 'G:\\Cursor_Project_BackUpz\\MyStudioChannel';
+/** Folder names under backup root: msc-website-v1-a … msc-website-v1-z */
+const BACKUP_FOLDER_PREFIX = 'msc-website-v1';
+const BACKUP_FOLDER_PATTERN = /^msc-website-v1-([a-z])$/i;
 const STANDARD_DIRS = ['node_modules', '.next', 'logs', 'test-results'];
 const NOTES_REL_PATH = path.join('.cursor', 'BackUp-Notez.md');
 const NOTES_FOOTER =
@@ -46,6 +50,42 @@ function getProjectName() {
 function defaultBackupFolder(projectName) {
   const stamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
   return `${projectName}-backup-${stamp}`;
+}
+
+/** List `msc-website-v1-*` folders in backup root (for agent / interactive hints). */
+function listSequentialBackupFolders(backupRoot) {
+  if (!fs.existsSync(backupRoot)) return [];
+  return fs
+    .readdirSync(backupRoot, { withFileTypes: true })
+    .filter((d) => d.isDirectory() && BACKUP_FOLDER_PATTERN.test(d.name))
+    .map((d) => d.name)
+    .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+}
+
+/**
+ * Next folder: msc-website-v1-a … z (e.g. …-i → …-j). Falls back to timestamp name if z exhausted.
+ */
+function suggestNextBackupFolder(backupRoot) {
+  const existing = listSequentialBackupFolders(backupRoot);
+  if (existing.length === 0) {
+    return `${BACKUP_FOLDER_PREFIX}-a`;
+  }
+
+  let maxLetter = '@';
+  for (const name of existing) {
+    const letter = name.match(BACKUP_FOLDER_PATTERN)?.[1]?.toLowerCase();
+    if (letter && letter > maxLetter) maxLetter = letter;
+  }
+
+  const nextCode = maxLetter.charCodeAt(0) + 1;
+  if (nextCode > 'z'.charCodeAt(0)) {
+    console.warn(
+      `⚠️  ${BACKUP_FOLDER_PREFIX}-z exists; falling back to timestamp folder name.`,
+    );
+    return defaultBackupFolder(getProjectName());
+  }
+
+  return `${BACKUP_FOLDER_PREFIX}-${String.fromCharCode(nextCode)}`;
 }
 
 function displayBackupType(backupType) {
@@ -172,7 +212,6 @@ function createReadline() {
 
 async function resolveBackupPlan(rl) {
   const projectName = getProjectName();
-  const suggestedFolder = customName || defaultBackupFolder(projectName);
 
   let backupRoot = process.env.MSC_BACKUP_ROOT?.trim() || '';
   let backupFolder = customName || '';
@@ -194,13 +233,24 @@ Source: ${REPO_ROOT}
     } else {
       console.log(`Backup root (from MSC_BACKUP_ROOT): ${backupRoot}`);
     }
+  } else {
+    backupRoot = backupRoot || DEFAULT_BACKUP_ROOT;
+  }
 
+  const existingSeq = listSequentialBackupFolders(backupRoot);
+  if (existingSeq.length > 0) {
+    console.log(`Existing backups (${existingSeq.length}): ${existingSeq.join(', ')}`);
+  }
+
+  const suggestedFolder =
+    customName || suggestNextBackupFolder(backupRoot);
+
+  if (interactive) {
     if (!backupFolder) {
       const folderAnswer = await askQuestion(rl, `Backup folder name [${suggestedFolder}]: `);
       backupFolder = folderAnswer.trim() || suggestedFolder;
     }
   } else {
-    backupRoot = backupRoot || DEFAULT_BACKUP_ROOT;
     backupFolder = backupFolder || suggestedFolder;
     console.log(`Backup root: ${backupRoot}`);
     console.log(`Backup folder: ${backupFolder}`);
