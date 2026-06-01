@@ -56,7 +56,7 @@ From the directory with **`package.json`**:
 
 ### Shared-host memory fallback (Hostinger / hPanel)
 
-Step-by-step **build → FTP → when to Restart** (including **zip vs whole `.next` folder**): see **[HOSTINGER-DEPLOY.md](./HOSTINGER-DEPLOY.md)** → *Same-day deploy cheat sheet*.
+Step-by-step **build → FTP → when to Restart** (Path A/B/C): see **[HOSTINGER-DEPLOY.md](./HOSTINGER-DEPLOY.md)**.
 
 If host-side `npm run build` fails with:
 

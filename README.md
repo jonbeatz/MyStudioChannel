@@ -118,7 +118,8 @@ Optimized for **Hostinger (hPanel)** using our Tiered FTPS strategy:
 | -------------------------------------------------- | ------------------------------------------------- |
 | [START-HERE.md](./.cursor/docs/START-HERE.md)     | Operator cold-start & source-of-truth order       |
 | [Agent-Runbook.md](./.cursor/docs/Agent-Runbook.md) | Standardized prompts for consistent workflow       |
-| [HOSTINGER-DEPLOY.md](./.cursor/docs/HOSTINGER-DEPLOY.md) | Production hosting playbook & recovery            |
+| [HOSTINGER-DEPLOY.md](./.cursor/docs/HOSTINGER-DEPLOY.md) | Production hosting playbook (Path A/B/C) & recovery |
+| [DEPLOYMENT-FIXES.md](./.cursor/docs/DEPLOYMENT-FIXES.md) | Hostinger deploy learnings & canonical dependency rule |
 | [Jedi-List.md](./.cursor/docs/Jedi-List.md)       | Command quick-reference for npm scripts           |
 | [CHANGELOG.md](./CHANGELOG.md)                    | Release history                                   |
 | [Restore-Points.md](./.cursor/docs/Restore-Points.md) | Milestone checkpoints & rollback instructions |

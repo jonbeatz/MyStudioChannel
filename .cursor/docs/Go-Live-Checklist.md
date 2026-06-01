@@ -53,7 +53,7 @@ If Hostinger build fails with **`Cannot find module '…'`** or **`Can't resolve
 
 **Lockfile:** use **npm** + **`package-lock.json`** only — remove **`pnpm-lock.yaml`** from the deploy bundle.
 
-Details: **DEPLOYMENT-FIXES.md** · **HOSTINGER-DEPLOY.md** → *Path A step 1*.
+Details: **DEPLOYMENT-FIXES.md** · **HOSTINGER-DEPLOY.md** → *Path A step 1* · *Path C* for ongoing updates.
 
 ---
 

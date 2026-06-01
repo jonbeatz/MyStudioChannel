@@ -68,14 +68,15 @@ Create a new restore branch from the current clean state:
 
 **Source of truth for npm deploy aliases:** root **`package.json`** (`pushitup`, **`pushitup:admin-ui`**, **`pushitup:admin-branding`**, **`pushit:live`**, **`pushit:live:safe`**, etc.).
 
-These four operator docs should match those scripts whenever deploy behavior changes:
+These operator docs should match those scripts whenever deploy behavior changes:
 
 1. **`Jedi-List.md`** — command cheat sheet and Deploy uploaders table  
-2. **`HOSTINGER-DEPLOY.md`** — PC vs hPanel protocol and Standard update step 2  
-3. **`Go-Live-Checklist.md`** — local → live flow and branding file lists  
-4. **`Prompt-Cheat-Sheet.md`** — shortcuts including **Push my branding** (item **37**)
+2. **`HOSTINGER-DEPLOY.md`** — Path A/B/C, PC vs hPanel protocol  
+3. **`DEPLOYMENT-FIXES.md`** — canonical dependency rule and deploy learnings  
+4. **`Go-Live-Checklist.md`** — local → live flow and branding file lists  
+5. **`Prompt-Cheat-Sheet.md`** — shortcuts including **Push my branding** (item **37**)
 
-If **`package.json`** scripts change, update the four docs in the same commit when possible.
+If **`package.json`** scripts change, update the five docs in the same commit when possible.
 
 **Release version / admin bundle (2026-06-01):** Bump root **`package.json`** `"version"` only. **`pushitup:admin-ui`** ships **`lib/msc-app-version.ts`** + **`components/msc-payload-nav-logout.tsx`** (see **`package.json`** script). Older log entries may mention **`msc-admin-version.ts`** — historical only.
 
@@ -90,12 +91,21 @@ If **`package.json`** scripts change, update the four docs in the same commit wh
 - **Public URLs:** **`lib/public-origin.ts`** + **`lib/site-origin-defaults.ts`** — **`PAYLOAD_PUBLIC_SERVER_URL`** / **`NEXT_PUBLIC_SERVER_URL`** / **`MSC_CANONICAL_SITE_ORIGIN`**; **`getPublicOriginClient()`** for admin Client Components; **`payload.config.ts`** **`serverURL`** + env-built **CSRF**.
 - **Marketing site:** Header/footer in-page hash scroll (mobile drawer defer); **`HomeHashScroll`**; **`middleware`** pathname-only rewrites (host-agnostic).
 - **Version:** **`v3.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v3.0.0`**, admin **`MyStudioChannel Admin v3.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
-- **Branches:** **`main`** and **`MSC-Website-v3`** both at **`57910cd`** (fast-forward merge 2026-06-01); day-to-day dev on **`MSC-Website-v3`**.
-- **Next ideas:** **`pushit:live`** when you want production on this line; optional Postgres / API hardening later; add **`WORDPRESS_*`** to **`.env.local`** + **`sync:mcp-env`** when using **`mcp-wordpress`** MCP.
+- **Live:** **`https://mystudiochannel.com`** — first Hostinger zip deploy successful (2026-06-01); WordPress replaced with Next.js + Payload.
+- **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (Path A zip, Path B FTPS, **Path C daily updates**), **`DEPLOYMENT-FIXES.md`** (canonical dependency rule).
+- **Branches:** **`main`** and **`MSC-Website-v3`** both at **`c0bdaac`**; day-to-day dev on **`MSC-Website-v3`**.
+- **Next ideas:** Day-to-day **`pushit:live`** for UI/CSS; Git rebuild when adding npm packages; optional Postgres / API hardening later.
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-01 — Hostinger live deploy + deployment documentation
+
+- **Live:** First successful production deploy to **`mystudiochannel.com`** (zip upload + hPanel build). Footer **`MyStudioChannel v3.0.0`** verified.
+- **Build fix:** Moved **`@tailwindcss/postcss`**, **`postcss`**, **`tw-animate-css`** to **`dependencies`** — Hostinger skips **`devDependencies`**.
+- **Docs:** Full **`HOSTINGER-DEPLOY.md`** rewrite; **`DEPLOYMENT-FIXES.md`** (canonical rule + **`npm ls --omit=dev --depth=0`**); Path C daily updates; cross-links in START-HERE, Jedi-List, Go-Live, TRUTH.
+- **Git:** **`7202c44`**, **`d94fe67`**, **`c0bdaac`**; **`main`** synced with **`MSC-Website-v3`**.
 
 ### 2026-06-01 — Version consolidation + `main` sync
 

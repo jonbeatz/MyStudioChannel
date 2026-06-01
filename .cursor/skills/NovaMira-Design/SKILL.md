@@ -5,7 +5,7 @@ description: >-
   neutrals, MSC Studio Gold as the primary brand accent (Gold Standard), Nova Red
   for DiviGear filters and cross-project destructive emphasis, 8px rhythm,
   borders-over-shadows, and admin/dashboard patterns (MSC PRO ENGINE Studio Mode).
-  Use for UI polish, the msc-new Next bundle, plugin admin CSS, Divi modules, and
+  Use for UI polish, the MyStudioChannel Next bundle, plugin admin CSS, Divi modules, and
   high-end studio layouts alongside the Nova skill.
 ---
 

@@ -131,5 +131,5 @@ When booting up a session, you **must** execute the following sequence:
 
 ---
 
-*Last Updated: 2026-06-01 (v3.0.0 — `package.json` sole version; `lib/msc-app-version.ts` for UI labels)*  
+*Last Updated: 2026-06-01 (v3.0.0 — live on mystudiochannel.com; Path C deploy docs)*  
 <sub>· Powered by the MyStudioChannel Media Engine</sub>

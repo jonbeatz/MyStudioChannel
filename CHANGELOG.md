@@ -10,12 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **`scripts/test-mcps.mjs`** — MCP connectivity health checks.
 - Hero slide 5 asset: **`public/media/IWWI-Indie-WorldWide-Inc-Hero-6.jpg`**.
+- **Hostinger deployment docs:** `DEPLOYMENT-FIXES.md`; full **`HOSTINGER-DEPLOY.md`** (Path A zip, Path B FTPS, Path C daily updates); canonical production dependency rule.
 
 ### Changed
 - **Single release version:** `lib/msc-app-version.ts` reads root **`package.json`** only; removed **`lib/msc-admin-version.ts`**.
 - **User-facing branding:** Footer and Payload admin sidebar show **MyStudioChannel** + **`v3.0.0`** (no separate admin semver).
 - **`pushitup:admin-ui`** file list: `lib/msc-app-version.ts`, `components/msc-payload-nav-logout.tsx`.
-- **`main`** fast-forwarded from **`MSC-Website-v3`** @ `57910cd` (2026-06-01).
+- **Production dependencies:** `@tailwindcss/postcss`, `postcss`, `tw-animate-css` moved from `devDependencies` for Hostinger builds.
+- **`main`** fast-forwarded from **`MSC-Website-v3`** (2026-06-01, tip **`c0bdaac`**).
+
+### Fixed
+- **Hostinger build failures** from missing PostCSS / CSS packages when host runs `npm install --production`.
 
 ## [3.0.0] - 2026-05-30
 

@@ -17,6 +17,13 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-01] Hostinger build fails — missing production dependencies
+- **Error:** `Cannot find module '@tailwindcss/postcss'`, `Can't resolve 'tw-animate-css'` during `npm run build` on Hostinger Node.js.
+- **Cause:** Hostinger runs **`npm install --production`** before build — packages in **`devDependencies` are not installed**. PostCSS plugins and CSS `@import` packages were listed as dev-only.
+- **Solution:** Moved **`@tailwindcss/postcss`**, **`postcss`**, and **`tw-animate-css`** to **`dependencies`**. Documented **The Canonical Rule** in **`DEPLOYMENT-FIXES.md`** and **`HOSTINGER-DEPLOY.md`**. Pre-deploy audit: **`npm ls --omit=dev --depth=0`**. Use **npm** only (delete **`pnpm-lock.yaml`** if present).
+- **Files Changed:** `package.json`, `package-lock.json`, `.cursor/docs/HOSTINGER-DEPLOY.md`, `.cursor/docs/DEPLOYMENT-FIXES.md`, START-HERE, Jedi-List, Go-Live-Checklist, TRUTH.md
+- **Prevention:** Before every zip deploy or Git rebuild on Hostinger, run **`npm ls --omit=dev --depth=0`**. If a build-time import is missing, move it to **`dependencies`**.
+
 ## [2026-06-01] Dual version numbers (package vs admin) confused operators
 - **Error:** Footer showed `Release v1.0.24` while README/docs referenced `v3.0.0`; operators were told to bump `lib/msc-admin-version.ts` separately from `package.json`.
 - **Cause:** Legacy admin deploy marker (`MSC_ADMIN_VERSION`) ran parallel to npm semver after the v3 product bump.
