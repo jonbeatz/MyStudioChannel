@@ -3,7 +3,7 @@
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
-import { MSC_ADMIN_VERSION } from "@/lib/msc-admin-version"
+import { MSC_ADMIN_VERSION_LABEL } from "@/lib/msc-app-version"
 
 /**
  * Visible admin nav link — Payload’s default logout is an icon in `.nav__controls`
@@ -84,8 +84,8 @@ export function MscPayloadNavLogout() {
 
       {sidebarPortalTarget
         ? createPortal(
-            <div className="msc-payload-sidebar-version" title="MSC admin bundle version">
-              v{MSC_ADMIN_VERSION}
+            <div className="msc-payload-sidebar-version" title="MyStudioChannel release version">
+              {MSC_ADMIN_VERSION_LABEL}
             </div>,
             sidebarPortalTarget
           )

@@ -12,7 +12,7 @@ export function MscPayloadAdminLogo() {
       {/* eslint-disable-next-line @next/next/no-img-element -- Public `/media/` branding; keep a plain img for Payload admin graphics. */}
       <img
         src="/media/msc-icon.png"
-        alt="My Studio Channel"
+        alt="MyStudioChannel"
         width={200}
         height={200}
         decoding="async"
@@ -27,7 +27,7 @@ export function MscPayloadAdminIcon() {
       {/* eslint-disable-next-line @next/next/no-img-element -- Public `/media/` branding; keep a plain img for Payload admin graphics. */}
       <img
         src="/media/msc-icon.png"
-        alt="My Studio Channel"
+        alt="MyStudioChannel"
         width={48}
         height={48}
         decoding="async"

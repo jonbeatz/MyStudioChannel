@@ -10,7 +10,7 @@ import {
   shouldReplaceHashLink,
 } from "@/lib/hash-nav"
 import { onHashAnchorClick } from "@/lib/utils"
-import { MSC_ADMIN_VERSION } from "@/lib/msc-admin-version"
+import { MSC_FOOTER_VERSION_LABEL } from "@/lib/msc-app-version"
 const footerLinks = {
   company: [
     { label: "About", href: "#msc-about" },
@@ -144,7 +144,7 @@ export function Footer({ logoSrc, siteName = "My Studio Channel" }: FooterProps)
             &copy; {new Date().getFullYear()} {siteName}. All rights reserved.
           </p>
           <p className="mt-2 text-center text-xs text-muted-foreground/80 tabular-nums">
-            Release v{MSC_ADMIN_VERSION}
+            {MSC_FOOTER_VERSION_LABEL}
           </p>
         </div>
       </div>
