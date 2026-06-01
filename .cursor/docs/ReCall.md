@@ -91,14 +91,20 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Public URLs:** **`lib/public-origin.ts`** + **`lib/site-origin-defaults.ts`** — **`PAYLOAD_PUBLIC_SERVER_URL`** / **`NEXT_PUBLIC_SERVER_URL`** / **`MSC_CANONICAL_SITE_ORIGIN`**; **`getPublicOriginClient()`** for admin Client Components; **`payload.config.ts`** **`serverURL`** + env-built **CSRF**.
 - **Marketing site:** Header/footer in-page hash scroll (mobile drawer defer); **`HomeHashScroll`**; **`middleware`** pathname-only rewrites (host-agnostic).
 - **Version:** **`v4.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v4.0.0`**, admin **`MyStudioChannel Admin v4.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
-- **Live:** **`https://mystudiochannel.com`** — production still on **v3.0.0** (`main`) until v4 deploy.
-- **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (Path A zip, Path B FTPS, **Path C daily updates**), **`DEPLOYMENT-FIXES.md`** (canonical dependency rule).
-- **Branches:** **`MSC-Website-v4`** (active dev, v4.0.0); **`main`** + **`MSC-Website-v3`** at v3.0.0 (`8a44d95`).
-- **Next ideas:** Feature work on v4; deploy when ready via **`pushit:live`** or zip.
+- **Live:** **`https://mystudiochannel.com`** — **v4.0.0** live (Hostinger Node.js; deploy 2026-06-01). **`/`** + **`/admin`** 200; verify hPanel env vars if API 500.
+- **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (Path A/B/C), **`DEPLOYMENT-FIXES.md`** (canonical dependency rule).
+- **Branches:** **`MSC-Website-v4`** (active dev); **`main`** synced with v4; **`MSC-Website-v3`** frozen at v3.0.0 (`8a44d95`).
+- **Next ideas:** Feature work on v4; day-to-day updates via **`pushit:live`** or Hostinger MCP zip.
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-01 — v4.0.0 live on Hostinger
+
+- **Live:** Deployed **`MSC-Website-v4`** @ **`87ec9de`** via Hostinger MCP (`MyStudioChannel-v4-deploy.zip`). Build completed; footer **`MyStudioChannel v4.0.0`** on **`/`**.
+- **Smoke:** **`npm run verify:live`** — **`/`** + **`/admin`** 200; **`/api/globals/projects-home`** 500 (env vars — set in hPanel).
+- **Git:** Docs sync; **`main`** fast-forwarded to match **`MSC-Website-v4`**.
 
 ### 2026-06-01 — v4.0.0 development branch
 

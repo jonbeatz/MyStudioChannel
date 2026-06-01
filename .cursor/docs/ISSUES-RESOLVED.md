@@ -17,6 +17,12 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-01] Live API 500 after v4 deploy — missing hPanel env vars
+- **Error:** `https://mystudiochannel.com/api/globals/projects-home?depth=1` returns **500** after successful v4 deploy; **`/`** and **`/admin`** return **200**.
+- **Cause:** Hostinger MCP cannot set environment variables; production **`PAYLOAD_SECRET`**, **`DATABASE_URL`**, and public URL vars must be set manually in hPanel → Node.js → Environment.
+- **Solution:** Set all vars per **HOSTINGER-DEPLOY.md** and **DEPLOYMENT-FIXES.md**; restart Node app in hPanel.
+- **Prevention:** After every zip/MCP deploy, verify env vars and run **`npm run verify:live`**.
+
 ## [2026-06-01] Hostinger build fails — missing production dependencies
 - **Error:** `Cannot find module '@tailwindcss/postcss'`, `Can't resolve 'tw-animate-css'` during `npm run build` on Hostinger Node.js.
 - **Cause:** Hostinger runs **`npm install --production`** before build — packages in **`devDependencies` are not installed**. PostCSS plugins and CSS `@import` packages were listed as dev-only.

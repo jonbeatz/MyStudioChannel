@@ -9,10 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.0.0] - 2026-06-01
 
+### Added
+- **Live production deploy** to [https://mystudiochannel.com](https://mystudiochannel.com) via Hostinger MCP (`MyStudioChannel-v4-deploy.zip`).
+
 ### Changed
-- **Version bump** to `4.0.0` on development branch **`MSC-Website-v4`**.
-- **Branch model:** `MSC-Website-v4` is the active dev line; **`main`** and **`MSC-Website-v3`** remain at **v3.0.0** until v4 is released to production.
-- Operational docs updated for v4 workflow (Checkpoint, TRUTH, HOSTINGER-DEPLOY examples, Jedi-List).
+- **Version bump** to `4.0.0` on **`MSC-Website-v4`**; footer and admin show **MyStudioChannel v4.0.0** live.
+- **Branch model:** `MSC-Website-v4` active dev; **`main`** synced with v4; **`MSC-Website-v3`** frozen at v3.0.0.
+- Operational docs updated for v4 workflow and live deploy status.
+
+### Fixed
+- Live site serving Next.js + Payload (WordPress docroot replaced by Node.js app).
+
+### Known
+- `/api/globals/projects-home` may return **500** until all hPanel environment variables are set and Node is restarted.
 
 ## [3.0.0] - 2026-05-30 (live deploy 2026-06-01 on `main`)
 

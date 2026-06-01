@@ -35,7 +35,7 @@ npm run verify:local
 npm run verify:live
 ```
 
-hPanel → **Restart** Node.js app. Incognito: **`/`** + **`/admin`** → footer **`MyStudioChannel v4.0.0`** (on v4 branch; live **`main`** may still show v3.0.0 until deploy).
+hPanel → **Restart** Node.js app. Incognito: **`/`** + **`/admin`** → footer **`MyStudioChannel v4.0.0`**.
 
 ### Hostinger update commands
 

@@ -1,10 +1,16 @@
 # Project Session Log
 
+## [2026-06-01] - v4.0.0 live deploy + docs sync
+- **Branch:** MSC-Website-v4 @ `87ec9de`+; **main** synced
+- **Live:** mystudiochannel.com serving Next.js v4.0.0 (Hostinger MCP deploy, build `019e8569-74dc-70e6-bc10-4a121aac92ad`)
+- **Status:** `/` and `/admin` 200; API globals 500 until hPanel env vars verified
+- **Next:** Feature work on MSC-Website-v4
+
 ## [2026-06-01] - v4.0.0 development branch
 - **Branch:** MSC-Website-v4 (new from MSC-Website-v3 @ `8a44d95`)
-- **Changes:** Version bump to 4.0.0; operational docs updated for v4; `main` and `MSC-Website-v3` remain at v3.0.0
-- **Status:** In progress
-- **Next:** Feature development on v4; deploy to live when ready
+- **Changes:** Version bump to 4.0.0; operational docs updated for v4
+- **Status:** Complete
+- **Next:** Deploy to live (done same day)
 
 ## [2026-06-01] - Docs sync (Hostinger deploy + Path C)
 - **Branch:** MSC-Website-v3 @ `c0bdaac`

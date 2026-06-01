@@ -375,4 +375,4 @@ Zip path and **`package.json` dependency fixes** apply to MCP uploads the same w
 
 ---
 
-*Last updated: 2026-06-01 — Path C daily updates; first successful zip deploy to mystudiochannel.com*
+*Last updated: 2026-06-01 — v4.0.0 live on mystudiochannel.com*
