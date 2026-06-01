@@ -21,32 +21,51 @@
 
 ## Backup ritual (`backup project`)
 
-Follow this flow **one question at a time**. In Vader Engine, same steps live in `.cursor/rules/global.mdc`.
+**UI rule:** Use the **`AskQuestion` tool** for each step — **clickable buttons**, not "Reply 1 or 2" text. See **`.cursor/rules/interactive-workflows.mdc`**.
+
+Follow this flow **one interactive question at a time**. Wait for each selection before continuing.
 
 ### Step 1 — Type
 
-Ask: `What type of backup? (1 = Standard / 2 = Full)`
+**`AskQuestion` prompt:** `What type of backup?`
 
-**Standard skips only** (never list includes in this step): `node_modules`, `.next`, `logs`, `test-results`
+| Option id | Label |
+|-----------|--------|
+| `standard` | **Standard** — skips node_modules, .next, logs, test-results |
+| `full` | **Full** — includes everything |
+
+**Standard skips only:** `node_modules`, `.next`, `logs`, `test-results`
 
 ### Step 2 — Destination
 
-**Default (always for MyStudioChannel):** `G:\Cursor_Project_BackUpz\MyStudioChannel`  
-Set in `scripts/msc-backup.mjs` (`DEFAULT_BACKUP_ROOT`) and optional `MSC_BACKUP_ROOT` in `.env.local`.
+**Default (MyStudioChannel):** `G:\Cursor_Project_BackUpz\MyStudioChannel`  
+(`DEFAULT_BACKUP_ROOT` in `scripts/msc-backup.mjs`; override via `MSC_BACKUP_ROOT` in `.env.local`)
 
-Ask only if the operator might use another path: `Use default backup folder? (1 = Yes — G:\Cursor_Project_BackUpz\MyStudioChannel / 2 = Different — set MSC_BACKUP_ROOT or type path)`
+**`AskQuestion` prompt:** `Use default backup folder?`
 
-If **1**, use the default root. If **2**, ask for override path and pass via env or confirm they updated `.env.local`.
+| Option id | Label |
+|-----------|--------|
+| `default` | **Yes** — G:\Cursor_Project_BackUpz\MyStudioChannel |
+| `custom` | **Different path** — I'll set MSC_BACKUP_ROOT or specify |
+
+If **custom**, ask the operator for the path in chat before Step 3.
 
 ### Step 3 — Folder
 
-Scan **`G:\Cursor_Project_BackUpz\MyStudioChannel`** (or `MSC_BACKUP_ROOT`) for existing **`msc-website-v1-*`** folders; suggest the next letter (e.g. `msc-website-v1-i` → **`msc-website-v1-j`**). The script lists existing folders and computes this automatically (`npm run msc:backup` / `scripts/msc-backup.mjs`).
+Scan backup root for **`msc-website-v1-*`** folders; suggest next letter (script: `npm run msc:backup` / `scripts/msc-backup.mjs`).
 
-Ask: `Folder name? (1 = Use [suggested] / 2 = Enter custom)`
+**`AskQuestion` prompt:** `Folder name for this backup?`
+
+| Option id | Label |
+|-----------|--------|
+| `suggested` | **Use suggested** — e.g. msc-website-v1-l |
+| `custom` | **Custom name** — I'll type it next |
+
+If **custom**, accept folder name from the operator's next message.
 
 ### Step 4 — Summary
 
-Show (skips only on Type line):
+Show summary in chat (no question yet):
 
 ```text
 Backup Summary:
@@ -55,33 +74,37 @@ Backup Summary:
 - Folder: [name]
 ```
 
-Optional: keep G: backups private. **Do not confirm yet.**
-
 ### Step 5 — Note
 
-Ask: `Add a note about this backup? (optional — type your note, or press Enter to skip)`
+**`AskQuestion` prompt:** `Add a note about this backup?`
+
+| Option id | Label |
+|-----------|--------|
+| `skip` | **Skip** — no note |
+| `add` | **Add note** — I'll type it in my next message |
+
+If **add**, wait for the operator's note text before Step 6.
 
 ### Step 6 — Confirm
 
-Ask: `Confirm backup? (1 = Yes / 2 = No)`
+**`AskQuestion` prompt:** `Run backup now?`
+
+| Option id | Label |
+|-----------|--------|
+| `yes` | **Yes** — create backup |
+| `no` | **No** — cancel |
+
+Include the summary + note in the prompt context above the question.
 
 ### Step 7 — Run
 
-If Yes, from repo root:
+If **Yes**, from repo root:
 
 ```bash
 npm run msc:backup -- --standard [folder-name] --yes --note "[user note]"
 ```
 
 Use `--full` when Step 1 was Full. **Omit `--note`** if the operator skipped the note.
-
-Example:
-
-```bash
-npm run msc:backup -- --standard Vader-Engine-v1-v --yes --note "Added backup notes feature"
-```
-
-Override default only when needed: `MSC_BACKUP_ROOT` in `.env.local` (default for this repo: `G:\Cursor_Project_BackUpz\MyStudioChannel`).
 
 ### Step 8 — Report
 

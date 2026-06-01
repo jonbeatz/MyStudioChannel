@@ -72,11 +72,11 @@ These commands are bound to automated workflows inside `.cursor/prompts/` and ar
   2. Automatically syncs milestone dates, versions, and lists inside `project-log.md` and `Checkpoint.md`.
 
 ### ➡️ `"backup project"`  
-- **Action:** Interactive/Non-interactive standard & full backups.
+- **Action:** Interactive standard & full backups via **Composer buttons** (`AskQuestion`).
 - **Module File:** `.cursor/custom-scriptz/backup-system/CURSOR.md`
 - **Expected Behavior:** 
-  1. Guides you through Type, Destination, Folder, and custom note steps.
-  2. Packages files and exports them safely to `G:\Cursor_Project_BackUpz\MyStudioChannel`.
+  1. Presents **clickable choices** for Type, Destination, Folder, Note, and Confirm (not "Reply 1 or 2").
+  2. Packages files and exports to `G:\Cursor_Project_BackUpz\MyStudioChannel`.
 
 ---
 

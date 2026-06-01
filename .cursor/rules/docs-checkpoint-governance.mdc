@@ -10,9 +10,11 @@ globs:
 
 When user asks for **"update project"**, **"update docs"**, or **"backup project"**:
 
-1. **Follow the Backup Ritual** ([.cursor/custom-scriptz/backup-system/CURSOR.md](../custom-scriptz/backup-system/CURSOR.md) § Backup ritual) **one question at a time**.
-2. **Do not** automatically run the backup; ask Type, Folder Name, and Note first (destination defaults to `G:\Cursor_Project_BackUpz\MyStudioChannel` unless the operator overrides).
-3. Once confirmed, run `npm run msc:backup -- --standard [folder] --yes --note "[note]"`.
+1. **Follow the Backup Ritual** ([.cursor/custom-scriptz/backup-system/CURSOR.md](../custom-scriptz/backup-system/CURSOR.md) § Backup ritual) using **`AskQuestion`** — one interactive step at a time ([interactive-workflows.mdc](./interactive-workflows.mdc)).
+2. **Do not** use text-only "Reply 1 or 2" prompts; present clickable option labels.
+3. **Do not** automatically run the backup until the operator confirms via **AskQuestion** (Step 6).
+4. Destination defaults to `G:\Cursor_Project_BackUpz\MyStudioChannel` unless the operator selects a custom path.
+5. Once confirmed, run `npm run msc:backup -- --standard [folder] --yes --note "[note]"` (or `--full`).
 
 When user asks for other docs updates/checkpoints:
 

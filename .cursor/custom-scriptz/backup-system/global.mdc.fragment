@@ -1,6 +1,6 @@
 <!-- Merge into .cursor/rules/global.mdc if missing (shortcuts + backup ritual reference) -->
 
-| "backup project" | Follow backup-system CURSOR.md § Backup ritual (one question at a time) |
+| "backup project" | Follow backup-system CURSOR.md § Backup ritual — **AskQuestion** buttons each step (interactive-workflows.mdc) |
 | "create backup" | Same as **backup project** |
 | "backup" | Same as **backup project** |
 

@@ -28,3 +28,9 @@ When user says "update docs":
 When user says "Update Project" or "Sync Project":
 - Execute `.cursor/prompts/Update-Project.md` workflow
 - Automatically detect git history/recent commits to sync project-log.md and Checkpoint.md
+
+## Backup Project
+When user says "backup project", "create backup", or "backup":
+- Execute backup ritual in `.cursor/custom-scriptz/backup-system/CURSOR.md`
+- **Use `AskQuestion` tool** for each step (clickable choices) — see `.cursor/rules/interactive-workflows.mdc`
+- Do **not** use text-only "Reply 1 or 2" prompts
