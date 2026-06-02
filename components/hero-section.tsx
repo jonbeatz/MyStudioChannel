@@ -55,7 +55,7 @@ const defaultSlides: HeroSlideContent[] = [
 ]
 
 const defaultStats: HeroStatContent[] = [
-  { value: "20+", label: "Years Experience", highlight: false },
+  { value: "21+", label: "Years Experience", highlight: false },
   { value: "100%", label: "Platform Ownership", highlight: true },
   { value: "24/7", label: "Creator Support", highlight: false },
   { value: "$0", label: "Monthly Platform Fees", highlight: false },
