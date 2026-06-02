@@ -217,3 +217,28 @@ Is your site down?
 - [START-HERE.md](./START-HERE.md)
 - [Prompt-Cheat-Sheet.md](./Prompt-Cheat-Sheet.md)
 - [DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md)
+
+---
+
+## Configuration Verified vs UI-Only Checks
+
+### Script-Verifiable (Automated)
+
+| Item | Method | Command |
+|------|--------|---------|
+| MCP connection | `hosting_listWebsitesV1` | Verified via MCP |
+| FTPS auth | `test:hostinger-ftp` | `npm run test:hostinger-ftp` |
+| SSH access | SSH connection test | Manual or script |
+| File system | File Manager / SSH | `ls -la /nodejs/` |
+| Live endpoints | `verify:live` | `npm run verify:live` |
+
+### UI-Only Checks (Must Verify in hPanel)
+
+| Item | Where to check |
+|------|----------------|
+| Environment variables | hPanel -> Node.js -> Environment Variables |
+| Node.js app status | hPanel -> Node.js -> Dashboard |
+| Resource usage | hPanel -> Hosting Plan -> Resources |
+| FTP password | hPanel -> FTP Accounts |
+
+**Note:** MCP/SSH checks cannot expose hPanel environment variables. Always visually confirm env vars in hPanel UI after deployment.

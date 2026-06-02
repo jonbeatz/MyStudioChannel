@@ -222,6 +222,12 @@ Troubleshooting and maintenance triggers when things break.
 For deploy outages and live errors (`503` / `500` / `504`), use:
 - [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md)
 
+| Command | Purpose |
+|---------|---------|
+| `npm run verify:live` | Smoke test all live endpoints |
+| `npm run verify:live:version` | Confirm footer version matches |
+| `npm run test:hostinger-ftp` | Verify FTPS credentials work |
+
 ### ➡️ `"Fix Local"`  
 - **Action:** Local dev recovery.
 - **Script Command:** `npm run dev:recover`

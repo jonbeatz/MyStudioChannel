@@ -13,6 +13,39 @@
 
 ---
 
+## ✅ Final Configuration Audit (1-Minute Checklist)
+
+Before considering your deployment complete, verify these in hPanel:
+
+### In Node.js → Environment Variables
+- [ ] NODE_ENV = production
+- [ ] PAYLOAD_SECRET = (32+ char secret)
+- [ ] DATABASE_URL = file:./payload.sqlite
+- [ ] NEXT_PUBLIC_SERVER_URL = https://mystudiochannel.com
+- [ ] PAYLOAD_PUBLIC_SERVER_URL = https://mystudiochannel.com
+- [ ] RESEND_API_KEY = (your Resend key)
+- [ ] PAYLOAD_DISABLE_SHARP = true
+
+### In Node.js → Dashboard
+- [ ] App is "Running" (green status)
+- [ ] Last deployment shows "Completed"
+
+### In File Manager → /nodejs/
+- [ ] payload.sqlite is ~528KB (not 4KB)
+- [ ] .next folder exists
+- [ ] server.js exists
+
+### Run Verification
+
+```bash
+npm run verify:live
+npm run verify:live:version
+```
+
+All green? Your site is live and configured correctly!
+
+---
+
 ## Deploy paths overview
 
 | Path | When | Where it runs |
