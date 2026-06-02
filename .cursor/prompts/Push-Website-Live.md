@@ -4,7 +4,7 @@
 When user says **"push website live"**, **"push it live"**, **"push site live"**, or **"deploy live"**.
 
 ## Goal
-Ship **`MSC-Website-v4`** to **https://mystudiochannel.com** using the **fast MCP zip** path by default. Fall back to **FTPS** only if MCP fails.
+Ship **`MSC-Website-v5`** to **https://mystudiochannel.com** using the **fast MCP zip** path by default. Fall back to **FTPS** only if MCP fails.
 
 ## Default method: MCP zip (recommended)
 1. **Local:** fresh production build + timestamped source zip (no `node_modules`, `.next`, `.git`).
@@ -39,7 +39,7 @@ npm run push:website:live -- --dry-run
 npm run deploy:zip
 ```
 
-Confirm branch **`MSC-Website-v4`**, report `package.json` version, warn on uncommitted changes.
+Confirm branch **`MSC-Website-v5`**, report `package.json` version, warn on uncommitted changes.
 
 ### Step 2 — MCP deploy (default)
 Read MCP schema first: `hosting_deployJsApplication`, `hosting_listJsDeployments`, `hosting_showJsDeploymentLogs`.
