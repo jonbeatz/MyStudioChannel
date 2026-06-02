@@ -178,13 +178,13 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 *Alternative phrasings: `"push it live"`, `"push site live"`, `"deploy live"`, `"Lets Push It Live"`, `"Lets Push It Live (Safe)"`*
 - **Action:** **MCP zip deploy (default)** — fast single archive; Hostinger builds on server. **FTPS fallback** if MCP fails.
 - **Workflow File:** `.cursor/prompts/Push-Website-Live.md`
-- **Script Command:** `npm run push:website:live` · dry-run: `-- --dry-run` · FTPS fallback: `-- --ftps` · zip only: `npm run deploy:zip`
+- **Script Command:** `npm run push:website:live` · dry-run: `-- --dry-run` · FTPS fallback: `-- --ftps` (Full compile + deploy with **automated WAL cleanup & DB size verification**) · zip only: `npm run deploy:zip`
 - **Agent (MCP):** `hosting_deployJsApplication` → poll `hosting_listJsDeployments` → `hosting_showJsDeploymentLogs` on failure
 - **Execution Scope (default):** kill dev → `npm run build` → `deploy:zip` → MCP upload → **restart reminder** → `verify:live` + `verify:live:version`
-- **FTPS fallback scope:** `verify:ftp-smoke` → `pushit:live` → poll verify scripts
+- **FTPS fallback scope:** `verify:ftp-smoke` → `pushit:live` → **automatic SQLite WAL/SHM files cleanup** → **remote database size verification (~528 KB)** → poll verify scripts
 - **Deploy zips:** `zips/MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip` (gitignored)
-- **Restart (required):** https://hpanel.hostinger.com/websites/mystudiochannel.com → Node.js → **Restart**
-- **Optional Terminal (DB/WAL):** `cd .../nodejs` → `rm -f payload.sqlite-wal payload.sqlite-shm`
+- **Restart (required):** https://hpanel.hostinger.com/websites/mystudiochannel.com → Node.js → **Restart** (Stop then Start)
+- **Automated WAL Cleanup:** Yes, `payload.sqlite-wal` and `payload.sqlite-shm` are deleted automatically post-FTPS upload.
 
 ### ➡️ `"Lets Push It Live"` (legacy / upload-only)
 - **Action:** **Tier 2 — Full build + DB + media ship** without extended verify polling.

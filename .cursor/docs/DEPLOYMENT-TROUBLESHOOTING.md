@@ -16,9 +16,9 @@ Is your site down?
 ```text
 Is your site down?
     ├── 503 error -> Check stderr.log for missing .builds/ -> Recreate preload file -> Restart Node
-    ├── 500 API error -> Upload DB -> Delete WAL files -> Restart
-    ├── 504 timeout -> Stop dev server -> npm run db:copy -> Re-upload
-    └── Wrong content -> Upload local payload.sqlite -> Restart
+    ├── 500 API error -> Run push:website:live -- --ftps (auto deletes WAL files) -> Restart Node
+    ├── 504 timeout -> Stop dev server -> npm run db:copy -> Re-upload with auto WAL cleanup
+    └── Wrong content -> Upload local payload.sqlite with auto size verification -> Restart Node
 ```
 
 ---
@@ -160,7 +160,7 @@ Is your site down?
 
 ---
 
-## 9) 503 Service Unavailable - Missing Hostinger Preload File
+## 9) [RESOLVED] 503 Service Unavailable - Missing Hostinger Preload File
 
 ### Symptoms
 - Site returns `503 Service Temporarily Unavailable`
@@ -188,16 +188,37 @@ Never delete the `.builds/` directory. If you need to free space, delete other f
 
 ---
 
+## 10) SQLite WAL Journal Locks (Now Automated via FTPS)
+
+### Symptoms
+- Database updates don't show up on live after a new deployment
+- Site returns `500` or database feels locked/corrupted
+- Old data reappears when the Node process restarts
+
+### Root Cause
+When Node.js is running, SQLite creates `-wal` (Write-Ahead Log) and `-shm` (Shared Memory) journal files. If you upload a fresh `payload.sqlite` file while these files exist on the server, SQLite will attempt to recover/replay the stale `-wal` logs on top of your new database, reverting your changes or causing immediate 500 crashes.
+
+### Solutions
+This is now **100% automated** on our PC-side deployment scripts!
+- When you run:
+  ```bash
+  npm run push:website:live -- --ftps
+  ```
+- The deployment script automatically uploads the clean `payload.sqlite` and **instantly deletes** the remote server's `payload.sqlite-wal` and `payload.sqlite-shm` files over FTPS.
+- **Manual fall-back (File Manager/SSH):** If deploying manually, you must delete `/home/u942711528/domains/mystudiochannel.com/nodejs/payload.sqlite-wal` and `/home/u942711528/domains/mystudiochannel.com/nodejs/payload.sqlite-shm` yourself before restarting the Node app.
+
+---
+
 ## Quick Reference Commands
 
 | Symptom | Command / Action |
 |---|---|
 | Site down / 503 | Check `stderr.log` for missing `.builds/` preload file. Recreate with SSH, then restart in hPanel. |
 | API 500 | Upload DB, delete WAL files, restart |
-| Database wrong size | `npm run db:copy`, then upload `payload.sqlite.temp` |
+| Database wrong size | `npm run db:copy` (creates copy), script automatically verifies size on upload |
 | Wrong files deployed | Check `FTP_REMOTE_PATH=/nodejs`, run `npm run sync:sftp-env` |
 | FTPS upload issues | `npm run test:hostinger-ftp` |
-| Full deploy with DB | `npm run push:website:live -- --ftps` |
+| Full deploy with DB | `npm run push:website:live -- --ftps` (automated WAL cleanup + DB size verification) |
 | Code-only deploy | `npm run push:website:live` |
 
 ---

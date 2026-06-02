@@ -145,7 +145,7 @@ Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.nex
 | I want to… | Command |
 |------------|---------|
 | Push daily changes (recommended) | Say **push website live** or **`npm run push:website:live`** → MCP zip → [restart in hPanel](https://hpanel.hostinger.com/websites/mystudiochannel.com) |
-| Push daily changes (FTPS fallback) | **`npm run push:website:live -- --ftps`** or **`npm run pushit:live`** → restart in hPanel |
+| Push daily changes (FTPS fallback) | **`npm run push:website:live -- --ftps`** (Full compile + deploy with **automatic WAL cleanup & DB size verification**) → restart in hPanel |
 | Push with new packages | **`git push origin main`** (auto rebuild, if Git connected) |
 | Check what Hostinger will install | **`npm ls --omit=dev --depth=0`** |
 | Verify build before push | **`npm run build && npm run verify:local`** |

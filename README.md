@@ -105,11 +105,12 @@ My Studio Channel
 
 ## 📦 Deployment Workflow
 
-Optimized for **Hostinger (hPanel)** using our Tiered FTPS strategy:
+Optimized for **Hostinger (hPanel)** with **automated validation and recovery**:
 
-- **Tier 1 (Branding):** `npm run pushitup:admin-branding` (CSS + Graphics)
-- **Tier 2 (App):** `npm run pushit:live` (Full build, `.next`, Media)
-- **Tier 3 (Config):** `npm run pushitup:server-config` (Package/Server files)
+- **Recommended:** `npm run push:website:live` (MCP zip deploy or `--ftps` fallback with **automatic WAL cleanup & DB size checks**)
+- **Tier 1 (Branding):** `npm run pushitup:admin-branding` (CSS + Graphics fast ship)
+- **Tier 2 (App):** `npm run pushit:live` (Full build, `.next`, Media parity ship)
+- **Tier 3 (Config):** `npm run pushitup:server-config` (Package/Server files contract)
 
 ---
 

@@ -428,17 +428,24 @@ Zip path and **`package.json` dependency fixes** apply to MCP uploads the same w
 
 **Prevention:** Never delete the `.builds/` folder. If you need to free resources, delete old deployment `.zip` archives in `/nodejs/zips/` or old `.log` files, but leave `.builds/` intact.
 
-### 504 Error After Database Upload
+### 504 Error After Database Upload (Now Automated)
 
 **Cause:** `payload.sqlite` was copied while `npm run dev` still had the DB open/locked.
 
-**Fix:**
-1. Stop `npm run dev` (Ctrl+C)
-2. Run `npm run db:copy`
-3. Upload `payload.sqlite.temp` to Hostinger
-4. Rename to `payload.sqlite` on server
-5. Delete `payload.sqlite-wal` and `payload.sqlite-shm`
-6. Restart Node app
+**Fix (Automated in our FTPS deployment script!):**
+Running `npm run push:website:live -- --ftps` automatically:
+1. Verifies that the local dev server is stopped.
+2. Creates a clean copy of the database (`payload.sqlite.temp`).
+3. Uploads it safely to the server.
+4. **Automatically deletes the remote server's `payload.sqlite-wal` and `payload.sqlite-shm` files over FTPS** to prevent locks.
+5. Verifies the remote file size is correct.
+
+**Fix (Manual / Fail-safe Fallback):**
+1. Stop local `npm run dev` (Ctrl+C).
+2. Run `npm run db:copy` (to create a clean temp database).
+3. Upload `payload.sqlite.temp` to `/nodejs/` and rename it to `payload.sqlite`.
+4. Delete `payload.sqlite-wal` and `payload.sqlite-shm` on the server manually.
+5. Restart the Node app in hPanel.
 
 ---
 
@@ -450,8 +457,8 @@ Zip path and **`package.json` dependency fixes** apply to MCP uploads the same w
 | 2 | **Local** | `npm run build` + `npm run verify:local` |
 | 3 | **Local** | Zip deploy **or** `npm run pushit:live` |
 | 4 | **Live (hPanel)** | Set / verify environment variables |
-| 5 | **Live (hPanel)** | Deploy or wait for FTPS upload to finish |
-| 6 | **Live (hPanel)** | **Restart** Node.js application |
+| 5 | **Live (hPanel)** | Deploy or wait for FTPS upload to finish (WAL files are cleaned up automatically in `--ftps` mode) |
+| 6 | **Live (hPanel)** | **Restart** Node.js application (Stop then Start) |
 | 7 | **Local** | `npm run verify:live` + Incognito check `/` and `/admin` |
 
 **Do not run on Hostinger Terminal:** `pushitup`, zip creation, or `git pull` from your PC workflow unless you explicitly maintain server-side git.
@@ -470,4 +477,4 @@ Zip path and **`package.json` dependency fixes** apply to MCP uploads the same w
 
 ---
 
-*Last updated: 2026-06-01 — v4.0.0 live on mystudiochannel.com*
+*Last updated: 2026-06-02 — v4.0.0 live on mystudiochannel.com (Automated WAL cleanup & 503 fix)*
