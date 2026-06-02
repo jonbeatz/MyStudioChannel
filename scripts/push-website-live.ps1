@@ -110,6 +110,94 @@ function Wait-ForLiveHealthy {
   return $false
 }
 
+function Join-FtpPath {
+  param([string]$Left, [string]$Right)
+  $leftClean = ($Left -replace "\\", "/").TrimEnd("/")
+  $rightClean = ($Right -replace "\\", "/").TrimStart("/")
+  if ([string]::IsNullOrWhiteSpace($leftClean)) { return "/$rightClean" }
+  if ([string]::IsNullOrWhiteSpace($rightClean)) { return $leftClean }
+  return "$leftClean/$rightClean"
+}
+
+function Escape-FtpPath {
+  param([string]$PathText)
+  $parts = ($PathText -replace "\\", "/").Split("/", [System.StringSplitOptions]::RemoveEmptyEntries)
+  $encoded = $parts | ForEach-Object {
+    $seg = $_
+    if ($seg.StartsWith("@")) {
+      "@" + [System.Uri]::EscapeDataString($seg.Substring(1))
+    } else {
+      [System.Uri]::EscapeDataString($seg)
+    }
+  }
+  return ($encoded -join "/")
+}
+
+function New-FtpRequest {
+  param(
+    [string]$Uri,
+    [string]$Method,
+    [System.Net.NetworkCredential]$Credential,
+    [bool]$UseSsl,
+    [bool]$UsePassive
+  )
+  $request = [System.Net.FtpWebRequest]::Create($Uri)
+  $request.Credentials = $Credential
+  $request.EnableSsl = $UseSsl
+  $request.UsePassive = $UsePassive
+  $request.UseBinary = $true
+  $request.KeepAlive = $false
+  $request.Timeout = 30000
+  $request.ReadWriteTimeout = 30000
+  $request.Method = $Method
+  return $request
+}
+
+function Remove-FtpFile {
+  param(
+    [string]$BaseFtpUrl,
+    [string]$RemoteFilePath,
+    [System.Net.NetworkCredential]$Credential,
+    [bool]$UseSsl,
+    [bool]$UsePassive
+  )
+  $uri = "$BaseFtpUrl/$(Escape-FtpPath -PathText $RemoteFilePath)"
+  try {
+    $request = New-FtpRequest -Uri $uri -Method ([System.Net.WebRequestMethods+Ftp]::DeleteFile) -Credential $Credential -UseSsl $UseSsl -UsePassive $UsePassive
+    $response = $request.GetResponse()
+    $response.Close()
+    return $true
+  } catch {
+    $resp = $_.Exception.Response
+    if ($null -ne $resp) {
+      $code = [int]$resp.StatusCode
+      $resp.Close()
+      if ($code -eq 550) { return $false }
+    }
+    return $false
+  }
+}
+
+function Get-FtpFileSize {
+  param(
+    [string]$BaseFtpUrl,
+    [string]$RemoteFilePath,
+    [System.Net.NetworkCredential]$Credential,
+    [bool]$UseSsl,
+    [bool]$UsePassive
+  )
+  $uri = "$BaseFtpUrl/$(Escape-FtpPath -PathText $RemoteFilePath)"
+  try {
+    $request = New-FtpRequest -Uri $uri -Method ([System.Net.WebRequestMethods+Ftp]::GetFileSize) -Credential $Credential -UseSsl $UseSsl -UsePassive $UsePassive
+    $response = $request.GetResponse()
+    $size = $response.ContentLength
+    $response.Close()
+    return $size
+  } catch {
+    return -1
+  }
+}
+
 Write-Host ""
 Write-Host "push:website:live -> $domain" -ForegroundColor Cyan
 if ($dryRun) { Write-Host "DRY RUN - no zip / no upload" -ForegroundColor Magenta }
@@ -187,6 +275,66 @@ if ($useFtps) {
     Write-Host "FTPS deploy failed at pushit:live." -ForegroundColor Red
     exit $LASTEXITCODE
   }
+
+  # Automatic WAL Cleanup and DB Size Verification
+  Write-Host "Parsing FTPS configuration..." -ForegroundColor Yellow
+  $config = Get-Content -Raw -Path $sftpConfigPath | ConvertFrom-Json
+  $ignoreCert = $true
+  if ($null -ne $config.ignoreCertificateErrors) {
+    $ignoreCert = [bool]$config.ignoreCertificateErrors
+  }
+  if ($ignoreCert) {
+    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
+  }
+  $ftpServer = [string]$config.host
+  $ftpPort = if ($null -ne $config.port) { [int]$config.port } else { 21 }
+  $useSsl = if ($null -ne $config.secure) { [bool]$config.secure } else { $true }
+  $usePassive = if ($null -ne $config.passive) { [bool]$config.passive } else { $true }
+  $username = [string]$config.username
+  $password = [string]$config.password
+  $remoteBase = [string]$config.remotePath
+
+  $baseFtpUrl = "ftp://$ftpServer`:$ftpPort"
+  $credential = New-Object System.Net.NetworkCredential($username, $password)
+
+  Write-Host ""
+  Write-Host "Verifying database upload size..." -ForegroundColor Yellow
+  $remoteDbPath = Join-FtpPath -Left $remoteBase -Right "payload.sqlite"
+  $dbSize = Get-FtpFileSize -BaseFtpUrl $baseFtpUrl -RemoteFilePath $remoteDbPath -Credential $credential -UseSsl $useSsl -UsePassive $usePassive
+  if ($dbSize -gt 0) {
+    $dbSizeKb = [Math]::Round($dbSize / 1024, 1)
+    if ($dbSize -lt 500000) {
+      Write-Host "⚠️ WARNING: Remote database size is only $dbSizeKb KB (expected ~528 KB). Please check." -ForegroundColor Yellow
+    } else {
+      Write-Host "✅ Verified remote database size: $dbSizeKb KB" -ForegroundColor Green
+    }
+  } else {
+    Write-Host "⚠️ WARNING: Could not verify remote database size over FTPS." -ForegroundColor Yellow
+  }
+
+  Write-Host ""
+  Write-Host "Cleaning up SQLite WAL / SHM files on server..." -ForegroundColor Yellow
+  $walPath = Join-FtpPath -Left $remoteBase -Right "payload.sqlite-wal"
+  $shmPath = Join-FtpPath -Left $remoteBase -Right "payload.sqlite-shm"
+  
+  $deletedWal = Remove-FtpFile -BaseFtpUrl $baseFtpUrl -RemoteFilePath $walPath -Credential $credential -UseSsl $useSsl -UsePassive $usePassive
+  $deletedShm = Remove-FtpFile -BaseFtpUrl $baseFtpUrl -RemoteFilePath $shmPath -Credential $credential -UseSsl $useSsl -UsePassive $usePassive
+
+  if ($deletedWal) { Write-Host "  🧹 Deleted remote payload.sqlite-wal" -ForegroundColor Gray }
+  if ($deletedShm) { Write-Host "  🧹 Deleted remote payload.sqlite-shm" -ForegroundColor Gray }
+
+  Write-Host ""
+  Write-Host "✅ Database uploaded to /nodejs/payload.sqlite" -ForegroundColor Green
+  Write-Host "🧹 WAL files cleaned up on server" -ForegroundColor Green
+  Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Green
+  Write-Host "🔄 NEXT STEP (Manual):" -ForegroundColor Yellow
+  Write-Host ""
+  Write-Host "Go to $hpanelUrl" -ForegroundColor Cyan
+  Write-Host "Click Node.js → Restart" -ForegroundColor Yellow
+  Write-Host "Wait 30 seconds" -ForegroundColor Yellow
+  Write-Host "Run: npm run verify:live" -ForegroundColor Cyan
+  Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Green
+  Write-Host ""
 
   Write-PhaseHeader "Phase 2 - Restart + live verify"
   & powershell -ExecutionPolicy Bypass -File $restartScript -Status success
