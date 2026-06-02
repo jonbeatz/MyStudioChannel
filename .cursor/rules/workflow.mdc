@@ -38,3 +38,11 @@ When user says "backup project", "create backup", or "backup":
 When user says **"backup quick"**, **"backup project quick"**, **"backup full"**, or **"backup project full"**:
 - **Non-interactive** — run `npm run msc:backup:quick` or `npm run msc:backup:quick:full` immediately (no AskQuestion, no note)
 - See `.cursor/rules/global.mdc`
+
+## Push Website Live
+When user says **"push website live"**, **"push it live"**, **"push site live"**, or **"deploy live"**:
+- Execute `.cursor/prompts/Push-Website-Live.md` workflow
+- Run `npm run push:website:live` from repo root (or `--dry-run` first if operator wants preflight only)
+- Use **AskQuestion** to confirm hPanel server prep (STOP + cleanup) and restart (START) when the script reaches those gates
+- Report `verify:live` and `verify:live:version` results
+- See `.cursor/rules/global.mdc`

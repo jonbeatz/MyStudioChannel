@@ -39,7 +39,6 @@ export function Header({
 }: HeaderProps) {
   const pathname = usePathname()
   const path = pathname ?? "/"
-  const ctaDemosHref = resolveNavHashHref(path, "#msc-demos")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   /** Desktop flyout only (hover). */
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null)
@@ -201,21 +200,7 @@ export function Header({
           </nav>
 
           {/* CTA Button */}
-          <div className="hidden lg:flex items-center gap-3">
-            <Button
-              variant="ghost"
-              className="text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-              asChild
-            >
-              <Link
-                href={ctaDemosHref}
-                replace={shouldReplaceHashLink(path, ctaDemosHref)}
-                scroll={scrollPropForResolvedNav(path, ctaDemosHref)}
-                onClick={(e) => onHashNavLinkClick(e, ctaDemosHref)}
-              >
-                View Demos
-              </Link>
-            </Button>
+          <div className="hidden lg:flex items-center">
             <Button
               type="button"
               className="bg-accent text-accent-foreground hover:bg-accent/90 glow-accent-sm hover:glow-accent transition-all duration-300"
@@ -315,23 +300,6 @@ export function Header({
               )
             })}
             <div className="flex flex-col gap-3 pt-6 mt-4 border-t border-border/50">
-              <Button
-                variant="outline"
-                className="border-border text-foreground hover:bg-secondary w-full justify-center"
-                asChild
-              >
-                <Link
-                  href={ctaDemosHref}
-                  replace={shouldReplaceHashLink(path, ctaDemosHref)}
-                  scroll={scrollPropForResolvedNav(path, ctaDemosHref)}
-                  onClick={(e) => {
-                    onHashNavLinkClick(e, ctaDemosHref, { deferMs: 72 })
-                    setIsMobileMenuOpen(false)
-                  }}
-                >
-                  View Demos
-                </Link>
-              </Button>
               <Button
                 type="button"
                 className="bg-accent text-accent-foreground hover:bg-accent/90 w-full justify-center glow-accent-sm"

@@ -16,3 +16,13 @@ alwaysApply: true
 Quick commands use default backup root (`G:\Cursor_Project_BackUpz\MyStudioChannel`), auto-suggest next `msc-website-v1-*` folder, and `--yes`.
 
 After quick backup completes, report destination path and `.cursor/BackUp-Notez.md`.
+
+## Push website live
+
+| Operator says | Agent action |
+|---------------|--------------|
+| **`push website live`**, **`push it live`**, **`push site live`**, **`deploy live`** | Run **Push Website Live** playbook ([`.cursor/prompts/Push-Website-Live.md`](../prompts/Push-Website-Live.md)) — preflight → FTPS deploy → hPanel restart gate → `verify:live` + `verify:live:version` |
+
+**Local command:** `npm run push:website:live` (dry-run: `npm run push:website:live -- --dry-run`).
+
+**Deployment zips:** save to `zips/` only — `MyStudioChannel-v4-deploy-YYYYMMDD-HHmmss.zip` (never repo parent folder).

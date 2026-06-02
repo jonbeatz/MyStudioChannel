@@ -14,6 +14,10 @@
     "backup quick": "npm run msc:backup:quick",
     "backup project quick": "npm run msc:backup:quick",
     "backup full": "npm run msc:backup:quick:full",
-    "backup project full": "npm run msc:backup:quick:full"
+    "backup project full": "npm run msc:backup:quick:full",
+    "push website live": "npm run push:website:live",
+    "push it live": "npm run push:website:live",
+    "push site live": "npm run push:website:live",
+    "deploy live": "npm run push:website:live"
   }
 }

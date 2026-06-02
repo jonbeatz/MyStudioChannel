@@ -174,17 +174,24 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 - **Script Command:** `npm run pushitup:admin-branding`
 - **Scope:** Uploads ONLY SCSS and custom admin UI code (`components/msc-payload-graphics.tsx`, `components/msc-payload-admin-enhancements.tsx`, `collections/Users.ts`, `payload.config.ts`, `app/(payload)/custom.scss`). No production build required. Fast-restart of Node app inside hPanel is required.
 
-### ➡️ `"Lets Push It Live"`  
-*Alternative phrasings: `"Lets Push It Live (Safe)"` (runs verify:local first)*
-- **Action:** **Tier 2 — Full build + DB + media ship ("zero footprint" sync).**
-- **Script Command:** `npm run pushit:live` (or prefix with `PUSHIT_LIVE_RUN_DEV_FRESH=1` to auto-restart local dev on completion)
-- **Required Host Prep:** **hPanel -> STOP APP first**. Then host terminal:
+### ➡️ `"Push Website Live"`  
+*Alternative phrasings: `"push it live"`, `"push site live"`, `"deploy live"`, `"Lets Push It Live"`, `"Lets Push It Live (Safe)"`*
+- **Action:** **Unified Tier 2 deploy ritual** — preflight, FTPS upload, restart gate, live + version verification.
+- **Workflow File:** `.cursor/prompts/Push-Website-Live.md`
+- **Script Command:** `npm run push:website:live` (dry-run: `npm run push:website:live -- --dry-run`)
+- **Required Host Prep:** **hPanel → STOP APP** first. Then Hostinger Terminal:
   ```bash
-  rm -rf .next                                 # Prevent webpack-runtime module collision 500s
-  rm -f payload.sqlite-wal payload.sqlite-shm  # Delete stale WAL replays to prevent data regression
+  cd /home/u942711528/domains/mystudiochannel.com/public_html
+  rm -rf .next
+  rm -f payload.sqlite-wal payload.sqlite-shm
   ```
-- **Execution Scope:** Builds production bundle (with live URL injection) -> uploads `.next/`, `payload.sqlite`, and `public/media/` via FTPS.
-- **Required Post-Upload Step:** restart Node.js app in hPanel. Validate `/` and `/admin` in Incognito mode.
+- **Execution Scope:** `verify:next:safe` → `verify:ftp-smoke` → `pushit:live` (build with live URL → admin-ui → `.next` → `payload.sqlite` → `public/media`) → poll `verify:live` → `verify:live:version`.
+- **Deploy zips (MCP/manual):** `zips/MyStudioChannel-v4-deploy-YYYYMMDD-HHmmss.zip` (gitignored)
+- **Required Post-Upload Step:** START Node.js app in hPanel. Validate `/`, `/admin`, and version footer in Incognito.
+
+### ➡️ `"Lets Push It Live"` (legacy / upload-only)
+- **Action:** **Tier 2 — Full build + DB + media ship** without extended verify polling.
+- **Script Command:** `npm run pushit:live` (or `npm run pushit:live:safe` for `verify:local` first)
 
 ### ➡️ `"Push server config"`  
 - **Action:** **Tier 3 — Hosting / Node runtime contract.**

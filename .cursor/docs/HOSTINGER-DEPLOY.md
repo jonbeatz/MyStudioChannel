@@ -163,13 +163,28 @@ Adjust `cd` path to your hPanel app root if different.
 
 ## Path C — Daily updates (after first deploy)
 
+**Canonical operator phrase:** say **"push website live"** or **"push it live"** in chat → agent runs [`.cursor/prompts/Push-Website-Live.md`](../prompts/Push-Website-Live.md) and **`npm run push:website:live`**.
+
+**Local command (full ritual):**
+```powershell
+npm run push:website:live
+```
+
+Dry-run preflight only:
+```powershell
+npm run push:website:live -- --dry-run
+```
+
+**Deployment zip folder (MCP / manual):** `zips/` at repo root — `MyStudioChannel-v4-deploy-YYYYMMDD-HHmmss.zip` (gitignored). Never save deploy zips to `D:\Cursor_Projectz\`.
+
 Once your site is live, use these methods for ongoing updates. **Full reference:** this section. **Quick card:** [START-HERE.md](./START-HERE.md) → *Pushing updates live*.
 
 ### Quick reference: three update methods
 
 | Method | Command | When to use | Time | Restart needed? |
 |--------|---------|-------------|------|-----------------|
-| **FTPS (recommended)** | `npm run pushit:live` | Daily changes (CSS, components, images, admin UI) | ~2–3 min | Yes — hPanel |
+| **Push website live (recommended)** | `npm run push:website:live` | Full ritual: preflight + FTPS + live verify + version parity | ~5–8 min | Yes — hPanel |
+| **FTPS (Tier 2)** | `npm run pushit:live` | Same upload as above without extended verify polling | ~2–3 min | Yes — hPanel |
 | **Git push + rebuild** | `git push origin main` | Major updates, new packages, when FTPS is not enough | ~5–6 min | Usually auto |
 | **Hostinger MCP** | Ask Cursor | Testing, automated deploys | Varies | Yes — hPanel |
 

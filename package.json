@@ -24,6 +24,8 @@
     "pushitup:server-config": "powershell -ExecutionPolicy Bypass -File scripts/PushItUP.ps1 server.js package.json package-lock.json .env.example",
     "pushit:live": "powershell -ExecutionPolicy Bypass -File scripts/pushit-live.ps1",
     "pushit:live:safe": "powershell -ExecutionPolicy Bypass -File scripts/pushit-live-safe.ps1",
+    "push:website:live": "powershell -ExecutionPolicy Bypass -File scripts/push-website-live.ps1",
+    "verify:live:version": "powershell -ExecutionPolicy Bypass -File scripts/verify-live-version.ps1",
     "PushItUPzip": "powershell -ExecutionPolicy Bypass -File scripts/PushItUPzip.ps1",
     "pushitupzip": "powershell -ExecutionPolicy Bypass -File scripts/PushItUPzip.ps1",
     "pushitup:ftp-smoke": "powershell -ExecutionPolicy Bypass -File scripts/PushItUP.ps1 ftp-path-smoke-test.txt",
