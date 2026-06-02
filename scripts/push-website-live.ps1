@@ -35,6 +35,16 @@ function Test-FtpsConfigured {
   return (Test-Path -LiteralPath $sftpConfigPath)
 }
 
+function Assert-PayloadSqliteDeployReady {
+  $assertScript = Join-Path $repoRoot "scripts/assert-payload-sqlite-deploy.ps1"
+  if (-not (Test-Path -LiteralPath $assertScript)) {
+    Write-Host "ABORT: missing $assertScript" -ForegroundColor Red
+    exit 1
+  }
+  & powershell -ExecutionPolicy Bypass -File $assertScript
+  if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+}
+
 function Test-GitUncommitted {
   $status = git status --porcelain 2>$null
   if ($LASTEXITCODE -ne 0) {
@@ -107,6 +117,10 @@ Write-Host "package.json version: $pkgVersion" -ForegroundColor Gray
 Test-GitUncommitted
 
 Write-Host ""
+Write-Host "Database gate (payload.sqlite must be full CMS DB, not empty stub)..." -ForegroundColor Yellow
+Assert-PayloadSqliteDeployReady
+
+Write-Host ""
 Write-Host "Stopping local dev on port 3000 (if any)..." -ForegroundColor Yellow
 node scripts/kill-dev-port.mjs
 if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne 2) {
@@ -124,9 +138,10 @@ if (-not (Test-Path -LiteralPath (Join-Path $repoRoot ".next/BUILD_ID"))) {
 
 if ($dryRun) {
   Write-PhaseHeader "Dry run complete"
-  Write-Host "Would create: zips/MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip" -ForegroundColor Magenta
+  Write-Host "Database size check: PASS (payload.sqlite >= 500000 bytes)" -ForegroundColor Green
+  Write-Host "Would create: zips/MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip (includes payload.sqlite)" -ForegroundColor Magenta
   if ($useFtps) {
-    Write-Host "Would run: npm run pushit:live (FTPS)" -ForegroundColor Magenta
+    Write-Host "Would run: npm run pushit:live (FTPS uploads payload.sqlite -> /nodejs/)" -ForegroundColor Magenta
   } else {
     Write-Host "Would run: npm run deploy:zip then Hostinger MCP hosting_deployJsApplication" -ForegroundColor Magenta
   }

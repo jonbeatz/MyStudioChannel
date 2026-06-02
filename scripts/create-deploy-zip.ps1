@@ -1,5 +1,6 @@
 # Create a source-only deployment zip for Hostinger MCP / hPanel zip deploy.
-# Excludes: node_modules, .next, .git, zips, .pushitupzips, *.zip, SQLite WAL/SHM.
+# Excludes: node_modules, .next, .git, zips, .pushitupzips, *.zip, payload.sqlite-wal, payload.sqlite-shm
+# INCLUDES: payload.sqlite (repo root) — required for live CMS data (~528 KiB).
 # Output: zips/MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip
 #
 # Usage: npm run deploy:zip
@@ -11,6 +12,10 @@ param(
 $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $repoRoot
+
+$assertScript = Join-Path $repoRoot "scripts/assert-payload-sqlite-deploy.ps1"
+& powershell -ExecutionPolicy Bypass -File $assertScript
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 $zipsDir = Join-Path $repoRoot "zips"
 if (-not (Test-Path -LiteralPath $zipsDir)) {
@@ -51,6 +56,14 @@ if ($robExit -ge 8) {
   exit $robExit
 }
 
+$stagedDb = Join-Path $staging "payload.sqlite"
+if (-not (Test-Path -LiteralPath $stagedDb)) {
+  Write-Host "ERROR: payload.sqlite missing from deploy staging (robocopy). It must be included in the zip." -ForegroundColor Red
+  exit 1
+}
+$stagedDbSize = (Get-Item -LiteralPath $stagedDb).Length
+Write-Host "Staged payload.sqlite: $stagedDbSize bytes" -ForegroundColor Green
+
 if (Test-Path -LiteralPath $zipPath) {
   Remove-Item -LiteralPath $zipPath -Force
 }
@@ -63,6 +76,9 @@ Remove-Item -LiteralPath $staging -Recurse -Force
 $sizeMb = [math]::Round((Get-Item -LiteralPath $zipPath).Length / 1MB, 2)
 $lastZipFile = Join-Path $zipsDir ".last-deploy-zip.txt"
 Set-Content -LiteralPath $lastZipFile -Value $zipPath -Encoding UTF8
+
+& powershell -ExecutionPolicy Bypass -File $assertScript -ZipPath $zipPath
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host ""
 Write-Host "deploy:zip OK" -ForegroundColor Green

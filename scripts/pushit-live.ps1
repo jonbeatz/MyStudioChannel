@@ -39,6 +39,10 @@ if (-not (Test-Path -LiteralPath $dbFile)) {
   exit 1
 }
 
+$assertScript = Join-Path $repoRoot "scripts/assert-payload-sqlite-deploy.ps1"
+& powershell -ExecutionPolicy Bypass -File $assertScript
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
 Write-Host ""
 Write-Host "pushit:live - 1/6 npm run build (NEXT_PUBLIC_SERVER_URL -> live origin for this step only)" -ForegroundColor Yellow
 # `.env.local` usually sets NEXT_PUBLIC_SERVER_URL=http://localhost:3000. Next.js loads dotenv but does not
@@ -71,7 +75,10 @@ npm run pushitup -- .next
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host ""
+$dbBytes = (Get-Item -LiteralPath $dbFile).Length
 Write-Host "pushit:live - 4/6 npm run pushitup -- payload.sqlite" -ForegroundColor Yellow
+Write-Host "  Local:  $dbFile ($dbBytes bytes)" -ForegroundColor Gray
+Write-Host "  Remote: /nodejs/payload.sqlite (FTPS overwrite)" -ForegroundColor Gray
 npm run pushitup -- payload.sqlite
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
