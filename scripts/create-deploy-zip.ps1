@@ -69,7 +69,7 @@ Write-Host "deploy:zip OK" -ForegroundColor Green
 Write-Host "  Archive: $zipPath" -ForegroundColor Gray
 Write-Host "  Size:    ${sizeMb} MB" -ForegroundColor Gray
 if ($sizeMb -gt 200) {
-  Write-Host "  WARN: zip is over ~200 MB — check that node_modules/.next were excluded." -ForegroundColor Yellow
+  Write-Host "  WARN: zip is over ~200 MB - check that node_modules/.next were excluded." -ForegroundColor Yellow
 }
 
 # Machine-readable line for agents/scripts
