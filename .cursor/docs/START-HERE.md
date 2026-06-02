@@ -188,8 +188,9 @@ Before considering your deployment complete, run through the:
 1. **Live (hPanel):** restart Node.js app
 2. Check `/nodejs/payload.sqlite` size (real DB vs `4 KB` stub)
 3. If DB was replaced, delete `payload.sqlite-wal` and `payload.sqlite-shm`
-4. Re-test `/`, `/admin`, and `/api/globals/projects-home?depth=1`
-5. Use full incident guide: [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md)
+4. **Quick 503 Fix (Hostinger-specific):** If site returns 503, check `/nodejs/stderr.log`. If it lists a missing `preload-timestamp.js` error, recreate the `.builds/` directory and file (see [HOSTINGER-DEPLOY.md](./HOSTINGER-DEPLOY.md) § *503 After Cleaning Up Files*).
+5. Re-test `/`, `/admin`, and `/api/globals/projects-home?depth=1`
+6. Use full incident guide: [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md)
 
 ## Quick incident recovery (when things suddenly break)
 

@@ -15,7 +15,7 @@ Is your site down?
 
 ```text
 Is your site down?
-    ├── 503 error -> Restart Node -> Upload 528KB DB -> Restart again
+    ├── 503 error -> Check stderr.log for missing .builds/ -> Recreate preload file -> Restart Node
     ├── 500 API error -> Upload DB -> Delete WAL files -> Restart
     ├── 504 timeout -> Stop dev server -> npm run db:copy -> Re-upload
     └── Wrong content -> Upload local payload.sqlite -> Restart
@@ -155,8 +155,36 @@ Is your site down?
 
 ### Solutions
 1. Delete old deployment artifacts/zips on server
-2. Remove stale `.builds/` and unused files
+2. Remove unused files, but **NEVER delete the `.builds/` directory** (Hostinger's Node.js process manager expects `.builds/config/preload-timestamp.js` to start, and deleting it causes fatal 503 startup crashes).
 3. Upgrade Hostinger plan or request temporary resource boost
+
+---
+
+## 9) 503 Service Unavailable - Missing Hostinger Preload File
+
+### Symptoms
+- Site returns `503 Service Temporarily Unavailable`
+- Code, database, and node modules are correct, but the Node.js application is not running
+- `stderr.log` shows the fatal startup crash:
+  `Error: Cannot find module '/home/u942711528/domains/mystudiochannel.com/public_html/.builds/config/preload-timestamp.js'`
+
+### Root Cause
+The `.builds/` directory under `public_html` was deleted (e.g., during resource/inode cleanups to free space). Hostinger's git/process manager injects `--require` on startup expecting this file, and Node.js crashes instantly if it is missing.
+
+### Solutions
+Recreate the missing directory and preload file via SSH or Hostinger File Manager:
+
+```bash
+# Connect via SSH and run:
+mkdir -p /home/u942711528/domains/mystudiochannel.com/public_html/.builds/config
+touch /home/u942711528/domains/mystudiochannel.com/public_html/.builds/config/preload-timestamp.js
+chmod 644 /home/u942711528/domains/mystudiochannel.com/public_html/.builds/config/preload-timestamp.js
+```
+
+Then **Stop** and **Start** (or **Restart**) the Node.js application in your Hostinger hPanel.
+
+### Prevention
+Never delete the `.builds/` directory. If you need to free space, delete other files (old deployment zips in `/nodejs/zips/` or old logs), but keep `.builds/` intact.
 
 ---
 
@@ -164,7 +192,7 @@ Is your site down?
 
 | Symptom | Command / Action |
 |---|---|
-| Site down / 503 | Restart Node in hPanel, upload correct `~528 KB` DB |
+| Site down / 503 | Check `stderr.log` for missing `.builds/` preload file. Recreate with SSH, then restart in hPanel. |
 | API 500 | Upload DB, delete WAL files, restart |
 | Database wrong size | `npm run db:copy`, then upload `payload.sqlite.temp` |
 | Wrong files deployed | Check `FTP_REMOTE_PATH=/nodejs`, run `npm run sync:sftp-env` |
@@ -190,7 +218,7 @@ Is your site down?
 
 | Symptom | First place to check |
 |---|---|
-| Site down | hPanel -> Node.js -> Runtime logs |
+| Site down (503) | `/nodejs/stderr.log` via SSH/File Manager (look for missing `.builds/preload` module error) |
 | API errors | `/nodejs/console.log` via File Manager |
 | Database issues | File Manager -> `/nodejs/payload.sqlite` size |
 | FTPS issues | `npm run test:hostinger-ftp` |
@@ -201,10 +229,11 @@ Is your site down?
 ## Standard Recovery Sequence
 
 1. Verify Node app root is `/nodejs` in hPanel
-2. Restart Node app
-3. Validate DB size (`payload.sqlite` should be real DB size, not `4 KB`)
-4. Remove WAL files when DB was replaced (`-wal`, `-shm`)
-5. Re-run smoke checks:
+2. Check `/nodejs/stderr.log` for missing `.builds/preload` module error (recreate if missing)
+3. Restart Node app
+4. Validate DB size (`payload.sqlite` should be real DB size, not `4 KB`)
+5. Remove WAL files when DB was replaced (`-wal`, `-shm`)
+6. Re-run smoke checks:
    - `https://mystudiochannel.com/`
    - `https://mystudiochannel.com/admin`
    - `https://mystudiochannel.com/api/globals/projects-home?depth=1`

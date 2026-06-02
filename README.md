@@ -12,6 +12,7 @@
 [![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Cursor](https://img.shields.io/badge/Cursor-Agent_Ready-8E44AD?logo=cursor)](https://cursor.com/)
+[![Troubleshooting](https://img.shields.io/badge/Troubleshooting-Active_Guide-red?logo=github)](.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md)
 
 ---
 

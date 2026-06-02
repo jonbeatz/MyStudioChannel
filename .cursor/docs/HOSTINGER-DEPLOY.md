@@ -404,6 +404,29 @@ Zip path and **`package.json` dependency fixes** apply to MCP uploads the same w
 | Live API 500 | `/api/globals/projects-home` fails | Set env vars; restart Node; on host remove WAL files and re-upload `payload.sqlite` if needed |
 | Vendor-chunk 500 | `Cannot find module './vendor-chunks/…'` | Full **`.next`** re-upload after local **`npm run build`** ([Go-Live-Checklist.md](./Go-Live-Checklist.md) §6) |
 | Build timeout | Slow compile on shared host | Normal ~56s; retry deploy; avoid uploading pre-built `.next` in zip (let host build) |
+| 503 After Cleanup | Fatal crash on startup | Recreate missing `.builds/config/preload-timestamp.js` via SSH, then restart in hPanel. |
+
+### 503 After Cleaning Up Files (Hostinger-specific)
+
+**Cause:** You deleted the `.builds/` directory inside `public_html` to free space. Hostinger's Node.js process manager expects a preload file at `.builds/config/preload-timestamp.js` to start, and without it, Node crashes instantly, resulting in a persistent 503 error.
+
+**Fix:**
+1. Connect via SSH or use hPanel File Manager
+2. Recreate the folder structure:
+   ```bash
+   mkdir -p /home/u942711528/domains/mystudiochannel.com/public_html/.builds/config
+   ```
+3. Create the empty preload file:
+   ```bash
+   touch /home/u942711528/domains/mystudiochannel.com/public_html/.builds/config/preload-timestamp.js
+   ```
+4. Set correct permissions:
+   ```bash
+   chmod 644 /home/u942711528/domains/mystudiochannel.com/public_html/.builds/config/preload-timestamp.js
+   ```
+5. **Restart** Node.js in hPanel.
+
+**Prevention:** Never delete the `.builds/` folder. If you need to free resources, delete old deployment `.zip` archives in `/nodejs/zips/` or old `.log` files, but leave `.builds/` intact.
 
 ### 504 Error After Database Upload
 

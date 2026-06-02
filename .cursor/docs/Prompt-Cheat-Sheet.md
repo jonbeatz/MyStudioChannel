@@ -222,6 +222,15 @@ Troubleshooting and maintenance triggers when things break.
 For deploy outages and live errors (`503` / `500` / `504`), use:
 - [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md)
 
+### 🚨 Critical Diagnostic Commands
+
+| Command | Purpose |
+|---------|---------|
+| `npm run verify:live` | Full smoke test (/, /admin, /api) |
+| `npm run verify:live:version` | Check footer version |
+| SSH: `cat /nodejs/stderr.log` | View Node.js startup errors |
+| SSH: `ls -la /public_html/.builds/config/` | Verify preload file exists |
+
 | Command | Purpose |
 |---------|---------|
 | `npm run verify:live` | Smoke test all live endpoints |
