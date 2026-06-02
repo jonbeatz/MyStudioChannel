@@ -1,5 +1,11 @@
 # Project Session Log
 
+## [2026-06-02 01:15] - Session closeout (docs hardening + env template consolidation)
+- **Branch:** MSC-Website-v4
+- **Changes:** Added deployment troubleshooting guide + decision tree, final audit checklist links, START-HERE deployment verification link, Hostinger verification notes, and consolidated `.env.production.template` into `.env.example`.
+- **Status:** completed
+- **Next:** Use `push website live` for next deploy and run HOSTINGER-DEPLOY final configuration audit checklist.
+
 ## [2026-06-02] - MCP-first push website live + deploy tooling
 - **Branch:** MSC-Website-v4
 - **Changes:** `deploy:zip`, MCP-default `push-website-live.ps1`, FTPS fallback (`--ftps`), Hostinger restart reminder, `FTP_REMOTE_PATH=/nodejs` sync, debug projects-home probe (gated).
