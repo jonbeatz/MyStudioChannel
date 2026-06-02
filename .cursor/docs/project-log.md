@@ -1,5 +1,11 @@
 # Project Session Log
 
+## [2026-06-02 10:45] - Document sync + Master command index & WAL automation
+- **Branch:** MSC-Website-v4
+- **Changes:** Created `MASTER-COMMANDS.md` single source of truth command index. Logged 503 missing preload file error and SQLite WAL locking issue in `ISSUES-RESOLVED.md`. Automated remote WAL/SHM deletion and DB size check in `push-website-live.ps1`. Updated documentation mapping cross-references.
+- **Status:** completed
+- **Next:** Continue daily feature development and run `npm run push:website:live -- --ftps` for future updates.
+
 ## [2026-06-02 01:15] - Session closeout (docs hardening + env template consolidation)
 - **Branch:** MSC-Website-v4
 - **Changes:** Added deployment troubleshooting guide + decision tree, final audit checklist links, START-HERE deployment verification link, Hostinger verification notes, and consolidated `.env.production.template` into `.env.example`.

@@ -17,6 +17,27 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-02] Live Site 503 Service Unavailable due to Missing Hostinger Preload File
+- **Error:** `https://mystudiochannel.com` returned a 503 Service Unavailable error immediately, even though Node.js showed running and the database/files were in place.
+- **Cause:** Hostinger's Node.js process manager expects a preload/config structure under `/public_html/.builds/config/preload-timestamp.js`. If `.builds/` is deleted (such as during manual FTP or file system cleanups), Hostinger's app runner throws `MODULE_NOT_FOUND` and fails silently or with 503.
+- **Solution:** Connected via SSH and recreated the missing directory structure (`mkdir -p /home/u942711528/domains/mystudiochannel.com/public_html/.builds/config`) and touched/configured a dummy `preload-timestamp.js` file with permissions `644`.
+- **Files Changed:** Created remote folder `/public_html/.builds/config/preload-timestamp.js`. Updated `.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md`, `.cursor/docs/HOSTINGER-DEPLOY.md`, `.cursor/docs/START-HERE.md`.
+- **Prevention:** Never delete the `/public_html/.builds/` directory during cleanups, or immediately restore it using SSH/File Manager if it is accidentally removed.
+
+## [2026-06-02] SQLite WAL Journal Locking on Hostinger App Server (Now Automated via FTPS)
+- **Error:** Upon uploading a fresh database to `/nodejs/payload.sqlite`, the live site returned 500/504 errors because of SQLite Write-Ahead Log (WAL) locks.
+- **Cause:** SQLite generates `-wal` and `-shm` files for active connections. When the database binary (`payload.sqlite`) is replaced via FTPS, the existing `-wal` and `-shm` files mismatch, causing locking issues until they are deleted and the Node.js process restarted.
+- **Solution:** Updated `push-website-live.ps1` (FTPS fallback mode) to parse `.vscode/sftp.json` credentials, perform automated verification of the uploaded `payload.sqlite` file size, and issue FTP commands to automatically delete `payload.sqlite-wal` and `payload.sqlite-shm` on the server before prompting for restart.
+- **Files Changed:** `scripts/push-website-live.ps1`, `.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md`, `.cursor/docs/HOSTINGER-DEPLOY.md`.
+- **Prevention:** The deploy script now completely automates WAL file deletion and size checks on the server, eliminating the risk of manual omission.
+
+## [2026-06-02] Created Single Source of Truth for Project Commands
+- **Error:** Developers had to search across multiple markdown files (`START-HERE.md`, `Jedi-List.md`, `Prompt-Cheat-Sheet.md`) to find working dev, deployment, and troubleshooting commands.
+- **Cause:** Incremental feature additions left commands scattered across various files without a single master index.
+- **Solution:** Created `.cursor/docs/MASTER-COMMANDS.md`, consolidating all local dev, deployment options (with database support distinctions), database copying rules, connection diagnostic commands, manual SSH guides, recovery routines, environment variables, copy-paste quick cards, and success check templates. Cross-linked the new file from `START-HERE.md`, `Prompt-Cheat-Sheet.md`, and `README.md`.
+- **Files Changed:** `.cursor/docs/MASTER-COMMANDS.md`, `.cursor/docs/START-HERE.md`, `.cursor/docs/Prompt-Cheat-Sheet.md`, `README.md`.
+- **Prevention:** Keep all operational scripts and commands indexed inside `MASTER-COMMANDS.md` as the single authoritative source of truth.
+
 ## [2026-06-02] Hostinger verification gap: env vars are UI-only + FTPS auth fluctuation
 - **Error:** Connectivity checks gave mixed confidence: FTPS initially returned `530 Not logged in`, and automated checks could not reliably prove hPanel environment variables from scripts.
 - **Cause:** FTPS credentials/session state can intermittently fail; Hostinger env vars are managed in hPanel UI and are not consistently exposed via MCP/SSH read-only diagnostics.
