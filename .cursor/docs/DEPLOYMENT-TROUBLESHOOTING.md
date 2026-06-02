@@ -9,6 +9,20 @@ Use this guide when live deploys fail or production behavior diverges from local
 
 ---
 
+## 🚨 Quick Decision Tree
+
+Is your site down?
+
+```text
+Is your site down?
+    ├── 503 error -> Restart Node -> Upload 528KB DB -> Restart again
+    ├── 500 API error -> Upload DB -> Delete WAL files -> Restart
+    ├── 504 timeout -> Stop dev server -> npm run db:copy -> Re-upload
+    └── Wrong content -> Upload local payload.sqlite -> Restart
+```
+
+---
+
 ## 1) 503 Service Unavailable / Site Down
 
 ### Symptoms
