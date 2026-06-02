@@ -198,6 +198,28 @@ function Get-FtpFileSize {
   }
 }
 
+function Rename-FtpFile {
+  param(
+    [string]$BaseFtpUrl,
+    [string]$RemoteFilePath,
+    [string]$NewFileName,
+    [System.Net.NetworkCredential]$Credential,
+    [bool]$UseSsl,
+    [bool]$UsePassive
+  )
+  $uri = "$BaseFtpUrl/$(Escape-FtpPath -PathText $RemoteFilePath)"
+  try {
+    $request = New-FtpRequest -Uri $uri -Method ([System.Net.WebRequestMethods+Ftp]::Rename) -Credential $Credential -UseSsl $UseSsl -UsePassive $UsePassive
+    $request.RenameTo = $NewFileName
+    $response = $request.GetResponse()
+    $response.Close()
+    return $true
+  } catch {
+    Write-Host "Rename FTP file failed: $_" -ForegroundColor Red
+    return $false
+  }
+}
+
 Write-Host ""
 Write-Host "push:website:live -> $domain" -ForegroundColor Cyan
 if ($dryRun) { Write-Host "DRY RUN - no zip / no upload" -ForegroundColor Magenta }
@@ -261,22 +283,7 @@ if ($useFtps) {
     Write-Host "ABORT: .vscode/sftp.json missing. Run: npm run sync:sftp-env" -ForegroundColor Red
     exit 1
   }
-  Write-Host "verify:ftp-smoke..." -ForegroundColor Yellow
-  npm run verify:ftp-smoke
-  if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-  Write-Host ""
-  Write-Host "Live (hPanel): STOP Node before FTPS if DB/.next are open on server." -ForegroundColor Yellow
-  Write-Host "  $hpanelUrl" -ForegroundColor Gray
-  Write-Host ""
-
-  npm run pushit:live
-  if ($LASTEXITCODE -ne 0) {
-    Write-Host "FTPS deploy failed at pushit:live." -ForegroundColor Red
-    exit $LASTEXITCODE
-  }
-
-  # Automatic WAL Cleanup and DB Size Verification
   Write-Host "Parsing FTPS configuration..." -ForegroundColor Yellow
   $config = Get-Content -Raw -Path $sftpConfigPath | ConvertFrom-Json
   $ignoreCert = $true
@@ -297,9 +304,42 @@ if ($useFtps) {
   $baseFtpUrl = "ftp://$ftpServer`:$ftpPort"
   $credential = New-Object System.Net.NetworkCredential($username, $password)
 
+  Write-Host "verify:ftp-smoke..." -ForegroundColor Yellow
+  npm run verify:ftp-smoke
+  if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+  # Remote Database Auto-Backup
+  $remoteDbPath = Join-FtpPath -Left $remoteBase -Right "payload.sqlite"
+  $dbSize = Get-FtpFileSize -BaseFtpUrl $baseFtpUrl -RemoteFilePath $remoteDbPath -Credential $credential -UseSsl $useSsl -UsePassive $usePassive
+  if ($dbSize -ge 0) {
+    $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+    $backupFileName = "payload.sqlite.bak-$timestamp"
+    Write-Host "📦 Backing up remote database..." -ForegroundColor Yellow
+    $backupSuccess = Rename-FtpFile -BaseFtpUrl $baseFtpUrl -RemoteFilePath $remoteDbPath -NewFileName $backupFileName -Credential $credential -UseSsl $useSsl -UsePassive $usePassive
+    if ($backupSuccess) {
+      Write-Host "✅ Backup saved on server: $backupFileName" -ForegroundColor Green
+    } else {
+      Write-Host "❌ ABORT: Remote database backup failed. Overwrite prevented." -ForegroundColor Red
+      exit 1
+    }
+  } else {
+    Write-Host "ℹ️ No existing payload.sqlite found on remote server. Skipping backup." -ForegroundColor Gray
+  }
+
+  Write-Host ""
+  Write-Host "Live (hPanel): STOP Node before FTPS if DB/.next are open on server." -ForegroundColor Yellow
+  Write-Host "  $hpanelUrl" -ForegroundColor Gray
+  Write-Host ""
+
+  npm run pushit:live
+  if ($LASTEXITCODE -ne 0) {
+    Write-Host "FTPS deploy failed at pushit:live." -ForegroundColor Red
+    exit $LASTEXITCODE
+  }
+
+  # Automatic WAL Cleanup and DB Size Verification
   Write-Host ""
   Write-Host "Verifying database upload size..." -ForegroundColor Yellow
-  $remoteDbPath = Join-FtpPath -Left $remoteBase -Right "payload.sqlite"
   $dbSize = Get-FtpFileSize -BaseFtpUrl $baseFtpUrl -RemoteFilePath $remoteDbPath -Credential $credential -UseSsl $useSsl -UsePassive $usePassive
   if ($dbSize -gt 0) {
     $dbSizeKb = [Math]::Round($dbSize / 1024, 1)
