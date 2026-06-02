@@ -60,6 +60,8 @@ const nextConfig = {
   // Hide Next.js dev toolbar / “Preferences” panel (bottom-left in dev). Not part of Payload.
   devIndicators: false,
   poweredByHeader: false,
+  // Hostinger runs `npm install --production` — ESLint is not on the server (see DEPLOYMENT-FIXES.md).
+  eslint: { ignoreDuringBuilds: true },
   // Payload requires a Node server. Static `out/` export is disabled while CMS is integrated.
   // next/image: local `/api/media/file/*` and `/media/*` (public/media) are same-origin — no remotePatterns entry needed.
   images: {
