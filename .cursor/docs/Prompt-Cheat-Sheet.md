@@ -219,6 +219,9 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 
 Troubleshooting and maintenance triggers when things break.
 
+For deploy outages and live errors (`503` / `500` / `504`), use:
+- [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md)
+
 ### ➡️ `"Fix Local"`  
 - **Action:** Local dev recovery.
 - **Script Command:** `npm run dev:recover`

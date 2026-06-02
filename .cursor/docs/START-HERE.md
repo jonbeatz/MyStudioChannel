@@ -178,6 +178,14 @@ Full guide: **HOSTINGER-DEPLOY.md** → *Path C — Daily updates*.
 
 ---
 
+## If site goes down (live quick path)
+
+1. **Live (hPanel):** restart Node.js app
+2. Check `/nodejs/payload.sqlite` size (real DB vs `4 KB` stub)
+3. If DB was replaced, delete `payload.sqlite-wal` and `payload.sqlite-shm`
+4. Re-test `/`, `/admin`, and `/api/globals/projects-home?depth=1`
+5. Use full incident guide: [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md)
+
 ## Quick incident recovery (when things suddenly break)
 
 1. Local broken after deploy? Run `npm run dev:fresh`.
