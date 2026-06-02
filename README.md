@@ -103,6 +103,16 @@ My Studio Channel
 
 ---
 
+## 🛡️ Production-Hardening & Reliability Features
+
+The `MSC-Website-v5` release introduces comprehensive safety and developer experience features:
+- **Database Optimization Utility:** Optimize database files with `npm run db:optimize` (using `PRAGMA optimize` + `VACUUM`), automated to prevent bloat.
+- **Git Pre-commit Hook (Husky):** Enforces lint checks automatically on every `git commit`, preventing bad syntax or build errors from entering git.
+- **SSH Live Log Streaming:** Instantly tail remote host logs on your PC terminal via `npm run logs:live` (stderr) and `npm run logs:live:console`.
+- **Version & Branch Tracking:** Automated version mapping, branch names, and commit hashes embedded inside backup notes.
+- **Post-Backup Verification:** Self-testing backup checker that validates the structural completeness of local backups automatically.
+- **Backup Retention Manager:** Simple retention utility via `npm run backup:clean` that retains only the 10 most recent backups and purges older folders.
+
 ## 📦 Deployment Workflow
 
 Optimized for **Hostinger (hPanel)** with **automated validation and recovery**:

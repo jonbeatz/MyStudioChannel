@@ -39,6 +39,8 @@
 |---------|--------------|--------------|
 | `npm run db:copy` | Create clean `payload.sqlite.temp` copy | ✅ Checks if dev server is running |
 | `npm run db:copy:force` | Force copy without prompts | ⚠️ Use carefully |
+| `npm run db:optimize` | Run `PRAGMA optimize` and `VACUUM` on `payload.sqlite` | ✅ Checks if dev server is running |
+| `npm run db:maintain` | Optimize local database then create clean copy for deploy | ✅ Safe all-in-one prep command |
 | `npm run pushitup -- payload.sqlite` | Upload database via FTPS | Manual |
 
 ### Database Safety Rules:
@@ -58,6 +60,8 @@
 | `npm run verify:ftp-smoke` | Upload/download test file | Verify FTPS write access |
 | `npm run verify:live` | Smoke test all live endpoints | After deployment |
 | `npm run verify:live:version` | Check footer version matches | Verify correct build |
+| `npm run logs:live` | Real-time stream of server `stderr.log` via SSH | Debugging live server errors / crashes |
+| `npm run logs:live:console` | Real-time stream of server `console.log` via SSH | Viewing live server application output |
 
 ### Manual Diagnostics (SSH)
 ```bash
@@ -69,6 +73,24 @@ tail -20 stderr.log            # View startup errors
 tail -20 console.log           # View application logs
 ps aux | grep node             # Check if Node is running
 ```
+
+---
+
+## 🧹 Backup & Git Maintenance Commands
+
+| Command | What it does | Frequency |
+|---------|--------------|-----------|
+| `npm run msc:backup:quick` | Non-interactive standard backup to local backup drive | Daily / before substantive changes |
+| `npm run msc:backup:quick:full` | Non-interactive full backup including `node_modules` and `.next` | Weekly / major upgrades |
+| `npm run backup:clean` | Retention manager: purges backups older than the 10 most recent | Monthly / as disk space requires |
+| `npm run backup:clean -- --dry-run` | Preview which folders would be cleaned up | Safely preview before deleting |
+
+### 🛡️ Git Pre-Commit Security Hook
+Every time you perform a `git commit` command, Husky automatically intercepts the commit to:
+1. Print a linter progress check (`npm run lint`).
+2. Run code validation and format verification.
+3. Prevent bad builds or runtime errors from entering the repository history.
+4. Abort the commit immediately if any linting or structural issues are detected.
 
 ---
 

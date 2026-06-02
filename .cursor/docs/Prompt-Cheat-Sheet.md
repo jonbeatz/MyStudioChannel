@@ -207,6 +207,8 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 |---------|---------|
 | `npm run db:copy` | Create clean database copy (checks if dev server is running first) |
 | `npm run db:copy:force` | Force copy without confirmation prompts |
+| `npm run db:optimize` | Optimize database using `VACUUM` and `PRAGMA optimize` |
+| `npm run db:maintain` | Safely optimize database then copy for deployment |
 | Then upload `payload.sqlite.temp` to Hostinger and rename | Update live database safely |
 
 ### ➡️ `"Pre-deploy risk check for current changes"`
@@ -237,6 +239,21 @@ For deploy outages and live errors (`503` / `500` / `504`), use:
 | `npm run verify:live` | Smoke test all live endpoints |
 | `npm run verify:live:version` | Confirm footer version matches |
 | `npm run test:hostinger-ftp` | Verify FTPS credentials work |
+
+### ➡️ `"stream live stderr"`
+- **Action:** Stream live Hostinger stderr log via SSH.
+- **Script Command:** `npm run logs:live`
+- **Expected Outcome:** Connects securely over SSH and streams the remote `stderr.log` directly in your terminal.
+
+### ➡️ `"stream live console"`
+- **Action:** Stream live Hostinger application console output via SSH.
+- **Script Command:** `npm run logs:live:console`
+- **Expected Outcome:** Connects securely over SSH and streams the remote `console.log` directly in your terminal.
+
+### ➡️ `"clean backups"` / `"purge old backups"`
+- **Action:** Clean old backups.
+- **Script Command:** `npm run backup:clean` (or add `-- --dry-run` to preview)
+- **Expected Outcome:** Scans your backup folder and retains only the 10 most recent backups, keeping your disk clean.
 
 ### ➡️ `"Fix Local"`  
 - **Action:** Local dev recovery.

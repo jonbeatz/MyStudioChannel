@@ -147,6 +147,10 @@ Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.nex
 |------------|---------|
 | Push daily changes (recommended) | Say **push website live** or **`npm run push:website:live`** → MCP zip → [restart in hPanel](https://hpanel.hostinger.com/websites/mystudiochannel.com) |
 | Push daily changes (FTPS fallback) | **`npm run push:website:live -- --ftps`** (Full compile + deploy with **automatic WAL cleanup & DB size verification**) → restart in hPanel |
+| Stream server error logs live | **`npm run logs:live`** (SSH `tail -f stderr.log`) |
+| Stream server console logs live | **`npm run logs:live:console`** (SSH `tail -f console.log`) |
+| Optimize local database | **`npm run db:optimize`** (`PRAGMA optimize` + `VACUUM`) |
+| Purge old local backups | **`npm run backup:clean`** (retains only 10 most recent backups) |
 | Push with new packages | **`git push origin main`** (auto rebuild, if Git connected) |
 | Check what Hostinger will install | **`npm ls --omit=dev --depth=0`** |
 | Verify build before push | **`npm run build && npm run verify:local`** |

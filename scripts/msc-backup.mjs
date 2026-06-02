@@ -48,6 +48,21 @@ function getProjectName() {
   return path.basename(REPO_ROOT);
 }
 
+function getProjectVersion() {
+  try {
+    const pkgPath = path.join(REPO_ROOT, 'package.json');
+    if (fs.existsSync(pkgPath)) {
+      const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+      if (pkg.version && typeof pkg.version === 'string') {
+        return pkg.version;
+      }
+    }
+  } catch {
+    /* fallback */
+  }
+  return 'unknown';
+}
+
 function defaultBackupFolder(projectName) {
   const stamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
   return `${projectName}-backup-${stamp}`;
@@ -119,6 +134,49 @@ function getGitInfo(repoRoot) {
   }
 }
 
+function verifyBackupContents(backupPath, backupType) {
+  const errors = [];
+  const warnings = [];
+  const checks = [
+    { path: 'package.json', type: 'file', required: true },
+    { path: 'payload.sqlite', type: 'file', required: true },
+    { path: '.env.local', type: 'file', required: true },
+    { path: 'app', type: 'dir', required: true },
+    { path: 'components', type: 'dir', required: true },
+    { path: 'lib', type: 'dir', required: true },
+  ];
+
+  if (backupType === 'FULL') {
+    checks.push({ path: 'node_modules', type: 'dir', required: true });
+    checks.push({ path: '.next', type: 'dir', required: false });
+  }
+
+  for (const check of checks) {
+    const targetPath = path.join(backupPath, check.path);
+    if (!fs.existsSync(targetPath)) {
+      if (check.required) {
+        errors.push(`Missing required ${check.type}: ${check.path}`);
+      } else {
+        warnings.push(`Missing optional ${check.type}: ${check.path}`);
+      }
+    } else {
+      const stat = fs.statSync(targetPath);
+      if (check.type === 'file' && !stat.isFile()) {
+        errors.push(`Expected file, found directory: ${check.path}`);
+      } else if (check.type === 'dir' && !stat.isDirectory()) {
+        errors.push(`Expected directory, found file: ${check.path}`);
+      }
+    }
+  }
+
+  return {
+    success: errors.length === 0,
+    errors,
+    warnings,
+    checkedItemsCount: checks.length
+  };
+}
+
 function formatExcluded(backupType) {
   if (backupType === 'FULL') {
     return 'None (full backup)';
@@ -133,7 +191,7 @@ function formatIncluded(backupType) {
   return '.env.local';
 }
 
-function buildNoteEntry({ timestamp, backupType, userNotes, gitInfo, backupFolder }) {
+function buildNoteEntry({ timestamp, backupType, userNotes, gitInfo, backupFolder, projectVersion, verification }) {
   const typeLabel = displayBackupType(backupType);
   let entry = `## [${timestamp}] - ${typeLabel} Backup\n\n`;
 
@@ -146,12 +204,21 @@ function buildNoteEntry({ timestamp, backupType, userNotes, gitInfo, backupFolde
   entry += `| Field | Value |\n`;
   entry += `|-------|-------|\n`;
   entry += `| **Folder** | ${escapeTableCell(backupFolder)} |\n`;
+  entry += `| **Version** | ${escapeTableCell(projectVersion)} |\n`;
   entry += `| **Branch** | ${escapeTableCell(gitInfo.branch)} |\n`;
   entry += `| **Commit** | ${escapeTableCell(gitInfo.commit)} |\n`;
   entry += `| **Message** | ${escapeTableCell(gitInfo.message)} |\n`;
   entry += `| **Type** | ${typeLabel} |\n`;
   entry += `| **Excluded** | ${escapeTableCell(formatExcluded(backupType))} |\n`;
   entry += `| **Included (secrets)** | ${escapeTableCell(formatIncluded(backupType))} |\n`;
+  
+  if (verification) {
+    const verifStatus = verification.success
+      ? `✅ Verified (${verification.checkedItemsCount}/${verification.checkedItemsCount} items intact)`
+      : `❌ Failed (${verification.errors.length} errors, see terminal)`;
+    entry += `| **Verification** | ${escapeTableCell(verifStatus)} |\n`;
+  }
+
   entry += `\n---\n\n`;
 
   return entry;
@@ -291,15 +358,33 @@ Source: ${REPO_ROOT}
   return { fullBackupPath, backupFolder, backupType, userNotes };
 }
 
-function printSuccess(fullBackupPath, backupType, backupFolder, notesPath) {
+function printSuccess(fullBackupPath, backupType, backupFolder, notesPath, verification) {
   console.log(`
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ Backup complete!
 📂 Location: ${fullBackupPath}
-📦 Type: ${backupType}
-📝 Notes:   ${notesPath}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 Type:     ${backupType}
+📝 Notes:    ${notesPath}
 `);
+
+  if (verification) {
+    console.log("🔍 [POST-BACKUP VERIFICATION REPORT]");
+    if (verification.success) {
+      console.log(`   ✅ SUCCESS: All ${verification.checkedItemsCount} critical elements verified as fully intact.`);
+    } else {
+      console.log(`   ❌ FAILURE: ${verification.errors.length} elements missing/corrupted!`);
+      for (const err of verification.errors) {
+        console.log(`      - ${err}`);
+      }
+    }
+    if (verification.warnings.length > 0) {
+      for (const warn of verification.warnings) {
+        console.log(`      ⚠️  Warning: ${warn}`);
+      }
+    }
+    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+  }
+
   console.log(`Folder: ${backupFolder}`);
 }
 
@@ -344,14 +429,7 @@ async function main() {
     const now = new Date();
     const timestamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
     const gitInfo = getGitInfo(REPO_ROOT);
-    const noteEntry = buildNoteEntry({
-      timestamp,
-      backupType,
-      userNotes,
-      gitInfo,
-      backupFolder,
-    });
-    const preservedNotes = readExistingNotesBody(fullBackupPath);
+    const projectVersion = getProjectVersion();
 
     let robocopyOk = false;
 
@@ -368,8 +446,22 @@ async function main() {
     }
 
     if (robocopyOk) {
+      // Run Verification on copied files
+      const verification = verifyBackupContents(fullBackupPath, backupType);
+      
+      const noteEntry = buildNoteEntry({
+        timestamp,
+        backupType,
+        userNotes,
+        gitInfo,
+        backupFolder,
+        projectVersion,
+        verification,
+      });
+      const preservedNotes = readExistingNotesBody(fullBackupPath);
+      
       const notesPath = prependBackupNote(fullBackupPath, noteEntry, preservedNotes);
-      printSuccess(fullBackupPath, backupType, backupFolder, notesPath);
+      printSuccess(fullBackupPath, backupType, backupFolder, notesPath, verification);
     }
   } finally {
     rl.close();
