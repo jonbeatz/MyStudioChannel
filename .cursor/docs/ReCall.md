@@ -90,15 +90,22 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Gallery hydration:** **`lib/cms/homepage-gallery-seed.ts`**, **`lib/cms/homepage-gallery-hydrate.ts`** (`afterRead` → full Media shape for admin + site).
 - **Public URLs:** **`lib/public-origin.ts`** + **`lib/site-origin-defaults.ts`** — **`PAYLOAD_PUBLIC_SERVER_URL`** / **`NEXT_PUBLIC_SERVER_URL`** / **`MSC_CANONICAL_SITE_ORIGIN`**; **`getPublicOriginClient()`** for admin Client Components; **`payload.config.ts`** **`serverURL`** + env-built **CSRF**.
 - **Marketing site:** Header/footer in-page hash scroll (mobile drawer defer); **`HomeHashScroll`**; **`middleware`** pathname-only rewrites (host-agnostic).
-- **Version:** **`v4.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v4.0.0`**, admin **`MyStudioChannel Admin v4.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
-- **Live:** **`https://mystudiochannel.com`** — **v4.0.0** live (Hostinger Node.js; deploy 2026-06-01). **`/`** + **`/admin`** 200; verify hPanel env vars if API 500.
+- **Version:** **`v5.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v5.0.0`**, admin **`MyStudioChannel Admin v5.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
+- **Live:** **`https://mystudiochannel.com`** — **v5.0.0** live (Hostinger Node.js; deploy 2026-06-02). **`/`** + **`/admin`** 200; verify hPanel env vars if API 500.
 - **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (Path A/B/C), **`DEPLOYMENT-FIXES.md`** (canonical dependency rule).
-- **Branches:** **`MSC-Website-v4`** (active dev); **`main`** synced with v4; **`MSC-Website-v3`** frozen at v3.0.0 (`8a44d95`).
-- **Next ideas:** Feature work on v4; day-to-day updates via **`npm run push:website:live`** (MCP zip default) or **`-- --ftps`**.
+- **Branches:** **`MSC-Website-v5`** (active dev); **`main`** synced with v5; **`MSC-Website-v4`** frozen at v4.0.0 (`0a33e8d` or `972f661`).
+- **Next ideas:** Feature work on v5; day-to-day updates via **`npm run push:website:live`** (MCP zip default) or **`-- --ftps`**.
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-02 — v5.0.0 development branch and MSC-Website-v5 branch cut
+
+- **Branch:** Created **`MSC-Website-v5`** from **`MSC-Website-v4`**.
+- **Version:** Bumped **`package.json`** to **`5.0.0`**; UI labels follow via **`lib/msc-app-version.ts`** dynamically.
+- **Git:** **`main`** branch fast-forwarded to match **`MSC-Website-v5`**.
+- **Policy:** **`MSC-Website-v4`** remains as a backup branch; all active development happens on **`MSC-Website-v5`**.
 
 ### 2026-06-02 — MCP-first “push website live” workflow
 

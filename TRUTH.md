@@ -4,7 +4,7 @@
 - **Name:** MyStudioChannel
 - **Type:** Next.js (15.4) + Payload CMS (3.81) application
 - **OS/Shell:** Windows 10/11 + PowerShell (Core or Desktop)
-- **Primary Branch:** `MSC-Website-v4` (active dev); **`main`** synced with v4 line
+- **Primary Branch:** `MSC-Website-v5` (active dev); **`main`** synced with v5 line
 - **Repository:** [https://github.com/jonbeatz/MyStudioChannel](https://github.com/jonbeatz/MyStudioChannel)
 - **Primary Domain:** [https://mystudiochannel.com](https://mystudiochannel.com)
 
@@ -100,7 +100,7 @@ MyStudioChannel/
 
 ## Deployment (Hostinger)
 
-**Live:** [https://mystudiochannel.com](https://mystudiochannel.com) · **Dev branch:** `MSC-Website-v4` · **Production:** v4.0.0 on Hostinger Node.js
+**Live:** [https://mystudiochannel.com](https://mystudiochannel.com) · **Dev branch:** `MSC-Website-v5` · **Production:** v5.0.0 on Hostinger Node.js
 
 | Path | When | Local command |
 |------|------|----------------|
@@ -131,5 +131,5 @@ When booting up a session, you **must** execute the following sequence:
 
 ---
 
-*Last Updated: 2026-06-01 (v4.0.0 live on mystudiochannel.com; MSC-Website-v4 active dev)*  
+*Last Updated: 2026-06-02 (v5.0.0 live on mystudiochannel.com; MSC-Website-v5 active dev)*  
 <sub>· Powered by the MyStudioChannel Media Engine</sub>

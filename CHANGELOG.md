@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.0.0] - 2026-06-02
+
+### Added
+- **MSC-Website-v5 branch cut**: Switched to a new development branch line `MSC-Website-v5` for continuous feature development.
+- **Master Command Reference SSoT**: Created `MASTER-COMMANDS.md` as the unified command card for dev, deploy, db, and diagnostics.
+- **Automated WAL Cleanup**: Integrated automated SQLite WAL/SHM file cleanup and remote file size verification into `push-website-live.ps1` via FTPS, solving the 500/504 replay locks.
+- **503 Preload Troubleshooting**: Added resolution for silent Hostinger Node.js 503 crashes caused by missing `.builds` config preload files.
+
+### Changed
+- **Version bump**: Upgraded global semver to `5.0.0` in `package.json` with dynamic import by `lib/msc-app-version.ts` for headers/footers.
+- Updated all operational documentation files (`README.md`, `TRUTH.md`, `Checkpoint.md`, `project-log.md`, `Prompt-Cheat-Sheet.md`, `Restore-Points.md`, `Development.md`, `Jedi-List.md`, `Go-Live-Checklist.md`, `GitHub-Cheat-Sheet.md`, `DEPLOYMENT-FIXES.md`) to reflect `v5.0.0` and branch `MSC-Website-v5`.
+
 ## [4.0.0] - 2026-06-01
 
 ### Added

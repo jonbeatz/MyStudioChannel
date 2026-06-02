@@ -22,7 +22,7 @@
 
 | Metric              | Value                                                                  |
 | ------------------- | ---------------------------------------------------------------------- |
-| **Version**         | v4.0.0 (live at [mystudiochannel.com](https://mystudiochannel.com)) |
+| **Version**         | v5.0.0 (live at [mystudiochannel.com](https://mystudiochannel.com)) |
 | **Stack**           | Next.js 15 (React 19) + Payload CMS 3.81.0                             |
 | **CMS Engine**      | ✅ MSC PRO ENGINE Studio Mode — Gold Sidebar + Dashboard               |
 | **Deployment**      | ✅ Tiered FTPS (Hostinger/hPanel) via `PushItUP`                       |

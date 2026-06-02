@@ -1,5 +1,11 @@
 # Project Session Log
 
+## [2026-06-02 10:55] - Version bump to 5.0.0 and MSC-Website-v5 branch cut
+- **Branch:** MSC-Website-v5
+- **Changes:** Cut new development branch `MSC-Website-v5` from `MSC-Website-v4`. Bumped global project version to `5.0.0` in `package.json` and synchronized branch/version references across all project documentation files (`README.md`, `TRUTH.md`, `Checkpoint.md`, `project-log.md`, `Prompt-Cheat-Sheet.md`, `Restore-Points.md`, `MASTER-COMMANDS.md`, `HOSTINGER-DEPLOY.md`, `START-HERE.md`, `CHANGELOG.md`).
+- **Status:** completed
+- **Next:** Continue high-fidelity feature development under `MSC-Website-v5` branch.
+
 ## [2026-06-02 10:45] - Document sync + Master command index & WAL automation
 - **Branch:** MSC-Website-v4
 - **Changes:** Created `MASTER-COMMANDS.md` single source of truth command index. Logged 503 missing preload file error and SQLite WAL locking issue in `ISSUES-RESOLVED.md`. Automated remote WAL/SHM deletion and DB size check in `push-website-live.ps1`. Updated documentation mapping cross-references.

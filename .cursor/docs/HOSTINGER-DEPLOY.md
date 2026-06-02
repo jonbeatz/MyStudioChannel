@@ -2,7 +2,7 @@
 
 **Live site:** [https://mystudiochannel.com](https://mystudiochannel.com)  
 **Project root (Local):** `D:\Cursor_Projectz\MyStudioChannel`  
-**Branch:** `MSC-Website-v4`  
+**Branch:** `MSC-Website-v5`  
 **Stack:** Next.js 15 + Payload CMS 3 + SQLite · entry **`server.js`** (Hostinger may auto-detect **`next start`** for Next.js preset)
 
 **Related:** [DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md) (2026-06-01 learnings) · [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md) (503/500/504 root-cause guide) · [Go-Live-Checklist.md](./Go-Live-Checklist.md) · [`.env.example`](../../.env.example)
@@ -69,7 +69,7 @@ npm run build
 npm run verify:local
 ```
 
-Confirm footer shows **`MyStudioChannel v4.0.0`** on `http://localhost:3000/`.
+Confirm footer shows **`MyStudioChannel v5.0.0`** on `http://localhost:3000/`.
 
 ### 1) `package.json` — production dependency rule
 
@@ -156,9 +156,9 @@ Template copy: [`.env.example`](../../.env.example)
 **Incognito:**
 
 - `https://mystudiochannel.com/` — Next.js site (not WordPress / `wp-content`)
-- Footer: **`MyStudioChannel v4.0.0`**
+- Footer: **`MyStudioChannel v5.0.0`**
 - `https://mystudiochannel.com/admin` — Payload login
-- After login: sidebar **`MyStudioChannel Admin v4.0.0`**
+- After login: sidebar **`MyStudioChannel Admin v5.0.0`**
 
 **Local smoke script:**
 
@@ -329,7 +329,7 @@ npm run verify:live
 
 - [https://mystudiochannel.com](https://mystudiochannel.com)
 - [https://mystudiochannel.com/admin](https://mystudiochannel.com/admin)
-- Footer shows correct version (**`MyStudioChannel v4.0.0`**)
+- Footer shows correct version (**`MyStudioChannel v5.0.0`**)
 
 ---
 
@@ -473,8 +473,8 @@ Running `npm run push:website:live -- --ftps` automatically:
 2. **`payload.sqlite`** is shipped on first deploy; avoid overwriting production DB from PC unless intentional.
 3. **`PAYLOAD_DISABLE_SHARP=true`** on Hostinger.
 4. Production URLs must be **`https://mystudiochannel.com`** (both `NEXT_PUBLIC_*` and `PAYLOAD_PUBLIC_*`).
-5. After deploy, confirm version labels: **`MyStudioChannel v4.0.0`** / **`MyStudioChannel Admin v4.0.0`**.
+5. After deploy, confirm version labels: **`MyStudioChannel v5.0.0`** / **`MyStudioChannel Admin v5.0.0`**.
 
 ---
 
-*Last updated: 2026-06-02 — v4.0.0 live on mystudiochannel.com (Automated WAL cleanup & 503 fix)*
+*Last updated: 2026-06-02 — v5.0.0 live on mystudiochannel.com (Automated WAL cleanup & 503 fix)*

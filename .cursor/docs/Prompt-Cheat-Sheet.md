@@ -302,5 +302,5 @@ Commands to manually free processes and manage port bindings.
 
 ---
 
-*Last Updated: 2026-06-01 (v4.0.0 — MSC-Website-v4 development branch)*  
+*Last Updated: 2026-06-02 (v5.0.0 — MSC-Website-v5 development branch)*  
 <sub>· Powered by the MSC Media Engine</sub>
