@@ -17,6 +17,13 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-02] Hostinger verification gap: env vars are UI-only + FTPS auth fluctuation
+- **Error:** Connectivity checks gave mixed confidence: FTPS initially returned `530 Not logged in`, and automated checks could not reliably prove hPanel environment variables from scripts.
+- **Cause:** FTPS credentials/session state can intermittently fail; Hostinger env vars are managed in hPanel UI and are not consistently exposed via MCP/SSH read-only diagnostics.
+- **Solution:** Re-ran `npm run test:hostinger-ftp` to confirm FTPS login success; added docs guidance that env vars must be visually verified in hPanel; added final audit checklist and troubleshooting decision tree/cross-links.
+- **Files Changed:** `.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md`, `.cursor/docs/HOSTINGER-DEPLOY.md`, `.cursor/docs/Prompt-Cheat-Sheet.md`, `.cursor/docs/START-HERE.md`
+- **Prevention:** After each deploy, run `npm run verify:live`, `npm run verify:live:version`, `npm run test:hostinger-ftp`, then complete hPanel UI env-var checklist.
+
 ## [2026-06-01] Live API 500 after v4 deploy — missing hPanel env vars
 - **Error:** `https://mystudiochannel.com/api/globals/projects-home?depth=1` returns **500** after successful v4 deploy; **`/`** and **`/admin`** return **200**.
 - **Cause:** Hostinger MCP cannot set environment variables; production **`PAYLOAD_SECRET`**, **`DATABASE_URL`**, and public URL vars must be set manually in hPanel → Node.js → Environment.
