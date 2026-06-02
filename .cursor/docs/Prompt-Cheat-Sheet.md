@@ -176,18 +176,15 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 
 ### ➡️ `"Push Website Live"`  
 *Alternative phrasings: `"push it live"`, `"push site live"`, `"deploy live"`, `"Lets Push It Live"`, `"Lets Push It Live (Safe)"`*
-- **Action:** **Unified Tier 2 deploy ritual** — preflight, FTPS upload, restart gate, live + version verification.
+- **Action:** **MCP zip deploy (default)** — fast single archive; Hostinger builds on server. **FTPS fallback** if MCP fails.
 - **Workflow File:** `.cursor/prompts/Push-Website-Live.md`
-- **Script Command:** `npm run push:website:live` (dry-run: `npm run push:website:live -- --dry-run`)
-- **Required Host Prep:** **hPanel → STOP APP** first. Then Hostinger Terminal:
-  ```bash
-  cd /home/u942711528/domains/mystudiochannel.com/public_html
-  rm -rf .next
-  rm -f payload.sqlite-wal payload.sqlite-shm
-  ```
-- **Execution Scope:** `verify:next:safe` → `verify:ftp-smoke` → `pushit:live` (build with live URL → admin-ui → `.next` → `payload.sqlite` → `public/media`) → poll `verify:live` → `verify:live:version`.
-- **Deploy zips (MCP/manual):** `zips/MyStudioChannel-v4-deploy-YYYYMMDD-HHmmss.zip` (gitignored)
-- **Required Post-Upload Step:** START Node.js app in hPanel. Validate `/`, `/admin`, and version footer in Incognito.
+- **Script Command:** `npm run push:website:live` · dry-run: `-- --dry-run` · FTPS fallback: `-- --ftps` · zip only: `npm run deploy:zip`
+- **Agent (MCP):** `hosting_deployJsApplication` → poll `hosting_listJsDeployments` → `hosting_showJsDeploymentLogs` on failure
+- **Execution Scope (default):** kill dev → `npm run build` → `deploy:zip` → MCP upload → **restart reminder** → `verify:live` + `verify:live:version`
+- **FTPS fallback scope:** `verify:ftp-smoke` → `pushit:live` → poll verify scripts
+- **Deploy zips:** `zips/MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip` (gitignored)
+- **Restart (required):** https://hpanel.hostinger.com/websites/mystudiochannel.com → Node.js → **Restart**
+- **Optional Terminal (DB/WAL):** `cd .../nodejs` → `rm -f payload.sqlite-wal payload.sqlite-shm`
 
 ### ➡️ `"Lets Push It Live"` (legacy / upload-only)
 - **Action:** **Tier 2 — Full build + DB + media ship** without extended verify polling.

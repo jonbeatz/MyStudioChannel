@@ -12,6 +12,13 @@ if (-not (Test-Path $configPath)) {
 }
 
 $config = Get-Content -Raw -Path $configPath | ConvertFrom-Json
+$ignoreCert = $true
+if ($null -ne $config.ignoreCertificateErrors) {
+  $ignoreCert = [bool]$config.ignoreCertificateErrors
+}
+if ($ignoreCert) {
+  [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
+}
 $ftpServer = [string]$config.host
 $ftpPort = if ($null -ne $config.port) { [int]$config.port } else { 21 }
 $useSsl = if ($null -ne $config.secure) { [bool]$config.secure } else { $true }

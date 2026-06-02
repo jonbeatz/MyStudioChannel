@@ -8,7 +8,7 @@
 # BEFORE running this script:
 #   Live (hPanel UI): Node.js Selector → STOP APP
 #   Live (hPanel → Terminal):
-#     cd /home/u942711528/domains/mystudiochannel.com/public_html
+#     cd /home/u942711528/domains/mystudiochannel.com/nodejs
 #     rm -rf .next                              ← prevents stale webpack-runtime/vendor-chunks
 #                                                  (FTP merges — old chunks survive without this)
 #     rm -f payload.sqlite-wal payload.sqlite-shm  ← prevents old WAL journal overwriting new DB
@@ -17,7 +17,7 @@
 #
 # AFTER this script finishes uploading:
 #   Live (hPanel → Terminal):
-#     cd /home/u942711528/domains/mystudiochannel.com/public_html
+#     cd /home/u942711528/domains/mystudiochannel.com/nodejs
 #     sqlite3 ./payload.sqlite "UPDATE media SET url = '/media/' || filename;"
 #     pkill -u $(whoami) node    ← stops any lingering Node process
 #   Live (hPanel UI): Node.js Selector → START APP (wait 20-30 s)
@@ -95,7 +95,7 @@ Write-Host ""
 Write-Host "=== Tier 2 upload finished. ===" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Next steps — Live (hPanel → Terminal):" -ForegroundColor Cyan
-Write-Host "  cd /home/u942711528/domains/mystudiochannel.com/public_html" -ForegroundColor Gray
+Write-Host "  cd /home/u942711528/domains/mystudiochannel.com/nodejs" -ForegroundColor Gray
 # sqlite3 hint: $sqlConcat avoids literal || (PS7+ tokenization); [char]34 is ASCII double-quote.
 $sqlConcat = '||'
 $sqlReminderInner = 'UPDATE media SET url = ''/media/'' ' + $sqlConcat + ' filename;'

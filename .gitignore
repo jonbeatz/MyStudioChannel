@@ -55,6 +55,7 @@ __pycache__/
 # local deploy artifacts / logs (keep out of Git; large binaries)
 parity-ftp-report.md
 stderr.log
+debug-projects-home.log
 .pushitupzips/
 # Deployment zips (timestamped archives for Hostinger MCP / manual upload)
 zips/

@@ -94,11 +94,18 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Live:** **`https://mystudiochannel.com`** — **v4.0.0** live (Hostinger Node.js; deploy 2026-06-01). **`/`** + **`/admin`** 200; verify hPanel env vars if API 500.
 - **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (Path A/B/C), **`DEPLOYMENT-FIXES.md`** (canonical dependency rule).
 - **Branches:** **`MSC-Website-v4`** (active dev); **`main`** synced with v4; **`MSC-Website-v3`** frozen at v3.0.0 (`8a44d95`).
-- **Next ideas:** Feature work on v4; day-to-day updates via **`pushit:live`** or Hostinger MCP zip.
+- **Next ideas:** Feature work on v4; day-to-day updates via **`npm run push:website:live`** (MCP zip default) or **`-- --ftps`**.
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-02 — MCP-first “push website live” workflow
+
+- **Default deploy:** `npm run push:website:live` → kill dev → `npm run build` → `npm run deploy:zip` → Hostinger MCP **`hosting_deployJsApplication`** → hPanel **restart** → `verify:live`.
+- **Zip:** `zips/MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip` (robocopy excludes `node_modules`, `.next`, `.git`).
+- **FTPS fallback:** `npm run push:website:live -- --ftps` when MCP fails. Target **`FTP_REMOTE_PATH=/nodejs`**.
+- **Scripts:** `create-deploy-zip.ps1`, `print-hostinger-restart-reminder.ps1`, `sync-sftp-from-env.ps1`.
 
 ### 2026-06-01 — v4.0.0 live on Hostinger
 

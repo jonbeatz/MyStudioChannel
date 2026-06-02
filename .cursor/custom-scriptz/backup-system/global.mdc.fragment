@@ -9,4 +9,4 @@
 <!-- Full interactive ritual: .cursor/custom-scriptz/backup-system/CURSOR.md -->
 <!-- Quick: npm run msc:backup:quick | npm run msc:backup:quick:full -->
 
-| "push website live" / "push it live" / "push site live" / "deploy live" | Run `.cursor/prompts/Push-Website-Live.md` — `npm run push:website:live` |
+| "push website live" / "push it live" / "push site live" / "deploy live" | Run `.cursor/prompts/Push-Website-Live.md` — MCP zip default (`npm run push:website:live` → `hosting_deployJsApplication`); FTPS: `-- --ftps` |

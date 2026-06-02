@@ -1,5 +1,11 @@
 # Project Session Log
 
+## [2026-06-02] - MCP-first push website live + deploy tooling
+- **Branch:** MSC-Website-v4
+- **Changes:** `deploy:zip`, MCP-default `push-website-live.ps1`, FTPS fallback (`--ftps`), Hostinger restart reminder, `FTP_REMOTE_PATH=/nodejs` sync, debug projects-home probe (gated).
+- **Docs:** Push-Website-Live.md, HOSTINGER-DEPLOY Path C, global/workflow rules, Jedi-List, START-HERE, Checkpoint, ReCall.
+- **Next:** MCP deploy + hPanel restart; verify live API/globals
+
 ## [2026-06-01] - v4.0.0 live deploy + docs sync
 - **Branch:** MSC-Website-v4 @ `87ec9de`+; **main** synced
 - **Live:** mystudiochannel.com serving Next.js v4.0.0 (Hostinger MCP deploy, build `019e8569-74dc-70e6-bc10-4a121aac92ad`)

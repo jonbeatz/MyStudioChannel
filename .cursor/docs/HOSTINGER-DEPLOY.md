@@ -17,9 +17,9 @@
 
 | Path | When | Where it runs |
 |------|------|----------------|
-| **A — Zip upload (first deploy / full refresh)** | First Node.js setup, replacing WordPress, or when FTPS is not configured | **Local:** build zip → **Live (hPanel):** drag-and-drop → Deploy |
-| **B — FTPS `pushit:live` (updates)** | Day-to-day updates after initial live setup | **Local:** `npm run pushit:live` → **Live (hPanel):** restart Node |
-| **C — Daily updates (after first deploy)** | Ongoing changes — pick FTPS, Git rebuild, or MCP | See **Path C** below |
+| **A — Zip deploy (MCP / hPanel) — default daily** | **Recommended** for `push website live` — fast single archive, server builds | **Local:** `npm run push:website:live` → **MCP:** `hosting_deployJsApplication` → **Live:** restart Node |
+| **B — FTPS `pushit:live` (fallback)** | When MCP fails or you must ship **local** `.next` + DB without server rebuild | **Local:** `npm run push:website:live -- --ftps` → **Live (hPanel):** restart Node |
+| **C — Daily updates (after first deploy)** | Operator phrase + method picker | See **Path C** below |
 
 Do **not** run `pushitup` or zip uploads in **Hostinger Terminal** — upload from **Local (PC repo root)** only.
 
@@ -152,22 +152,29 @@ See [Go-Live-Checklist.md](./Go-Live-Checklist.md) for tier tables and recovery 
 **Before Tier 2 upload (Live Terminal, optional):**
 
 ```bash
-cd /home/u942711528/domains/mystudiochannel.com/public_html
+cd /home/u942711528/domains/mystudiochannel.com/nodejs
 rm -rf .next
 rm -f payload.sqlite-wal payload.sqlite-shm
 ```
 
-Adjust `cd` path to your hPanel app root if different.
+**FTPS target:** set **`FTP_REMOTE_PATH=/nodejs`** in **`.env.local`**, then run **`powershell -File scripts/sync-sftp-from-env.ps1`**.  
+Hostinger Node.js runs from **`/nodejs`** (File Manager), **not** **`public_html`** (that folder may only hold `.builds` + `.htaccess`).  
+Wrong **`remotePath`** uploads to the wrong tree — live app never sees your `.next` or DB.
 
 ---
 
 ## Path C — Daily updates (after first deploy)
 
-**Canonical operator phrase:** say **"push website live"** or **"push it live"** in chat → agent runs [`.cursor/prompts/Push-Website-Live.md`](../prompts/Push-Website-Live.md) and **`npm run push:website:live`**.
+**Canonical operator phrase:** say **"push website live"** in chat → agent runs [`.cursor/prompts/Push-Website-Live.md`](../prompts/Push-Website-Live.md):
 
-**Local command (full ritual):**
+1. **Local:** `npm run push:website:live` (kill dev → build → `zips/MyStudioChannel-deploy-*.zip`)
+2. **MCP:** `hosting_deployJsApplication` + poll `hosting_listJsDeployments` / logs on failure
+3. **Restart:** https://hpanel.hostinger.com/websites/mystudiochannel.com → Node.js → **Restart**
+4. **Verify:** `npm run verify:live` + `verify:live:version`
+
+**FTPS fallback (if MCP fails):**
 ```powershell
-npm run push:website:live
+npm run push:website:live -- --ftps
 ```
 
 Dry-run preflight only:
@@ -175,18 +182,23 @@ Dry-run preflight only:
 npm run push:website:live -- --dry-run
 ```
 
-**Deployment zip folder (MCP / manual):** `zips/` at repo root — `MyStudioChannel-v4-deploy-YYYYMMDD-HHmmss.zip` (gitignored). Never save deploy zips to `D:\Cursor_Projectz\`.
+**Zip-only** (after manual build):
+```powershell
+npm run deploy:zip
+```
 
-Once your site is live, use these methods for ongoing updates. **Full reference:** this section. **Quick card:** [START-HERE.md](./START-HERE.md) → *Pushing updates live*.
+**Deployment zip folder:** `zips/` at repo root — `MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip` (gitignored). Never save deploy zips to `D:\Cursor_Projectz\`.
 
-### Quick reference: three update methods
+Once your site is live, use these methods for ongoing updates. **Quick card:** [START-HERE.md](./START-HERE.md) → *Pushing updates live*.
+
+### Quick reference: update methods
 
 | Method | Command | When to use | Time | Restart needed? |
 |--------|---------|-------------|------|-----------------|
-| **Push website live (recommended)** | `npm run push:website:live` | Full ritual: preflight + FTPS + live verify + version parity | ~5–8 min | Yes — hPanel |
-| **FTPS (Tier 2)** | `npm run pushit:live` | Same upload as above without extended verify polling | ~2–3 min | Yes — hPanel |
-| **Git push + rebuild** | `git push origin main` | Major updates, new packages, when FTPS is not enough | ~5–6 min | Usually auto |
-| **Hostinger MCP** | Ask Cursor | Testing, automated deploys | Varies | Yes — hPanel |
+| **Push website live (MCP zip — default)** | Say *push website live* or `npm run push:website:live` | Daily deploys; server runs `npm run build` | ~3–6 min upload + ~1 min build | **Yes** — [hPanel](https://hpanel.hostinger.com/websites/mystudiochannel.com) |
+| **FTPS fallback** | `npm run push:website:live -- --ftps` | MCP failed; need local `.next`/DB parity | ~5–8 min | **Yes** — hPanel |
+| **FTPS (Tier 2 only)** | `npm run pushit:live` | Same as FTPS fallback without unified ritual | ~2–3 min | **Yes** — hPanel |
+| **Git push + rebuild** | `git push origin main` | Major updates, new packages | ~5–6 min | Usually auto |
 
 ---
 

@@ -7,6 +7,13 @@ $ErrorActionPreference = "Stop"
 $workspaceRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $configPath = Join-Path $workspaceRoot ".vscode/sftp.json"
 $config = Get-Content -Raw -Path $configPath | ConvertFrom-Json
+$ignoreCert = $true
+if ($null -ne $config.ignoreCertificateErrors) {
+  $ignoreCert = [bool]$config.ignoreCertificateErrors
+}
+if ($ignoreCert) {
+  [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
+}
 
 $ftpServer = [string]$config.host
 $ftpPort = if ($null -ne $config.port) { [int]$config.port } else { 21 }

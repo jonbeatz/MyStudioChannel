@@ -124,7 +124,7 @@ That pattern almost always means **`.next` was deleted or overwritten while `nex
 
 **First deploy / full refresh (zip):** stop dev → audit **`npm ls --omit=dev --depth=0`** → **`npm run build`** → upload **`MyStudioChannel-deploy.zip`** in hPanel → set env vars → Deploy → restart Node. See **HOSTINGER-DEPLOY.md** → *Path A*.
 
-**Ongoing updates (FTPS):** **`npm run pushit:live`** — see *Push to live* below.
+**Ongoing updates (default):** say **"push website live"** in Cursor or run **`npm run push:website:live`** (MCP zip). **FTPS fallback:** **`npm run push:website:live -- --ftps`** or **`npm run pushit:live`** — see *Push to live* below.
 
 ### Push to live
 
@@ -138,13 +138,14 @@ From repo root on PC:
 
 Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.next`** with **FileZilla** instead if you follow **HOSTINGER-DEPLOY.md** and still deploy the rest of Tier 2 when needed.
 
-**FTPS target folder:** **`.vscode/sftp.json`** **`remotePath`** must match **HOSTINGER-DEPLOY.md** (usually **`/`** or **`/public_html`**). After any **`remotePath`** edit, run **`npm run verify:ftp-smoke`** (or **`pushitup:ftp-smoke`** + check FileZilla) so **`.next`** does not upload into a nested junk tree.
+**FTPS target folder:** **`.env.local`** → **`FTP_REMOTE_PATH=/nodejs`** (Hostinger Node app root), sync with **`scripts/sync-sftp-from-env.ps1`**, then **`npm run verify:ftp-smoke`**. **Do not** upload to **`public_html`** only — Node runs from **`/nodejs`** per **HOSTINGER-DEPLOY.md**.
 
 ### Pushing updates live
 
 | I want to… | Command |
 |------------|---------|
-| Push daily changes | **`npm run pushit:live`** → restart in hPanel |
+| Push daily changes (recommended) | Say **push website live** or **`npm run push:website:live`** → MCP zip → [restart in hPanel](https://hpanel.hostinger.com/websites/mystudiochannel.com) |
+| Push daily changes (FTPS fallback) | **`npm run push:website:live -- --ftps`** or **`npm run pushit:live`** → restart in hPanel |
 | Push with new packages | **`git push origin main`** (auto rebuild, if Git connected) |
 | Check what Hostinger will install | **`npm ls --omit=dev --depth=0`** |
 | Verify build before push | **`npm run build && npm run verify:local`** |

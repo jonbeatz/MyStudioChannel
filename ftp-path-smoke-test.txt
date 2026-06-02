@@ -1,0 +1,1 @@
+MSC FTPS path smoke test — safe to delete after verify:ftp-smoke passes.
