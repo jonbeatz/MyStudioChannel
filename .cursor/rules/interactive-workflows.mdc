@@ -24,7 +24,8 @@ When running **multi-step rituals** (backup project, deploy confirmations, go-li
 
 | Trigger | Doc |
 |---------|-----|
-| `backup project` | `.cursor/custom-scriptz/backup-system/CURSOR.md` |
+| `backup project` | `.cursor/custom-scriptz/backup-system/CURSOR.md` (interactive) |
+| `backup quick`, `backup full` | **Non-interactive** — run quick npm script immediately ([global.mdc](./global.mdc)) |
 | Other gated workflows | Prefer `AskQuestion` when offering structured choices |
 
 ## Free-text steps

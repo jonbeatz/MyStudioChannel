@@ -30,6 +30,7 @@ const args =
 const isFullBackup = args.includes('--full') || args.includes('-f');
 const isStandardBackup = args.includes('--standard') || args.includes('-s');
 const skipConfirm = args.includes('--yes') || args.includes('-y');
+const isDryRun = args.includes('--dry-run');
 const customName = args.find((a) => !a.startsWith('-')) || null;
 
 function getProjectName() {
@@ -312,6 +313,15 @@ async function main() {
     }
 
     const { fullBackupPath, backupFolder, backupType, userNotes } = plan;
+
+    if (isDryRun) {
+      console.log('\n[dry-run] Non-interactive backup plan (no files copied):');
+      console.log(`  Destination: ${fullBackupPath}`);
+      console.log(`  Folder:      ${backupFolder}`);
+      console.log(`  Type:        ${backupType}`);
+      console.log(`  Note:        ${userNotes || '(none)'}`);
+      return;
+    }
 
     if (!fs.existsSync(fullBackupPath)) {
       fs.mkdirSync(fullBackupPath, { recursive: true });

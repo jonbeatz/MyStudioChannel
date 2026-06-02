@@ -3,6 +3,8 @@
 | "backup project" | Follow backup-system CURSOR.md § Backup ritual — **AskQuestion** buttons each step (interactive-workflows.mdc) |
 | "create backup" | Same as **backup project** |
 | "backup" | Same as **backup project** |
+| "backup quick" / "backup project quick" | **Non-interactive:** `npm run msc:backup:quick` — no questions, no notes |
+| "backup full" / "backup project full" | **Non-interactive:** `npm run msc:backup:quick:full` — no questions, no notes |
 
-<!-- Full 8-step backup ritual: .cursor/custom-scriptz/backup-system/CURSOR.md § Backup ritual -->
-<!-- Run: npm run msc:backup -- --standard [folder] --yes --note "[note]" -->
+<!-- Full interactive ritual: .cursor/custom-scriptz/backup-system/CURSOR.md -->
+<!-- Quick: npm run msc:backup:quick | npm run msc:backup:quick:full -->

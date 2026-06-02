@@ -2,12 +2,18 @@
   "scripts": {
     "msc:backup": "node scripts/msc-backup.mjs",
     "msc:backup:standard": "node scripts/msc-backup.mjs --standard",
-    "msc:backup:full": "node scripts/msc-backup.mjs --full"
+    "msc:backup:full": "node scripts/msc-backup.mjs --full",
+    "msc:backup:quick": "npm run msc:backup -- --standard --yes",
+    "msc:backup:quick:full": "npm run msc:backup -- --full --yes"
   },
   "envKeys": ["MSC_BACKUP_ROOT"],
   "shortcuts": {
     "backup project": "npm run msc:backup",
     "create backup": "npm run msc:backup",
-    "backup": "npm run msc:backup"
+    "backup": "npm run msc:backup",
+    "backup quick": "npm run msc:backup:quick",
+    "backup project quick": "npm run msc:backup:quick",
+    "backup full": "npm run msc:backup:quick:full",
+    "backup project full": "npm run msc:backup:quick:full"
   }
 }

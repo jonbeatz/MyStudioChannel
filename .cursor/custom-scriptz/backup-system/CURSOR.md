@@ -21,9 +21,25 @@
 
 ## Backup ritual (`backup project`)
 
-**UI rule:** Use the **`AskQuestion` tool** for each step — **clickable buttons**, not "Reply 1 or 2" text. See **`.cursor/rules/interactive-workflows.mdc`**.
+**Interactive (default):** Use **`AskQuestion`** buttons — see **`.cursor/rules/interactive-workflows.mdc`**.
 
-Follow this flow **one interactive question at a time**. Wait for each selection before continuing.
+**Quick (non-interactive):** Operator says **`backup quick`** / **`backup project quick`** or **`backup full`** / **`backup project full`** — agent runs the quick script immediately (**no questions, no note prompt**). See **Commands** below.
+
+Follow the interactive flow **one question at a time** when not using quick commands.
+
+## Commands
+
+| Say this | Run | Behavior |
+|----------|-----|----------|
+| **`backup quick`** or **`backup project quick`** | `npm run msc:backup:quick` | Standard backup, auto folder name, `--yes`, no prompts |
+| **`backup full`** or **`backup project full`** | `npm run msc:backup:quick:full` | Full backup, auto folder name, `--yes`, no prompts |
+| **`backup project`** (interactive) | `AskQuestion` ritual → `npm run msc:backup -- …` | Full 6-step flow with optional note |
+
+Dry-run (verify only): `npm run msc:backup:quick -- --dry-run`
+
+---
+
+## Interactive steps (`backup project` only)
 
 ### Step 1 — Type
 
@@ -115,6 +131,6 @@ Report backup path and `.cursor/BackUp-Notez.md` inside the backup folder.
 ```text
 ✅ backup-system installed
 📂 scripts/msc-backup.mjs
-📦 msc:backup, msc:backup:standard, msc:backup:full
+📦 msc:backup, msc:backup:standard, msc:backup:full, msc:backup:quick, msc:backup:quick:full
 📝 BackUp-Notez.md written per backup (see README.md)
 ```

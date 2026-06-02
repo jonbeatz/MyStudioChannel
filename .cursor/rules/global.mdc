@@ -1,0 +1,18 @@
+---
+description: Global chat shortcuts — backup ritual (interactive + quick)
+alwaysApply: true
+---
+
+# Global shortcuts
+
+## Backup ritual
+
+| Operator says | Agent action |
+|---------------|--------------|
+| **`backup project`**, **`create backup`**, **`backup`** | Interactive ritual — **AskQuestion** buttons each step ([CURSOR.md](../custom-scriptz/backup-system/CURSOR.md), [interactive-workflows.mdc](./interactive-workflows.mdc)) |
+| **`backup quick`**, **`backup project quick`** | **Non-interactive:** run `npm run msc:backup:quick` from repo root — no questions, no note prompt |
+| **`backup full`**, **`backup project full`** | **Non-interactive:** run `npm run msc:backup:quick:full` from repo root — no questions, no note prompt |
+
+Quick commands use default backup root (`G:\Cursor_Project_BackUpz\MyStudioChannel`), auto-suggest next `msc-website-v1-*` folder, and `--yes`.
+
+After quick backup completes, report destination path and `.cursor/BackUp-Notez.md`.

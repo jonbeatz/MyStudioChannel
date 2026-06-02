@@ -73,7 +73,9 @@
     "msc:litellm:verify": "node scripts/msc-litellm-verify.mjs",
     "msc:backup": "node scripts/msc-backup.mjs",
     "msc:backup:standard": "node scripts/msc-backup.mjs --standard",
-    "msc:backup:full": "node scripts/msc-backup.mjs --full"
+    "msc:backup:full": "node scripts/msc-backup.mjs --full",
+    "msc:backup:quick": "npm run msc:backup -- --standard --yes",
+    "msc:backup:quick:full": "npm run msc:backup -- --full --yes"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
