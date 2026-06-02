@@ -5,7 +5,7 @@
 **Branch:** `MSC-Website-v4`  
 **Stack:** Next.js 15 + Payload CMS 3 + SQLite · entry **`server.js`** (Hostinger may auto-detect **`next start`** for Next.js preset)
 
-**Related:** [DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md) (2026-06-01 learnings) · [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md) (503/500/504 root-cause guide) · [Go-Live-Checklist.md](./Go-Live-Checklist.md) · [`.env.production.template`](../../.env.production.template)
+**Related:** [DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md) (2026-06-01 learnings) · [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md) (503/500/504 root-cause guide) · [Go-Live-Checklist.md](./Go-Live-Checklist.md) · [`.env.example`](../../.env.example)
 
 **hPanel:** [https://hpanel.hostinger.com/](https://hpanel.hostinger.com/)
 
@@ -103,7 +103,7 @@ If a build-time import is missing from that list → move it to **`dependencies`
 
 **Exclude:** `node_modules/`, `.next/`, `.git/`, `*.zip`, `payload.sqlite-wal`, `payload.sqlite-shm`
 
-**Include:** all source, `payload.sqlite`, `public/media/`, `server.js`, `package.json`, `package-lock.json`, `.env.production.template`, `patches/`, config files, `.cursor/` (optional but harmless).
+**Include:** all source, `payload.sqlite`, `public/media/`, `server.js`, `package.json`, `package-lock.json`, `.env.example`, `patches/`, config files, `.cursor/` (optional but harmless).
 
 Stop dev server first (`node scripts/kill-dev-port.mjs`) so SQLite is not locked.
 
@@ -142,7 +142,7 @@ Set **before** or **immediately after** first deploy. Values from **`.env.local`
 
 Optional: `NEXT_PUBLIC_MSC_BOOKING_URL=payload`, `MSC_CANONICAL_SITE_ORIGIN=https://mystudiochannel.com`
 
-Template copy: [`.env.production.template`](../../.env.production.template)
+Template copy: [`.env.example`](../../.env.example)
 
 ### 5) Upload and deploy (Live — hPanel)
 

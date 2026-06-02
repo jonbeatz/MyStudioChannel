@@ -19,7 +19,6 @@ yarn-error.log*
 # env files (track .env.example; never commit .env.local)
 .env*
 !.env.example
-!.env.production.template
 
 # Payload / SQLite (ignore WAL sidecars)
 # Do NOT ignore payload.sqlite for the initial Hostinger deploy seed.
