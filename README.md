@@ -119,6 +119,7 @@ Optimized for **Hostinger (hPanel)** with **automated validation and recovery**:
 | Document                                           | Purpose                                           |
 | -------------------------------------------------- | ------------------------------------------------- |
 | [START-HERE.md](./.cursor/docs/START-HERE.md)     | Operator cold-start & source-of-truth order       |
+| [MASTER-COMMANDS.md](./.cursor/docs/MASTER-COMMANDS.md) | Master list of dev, deployment, and troubleshooting commands |
 | [Agent-Runbook.md](./.cursor/docs/Agent-Runbook.md) | Standardized prompts for consistent workflow       |
 | [HOSTINGER-DEPLOY.md](./.cursor/docs/HOSTINGER-DEPLOY.md) | Production hosting playbook (Path A/B/C) & recovery |
 | [DEPLOYMENT-TROUBLESHOOTING.md](./.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md) | Root-cause troubleshooting for 503/500/504 and DB deployment issues |

@@ -221,6 +221,7 @@ Troubleshooting and maintenance triggers when things break.
 
 For deploy outages and live errors (`503` / `500` / `504`), use:
 - [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md)
+- [MASTER-COMMANDS.md](./MASTER-COMMANDS.md) — Master Command Reference and Safety Checklist
 
 ### 🚨 Critical Diagnostic Commands
 

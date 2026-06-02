@@ -58,6 +58,7 @@ Project rules layout:
 | Doc | Use it for | Priority |
 |---|---|---|
 | `START-HERE.md` | Daily startup/deploy guardrails | Daily |
+| `MASTER-COMMANDS.md` | Master list of dev, deployment, and troubleshooting commands | Daily |
 | `Agent-Runbook.md` | Copy/paste prompts (`Ready to begin`, `Lets Start`, etc.) | Daily |
 | `HOSTINGER-DEPLOY.md` | Hostinger hPanel deployment guide | Deployment |
 | `DEPLOYMENT-FIXES.md` | Hostinger deploy fixes & learnings (2026-06-01) | Deployment / troubleshooting |
