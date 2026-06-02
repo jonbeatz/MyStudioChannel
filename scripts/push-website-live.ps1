@@ -45,6 +45,22 @@ function Assert-PayloadSqliteDeployReady {
   if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 
+function Invoke-SafeDbCopyCheck {
+  $copyScript = Join-Path $repoRoot "scripts/copy-db-for-deploy.ps1"
+  $tempDbFile = Join-Path $repoRoot "payload.sqlite.temp"
+  if (-not (Test-Path -LiteralPath $copyScript)) {
+    Write-Host "ABORT: missing $copyScript" -ForegroundColor Red
+    exit 1
+  }
+
+  # No --force here by design: if dev is running, operator must confirm/stop it.
+  & powershell -ExecutionPolicy Bypass -File $copyScript -Quiet
+  if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+  if (Test-Path -LiteralPath $tempDbFile) {
+    Remove-Item -LiteralPath $tempDbFile -Force -ErrorAction SilentlyContinue
+  }
+}
+
 function Test-GitUncommitted {
   $status = git status --porcelain 2>$null
   if ($LASTEXITCODE -ne 0) {
@@ -119,6 +135,7 @@ Test-GitUncommitted
 Write-Host ""
 Write-Host "Database gate (payload.sqlite must be full CMS DB, not empty stub)..." -ForegroundColor Yellow
 Assert-PayloadSqliteDeployReady
+Invoke-SafeDbCopyCheck
 
 Write-Host ""
 Write-Host "Stopping local dev on port 3000 (if any)..." -ForegroundColor Yellow

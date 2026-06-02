@@ -32,6 +32,8 @@ $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $repoRoot
 
 $dbFile = Join-Path $repoRoot "payload.sqlite"
+$tempDbFile = Join-Path $repoRoot "payload.sqlite.temp"
+$backupDbFile = Join-Path $repoRoot "payload.sqlite.live.bak"
 if (-not (Test-Path -LiteralPath $dbFile)) {
   Write-Host ""
   Write-Host "pushit:live — ABORT: missing $dbFile (Tier 2 requires a local DB to ship)." -ForegroundColor Red
@@ -41,6 +43,17 @@ if (-not (Test-Path -LiteralPath $dbFile)) {
 
 $assertScript = Join-Path $repoRoot "scripts/assert-payload-sqlite-deploy.ps1"
 & powershell -ExecutionPolicy Bypass -File $assertScript
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+$copyDbScript = Join-Path $repoRoot "scripts/copy-db-for-deploy.ps1"
+if (-not (Test-Path -LiteralPath $copyDbScript)) {
+  Write-Host "pushit:live - ABORT: missing $copyDbScript" -ForegroundColor Red
+  exit 1
+}
+
+Write-Host ""
+Write-Host "pushit:live - safe DB copy check (port 3000 + payload.sqlite.temp)" -ForegroundColor Yellow
+& powershell -ExecutionPolicy Bypass -File $copyDbScript
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host ""
@@ -75,12 +88,29 @@ npm run pushitup -- .next
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host ""
-$dbBytes = (Get-Item -LiteralPath $dbFile).Length
+$dbBytes = (Get-Item -LiteralPath $tempDbFile).Length
 Write-Host "pushit:live - 4/6 npm run pushitup -- payload.sqlite" -ForegroundColor Yellow
-Write-Host "  Local:  $dbFile ($dbBytes bytes)" -ForegroundColor Gray
+Write-Host "  Source: $tempDbFile ($dbBytes bytes)" -ForegroundColor Gray
 Write-Host "  Remote: /nodejs/payload.sqlite (FTPS overwrite)" -ForegroundColor Gray
-npm run pushitup -- payload.sqlite
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+if (Test-Path -LiteralPath $backupDbFile) {
+  Remove-Item -LiteralPath $backupDbFile -Force -ErrorAction SilentlyContinue
+}
+
+$dbUploadExitCode = 0
+try {
+  Move-Item -LiteralPath $dbFile -Destination $backupDbFile -Force
+  Move-Item -LiteralPath $tempDbFile -Destination $dbFile -Force
+  npm run pushitup -- payload.sqlite
+  $dbUploadExitCode = $LASTEXITCODE
+} finally {
+  if (Test-Path -LiteralPath $backupDbFile) {
+    Move-Item -LiteralPath $backupDbFile -Destination $dbFile -Force
+  }
+  if (Test-Path -LiteralPath $tempDbFile) {
+    Remove-Item -LiteralPath $tempDbFile -Force -ErrorAction SilentlyContinue
+  }
+}
+if ($dbUploadExitCode -ne 0) { exit $dbUploadExitCode }
 
 Write-Host ""
 Write-Host "pushit:live - 5/6 npm run pushitup -- public/media" -ForegroundColor Yellow

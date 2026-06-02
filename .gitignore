@@ -26,6 +26,7 @@ yarn-error.log*
 # After first deploy, you may add it back to prevent overwriting prod data.
 # payload.sqlite
 payload.sqlite-*
+payload.sqlite.temp
 .payload
 
 # vercel

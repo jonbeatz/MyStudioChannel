@@ -28,3 +28,9 @@ After quick backup completes, report destination path and `.cursor/BackUp-Notez.
 **Deployment zips:** `zips/MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip` only (never repo parent folder).
 
 **Restart link (always after success):** https://hpanel.hostinger.com/websites/mystudiochannel.com
+
+## Database copy
+
+| Operator says | Agent action |
+|---------------|--------------|
+| **`copy database`**, **`db copy`**, **`safe copy db`** | Run **`npm run db:copy`** from repo root, then explain upload/rename/WAL cleanup/restart steps. |

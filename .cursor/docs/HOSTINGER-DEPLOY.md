@@ -372,6 +372,18 @@ Zip path and **`package.json` dependency fixes** apply to MCP uploads the same w
 | Vendor-chunk 500 | `Cannot find module './vendor-chunks/…'` | Full **`.next`** re-upload after local **`npm run build`** ([Go-Live-Checklist.md](./Go-Live-Checklist.md) §6) |
 | Build timeout | Slow compile on shared host | Normal ~56s; retry deploy; avoid uploading pre-built `.next` in zip (let host build) |
 
+### 504 Error After Database Upload
+
+**Cause:** `payload.sqlite` was copied while `npm run dev` still had the DB open/locked.
+
+**Fix:**
+1. Stop `npm run dev` (Ctrl+C)
+2. Run `npm run db:copy`
+3. Upload `payload.sqlite.temp` to Hostinger
+4. Rename to `payload.sqlite` on server
+5. Delete `payload.sqlite-wal` and `payload.sqlite-shm`
+6. Restart Node app
+
 ---
 
 ## Successful live update protocol (numbered)

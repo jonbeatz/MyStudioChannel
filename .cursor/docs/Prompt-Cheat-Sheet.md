@@ -201,6 +201,14 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 - **Script Command:** `npm run test:hostinger-ftp`
 - **Scope:** Runs a quick READ-ONLY LIST of the remote directory to check FTPS logins and paths.
 
+## 🗄️ Database Deployment
+
+| Command | Purpose |
+|---------|---------|
+| `npm run db:copy` | Create clean database copy (checks if dev server is running first) |
+| `npm run db:copy:force` | Force copy without confirmation prompts |
+| Then upload `payload.sqlite.temp` to Hostinger and rename | Update live database safely |
+
 ### ➡️ `"Pre-deploy risk check for current changes"`
 - **Purpose:** Post-development safety gate.
 - **Action:** Examines active Git diff, lists specific deployment risks, and highlights exact mitigation steps before push.
