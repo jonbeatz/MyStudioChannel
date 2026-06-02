@@ -45,7 +45,7 @@ foreach ($url in $checks) {
   $results += Test-Url -Url $url
 }
 
-$failed = $results | Where-Object { -not $_.Ok }
+$failed = @($results | Where-Object { -not $_.Ok })
 
 foreach ($r in $results) {
   if ($r.Ok) {
