@@ -87,7 +87,7 @@ flowchart LR
 ## Files changed summary
 
 - **New (WordPress):** `wp-content/plugins/msc-api/msc-api.php`
-- **Modified:** [`lib/booking.ts`](lib/booking.ts) -- replace mock with real fetch
+- **Modified:** [`lib/booking.ts`](../../lib/booking.ts) -- replace mock with real fetch
 - **New (Next.js):** `lib/signup.ts`, `lib/cms.ts`
 - **New:** `.env.local`, `.env.example`
 - **Modified (Phase 2):** `components/hero-section.tsx`, `components/demos-section.tsx`, `components/testimonials-section.tsx`

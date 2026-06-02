@@ -27,7 +27,7 @@ git push -u origin HEAD   # first push on new branch
 git push                  # after upstream is set
 ```
 
-**Current workflow branch:** `MSC-Website-v5` (dev). **`main`** / **`MSC-Website-v4`** remain at v4.0.0 until v5 release.
+**Current workflow branch:** `MSC-Website-v5` (active dev) | `main` (synced at v5.0.0).
 
 ```bash
 git push origin MSC-Website-v5

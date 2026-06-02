@@ -76,7 +76,7 @@ flowchart LR
 
 ### Planned Next.js side (Phase 1)
 
-- Extend [lib/booking.ts](../lib/booking.ts) — real `fetch` when `NEXT_PUBLIC_MSC_BOOKING_URL` is set; add availability fetch if needed.
+- Extend [lib/booking.ts](../../lib/booking.ts) — real `fetch` when `NEXT_PUBLIC_MSC_BOOKING_URL` is set; add availability fetch if needed.
 - Add `lib/signup.ts` — POST to signup endpoint.
 - **Env:** `NEXT_PUBLIC_MSC_*` URLs + server/client key handling as designed (see Development.md when wired).
 

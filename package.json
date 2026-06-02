@@ -87,6 +87,8 @@
     "msc:backup:quick": "npm run msc:backup -- --standard --yes",
     "msc:backup:quick:full": "npm run msc:backup -- --full --yes",
     "backup:clean": "powershell -ExecutionPolicy Bypass -File scripts/clean-old-backups.ps1",
+    "docs:audit": "node scripts/audit-docs.mjs",
+    "docs:sync": "npm run docs:audit",
     "prepare": "husky"
   },
   "dependencies": {

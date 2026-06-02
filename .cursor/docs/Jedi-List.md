@@ -196,7 +196,7 @@ These align the **local SQLite** schema with Payload when **`db.push: false`** o
 
 ## Cursor MCP and GitHub/Google-API tooling
 
-Secrets live in **`.env.local`** only. After changing GitHub, Resend, WordPress, or Google/ngrok keys, run **`npm run sync:mcp-env`** and reload MCP in Cursor (**Settings → MCP**). Full setups: **[MCP-SETUP.md](./MCP-SETUP.md)** and **[Ngrok-SETUP.md](../config/Ngrok-SETUP.md)**.
+Secrets live in **`.env.local`** only. After changing GitHub, Resend, WordPress, or Google/ngrok keys, run **`npm run sync:mcp-env`** and reload MCP in Cursor (**Settings → MCP**). Full setups: **[MCP-SETUP.md](./MCP-SETUP.md)** and **[Ngrok-SETUP.md](../../config/Ngrok-SETUP.md)**.
 
 | Command | What it does |
 |--------|----------------|
