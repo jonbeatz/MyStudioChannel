@@ -153,6 +153,11 @@ Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.nex
 
 Full guide: **HOSTINGER-DEPLOY.md** → *Path C — Daily updates*.
 
+## ✅ Deployment Verification
+
+Before considering your deployment complete, run through the:  
+**[Final Configuration Audit (1-Minute Checklist)](./HOSTINGER-DEPLOY.md#-final-configuration-audit-1-minute-checklist)**
+
 ---
 
 ## Hostinger links (session-scoped)
