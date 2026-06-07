@@ -32,6 +32,7 @@
 Always check `.cursor/skills/` for project-specific and portable agent abilities.
 - **DesignMD**: Use `.cursor/skills/DesignMD/SKILL.md` for design system extraction/application.
 - **GitHub-Ops**: Use `.cursor/skills/GitHub-Ops/SKILL.md` for repo and library management.
+- **Premium-UI**: Use `.cursor/skills/Premium-UI/SKILL.md` for pre-wired UI builders, Lenis smooth scroll integrations, Uiverse.io, and VibeUI.
 - **Workflow-Portable**: Standard ops (backups, deploys, session logs).
 - Code changes only: `npm run msc:push:website:live`
 - Full deploy (code + database): `npm run msc:push:website:live -- --ftps`

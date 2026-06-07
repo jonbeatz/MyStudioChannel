@@ -24,7 +24,7 @@ npx shadcn@latest add @aliimam/carousel
 ```
 
 ### 2. Direct JSON Registries
-For non-namespaced registries, use direct URLs:
+For non-namespaced registries, use direct URLs, or standard package installations for scroll controllers:
 
 ```bash
 # Its Hover (Animated action icons)
@@ -32,6 +32,9 @@ npx shadcn@latest add https://itshover.com/r/like-icon.json
 
 # Animate UI (Fluid primitives and effects)
 npx shadcn@latest add https://animate-ui.com/r/install-tabs
+
+# Lenis (Butter-smooth scrolling and scroll-linked animations)
+npm install lenis
 ```
 
 ### 3. Snippet Injection & AI Prompts

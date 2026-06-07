@@ -44,6 +44,13 @@ These resources support the shadcn standard, but require direct JSON URLs or ind
 *   **Command:** `npx shadcn@latest add "https://itshover.com/r/[icon-name].json"`
 *   **Example:** `npx shadcn@latest add "https://itshover.com/r/like-icon.json"`
 
+### 6. Lenis Smooth Scroll
+*   **Aesthetic:** Standardized, buttery-smooth scrolling experiences, performance-first frame sync, and flawless scroll-linked animations.
+*   **Documentation:** [https://www.lenis.dev/](https://www.lenis.dev/)
+*   **Installation:** `npm install lenis`
+*   **React Wrapper Setup:** Wrap Layout with `<ReactLenis root />` importing `'lenis/dist/lenis.css'`.
+*   **Hot Primitives:** `<ReactLenis>`, `useLenis()` hook.
+
 ---
 
 ## 🎨 Copy-Paste playgrounds

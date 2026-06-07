@@ -92,5 +92,5 @@ Suggested naming:
 
 | 2026-06-07 | **Engine Consolidation & Documentation Automation - Phase 1 & 2 Complete** | chore | Phase 1 & 2 Complete: Engine Consolidation and Documentation Automation |
 
-| 2026-06-07 | **Skill Packs Created** | chore | Created DesignMD and GitHub-Ops skill packs for portable agent workflows. Added `npm run dmd` and `npm run gh-test` aliases. |
+| 2026-06-07 | **Skill Packs Created** | chore | Created DesignMD, GitHub-Ops, and Premium-UI (with Lenis smooth scroll) skill packs for portable agent workflows. Added `npm run dmd` and `npm run gh-test` aliases. |
 | 2026-06-07 | **Phase 2 Complete - Command Aliases & Documentation Automation** | chore | - Added short-code aliases: doctor, deploy, backup, sync, log:fix, log:session, log:milestone |
