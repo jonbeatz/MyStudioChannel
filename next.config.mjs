@@ -1,4 +1,5 @@
 import { withPayload } from "@payloadcms/next/withPayload"
+import { withSentryConfig } from "@sentry/nextjs"
 
 // Windows / synced folders: the default watcher can miss rapid rewrites to `.next`, leaving
 // half-built `vendor-chunks/*` and 404s for `/_next/static/*`. Polling is slower but stable.
@@ -86,4 +87,21 @@ const nextConfig = {
 }
 // Avoid `webpack: (c) => { c.cache = false }` in dev — it can break Payload admin vendor-chunks on Windows.
 
-export default withPayload(nextConfig)
+const payloadConfig = withPayload(nextConfig)
+
+export default withSentryConfig(payloadConfig, {
+  // For all available options, see:
+  // https://github.com/getsentry/sentry-webpack-plugin#options
+
+  org: "my-studio-channel",
+  project: "mystudiochannel",
+
+  // Only print logs for uploading source maps in CI or production builds
+  silent: !process.env.CI,
+
+  // Forstands Sentry to not fail production builds if auth token or DSN are missing (essential for local dev/dry-runs!)
+  widenClientFileUpload: true,
+  hideSourceMaps: true,
+  disableLogger: true,
+})
+

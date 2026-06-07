@@ -56,6 +56,24 @@ Welcome to the MyStudioChannel Developer Tool Chest. This authoritative manual i
 
 ---
 
+## 🛠️ Application Performance & Error Diagnostics
+
+### 5. Sentry SDK (Next.js)
+*   **Purpose:** Real-time error tracking, server crash logs (Hostinger), database transaction profiling, and client-side React 19 hydration mismatch debugging.
+*   **Documentation:** [https://docs.sentry.io/platforms/javascript/guides/nextjs/](https://docs.sentry.io/platforms/javascript/guides/nextjs/)
+*   **Installation/Setup:** `npx @sentry/wizard@latest -i nextjs`
+*   **Credentials:**
+    *   `SENTRY_DSN` — Public endpoint config (Client & Server runtime reports).
+    *   `SENTRY_AUTH_TOKEN` — Stored in `.env.local` to securely compile and upload code source maps to Sentry on production builds.
+*   **Build Constraint (Safety First):** 
+    *   Sentry configuration inside `next.config.mjs` MUST be set up with `silent: true` or with logic that prevents builds from failing when `SENTRY_AUTH_TOKEN` is missing during local developer builds or dry-run validation cycles.
+*   **Use Cases:**
+    *   Capture unhandled server-side exceptions under SQLite locks or system 500s.
+    *   Intercept React 19 hydration errors with context details.
+    *   Optimize API global latency bottlenecks with transaction traces.
+
+---
+
 ## 🚨 Guidelines for AI Agents
 When prompted to gather external web context, documentation, or search results, the agent MUST:
 1. Prefer using `fetch-mcp` or `user-fetch` pointed at Jina's prefixes (`https://r.jina.ai/` or `https://s.jina.ai/`) for lightning-fast, high-density Markdown text parsing.
