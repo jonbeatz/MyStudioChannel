@@ -18,7 +18,7 @@
     "dev:recover": "powershell -ExecutionPolicy Bypass -File scripts/restart-dev.ps1",
     "start": "next start",
     "msc:doctor": "node scripts/msc-doctor.mjs",
-    "msc:kill-dev-port": "node scripts/msc-kill-dev-port.mjs",
+    "msc:kill-dev-port": "node scripts/msc-kill-dev-port.mjs 3000",
     "msc:PushItUP": "powershell -ExecutionPolicy Bypass -File scripts/PushItUP.ps1",
     "msc:pushitup": "powershell -ExecutionPolicy Bypass -File scripts/PushItUP.ps1",
     "msc:pushitup:admin-ui": "powershell -ExecutionPolicy Bypass -File scripts/PushItUP.ps1 middleware.ts lib/msc-app-version.ts components/msc-payload-nav-dashboard.tsx components/msc-payload-nav-logout.tsx components/msc-payload-graphics.tsx components/msc-payload-admin-enhancements.tsx collections/Users.ts payload.config.ts 'app/(payload)/custom.scss'",

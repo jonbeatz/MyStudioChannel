@@ -15,6 +15,7 @@ This is the single source of truth for ALL custom commands and scripts wired int
 | `npm run docs` | `npm run docs:audit` | Audit internal documentation links |
 | `npm run deploy` | `npm run push:website:live` | Default MCP zip deployment |
 | `npm run deploy:full` | `npm run push:website:live -- --ftps` | Full FTPS code + DB deploy |
+| `[URL]/test` | `app/test/[[...slug]]/page.tsx` | Isolated design playground |
 
 ---
 
@@ -52,6 +53,20 @@ This is the single source of truth for ALL custom commands and scripts wired int
 | `npm run msc:litellm:status` | Check if proxy is online |
 | `npm run msc:litellm:verify` | Run chat smoke test against vader-3-flash |
 | `npm run msc:litellm:stop` | Cleanly terminate all proxy processes |
+
+---
+
+## 🎨 Design System (Curated References)
+
+| Site | Style Profile | Reference File |
+|------|---------------|----------------|
+| **Stripe** | Ultra-premium, weight-300 elegance | `DESIGN-STRIPE.md` |
+| **Supabase** | Dark emerald, developer-first | `DESIGN-SUPABASE.md` |
+| **Tesla** | Minimalist subtraction, high imagery | `DESIGN-TESLA.md` |
+| **Linear** | Precise SaaS, modern indigo | `DESIGN-LINEAR.md` |
+| **Apple** | Premium white space, SF Pro | `DESIGN-APPLE.md` |
+
+**Tool:** Use the **Awesome List** (VoltAgent) to "shop" for more brand files via `curl` to `.cursor/DesignMD/`.
 
 ---
 

@@ -10,6 +10,7 @@
 - **Git:** `main` synced with `MSC-Website-v5`; `MSC-Website-v4` frozen at v4.0.0
 
 ## Recent Milestones
+| 2026-06-07 | **Engine Hardening & Isolated Test Playground Complete** | chore |
 | 2026-06-07 | **Phase 2 Complete - Command Aliases & Documentation Automation** | chore |
 | 2026-06-07 | **Engine Consolidation & Documentation Automation - Phase 1 & 2 Complete** | chore |
 | Date | Milestone | Commit |
@@ -23,5 +24,7 @@
 
 ## Next Milestones
 - [x] Set / verify all hPanel env vars (fixes `/api/globals/projects-home` 500)
+- [x] Engine Consolidation (Phase 1 & 2)
+- [x] Create Isolated Test Playground (`/test`)
 - [ ] Feature work on `MSC-Website-v5`
 - [ ] Test all button redirects

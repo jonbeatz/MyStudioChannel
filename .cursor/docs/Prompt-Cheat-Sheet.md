@@ -170,12 +170,10 @@ For AI development, API testing, and model integrations.
 ### ➡️ `"verify google-api"`  
 - **Action:** Test proxy tunnel connections.
 - **Script Command:** `npm run msc:litellm:test:ngrok`
-- **Expected Outcome:** Tests endpoint connections and lists the active tunnel URLs for Cursor.
 
 ### ➡️ `"stop google-api"`  
 - **Action:** Stop active proxy instance.
 - **Script Command:** `npm run msc:litellm:stop`
-- **Expected Outcome:** Safely terminates the Python LiteLLM proxy process on port `4000`.
 
 ---
 
@@ -183,155 +181,69 @@ For AI development, API testing, and model integrations.
 
 Commands for deploying code changes to Hostinger from your PC terminal. Never run these from a host terminal.
 
+### ➡️ `"deploy"`
+- **Action:** Push code live.
+- **Command:** `npm run deploy`
+
+### ➡️ `"deploy:full"`
+- **Action:** Push code + database live.
+- **Command:** `npm run deploy:full`
+
 ### ➡️ `"Push my branding"`  
 - **Action:** **Tier 1 — Fast FTP (look and feel only).**
 - **Script Command:** `npm run pushitup:admin-branding`
-- **Scope:** Uploads ONLY SCSS and custom admin UI code (`components/msc-payload-graphics.tsx`, `components/msc-payload-admin-enhancements.tsx`, `collections/Users.ts`, `payload.config.ts`, `app/(payload)/custom.scss`). No production build required. Fast-restart of Node app inside hPanel is required.
 
 ### ➡️ `"Push Website Live"`  
-*Alternative phrasings: `"push it live"`, `"push site live"`, `"deploy live"`, `"Lets Push It Live"`, `"Lets Push It Live (Safe)"`*
-- **Action:** **MCP zip deploy (default)** — fast single archive; Hostinger builds on server. **FTPS fallback** if MCP fails.
-- **Workflow File:** `.cursor/prompts/Push-Website-Live.md`
-- **Script Command:** `npm run push:website:live` · dry-run: `-- --dry-run` · FTPS fallback: `-- --ftps` (Full compile + deploy with **automated WAL cleanup & DB size verification**) · zip only: `npm run deploy:zip`
-- **Agent (MCP):** `hosting_deployJsApplication` → poll `hosting_listJsDeployments` → `hosting_showJsDeploymentLogs` on failure
-- **Execution Scope (default):** kill dev → `npm run build` → `deploy:zip` → MCP upload → **restart reminder** → `verify:live` + `verify:live:version`
-- **FTPS fallback scope:** `verify:ftp-smoke` → `pushit:live` → **automatic SQLite WAL/SHM files cleanup** → **remote database size verification (~528 KB)** → poll verify scripts
-- **Deploy zips:** `zips/MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip` (gitignored)
-- **Restart (required):** https://hpanel.hostinger.com/websites/mystudiochannel.com → Node.js → **Restart** (Stop then Start)
-- **Automated WAL Cleanup:** Yes, `payload.sqlite-wal` and `payload.sqlite-shm` are deleted automatically post-FTPS upload.
-
-### ➡️ `"Lets Push It Live"` (legacy / upload-only)
-- **Action:** **Tier 2 — Full build + DB + media ship** without extended verify polling.
-- **Script Command:** `npm run pushit:live` (or `npm run pushit:live:safe` for `verify:local` first)
+*Alternative phrasings: `"push it live"`, `"push site live"`, `"Lets Push It Live"`*
+- **Action:** **MCP zip deploy (default)** — fast single archive; Hostinger builds on server. 
 
 ### ➡️ `"Push server config"`  
 - **Action:** **Tier 3 — Hosting / Node runtime contract.**
 - **Script Command:** `npm run pushitup:server-config`
-- **Scope:** Uploads `server.js`, `package.json`, `package-lock.json`, and `.env.example`.
-- **Required Host Action:** run `npm install --legacy-peer-deps` in Hostinger Terminal, then restart the Node app in hPanel.
-
-### ➡️ `"Lets test FTP"`  
-- **Action:** Read-Only FTP connection smoke test.
-- **Script Command:** `npm run test:hostinger-ftp`
-- **Scope:** Runs a quick READ-ONLY LIST of the remote directory to check FTPS logins and paths.
-
-## 🗄️ Database Deployment
-
-| Command | Purpose |
-|---------|---------|
-| `npm run db:copy` | Create clean database copy (checks if dev server is running first) |
-| `npm run db:copy:force` | Force copy without confirmation prompts |
-| `npm run db:optimize` | Optimize database using `VACUUM` and `PRAGMA optimize` |
-| `npm run db:maintain` | Safely optimize database then copy for deployment |
-| Then upload `payload.sqlite.temp` to Hostinger and rename | Update live database safely |
-
-### ➡️ `"Pre-deploy risk check for current changes"`
-- **Purpose:** Post-development safety gate.
-- **Action:** Examines active Git diff, lists specific deployment risks, and highlights exact mitigation steps before push.
 
 ---
 
 ## 🛠️ Environment Recovery & Diagnostics
 
-Troubleshooting and maintenance triggers when things break.
-
-For deploy outages and live errors (`503` / `500` / `504`), use:
-- [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md)
-- [MASTER-COMMANDS.md](./MASTER-COMMANDS.md) — Master Command Reference and Safety Checklist
-
-### 🚨 Critical Diagnostic Commands
-
-| Command | Purpose |
-|---------|---------|
-| `npm run verify:live` | Full smoke test (/, /admin, /api) |
-| `npm run verify:live:version` | Check footer version |
-| SSH: `cat /nodejs/stderr.log` | View Node.js startup errors |
-| SSH: `ls -la /public_html/.builds/config/` | Verify preload file exists |
-
-| Command | Purpose |
-|---------|---------|
-| `npm run verify:live` | Smoke test all live endpoints |
-| `npm run verify:live:version` | Confirm footer version matches |
-| `npm run test:hostinger-ftp` | Verify FTPS credentials work |
-
-### ➡️ `"stream live stderr"`
-- **Action:** Stream live Hostinger stderr log via SSH.
-- **Script Command:** `npm run logs:live`
-- **Expected Outcome:** Connects securely over SSH and streams the remote `stderr.log` directly in your terminal.
-
-### ➡️ `"stream live console"`
-- **Action:** Stream live Hostinger application console output via SSH.
-- **Script Command:** `npm run logs:live:console`
-- **Expected Outcome:** Connects securely over SSH and streams the remote `console.log` directly in your terminal.
-
-### ➡️ `"clean backups"` / `"purge old backups"`
-- **Action:** Clean old backups.
-- **Script Command:** `npm run backup:clean` (or add `-- --dry-run` to preview)
-- **Expected Outcome:** Scans your backup folder and retains only the 10 most recent backups, keeping your disk clean.
-
 ### ➡️ `"Fix Local"`  
 - **Action:** Local dev recovery.
 - **Script Command:** `npm run dev:recover`
-- **Expected Outcome:** Kills stale node listeners, clears Next.js caches, restarts dev server on port `3000`, and probes local URLs to ensure 200 OK.
-- **Verification Rule:** Probes `http://localhost:3000/` and `/admin` (fallback to `http://127.0.0.1:3000` if localhost DNS is slow) and reports both HTTP status codes.
 
 ### ➡️ `"Take a snapshot"`  
 - **Action:** Milestone checkpointing.
-- **Expected Outcome:** Updates local documentation files, summarizes progress, commits, and creates a recovery branch for rollback safety.
 
 ### ➡️ `"Clean my folders"`  
 - **Action:** Consolidate stray media.
-- **Script Command:** `npm run media:consolidate`
-- **Expected Outcome:** Moves files outside `public/media/` back into their correct structured folders.
+- **Script Command:** `npm run msc:media:consolidate`
 
 ### ➡️ `"Sync my media"`  
 - **Action:** Bulk Media Database sync.
-- **Script Command:** `npm run media:sync`
-- **Expected Outcome:** Scans `public/media/` and automatically registers physical files as database rows in Payload CMS, bypassing Alt text constraints.
+- **Script Command:** `npm run msc:media:sync`
 
 ### ➡️ `"Full media refresh"`
 - **Action:** Full media house-cleaning.
-- **Steps:** Runs `Clean my folders` followed by `Sync my media`. Verifies all UI components use `/media/` paths.
 
-### ➡️ `"Audit docs for contradictions and tighten source-of-truth"`
+### ➡️ `"Audit docs"`
 - **Purpose:** Keep docs aligned.
-- **Action:** Scans rules, custom scripts, prompts, and docs for contradictory files and flags duplicates.
+- **Command:** `npm run docs`
 
-### ➡️ `"Create a restore point for this milestone"`
-- **Purpose:** Local git rollbacks.
-- **Action:** Appends a clean entry to `Restore-Points.md` with branch/SHA, what works, and exact rollback commands.
-
-### ➡️ `"Audit my skills, rules, and runbook for drift"`
-- **Purpose:** Structural compliance.
-- **Action:** Reviews `.cursorrules`, skill files, and runbook prompts for drift, outdated paths, or old project naming references.
-
-### ➡️ `"Sync docs to scripts (no guessing)"`
-- **Purpose:** Command alignment.
-- **Action:** Cross-checks doc phrasings against active script commands in `package.json` to fix broken mappings.
+### ➡️ `"Sync docs"`
+- **Purpose:** Command alignment and drift check.
+- **Command:** `npm run sync`
 
 ### ➡️ `"Lets Verify Live"`  
-*Alternative phrasings: `"Lets test Live"`*
 - **Action:** Remote environment testing.
-- **Script Command:** `npm run verify:live` (or run verify:live and show pass/fail only)
-- **Expected Outcome:** Performs quick HTTP smoke queries against live URL endpoints and provides a concise post-deploy validation status.
+- **Script Command:** `npm run verify:live`
 
 ---
 
 ## 🔧 Utility Commands
 
-Commands to manually free processes and manage port bindings.
-
 ### ➡️ `"kill port 3000"`  
-*Alternative phrasings: `"kill-port"`, `"free port"`*
-- **Action:** Kill process on a specific port manually.
-- **Script Command:** `node scripts/kill-dev-port.mjs`
-- **Expected Outcome:** Forcefully terminates any stale Node.js process bound to port `3000` to prevent `EADDRINUSE` errors.
-
-### ➡️ `"Lets run system check"`
-- **Action:** Full health assessment.
-- **Scope:** Runs local preflight + live test + FTP connectivity + git status to print one consolidated readiness check.
+- **Action:** Kill process on port 3000 manually.
+- **Script Command:** `npm run msc:kill-dev-port`
 
 ---
 
-*Last Updated: 2026-06-02 (v5.0.0 — MSC-Website-v5 development branch)*  
+*Last Updated: 2026-06-06 (v5.0.0 — MSC-Website-v5 development branch)*  
 <sub>· Powered by the MSC Media Engine</sub>

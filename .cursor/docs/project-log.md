@@ -1,5 +1,11 @@
 # Project Session Log
 
+## [2026-06-06 23:00] - Engine Hardening & Test Playground
+- **Branch:** MSC-Website-v5
+- **Changes:** Executed Phase 1 & 2 of Engine Consolidation: standardized scripts with `msc:` prefix, added `msc-doctor.mjs` health check, and implemented `msc-logger.mjs` for documentation automation. Created `AGENTS.md` and `specs/` structure for project governance. Created an isolated **Test Playground** at `app/test/[[...slug]]/page.tsx` with Stripe, Supabase, and Tesla design experiments. Fixed `msc:kill-dev-port` to default to port 3000 in `package.json`.
+- **Status:** completed
+- **Next:** Use `/test` to iterate on new UI components before production integration.
+
 ## [2026-06-06 20:57] - DesignMD Module Integrated
 - **Branch:** MSC-Website-v5
 - **Changes:** Installed `@designmdcc/cli` globally. Created `.cursor/DesignMD/` as the canonical store for design extractions. Extracted `linear.app` design system to `DESIGN-LINEAR.md`. Logged this as a new portable design-extraction skill.
