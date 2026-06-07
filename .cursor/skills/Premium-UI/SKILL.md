@@ -59,6 +59,7 @@ export const AnimatedThreeDScene = dynamic(() => import("./ThreeDComponent"), {
 - **Uiverse.io**: Grab optimized raw CSS animations and Tailwind blocks. Use to spice up buttons, inputs, and interactive loaders.
 - **VibeUI**: High-quality layout prompt strings tailored for AI generation context (Cursor, Claude, Bolt). Copy the pattern, combine with active screenshots, and let the model construct clean layouts.
 - **MotionSites.ai**: Use their 65 pro-grade layout prompts and motion-rich design patterns during UI modeling tasks.
+- **Pencil.dev (Design Automation MCP)**: Pre-wired in `.cursor/mcp.json`. Ensure the Pencil desktop application is running, then prompt your agent: *"Scan my active Pencil canvas page and translate the structure/colors into a Next.js/Tailwind landing section"* to automate code creation directly from live layouts.
 
 ## Guidelines
 - **Framer Motion Dependencies**: Ensure `framer-motion` (or `motion` package) is active when adding interactive elements.

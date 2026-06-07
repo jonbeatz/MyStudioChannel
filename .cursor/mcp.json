@@ -47,6 +47,11 @@
       "args": ["/c", "npx", "-y", "antigravity-awesome-skills", "--cursor"],
       "_comment": "Access and auto-install over 1,500+ agentic skills/playbooks for Cursor (.cursor/skills/)."
     },
+    "pencil": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@pencil.dev/cli", "mcp-server"],
+      "_comment": "Allows Cursor/Claude agents to programmatically read, edit, and export design files (.pen) locally from the Pencil app canvas."
+    },
     "markdownify": {
       "command": "cmd",
       "args": ["/c", "npx", "-y", "mcp-markdownify-server"],

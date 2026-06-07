@@ -86,6 +86,13 @@ These do not rely on registries but are high-value design systems, design langua
 *   **Next.js Integration:** Added to `transpilePackages` inside `next.config.mjs` to allow full compilation. Always use dynamic import with `{ ssr: false }` for canvas scenes to bypass server-side hydration mismatches.
 *   **Usage:** Prototype 3D canvases under `/test/three-d` to render and interact with complex models in isolated environments.
 
+### 12. Pencil.dev (Design Automation MCP)
+*   **Focus:** AI-native layout, styling, and design canvas platform allowing programmatic reading, editing, and exporting of `.pen` design vector sheets.
+*   **Documentation:** [https://www.pencil.dev/](https://www.pencil.dev/) and [https://docs.pencil.dev/](https://docs.pencil.dev/)
+*   **Integration:** Configured locally in `.cursor/mcp.json` under `pencil`.
+*   **Command Configuration:** Runs locally using Node.js's CLI loader: `npx @pencil.dev/cli mcp-server`.
+*   **Usage:** Launch your Pencil desktop application or IDE extension, start Cursor, and call design automation tools (e.g. `read_canvas`, `get_style_guide`) to translate structural layouts directly into matching Next.js/Tailwind components.
+
 ---
 
 ## 🚨 Guidelines for AI Agents
