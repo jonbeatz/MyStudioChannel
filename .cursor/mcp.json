@@ -42,6 +42,11 @@
       },
       "_comment": "Allows building beautiful frontend components directly into the codebase with 21st.dev Magic MCP."
     },
+    "antigravity-awesome-skills": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "antigravity-awesome-skills", "--cursor"],
+      "_comment": "Access and auto-install over 1,500+ agentic skills/playbooks for Cursor (.cursor/skills/)."
+    },
     "markdownify": {
       "command": "cmd",
       "args": ["/c", "npx", "-y", "mcp-markdownify-server"],
