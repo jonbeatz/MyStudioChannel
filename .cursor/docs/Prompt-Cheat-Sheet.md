@@ -249,5 +249,5 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 
 ---
 
-*Last Updated: 2026-06-06 (v5.0.0 — MSC-Website-v5 development branch)*  
+*Last Updated: 2026-06-07 (v5.0.0 — deploy modes + auto sync-db @ `06ec2be`)*  
 <sub>· Powered by the MSC Media Engine</sub>

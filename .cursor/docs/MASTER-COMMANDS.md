@@ -46,6 +46,7 @@
 | `npm run push:website:live -- --dry-run` | Preview deploy without uploading | N/A | ~30 sec |
 | `npm run deploy:zip` | Create deploy zip only | ✅ Yes (in /zips/) | ~10 sec |
 | `npm run msc:hostinger:sync-db` | SSH copy DB from `public_html/nodejs/` → app root | ✅ Yes | ~30 sec |
+| `npm run pushit:live` | Full FTPS Tier 2 (includes auto **`sync-db`** after DB upload) | ✅ Yes | ~45–60 min |
 
 ### After ANY deploy:
 1. Restart Node in hPanel: [https://hpanel.hostinger.com/websites/mystudiochannel.com](https://hpanel.hostinger.com/websites/mystudiochannel.com)

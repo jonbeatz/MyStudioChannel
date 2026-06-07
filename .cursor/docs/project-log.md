@@ -1,6 +1,12 @@
+## [2026-06-07 18:00] - Deploy hardening, live DB sync, docs sync
+- **Branch:** MSC-Website-v5 @ `06ec2be`
+- **Changes:** Fixed Sentry org/project wiring (`mystudiochannel`); migrated to `instrumentation-client.ts` + `global-error.tsx`. Added SSH scripts (`msc:hostinger:stop-node`, `msc:hostinger:sync-db`), quick DB deploy (`msc:push:db:live`), and `msc:session:stop`. Wired auto `sync-db` into `pushit:live` (FTPS landing → live app root). Documented MCP/Git as code-only deploys with AskQuestion mode picker. Restored live site via Full FTPS + sync-db; `msc:verify:live` passed. Pushed `MSC-Website-v5` and fast-forwarded `main` on GitHub.
+- **Status:** completed
+- **Next:** Feature work on `MSC-Website-v5`; use Quick DB when APIs 500 with stub DB.
+
 ## [2026-06-07 04:10] - Sentry Next.js 15 & React 19 Active Integration
 - **Branch:** MSC-Website-v5
-- **Changes:** Manually installed Sentry SDK. Set up server-side and edge-side error catching inside root `/instrumentation.ts` bootstrap utilizing Next 15 `onRequestError` interceptors. Added client-side client config (`sentry.client.config.ts`) and customized Sentry plugin inside `next.config.mjs` with safeties for missing tokens. Built interactive client-side and server-side testing diagnostics inside `/test/sentry-crash` playground and `app/api/dev/sentry-test` route, fully verified real-time logging and immediate email dispatch.
+- **Changes:** Manually installed Sentry SDK. Set up server-side and edge-side error catching inside root `/instrumentation.ts` bootstrap utilizing Next 15 `onRequestError` interceptors. Added client-side config via `instrumentation-client.ts` (later session migrated off deprecated `sentry.client.config.ts`) and customized Sentry plugin inside `next.config.mjs` with safeties for missing tokens. Built interactive client-side and server-side testing diagnostics inside `/test/sentry-crash` playground and `app/api/dev/sentry-test` route, fully verified real-time logging and immediate email dispatch.
 - **Status:** completed
 - **Next:** Proceed with feature development on `MSC-Website-v5` or closeout the session.
 

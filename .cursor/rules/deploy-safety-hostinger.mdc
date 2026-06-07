@@ -23,7 +23,7 @@ When discussing or running deploy operations:
 ## Tier scripts (must match `package.json`)
 
 - **Tier 1:** `npm run pushitup:admin-branding` — **Custom-Prompts** item **37**.
-- **Tier 2:** `npm run pushit:live` (build → `pushitup:admin-ui` → `pushitup -- .next` → `pushitup -- payload.sqlite` → `pushitup -- public/media`; local `dev:fresh` only if `PUSHIT_LIVE_RUN_DEV_FRESH=1`) — items **3** / **38**.
+- **Tier 2:** `npm run pushit:live` (build → `msc:pushitup:admin-ui` → `pushitup -- .next` → `pushitup -- payload.sqlite` → `msc:hostinger:sync-db` → `pushitup -- public/media`; local `dev:fresh` only if `PUSHIT_LIVE_RUN_DEV_FRESH=1`) — items **3** / **38**.
 - **Tier 3:** `npm run pushitup:server-config` — item **39**.
 
 Full reference: **Jedi-List.md** (Deploy uploaders), **HOSTINGER-DEPLOY.md**, **Go-Live-Checklist.md**.

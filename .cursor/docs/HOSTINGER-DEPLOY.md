@@ -193,7 +193,7 @@ For **ongoing updates** after first live deploy. **Local (PC repo root)** only.
 npm run pushit:live
 ```
 
-Pipeline: **`npm run build`** (briefly sets live `NEXT_PUBLIC_SERVER_URL`) → **`pushitup:admin-ui`** → **`.next`** → **`payload.sqlite`** → **`public/media`**.
+Pipeline: **`npm run build`** (briefly sets live `NEXT_PUBLIC_SERVER_URL`) → **`msc:pushitup:admin-ui`** → **`.next`** → **`payload.sqlite`** → **`msc:hostinger:sync-db`** (FTPS landing → live app root) → **`public/media`**.
 
 Then **Live (hPanel):** Stop → wait → Start Node app.
 

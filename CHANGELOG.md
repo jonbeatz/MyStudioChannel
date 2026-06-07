@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **`msc:push:db:live`** — quick (~1–2 min) live database deploy path
+- **`msc:hostinger:stop-node`** and **`msc:hostinger:sync-db`** — SSH stop Node and copy FTPS DB into live app root
+- **`msc:session:stop`** — end-session cleanup (dev :3000 + LiteLLM/ngrok)
+- **`app/global-error.tsx`** and **`instrumentation-client.ts`** — Sentry client boundary (replaces deprecated `sentry.client.config.ts`)
+
+### Changed
+- **Deploy workflow:** say **push it live** → agent asks mode (Quick DB · Full FTPS · MCP code-only); **MCP/Git ≠ DB deploy** documented across ops docs
+- **`pushit:live`** — auto-runs **`msc:hostinger:sync-db`** after `payload.sqlite` FTPS upload (7-step pipeline)
+- **Sentry:** correct org slug `mystudiochannel`; env-driven org/project in `next.config.mjs`
+
+### Fixed
+- Live **4 KB stub DB** after MCP/Git deploy — FTPS + `sync-db` restores ~500 KB DB to Node app root; `/api/globals/*` **200** after fix
+
 ## [5.0.0] - 2026-06-02
 
 ### Added

@@ -34,6 +34,7 @@ Always check `.cursor/skills/` for project-specific and portable agent abilities
 - **GitHub-Ops**: Use `.cursor/skills/GitHub-Ops/SKILL.md` for repo and library management.
 - **Premium-UI**: Use `.cursor/skills/Premium-UI/SKILL.md` for pre-wired UI builders, Lenis smooth scroll integrations, 21st.dev Magic MCP, Uiverse.io, VibeUI, and MotionSites.ai.
 - **Workflow-Portable**: Standard ops (backups, deploys, session logs).
-- Code changes only: `npm run msc:push:website:live`
-- Full deploy (code + database): `npm run msc:push:website:live -- --ftps`
+- Say **push it live** — agent asks mode: Quick DB (`msc:push:db:live`) · Full FTPS · MCP code-only (verify DB after)
+- Code changes only: `npm run push:website:live` (MCP — not a DB deploy)
+- Full deploy (code + DB + media): `powershell -File scripts/push-website-live.ps1 -Ftps` or `npm run pushit:live` (auto sync-db)
 - Always restart Node in hPanel after deploy.

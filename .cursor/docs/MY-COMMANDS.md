@@ -14,8 +14,9 @@ This is the single source of truth for ALL custom commands and scripts wired int
 | `npm run backup` | `npm run msc:backup:quick` | Non-interactive standard backup |
 | `npm run sync` | `npm run msc:docs:sync` | Audit and sync all documentation |
 | `npm run docs` | `npm run docs:audit` | Audit internal documentation links |
-| `npm run deploy` | `npm run push:website:live` | Default MCP zip deployment |
-| `npm run deploy:full` | `npm run push:website:live -- --ftps` | Full FTPS code + DB deploy |
+| `npm run deploy` | `npm run push:website:live` | MCP code-only (verify DB after) |
+| `npm run deploy:full` | `powershell -File scripts/push-website-live.ps1 -Ftps` | Full FTPS code + DB + media |
+| `npm run msc:push:db:live` | — | Quick DB sync (~1–2 min) |
 | `[URL]/test` | `app/test/[[...slug]]/page.tsx` | Isolated design playground |
 
 ---

@@ -91,14 +91,21 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Public URLs:** **`lib/public-origin.ts`** + **`lib/site-origin-defaults.ts`** — **`PAYLOAD_PUBLIC_SERVER_URL`** / **`NEXT_PUBLIC_SERVER_URL`** / **`MSC_CANONICAL_SITE_ORIGIN`**; **`getPublicOriginClient()`** for admin Client Components; **`payload.config.ts`** **`serverURL`** + env-built **CSRF**.
 - **Marketing site:** Header/footer in-page hash scroll (mobile drawer defer); **`HomeHashScroll`**; **`middleware`** pathname-only rewrites (host-agnostic).
 - **Version:** **`v5.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v5.0.0`**, admin **`MyStudioChannel Admin v5.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
-- **Live:** **`https://mystudiochannel.com`** — **v5.0.0** live (Hostinger Node.js; deploy 2026-06-02). **`/`** + **`/admin`** 200; verify hPanel env vars if API 500.
-- **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (Path A/B/C), **`DEPLOYMENT-FIXES.md`** (canonical dependency rule).
-- **Branches:** **`MSC-Website-v5`** (active dev); **`main`** synced with v5; **`MSC-Website-v4`** frozen at v4.0.0 (`0a33e8d` or `972f661`).
-- **Next ideas:** Feature work on v5; day-to-day updates via **`npm run push:website:live`** (MCP zip default) or **`-- --ftps`**.
+- **Live:** **`https://mystudiochannel.com`** — **v5.0.0** healthy (2026-06-07 FTPS + **`msc:hostinger:sync-db`**). **`msc:verify:live`** passed including **`/api/globals/*`**.
+- **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (deploy modes), **`DEPLOYMENT-TROUBLESHOOTING.md`**. Say **push it live** → agent asks mode (Quick DB · Full FTPS · MCP code-only). **MCP/Git ≠ DB deploy**.
+- **Branches:** **`MSC-Website-v5`** @ **`06ec2be`** (active dev); **`main`** synced @ **`06ec2be`**; **`MSC-Website-v4`** frozen at v4.0.0.
+- **Next ideas:** Feature work on v5; code-only → MCP (verify DB after); CMS/API stub DB → **`msc:push:db:live`**; full parity → **`push-website-live.ps1 -Ftps`** or **`pushit:live`** (auto sync-db).
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-07 — Deploy hardening, live DB sync, Sentry org fix
+
+- **Commit:** **`06ec2be`** on **`MSC-Website-v5`** and **`main`** (pushed to origin).
+- **Live DB:** MCP/Git rebuild left **4 KB stub** in app root; FTPS landed DB under **`public_html/nodejs/`**. Fix: **`msc:hostinger:sync-db`** + **`msc:push:db:live`**; **`pushit:live`** now auto-syncs after DB upload.
+- **Deploy modes:** AskQuestion picker — Quick DB (~1–2 min) · Full FTPS (~45–60 min) · MCP code-only (~5–10 min, verify DB after).
+- **Sentry:** org slug **`mystudiochannel`**; client via **`instrumentation-client.ts`**; removed deprecated **`sentry.client.config.ts`**.
 
 ### 2026-06-02 — v5.0.0 development branch and MSC-Website-v5 branch cut
 
