@@ -1,4 +1,8 @@
-# Project Session Log
+## [2026-06-07 04:10] - Sentry Next.js 15 & React 19 Active Integration
+- **Branch:** MSC-Website-v5
+- **Changes:** Manually installed Sentry SDK. Set up server-side and edge-side error catching inside root `/instrumentation.ts` bootstrap utilizing Next 15 `onRequestError` interceptors. Added client-side client config (`sentry.client.config.ts`) and customized Sentry plugin inside `next.config.mjs` with safeties for missing tokens. Built interactive client-side and server-side testing diagnostics inside `/test/sentry-crash` playground and `app/api/dev/sentry-test` route, fully verified real-time logging and immediate email dispatch.
+- **Status:** completed
+- **Next:** Proceed with feature development on `MSC-Website-v5` or closeout the session.
 
 ## [2026-06-07 03:40] - Jina Reader & Tool Chest Integration
 - **Branch:** MSC-Website-v5

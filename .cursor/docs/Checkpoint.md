@@ -10,6 +10,7 @@
 - **Git:** `main` synced with `MSC-Website-v5`; `MSC-Website-v4` frozen at v4.0.0
 
 ## Recent Milestones
+| 2026-06-07 | **Sentry Diagnostics Suite Integrated** | feat |
 | 2026-06-07 | **Jina Reader & Canonical Tool Chest Integrated** | feat |
 | 2026-06-07 | **Skill Packs Created** | chore |
 | 2026-06-07 | **Linting Optimization & Workflow Smoothing Complete** | chore |
