@@ -23,8 +23,8 @@ export async function GET() {
     fs.mkdirSync(SEED_DATA_DIR);
   }
 
-  const collections = ['pages', 'media'];
-  const globals = ['homepage', 'header', 'site-settings', 'projects-home'];
+  const collections = ['pages', 'media'] as const;
+  const globals = ['homepage', 'header', 'site-settings', 'projects-home'] as const;
   const logs: string[] = [];
 
   try {
@@ -35,19 +35,23 @@ export async function GET() {
         depth: 0,
         pagination: false,
       });
-      const sanitized = result.docs.map((doc: { createdAt?: string; updatedAt?: string; [key: string]: unknown }) => {
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      const sanitized = result.docs.map((doc: any) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { createdAt, updatedAt, ...rest } = doc;
         return rest;
       });
+      /* eslint-enable @typescript-eslint/no-explicit-any */
       fs.writeFileSync(path.join(SEED_DATA_DIR, `${collection}.json`), JSON.stringify(sanitized, null, 2));
       logs.push(`Exported ${collection} (${sanitized.length} docs)`);
     }
 
     for (const slug of globals) {
-      const doc = await payload.findGlobal({ slug, depth: 0 }) as { createdAt?: string; updatedAt?: string; [key: string]: unknown };
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      const doc = await payload.findGlobal({ slug, depth: 0 }) as any;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { createdAt, updatedAt, ...rest } = doc;
+      /* eslint-enable @typescript-eslint/no-explicit-any */
       fs.writeFileSync(path.join(SEED_DATA_DIR, `${slug}.json`), JSON.stringify(rest, null, 2));
       logs.push(`Exported global: ${slug}`);
     }
@@ -72,17 +76,18 @@ export async function POST() {
   }
 
   try {
-    const collections = ['media', 'pages']; // media first for relationships
-    const globals = ['homepage', 'header', 'site-settings', 'projects-home'];
+    const collections = ['media', 'pages'] as const; // media first for relationships
+    const globals = ['homepage', 'header', 'site-settings', 'projects-home'] as const;
 
     for (const collection of collections) {
       const filePath = path.join(SEED_DATA_DIR, `${collection}.json`);
       if (!fs.existsSync(filePath)) continue;
 
       const docs = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      /* eslint-disable @typescript-eslint/no-explicit-any */
       for (const doc of docs) {
-        const where = doc.slug ? { slug: { equals: doc.slug } } : { id: { equals: doc.id } };
-        const existing = await payload.find({ collection, where, limit: 1, depth: 0 });
+        const where: any = doc.slug ? { slug: { equals: doc.slug } } : { id: { equals: doc.id } };
+        const existing = await payload.find({ collection, where, limit: 1, depth: 0 }) as any;
 
         if (existing.docs.length > 0) {
           await payload.update({ collection, id: existing.docs[0].id, data: doc });
@@ -92,6 +97,7 @@ export async function POST() {
           logs.push(`Created ${collection}: ${doc.slug || doc.id}`);
         }
       }
+      /* eslint-enable @typescript-eslint/no-explicit-any */
     }
 
     for (const slug of globals) {
