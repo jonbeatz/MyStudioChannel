@@ -1,8 +1,22 @@
 # Prompt & Custom Commands Cheat Sheet
 
-This is your ongoing reference guide for all custom developer prompts, workflows, and session commands configured for the **MyStudioChannel** project. 
+**Last Updated:** 2026-06-06
 
-Whenever you create or adapt workflows, update this cheat sheet so you always have an accurate, ready-to-use list.
+---
+
+## ⚡ Quick Aliases (Easiest to Type)
+
+| Alias | Full Command | What it does |
+|-------|--------------|--------------|
+| `npm run log:session` | `npm run msc:log:session` | Log session summary |
+| `npm run log:fix` | `npm run msc:log:fix` | Log a bug fix |
+| `npm run log:milestone` | `npm run msc:log:milestone` | Log a milestone |
+| `npm run doctor` | `npm run msc:doctor` | Full health check |
+| `npm run docs` | `npm run docs:audit` | Audit documentation |
+| `npm run sync` | `npm run docs:sync` | Sync documentation |
+| `npm run backup` | `npm run msc:backup:quick` | Quick backup |
+| `npm run deploy` | `npm run push:website:live` | Deploy code only |
+| `npm run deploy:full` | `npm run push:website:live -- --ftps` | Deploy code + database |
 
 ---
 

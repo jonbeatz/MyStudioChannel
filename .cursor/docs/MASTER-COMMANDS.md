@@ -1,9 +1,24 @@
 # MyStudioChannel - Master Command Reference
 
-**Last Updated:** 2026-06-02  
-**Branch:** `MSC-Website-v5`  
-**Version:** `5.0.0`  
-**Live Site:** [https://mystudiochannel.com](https://mystudiochannel.com)
+**Last Updated:** 2026-06-06
+**Branch:** `MSC-Website-v5`
+**Version:** `5.0.0`
+
+---
+
+## ⚡ Quick Aliases (Easiest to Type)
+
+| Alias | Full Command | What it does |
+|-------|--------------|--------------|
+| `npm run log:session` | `npm run msc:log:session` | Log session summary |
+| `npm run log:fix` | `npm run msc:log:fix` | Log a bug fix |
+| `npm run log:milestone` | `npm run msc:log:milestone` | Log a milestone |
+| `npm run doctor` | `npm run msc:doctor` | Full health check |
+| `npm run docs` | `npm run msc:docs:audit` | Audit documentation |
+| `npm run sync` | `npm run msc:docs:sync` | Sync documentation |
+| `npm run backup` | `npm run msc:backup:quick` | Quick backup |
+| `npm run deploy` | `npm run msc:push:website:live` | Deploy code only |
+| `npm run deploy:full` | `npm run msc:push:website:live -- --ftps` | Deploy code + database |
 
 ---
 
@@ -120,6 +135,17 @@ Required in Hostinger hPanel → Node.js → Environment Variables:
 | `PAYLOAD_PUBLIC_SERVER_URL` | `https://mystudiochannel.com` |
 | `RESEND_API_KEY` | (your Resend key) |
 | `PAYLOAD_DISABLE_SHARP` | `true` |
+
+---
+
+## 📝 Documentation & Logging Commands
+
+| Command | What it does | When to use |
+|---------|--------------|-------------|
+| `npm run msc:log:fix` | Interactive bug fix logger | Immediately after resolving a bug |
+| `npm run msc:log:session` | Interactive session summary logger | Before every "End Project" ritual |
+| `npm run msc:docs:sync` | Audits all docs for drift | After significant documentation changes |
+| `npm run msc:doctor` | Full project health check | Before starting significant work |
 
 ---
 

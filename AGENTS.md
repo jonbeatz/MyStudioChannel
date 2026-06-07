@@ -6,10 +6,18 @@
 3. Read `.cursor/docs/MASTER-COMMANDS.md` - All commands in one place.
 
 ## Core Rules
-- Always run `npm run msc:doctor` before starting significant work.
+- Always run `npm run doctor` before starting significant work.
+- Use short aliases (`log:session`, `log:fix`, `deploy`, `backup`) when possible to stay efficient.
 - Never commit secrets. Secrets go in `.env.local` (gitignored).
 - Follow the "Start Project" ritual to begin a session.
 - Follow the "End Project" ritual to close a session.
+- **Commands:** Prefer the short aliases listed in `MASTER-COMMANDS.md` (e.g., `npm run sync` instead of `npm run msc:docs:sync`).
+
+## Documentation Workflow
+- **Log Fixes:** Run `npm run msc:log:fix` immediately after resolving any bug.
+- **Log Sessions:** Run `npm run msc:log:session` before every "End Project" ritual.
+- **Milestones:** Use `specs/` folder for feature planning; summarize into `Restore-Points.md` on completion.
+- **No Drift:** Run `npm run msc:docs:sync` after any significant documentation changes.
 
 ## Documentation Hierarchy
 | Priority | Document | Purpose |
