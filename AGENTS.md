@@ -26,8 +26,13 @@
 | 1 | `TRUTH.md` | Constitution (final authority) |
 | 2 | `START-HERE.md` | Entry point and rituals |
 | 3 | `.cursor/docs/MASTER-COMMANDS.md` | Command reference |
+| 4 | `.cursor/skills/` | Portable AI agent skills |
 
-## Deployment
+## Skill Packs (New)
+Always check `.cursor/skills/` for project-specific and portable agent abilities.
+- **DesignMD**: Use `.cursor/skills/DesignMD/SKILL.md` for design system extraction/application.
+- **GitHub-Ops**: Use `.cursor/skills/GitHub-Ops/SKILL.md` for repo and library management.
+- **Workflow-Portable**: Standard ops (backups, deploys, session logs).
 - Code changes only: `npm run msc:push:website:live`
 - Full deploy (code + database): `npm run msc:push:website:live -- --ftps`
 - Always restart Node in hPanel after deploy.

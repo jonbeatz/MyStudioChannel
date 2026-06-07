@@ -13,6 +13,8 @@
 | `npm run log:session` | `npm run msc:log:session` | Log session summary |
 | `npm run log:fix` | `npm run msc:log:fix` | Log a bug fix |
 | `npm run log:milestone` | `npm run msc:log:milestone` | Log a milestone |
+| `npm run dmd` | `npx @designmdcc/cli` | Extract design tokens |
+| `npm run gh-test` | `npm run msc:test:github-api` | Test GitHub API |
 | `npm run doctor` | `npm run msc:doctor` | Full health check |
 | `npm run docs` | `npm run msc:docs:audit` | Audit documentation |
 | `npm run sync` | `npm run msc:docs:sync` | Sync documentation |
@@ -195,4 +197,5 @@ npm run test:hostinger-ftp
 - [START-HERE.md](./START-HERE.md) — Project entry point
 - [HOSTINGER-DEPLOY.md](./HOSTINGER-DEPLOY.md) — Full deployment guide
 - [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md) — Fix common issues
+- [PREMIUM-UI-CATALOG.md](./PREMIUM-UI-CATALOG.md) — Pre-wired and copy-paste interactive components
 - [Prompt-Cheat-Sheet.md](./Prompt-Cheat-Sheet.md) — Natural language commands
