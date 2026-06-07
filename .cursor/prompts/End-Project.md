@@ -24,6 +24,7 @@ Append to `.cursor/docs/project-log.md`:
 ### Step 3: Git Audit
 - Show `git status --porcelain`
 - Note any unstaged secrets (`.env.local`, credentials) - do NOT show values
+- **Reminder Note for Jon**: Remind Jon to verify or find any missing API keys (e.g., `21ST_DEV_MAGIC_API_KEY`) in `.env.local` to fully unlock pre-wired MCP servers next session.
 - Ask: "Commit and push changes? (yes/no)"
 
 ### Step 4: Port Cleanup (if dev server was running)
