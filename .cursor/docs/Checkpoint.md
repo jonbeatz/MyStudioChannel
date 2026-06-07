@@ -10,6 +10,8 @@
 - **Git:** `main` synced with `MSC-Website-v5`; `MSC-Website-v4` frozen at v4.0.0
 
 ## Recent Milestones
+| 2026-06-07 | **Phase 2 Complete - Command Aliases & Documentation Automation** | chore |
+| 2026-06-07 | **Engine Consolidation & Documentation Automation - Phase 1 & 2 Complete** | chore |
 | Date | Milestone | Commit |
 |------|-----------|--------|
 | 2026-06-02 | **v5.0.0 branch cut + Master version bump** | chore |

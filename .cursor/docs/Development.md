@@ -286,7 +286,6 @@ When you want to "freeze" a working state before more changes:
 
 - Working feature branches:
   - `MSC-Website-v5` (active dev)
-  - `MSC-Website-v4` (stable v4 line)
   - `main` (production — v5.0.0 synced)
 - Good commit style:
   - `Add dynamic pages builder, anchors, and branding wiring.`

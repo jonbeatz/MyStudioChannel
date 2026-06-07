@@ -89,3 +89,7 @@ Suggested naming:
 ---
 
 *Append a new row when you create the next restore point.*
+
+| 2026-06-07 | **Engine Consolidation & Documentation Automation - Phase 1 & 2 Complete** | chore | Phase 1 & 2 Complete: Engine Consolidation and Documentation Automation |
+
+| 2026-06-07 | **Phase 2 Complete - Command Aliases & Documentation Automation** | chore | - Added short-code aliases: doctor, deploy, backup, sync, log:fix, log:session, log:milestone |
