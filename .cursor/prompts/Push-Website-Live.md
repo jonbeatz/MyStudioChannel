@@ -1,17 +1,55 @@
-# Push Website Live — MCP Zip Deploy (Default)
+# Push Website Live — Deploy Mode Picker (ask first)
 
 ## Trigger
 When user says **"push website live"**, **"push it live"**, **"push site live"**, or **"deploy live"**.
 
 ## Goal
-Ship **`MSC-Website-v5`** to **https://mystudiochannel.com** using the **fast MCP zip** path by default. Fall back to **FTPS** only if MCP fails.
+Ship **`MSC-Website-v5`** to **https://mystudiochannel.com**. **Always ask Jon which deploy mode first** — do not auto-run the long full build.
 
-## Default method: MCP zip (recommended)
-1. **Local:** fresh production build + timestamped source zip (no `node_modules`, `.next`, `.git`).
+---
+
+## Step 0 — Deploy mode gate (required — `AskQuestion`)
+
+When Jon says **push it live** / **push website live**, present **one** `AskQuestion` with these options (recommended order):
+
+| Option | Label for Jon | Time | When to use |
+|--------|---------------|------|-------------|
+| **A** | **Quick DB sync** (~1–2 min) | ~1–2 min | `/` + `/admin` OK, `/api/globals/*` **500**, or live `payload.sqlite` is ~4 KB stub |
+| **B** | **Full FTPS deploy** (~45–60 min) | Long | Code/UI/admin changed; need local `.next` + DB + media on server |
+| **C** | **MCP zip — code only** (~5–10 min) | Medium | **Code** changed; **not** for CMS/DB trust — zip has DB but live may keep **4 KB stub** |
+
+**Agent rule:** Wait for Jon’s choice before running build/upload commands.
+
+### Mode A — Quick DB sync (default when APIs 500, site loads)
+**Local:**
+```powershell
+npm run msc:push:db:live
+```
+Then **Live (hPanel):** **Restart** Node → `npm run msc:verify:live`
+
+Steps inside script: `msc:hostinger:stop-node` → FTPS `payload.sqlite` → `msc:hostinger:sync-db` (FTPS lands under `public_html/nodejs/`; SSH copies into live app root).
+
+### Mode B — Full FTPS
+**Local:**
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/push-website-live.ps1 -Ftps
+```
+Includes SSH stop + `pushit:live` + SSH DB sync. **Live (hPanel):** **Restart** when done.
+
+### Mode C — MCP zip (code-only — not a DB deploy)
+See steps below.
+
+**Tell Jon explicitly:** MCP zip **includes** `payload.sqlite` in the archive, but **MCP/Git deploy ≠ DB deploy**. After deploy, verify `/nodejs/payload.sqlite` is **~500 KB** (not **4 KB**) or run `msc:verify:live`. If APIs **500** → run **Mode A** immediately.
+
+---
+
+## Mode C steps: MCP zip (code-only)
+1. **Local:** fresh production build + timestamped source zip (includes `payload.sqlite` for validation; **do not trust live DB from zip alone**).
 2. **MCP:** `hosting_deployJsApplication` uploads zip → Hostinger runs `npm install` + `npm run build` on server.
-3. **Always:** clickable **hPanel restart** reminder after successful deploy.
+3. **Always:** hPanel **Restart** + **DB size check** or `npm run msc:verify:live`.
+4. **If stub DB:** run **Mode A** (`msc:push:db:live`) — do not re-run full MCP hoping DB will stick.
 
-**FTPS** (`npm run pushit:live`) is **fallback** — slower, but ships your **local** `.next` + DB bit-for-bit when MCP is broken.
+**Full FTPS (Mode B)** — when you need **reliable** DB + `.next` + media on live.
 
 ---
 
@@ -121,12 +159,25 @@ npm run push:website:live -- --ftps
 
 Requires **`.vscode/sftp.json`** (`FTP_REMOTE_PATH=/nodejs`). Runs **`pushit:live`** + polls **`verify:live`**.
 
-**Before FTPS DB upload:** STOP Node in hPanel; optional:
-```bash
-cd /home/u942711528/domains/mystudiochannel.com/nodejs
-rm -rf .next
-rm -f payload.sqlite-wal payload.sqlite-shm
+### Option B — SSH stop + FTPS + SSH DB sync (no hPanel Stop button)
+
+When hPanel only shows **Restart** (Git-connected Node.js):
+
+**Local (Cursor / repo root):**
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/push-website-live.ps1 -Ftps
 ```
+
+Or: `npm run push:website:live -- --ftps` (pass `-Ftps` to PowerShell if npm eats the flag).
+
+The FTPS path automatically:
+1. **`npm run msc:hostinger:stop-node`** — SSH `pkill` + clear WAL/SHM on live app root
+2. **`npm run pushit:live`** — build + FTPS upload
+3. **`npm run msc:hostinger:sync-db`** — copy `public_html/nodejs/payload.sqlite` → `domains/.../nodejs/` (Hostinger FTPS chroot quirk)
+
+**Live (hPanel):** click **Restart** after upload completes.
+
+**Why sync-db?** FTPS `remotePath: /nodejs` lands files under `public_html/nodejs/` while the Node app runs from `domains/mystudiochannel.com/nodejs/`. Without the SSH copy, live keeps a 4 KB stub DB and `/api/globals/*` returns 500.
 
 ---
 
@@ -157,4 +208,4 @@ rm -f payload.sqlite-wal payload.sqlite-shm
 - **DO** run zip + MCP from **Local (PC)**; agent calls MCP tools
 - **DO NOT** run `pushitup` on Hostinger Terminal
 - **DO** print restart link after every successful deploy
-- **DO** use MCP zip for daily updates; FTPS only as fallback or when shipping local `.next`/DB without server rebuild
+- **DO** ask deploy mode first; use **MCP code-only** for code changes (verify DB after); **Quick DB** or **Full FTPS** when CMS/data must be trusted on live

@@ -5,8 +5,8 @@
 - **Branch:** MSC-Website-v5 (active dev)
 - **Version:** 5.0.0 (`package.json` — sole release number)
 - **Build Status:** Passing (`npm run build` / `verify:next:safe`)
-- **Deploy default:** Say **push website live** → `npm run push:website:live` → MCP zip (`hosting_deployJsApplication`) → [hPanel restart](https://hpanel.hostinger.com/websites/mystudiochannel.com). FTPS fallback: `-- --ftps`.
-- **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v5.0.0** (redeploy via MCP zip in `zips/MyStudioChannel-deploy-*.zip`)
+- **Deploy default:** Say **push it live** → agent **asks mode** (Quick DB · Full FTPS · MCP code-only). **MCP/Git ≠ DB deploy** — verify `payload.sqlite` ~500 KB after rebuild; use **`msc:push:db:live`** if stub. [hPanel restart](https://hpanel.hostinger.com/websites/mystudiochannel.com).
+- **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v5.0.0** — healthy after FTPS + `msc:hostinger:sync-db` (2026-06-07); deploy modes documented (Quick DB · FTPS · MCP code-only)
 - **Git:** `main` synced with `MSC-Website-v5`; `MSC-Website-v4` frozen at v4.0.0
 
 ## Recent Milestones

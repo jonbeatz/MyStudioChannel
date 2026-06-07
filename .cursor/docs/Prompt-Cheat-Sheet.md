@@ -53,7 +53,7 @@ These commands are bound to automated workflows inside `.cursor/prompts/` and ar
   1. Identifies and summarizes modified, added, and deleted files.
   2. Appends logs to `.cursor/docs/project-log.md`.
   3. Runs a Git audit and asks if you would like to commit and push.
-  4. Cleans up ports (kills dev server on `3000` and LiteLLM on `4000`).
+  4. Always runs `npm run msc:session:stop` (Next dev `3000`, LiteLLM `4000`, ngrok `4040`) — unconditional fresh restart.
   5. Outputs goodbye handshake.
 - **Handoff Response Format:**
   ```text
@@ -62,7 +62,7 @@ These commands are bound to automated workflows inside `.cursor/prompts/` and ar
   📁 Branch: [current branch]
   📝 Changes logged to project-log.md
   🔧 Git: [clean if committed, otherwise note pending]
-  🛑 Ports cleared: 3000, 4000
+  🛑 Local services stopped: Next dev (3000), LiteLLM + ngrok (4000, 4040)
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ✅ Goodbye, Jon. See you next session.
   Cold-start pointer: Say "Start Project" to begin next session.
@@ -193,9 +193,13 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 - **Action:** **Tier 1 — Fast FTP (look and feel only).**
 - **Script Command:** `npm run pushitup:admin-branding`
 
-### ➡️ `"Push Website Live"`  
-*Alternative phrasings: `"push it live"`, `"push site live"`, `"Lets Push It Live"`*
-- **Action:** **MCP zip deploy (default)** — fast single archive; Hostinger builds on server. 
+### ➡️ `"Push Website Live"` / `"push it live"`
+*Alternative phrasings: `"push site live"`, `"deploy live"`*
+- **Action:** Agent **asks first** (clickable) — pick deploy mode before any upload:
+  - **Quick DB sync** (~1–2 min) → `npm run msc:push:db:live` → hPanel **Restart** → `msc:verify:live`
+  - **Full FTPS** (~45–60 min) → `push-website-live.ps1 -Ftps` → Restart → verify
+  - **MCP zip — code only** (~5–10 min) → `push:website:live` → MCP → Restart → **verify DB** (not a DB deploy)
+- **Quick DB when:** `/` + `/admin` OK but `/api/globals/*` returns 500 (stub `payload.sqlite` on live).
 
 ### ➡️ `"Push server config"`  
 - **Action:** **Tier 3 — Hosting / Node runtime contract.**

@@ -100,7 +100,7 @@ function Wait-ForLiveHealthy {
   param([int]$MaxAttempts = 12, [int]$IntervalSec = 15)
   for ($i = 1; $i -le $MaxAttempts; $i++) {
     Write-Host "verify:live attempt $i/$MaxAttempts..." -ForegroundColor Gray
-    npm run verify:live 2>&1 | Out-Host
+    npm run msc:verify:live 2>&1 | Out-Host
     if ($LASTEXITCODE -eq 0) { return $true }
     if ($i -lt $MaxAttempts) {
       Write-Host "Waiting ${IntervalSec}s (restart Node in hPanel if not done)..." -ForegroundColor Yellow
@@ -249,7 +249,7 @@ Invoke-SafeDbCopyCheck
 
 Write-Host ""
 Write-Host "Stopping local dev on port 3000 (if any)..." -ForegroundColor Yellow
-node scripts/kill-dev-port.mjs
+npm run msc:kill-dev-port
 if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne 2) {
   Write-Host "WARN: kill-dev-port exit $LASTEXITCODE" -ForegroundColor Yellow
 }
@@ -270,7 +270,7 @@ if ($dryRun) {
   if ($useFtps) {
     Write-Host "Would run: npm run pushit:live (FTPS uploads payload.sqlite -> /nodejs/)" -ForegroundColor Magenta
   } else {
-    Write-Host "Would run: npm run deploy:zip then Hostinger MCP hosting_deployJsApplication" -ForegroundColor Magenta
+    Write-Host "Would run: npm run msc:deploy:zip then Hostinger MCP hosting_deployJsApplication" -ForegroundColor Magenta
   }
   & powershell -ExecutionPolicy Bypass -File $restartScript -Status pending
   exit 0
@@ -305,7 +305,7 @@ if ($useFtps) {
   $credential = New-Object System.Net.NetworkCredential($username, $password)
 
   Write-Host "verify:ftp-smoke..." -ForegroundColor Yellow
-  npm run verify:ftp-smoke
+  npm run msc:verify:ftp-smoke
   if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
   # Remote Database Auto-Backup
@@ -327,9 +327,11 @@ if ($useFtps) {
   }
 
   Write-Host ""
-  Write-Host "Live (hPanel): STOP Node before FTPS if DB/.next are open on server." -ForegroundColor Yellow
-  Write-Host "  $hpanelUrl" -ForegroundColor Gray
-  Write-Host ""
+  Write-Host "Stopping live Node via SSH (Option B — no hPanel Stop button required)..." -ForegroundColor Yellow
+  npm run msc:hostinger:stop-node
+  if ($LASTEXITCODE -ne 0) {
+    Write-Host "WARN: SSH stop-node failed — continue only if Node is not holding DB open." -ForegroundColor Yellow
+  }
 
   npm run pushit:live
   if ($LASTEXITCODE -ne 0) {
@@ -364,7 +366,15 @@ if ($useFtps) {
   if ($deletedShm) { Write-Host "  🧹 Deleted remote payload.sqlite-shm" -ForegroundColor Gray }
 
   Write-Host ""
-  Write-Host "✅ Database uploaded to /nodejs/payload.sqlite" -ForegroundColor Green
+  Write-Host "Syncing payload.sqlite from FTPS landing zone into live app root (SSH)..." -ForegroundColor Yellow
+  npm run msc:hostinger:sync-db
+  if ($LASTEXITCODE -ne 0) {
+    Write-Host "ABORT: SSH DB sync failed — FTPS may have landed under public_html/nodejs." -ForegroundColor Red
+    exit 1
+  }
+
+  Write-Host ""
+  Write-Host "✅ Database synced to live app root (domains/.../nodejs/payload.sqlite)" -ForegroundColor Green
   Write-Host "🧹 WAL files cleaned up on server" -ForegroundColor Green
   Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Green
   Write-Host "🔄 NEXT STEP (Manual):" -ForegroundColor Yellow
@@ -384,7 +394,7 @@ if ($useFtps) {
 
   $liveOk = Wait-ForLiveHealthy
   if ($liveOk) {
-    npm run verify:live:version
+    npm run msc:verify:live:version
     if ($LASTEXITCODE -eq 0) {
       Write-Host ""
       Write-Host "push:website:live (FTPS) - ALL CHECKS PASSED." -ForegroundColor Green
@@ -397,7 +407,7 @@ if ($useFtps) {
 
 # --- Default: MCP zip path (script stops after zip; agent calls MCP) ---
 Write-PhaseHeader "Phase 1 - Create deployment zip (MCP)"
-npm run deploy:zip
+npm run msc:deploy:zip
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 $zipPath = $null

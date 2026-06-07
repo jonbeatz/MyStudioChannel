@@ -4,8 +4,10 @@ Use this guide when live deploys fail or production behavior diverges from local
 
 - **Live site:** [https://mystudiochannel.com](https://mystudiochannel.com)
 - **hPanel:** [https://hpanel.hostinger.com/](https://hpanel.hostinger.com/)
-- **Primary deploy ritual (Local):** `npm run push:website:live`
-- **FTPS fallback (Local):** `npm run push:website:live -- --ftps`
+- **Deploy phrase (Local):** say **push it live** — agent asks mode (Quick DB · Full FTPS · MCP code-only)
+- **Quick DB (Local):** `npm run msc:push:db:live` (~1–2 min)
+- **Full FTPS (Local):** `powershell -File scripts/push-website-live.ps1 -Ftps`
+- **MCP code-only (Local):** `npm run push:website:live` — **not a DB deploy**; verify DB after
 
 ---
 
@@ -16,7 +18,7 @@ Is your site down?
 ```text
 Is your site down?
     ├── 503 error -> Check stderr.log for missing .builds/ -> Recreate preload file -> Restart Node
-    ├── 500 API error -> Run push:website:live -- --ftps (auto deletes WAL files) -> Restart Node
+    ├── 500 API error -> Run msc:push:db:live (or Full FTPS + sync-db) -> Restart Node
     ├── 504 timeout -> Stop dev server -> npm run db:copy -> Re-upload with auto WAL cleanup
     └── Wrong content -> Upload local payload.sqlite with auto size verification -> Restart Node
 ```
@@ -64,19 +66,21 @@ Is your site down?
 ## 3) `payload.sqlite` is 4 KB instead of ~528 KB
 
 ### Symptoms
-- File Manager shows `payload.sqlite` as `4 KB`
-- Site data is missing or defaults appear unexpectedly
+- File Manager shows `payload.sqlite` as `4 KB` under **`/nodejs/`** (live app root)
+- `/api/globals/*` returns **500** (`no such table: site_settings`)
+- Site `/` and `/admin` may still return **200**
 
 ### Root Causes
-- MCP zip deploy can leave/create a fresh empty DB if real DB is not carried over correctly
-- Database not included or not applied after deployment
+- **MCP zip deploy ≠ DB deploy** — zip includes `payload.sqlite`, but server build may not apply it to the app root
+- **Git-connected hPanel rebuild ≠ DB deploy** — repo has ~500 KB DB; live app can still boot a **4 KB stub**
+- **FTPS** uploaded DB to **`public_html/nodejs/`** while Node reads **`domains/.../nodejs/`** (fix: `npm run msc:hostinger:sync-db`)
 - Local dev server was running while DB copy was made (locked/inconsistent file)
 
-### Solutions
-1. Stop `npm run dev` before copying DB (`Ctrl+C`)
-2. Run `npm run db:copy` to create safe `payload.sqlite.temp`
-3. Upload DB copy via File Manager after MCP deploy when needed
-4. Use `npm run push:website:live -- --ftps` for full parity deploys
+### Solutions (fastest first)
+1. **`npm run msc:push:db:live`** → Restart Node in hPanel → **`npm run msc:verify:live`**
+2. Stop `npm run dev` before any DB copy (`Ctrl+C`)
+3. Full parity: `powershell -File scripts/push-website-live.ps1 -Ftps` (includes `msc:hostinger:sync-db`)
+4. Manual: File Manager upload to **`/nodejs/payload.sqlite`** (not `public_html` only)
 
 ---
 
@@ -214,24 +218,26 @@ This is now **100% automated** on our PC-side deployment scripts!
 | Symptom | Command / Action |
 |---|---|
 | Site down / 503 | Check `stderr.log` for missing `.builds/` preload file. Recreate with SSH, then restart in hPanel. |
-| API 500 | Upload DB, delete WAL files, restart |
-| Database wrong size | `npm run db:copy` (creates copy), script automatically verifies size on upload |
+| API 500 / stub DB | `npm run msc:push:db:live` → restart → `msc:verify:live` |
+| Database wrong size | `npm run db:copy` then Quick DB or Full FTPS + `msc:hostinger:sync-db` |
 | Wrong files deployed | Check `FTP_REMOTE_PATH=/nodejs`, run `npm run sync:sftp-env` |
 | FTPS upload issues | `npm run test:hostinger-ftp` |
-| Full deploy with DB | `npm run push:website:live -- --ftps` (automated WAL cleanup + DB size verification) |
-| Code-only deploy | `npm run push:website:live` |
+| Full deploy with DB | `push-website-live.ps1 -Ftps` (WAL cleanup + `sync-db`) |
+| Code-only deploy | `npm run push:website:live` (MCP) — verify DB size after |
 
 ---
 
 ## Preventive Measures
 
 1. Before DB operations, stop local dev server (`Ctrl+C`)
-2. After MCP deploy, confirm DB state (manual upload if needed) or use FTPS path
-3. Keep `.env.local` correct (`FTP_REMOTE_PATH=/nodejs`)
-4. Monitor Hostinger resources in hPanel regularly
-5. Choose deploy method intentionally:
-   - Code-only changes -> MCP zip
-   - DB/content parity required -> FTPS or manual DB upload
+2. After MCP or Git deploy, confirm DB is **~500 KB** (not **4 KB**) — MCP/Git ≠ DB deploy
+3. After FTPS DB upload, run **`npm run msc:hostinger:sync-db`** (lands under `public_html/nodejs/`)
+4. Keep `.env.local` correct (`FTP_REMOTE_PATH=/nodejs`)
+5. Monitor Hostinger resources in hPanel regularly
+6. Choose deploy method intentionally:
+   - Stub DB / APIs 500 → **Quick DB** (`msc:push:db:live`)
+   - Code-only changes → MCP zip (verify DB after)
+   - DB/content parity required → Full FTPS + `sync-db`
 
 ---
 

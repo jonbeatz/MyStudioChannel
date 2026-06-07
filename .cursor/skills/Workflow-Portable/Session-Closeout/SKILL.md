@@ -19,7 +19,7 @@ Use this skill when ending a session or handing work off.
 3. Draft commit message focused on why.
 4. Ask for confirmation before commit/push.
 5. Commit and push to current branch.
-6. Stop local dev listeners/processes.
+6. Always run full local shutdown (e.g. `npm run msc:session:stop` — dev **3000**, LiteLLM/ngrok **4000**/**4040**).
 7. Provide next-start checklist.
 
 ## Optional deploy extension

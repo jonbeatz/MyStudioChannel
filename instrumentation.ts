@@ -6,7 +6,7 @@ export function register() {
       dsn: process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN,
 
       // Adjust this value in production, or use tracesSampler for greater control
-      tracesSampleRate: 1,
+      tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1,
 
       // Setting this option to true will print useful information to the console if you're debugging Sentry.
       debug: false,
@@ -21,7 +21,7 @@ export function register() {
       dsn: process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN,
 
       // Adjust this value in production, or use tracesSampler for greater control
-      tracesSampleRate: 1,
+      tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1,
 
       // Setting this option to true will print useful information to the console if you're debugging Sentry.
       debug: false,

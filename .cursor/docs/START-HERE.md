@@ -137,7 +137,7 @@ That pattern almost always means **`.next` was deleted or overwritten while `nex
 
 **First deploy / full refresh (zip):** stop dev → audit **`npm ls --omit=dev --depth=0`** → **`npm run build`** → upload **`MyStudioChannel-deploy.zip`** in hPanel → set env vars → Deploy → restart Node. See **HOSTINGER-DEPLOY.md** → *Path A*.
 
-**Ongoing updates (default):** say **"push website live"** in Cursor or run **`npm run push:website:live`** (MCP zip). **FTPS fallback:** **`npm run push:website:live -- --ftps`** or **`npm run pushit:live`** — see *Push to live* below.
+**Ongoing updates:** say **"push it live"** in Cursor — agent **asks mode** (Quick DB · Full FTPS · MCP code-only). **MCP/Git rebuild ≠ DB deploy** — verify live `payload.sqlite` ~500 KB after code deploys; use **`npm run msc:push:db:live`** if APIs **500**. See *Push to live* below.
 
 ### Push to live
 
@@ -157,8 +157,9 @@ Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.nex
 
 | I want to… | Command |
 |------------|---------|
-| Push daily changes (recommended) | Say **push website live** or **`npm run push:website:live`** → MCP zip → [restart in hPanel](https://hpanel.hostinger.com/websites/mystudiochannel.com) |
-| Push daily changes (FTPS fallback) | **`npm run push:website:live -- --ftps`** (Full compile + deploy with **automatic WAL cleanup & DB size verification**) → restart in hPanel |
+| CMS/API broken, site loads (stub DB) | **`npm run msc:push:db:live`** (~1–2 min) → [restart in hPanel](https://hpanel.hostinger.com/websites/mystudiochannel.com) |
+| Push **code** only (MCP zip) | Say **push it live** → choose MCP → verify DB size after |
+| Push **code + DB + media** (reliable) | **`push-website-live.ps1 -Ftps`** or **`pushit:live`** + **`msc:hostinger:sync-db`** → restart in hPanel |
 | Stream server error logs live | **`npm run logs:live`** (SSH `tail -f stderr.log`) |
 | Stream server console logs live | **`npm run logs:live:console`** (SSH `tail -f console.log`) |
 | Optimize local database | **`npm run db:optimize`** (`PRAGMA optimize` + `VACUUM`) |

@@ -93,15 +93,21 @@ export default withSentryConfig(payloadConfig, {
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options
 
-  org: "my-studio-channel",
-  project: "mystudiochannel",
+  // Must match Sentry org slug (see SENTRY_AUTH_TOKEN payload / Sentry → Settings → Organization)
+  org: process.env.SENTRY_ORG || "mystudiochannel",
+  project: process.env.SENTRY_PROJECT || "mystudiochannel",
+  authToken: process.env.SENTRY_AUTH_TOKEN,
 
   // Only print logs for uploading source maps in CI or production builds
   silent: !process.env.CI,
 
-  // Forstands Sentry to not fail production builds if auth token or DSN are missing (essential for local dev/dry-runs!)
+  // Do not fail production builds when auth token is missing (local dev / dry-runs)
   widenClientFileUpload: true,
   hideSourceMaps: true,
-  disableLogger: true,
+  webpack: {
+    treeshake: {
+      removeDebugLogging: true,
+    },
+  },
 })
 

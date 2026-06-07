@@ -46,13 +46,30 @@ All green? Your site is live and configured correctly!
 
 ---
 
+## ⚠️ MCP / Git deploy ≠ DB deploy (read first)
+
+**MCP zip** and **Git-connected hPanel rebuilds** are **code deploys**. They may include `payload.sqlite` in the archive or repo, but the **live Node app often does not use that file** — you can end up with a **4 KB stub** in `/nodejs/payload.sqlite` while APIs return **500**.
+
+| Check after MCP or Git deploy | Good | Bad — run DB sync |
+|-------------------------------|------|-------------------|
+| `payload.sqlite` in File Manager → `/nodejs/` | **~500–540 KB** | **4 KB** |
+| `GET /api/globals/projects-home?depth=1` | **200** | **500** |
+
+**Fix (fast, ~1–2 min):** `npm run msc:push:db:live` → **Restart** Node in hPanel → `npm run msc:verify:live`
+
+**Reliable DB + code parity:** Full FTPS (`push-website-live.ps1 -Ftps`) or **Quick DB** when only CMS data is wrong.
+
+---
+
 ## Deploy paths overview
 
-| Path | When | Where it runs |
-|------|------|----------------|
-| **A — Zip deploy (MCP / hPanel) — default daily** | **Recommended** for `push website live` — fast single archive, server builds | **Local:** `npm run push:website:live` → **MCP:** `hosting_deployJsApplication` → **Live:** restart Node |
-| **B — FTPS `pushit:live` (fallback)** | When MCP fails or you must ship **local** `.next` + DB without server rebuild | **Local:** `npm run push:website:live -- --ftps` → **Live (hPanel):** restart Node |
-| **C — Daily updates (after first deploy)** | Operator phrase + method picker | See **Path C** below |
+| Path | When | DB reliable? | Where it runs |
+|------|------|--------------|----------------|
+| **Quick DB** | APIs **500**, site/admin OK, stub DB | **Yes** | **Local:** `npm run msc:push:db:live` → **Live:** Restart Node |
+| **A — MCP zip (code-only default)** | **Code** changed; no CMS/DB trust needed | **No** — verify size after; use Quick DB if stub | **Local:** `push:website:live` → MCP → **Live:** restart |
+| **B — FTPS full (`pushit:live`)** | Code + **`.next`** + **DB** + **media** parity | **Yes** (`pushit:live` auto-runs `msc:hostinger:sync-db`) | **Local:** `push-website-live.ps1 -Ftps` or `pushit:live` → **Live:** restart |
+| **C — Git push + hPanel rebuild** | Major updates from GitHub | **No** — same stub risk as MCP | **Local:** `git push` → Hostinger rebuild → verify DB |
+| **D — Daily operator phrase** | Say *push it live* in Cursor | Agent **asks first** (Quick / FTPS / MCP) | See [Push-Website-Live.md](../prompts/Push-Website-Live.md) |
 
 Do **not** run `pushitup` or zip uploads in **Hostinger Terminal** — upload from **Local (PC repo root)** only.
 
@@ -226,12 +243,13 @@ Once your site is live, use these methods for ongoing updates. **Quick card:** [
 
 ### Quick reference: update methods
 
-| Method | Command | When to use | Time | Restart needed? |
-|--------|---------|-------------|------|-----------------|
-| **Push website live (MCP zip — default)** | Say *push website live* or `npm run push:website:live` | Daily deploys; server runs `npm run build` | ~3–6 min upload + ~1 min build | **Yes** — [hPanel](https://hpanel.hostinger.com/websites/mystudiochannel.com) |
-| **FTPS fallback** | `npm run push:website:live -- --ftps` | MCP failed; need local `.next`/DB parity | ~5–8 min | **Yes** — hPanel |
-| **FTPS (Tier 2 only)** | `npm run pushit:live` | Same as FTPS fallback without unified ritual | ~2–3 min | **Yes** — hPanel |
-| **Git push + rebuild** | `git push origin main` | Major updates, new packages | ~5–6 min | Usually auto |
+| Method | Command | When to use | Time | DB reliable? |
+|--------|---------|-------------|------|--------------|
+| **Quick DB sync** | `npm run msc:push:db:live` | APIs **500**, stub **4 KB** DB | ~1–2 min | **Yes** |
+| **Push website live (ask mode)** | Say *push it live* — agent picks Quick / FTPS / MCP | Always start here | Varies | Depends on mode |
+| **MCP zip (code-only)** | `npm run push:website:live` → MCP | **Code** changes only; verify DB after | ~5–10 min | **No** |
+| **FTPS full** | `push-website-live.ps1 -Ftps` or `pushit:live` | Code + DB + media parity | ~45–60 min | **Yes** (+ `sync-db`) |
+| **Git push + rebuild** | `git push origin main` | Major updates, new packages | ~5–6 min | **No** — verify DB size |
 
 ---
 
@@ -270,7 +288,7 @@ Safer variant: **`npm run pushit:live:safe`** — runs **`verify:local`** first,
 
 ---
 
-### Method 2: Git push + Hostinger rebuild
+### Method 2: Git push + Hostinger rebuild (code — not a DB deploy)
 
 If your Hostinger Node.js app is connected to GitHub:
 
@@ -280,26 +298,38 @@ git push origin main
 
 Hostinger will typically:
 
-1. Pull latest code
+1. Pull latest code (may include `payload.sqlite` in the repo)
 2. Run **`npm install`** (production)
 3. Run **`npm run build`**
 4. Restart the app
 
-**Best for:** new dependencies, major changes, or when FTPS fails.
+**Best for:** new dependencies and **code** changes when FTPS/MCP are unavailable.
+
+**Not reliable for CMS data:** even when `payload.sqlite` is committed (~500 KB), the live app root can still show a **4 KB stub** after rebuild. Payload then has no tables → `/api/globals/*` **500**.
+
+**After every Git rebuild:**
+
+1. File Manager → `/nodejs/payload.sqlite` — expect **~500 KB**, not **4 KB**
+2. Or run `npm run msc:verify:live` — projects-home must be **200**
+3. If stub → **`npm run msc:push:db:live`** → Restart Node
 
 **Reminder:** apply **The Canonical Rule** — packages imported in app/CSS must be in **`dependencies`**, or the host build will fail.
 
 ---
 
-### Method 3: From Cursor (Hostinger MCP)
+### Method 3: From Cursor (Hostinger MCP) — code-only default
 
 Tell Cursor:
 
-> Use the Hostinger MCP to deploy my latest changes to mystudiochannel.com
+> push it live
 
-The MCP can upload a source zip and trigger a server-side build (`hosting_deployJsApplication`).
+The agent will **ask which mode** (Quick DB · Full FTPS · MCP zip). For MCP alone:
 
-**Best for:** automated workflows, testing, first deploy–style refreshes without FTPS.
+The MCP uploads a source zip (`create-deploy-zip.ps1` **includes** `payload.sqlite` and validates size) and triggers a server-side build (`hosting_deployJsApplication`).
+
+**Best for:** **code** updates when you do not need to trust the live database from the zip.
+
+**DB caveat:** the zip can contain a full DB, but Hostinger’s extract/build path does not guarantee `/nodejs/payload.sqlite` is updated — same **4 KB stub** risk as Git deploy. **Always verify DB size or run `msc:verify:live` after MCP deploy.** If APIs fail → **`npm run msc:push:db:live`**.
 
 **MCP cannot set environment variables** — set those in hPanel UI.
 
@@ -470,7 +500,8 @@ Running `npm run push:website:live -- --ftps` automatically:
 ## Ground rules
 
 1. Secrets only in **hPanel env** and **`.env.local`** — never in git.
-2. **`payload.sqlite`** is shipped on first deploy; avoid overwriting production DB from PC unless intentional.
+2. **MCP zip and Git rebuild are not DB deploys** — treat `payload.sqlite` on live as unverified until File Manager or `msc:verify:live` confirms **~500 KB** and APIs **200**. Use **`msc:push:db:live`** when the stub appears.
+3. **`payload.sqlite`** in a zip/repo does not mean the live app uses it — FTPS needs **`msc:hostinger:sync-db`** (FTPS lands under `public_html/nodejs/`).
 3. **`PAYLOAD_DISABLE_SHARP=true`** on Hostinger.
 4. Production URLs must be **`https://mystudiochannel.com`** (both `NEXT_PUBLIC_*` and `PAYLOAD_PUBLIC_*`).
 5. After deploy, confirm version labels: **`MyStudioChannel v5.0.0`** / **`MyStudioChannel Admin v5.0.0`**.

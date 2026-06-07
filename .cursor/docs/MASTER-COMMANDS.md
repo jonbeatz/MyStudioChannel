@@ -39,10 +39,13 @@
 
 | Command | What it does | Database handled? | Time |
 |---------|--------------|-------------------|------|
-| `npm run push:website:live` | MCP zip deploy (code only) | ❌ No | ~3 min |
-| `npm run push:website:live -- --ftps` | FTPS full deploy (code + DB) | ✅ Yes (with WAL cleanup) | ~5 min |
+| Say **push it live** | Agent asks mode (Quick · FTPS · MCP) | Depends on mode | Varies |
+| `npm run msc:push:db:live` | Quick DB sync to live app root | ✅ Yes | ~1–2 min |
+| `npm run push:website:live` | MCP zip (code only) — **verify DB after** | ❌ Not reliable | ~5–10 min |
+| `powershell -File scripts/push-website-live.ps1 -Ftps` | Full FTPS (code + DB + media) | ✅ Yes (+ `sync-db`) | ~45–60 min |
 | `npm run push:website:live -- --dry-run` | Preview deploy without uploading | N/A | ~30 sec |
 | `npm run deploy:zip` | Create deploy zip only | ✅ Yes (in /zips/) | ~10 sec |
+| `npm run msc:hostinger:sync-db` | SSH copy DB from `public_html/nodejs/` → app root | ✅ Yes | ~30 sec |
 
 ### After ANY deploy:
 1. Restart Node in hPanel: [https://hpanel.hostinger.com/websites/mystudiochannel.com](https://hpanel.hostinger.com/websites/mystudiochannel.com)

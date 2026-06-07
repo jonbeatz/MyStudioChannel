@@ -1,7 +1,8 @@
 ﻿# Tier 2 — Full build + FTPS "zero footprint" sync (code + local SQLite → live).
 # Run from repo root: npm run pushit:live
 #
-# Steps: build → admin-ui bundle → .next → payload.sqlite → public/media → optional local dev:fresh (opt-in).
+# Steps: build → admin-ui bundle → .next → payload.sqlite → SSH sync-db → public/media → optional local dev:fresh (opt-in).
+# FTPS lands payload.sqlite under public_html/nodejs/ — msc:hostinger:sync-db copies it to the live app root.
 #
 # ── REQUIRED hPanel steps (run IN THIS ORDER) ───────────────────────────────
 #
@@ -57,7 +58,7 @@ Write-Host "pushit:live - safe DB copy check (port 3000 + payload.sqlite.temp)" 
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host ""
-Write-Host "pushit:live - 1/6 npm run build (NEXT_PUBLIC_SERVER_URL -> live origin for this step only)" -ForegroundColor Yellow
+Write-Host "pushit:live - 1/7 npm run build (NEXT_PUBLIC_SERVER_URL -> live origin for this step only)" -ForegroundColor Yellow
 # `.env.local` usually sets NEXT_PUBLIC_SERVER_URL=http://localhost:3000. Next.js loads dotenv but does not
 # overwrite existing process env — temporarily set the live origin so the production client bundle matches Hostinger.
 $pushitSavedNextPublic = $env:NEXT_PUBLIC_SERVER_URL
@@ -78,18 +79,18 @@ try {
 }
 
 Write-Host ""
-Write-Host "pushit:live - 2/6 npm run pushitup:admin-ui" -ForegroundColor Yellow
-npm run pushitup:admin-ui
+Write-Host "pushit:live - 2/7 npm run msc:pushitup:admin-ui" -ForegroundColor Yellow
+npm run msc:pushitup:admin-ui
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host ""
-Write-Host "pushit:live - 3/6 npm run pushitup -- .next" -ForegroundColor Yellow
+Write-Host "pushit:live - 3/7 npm run pushitup -- .next" -ForegroundColor Yellow
 npm run pushitup -- .next
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host ""
 $dbBytes = (Get-Item -LiteralPath $tempDbFile).Length
-Write-Host "pushit:live - 4/6 npm run pushitup -- payload.sqlite" -ForegroundColor Yellow
+Write-Host "pushit:live - 4/7 npm run pushitup -- payload.sqlite" -ForegroundColor Yellow
 Write-Host "  Source: $tempDbFile ($dbBytes bytes)" -ForegroundColor Gray
 Write-Host "  Remote: /nodejs/payload.sqlite (FTPS overwrite)" -ForegroundColor Gray
 if (Test-Path -LiteralPath $backupDbFile) {
@@ -113,23 +114,33 @@ try {
 if ($dbUploadExitCode -ne 0) { exit $dbUploadExitCode }
 
 Write-Host ""
-Write-Host "pushit:live - 5/6 npm run pushitup -- public/media" -ForegroundColor Yellow
+Write-Host "pushit:live - 5/7 npm run msc:hostinger:sync-db (FTPS landing -> live app root)" -ForegroundColor Yellow
+npm run msc:hostinger:sync-db
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "pushit:live — ABORT: SSH DB sync failed. FTPS may have landed under public_html/nodejs only." -ForegroundColor Red
+  Write-Host "  Fix: verify HOSTINGER_SSH_* in .env.local, then re-run: npm run msc:hostinger:sync-db" -ForegroundColor Yellow
+  exit 1
+}
+Write-Host "  DB synced to live app root (domains/.../nodejs/payload.sqlite)" -ForegroundColor Green
+
+Write-Host ""
+Write-Host "pushit:live - 6/7 npm run pushitup -- public/media" -ForegroundColor Yellow
 npm run pushitup -- public/media
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host ""
 if ($env:PUSHIT_LIVE_RUN_DEV_FRESH -eq "1") {
-  Write-Host "pushit:live - 6/6 npm run dev:fresh (PUSHIT_LIVE_RUN_DEV_FRESH=1)" -ForegroundColor Yellow
+  Write-Host "pushit:live - 7/7 npm run dev:fresh (PUSHIT_LIVE_RUN_DEV_FRESH=1)" -ForegroundColor Yellow
   npm run dev:fresh
   if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 } else {
-  Write-Host "pushit:live - 6/6 skipped (default). Local .next is a production build from step 1." -ForegroundColor Yellow
+  Write-Host "pushit:live - 7/7 skipped (default). Local .next is a production build from step 1." -ForegroundColor Yellow
   Write-Host "  When ready: npm run dev (daily) or npm run dev:fresh (clean + dev — e.g. after deploy or chunk errors)." -ForegroundColor Gray
   Write-Host "  To auto-start dev after Tier 2 next time: `$env:PUSHIT_LIVE_RUN_DEV_FRESH = '1'; npm run pushit:live" -ForegroundColor Gray
 }
 
 Write-Host ""
-Write-Host "=== Tier 2 upload finished. ===" -ForegroundColor Cyan
+Write-Host "=== Tier 2 upload finished (DB synced to live app root via SSH). ===" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Next steps — Live (hPanel → Terminal):" -ForegroundColor Cyan
 Write-Host "  cd /home/u942711528/domains/mystudiochannel.com/nodejs" -ForegroundColor Gray

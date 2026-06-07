@@ -16,7 +16,7 @@ When user says "Start Project", "Begin Project", "Start Session", or "Cold Start
 When user says "End Project", "End Session", "Close Session", or "Session Closeout":
 - Execute `.cursor/prompts/End-Project.md` workflow
 - Summarize changes, update tracking logs, run Git audits, and prompt for commits
-- Clean up active listeners/ports (port 3000)
+- Always run `npm run msc:session:stop` (Next dev **3000**, LiteLLM **4000**, ngrok **4040**) for a fresh cold start
 
 ## Update Docs
 When user says "update docs":
@@ -41,8 +41,8 @@ When user says **"backup quick"**, **"backup project quick"**, **"backup full"**
 
 ## Push Website Live
 When user says **"push website live"**, **"push it live"**, **"push site live"**, or **"deploy live"**:
-- Execute `.cursor/prompts/Push-Website-Live.md` — **MCP zip first** (`npm run push:website:live` → `hosting_deployJsApplication`), FTPS fallback (`-- --ftps`), always print hPanel **restart** link
-- Run `npm run push:website:live` from repo root (or `--dry-run` first if operator wants preflight only)
+- Execute `.cursor/prompts/Push-Website-Live.md` — **`AskQuestion` deploy mode first** (Quick DB · Full FTPS · MCP code-only). **MCP/Git ≠ DB deploy** — verify DB after MCP. Always print hPanel **restart** link
+- Run the **chosen mode** from repo root (Quick: `msc:push:db:live` · FTPS: `push-website-live.ps1 -Ftps` · MCP: `push:website:live` or `--dry-run` preflight)
 - Use **AskQuestion** to confirm hPanel server prep (STOP + cleanup) and restart (START) when the script reaches those gates
 - Report `verify:live` and `verify:live:version` results
 - See `.cursor/rules/global.mdc`

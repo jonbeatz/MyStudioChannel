@@ -17,6 +17,13 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-07] Live stub DB after MCP/Git deploy — FTPS lands in wrong tree
+- **Error:** Live `/api/globals/*` returned **500** (`no such table: site_settings`) while `/` and `/admin` returned **200**. File Manager showed **`payload.sqlite` = 4 KB** in live app root (`/nodejs/`) despite Git repo and deploy zip containing **~507–540 KB** DB.
+- **Cause:** **MCP zip and Git-connected hPanel rebuilds are code deploys, not DB deploys** — server build/extract does not reliably apply `payload.sqlite` to the Node app root. Separately, FTPS uploads with `remotePath: /nodejs` land under **`public_html/nodejs/`**, not where the Node process reads files.
+- **Solution:** Added **`npm run msc:hostinger:sync-db`** (SSH copy `public_html/nodejs/payload.sqlite` → app root), **`npm run msc:push:db:live`** (quick ~1–2 min DB path), and **`npm run msc:hostinger:stop-node`** (SSH stop). Full FTPS deploy + sync-db + hPanel restart restored live health; **`msc:verify:live`** passed including `/api/globals/projects-home` **200**.
+- **Files Changed:** `scripts/msc-hostinger-sync-db-ssh.mjs`, `scripts/msc-hostinger-stop-node-ssh.mjs`, `scripts/msc-push-db-live.mjs`, `scripts/push-website-live.ps1`, `package.json`, `.cursor/docs/HOSTINGER-DEPLOY.md`, `.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md`, `.cursor/prompts/Push-Website-Live.md`, `.cursor/rules/global.mdc`, `.cursor/rules/workflow.mdc`
+- **Prevention:** Say **push it live** → agent asks deploy mode first. Treat MCP/Git as **code-only**; verify live DB is **~500 KB** after any code deploy. Use **`msc:push:db:live`** for stub DB; use **Full FTPS + `sync-db`** for reliable DB parity.
+
 ## [2026-06-07] Created DesignMD and GitHub-Ops and Premium-UI Portable Skill Packs
 - **Symptom:** UI component references, styling specifications (e.g. `@designmdcc/cli`), and external repository management processes were not organized or reusable across different workspaces.
 - **Root Cause:** Standardizing design system extractions and external GitHub integrations required custom, portable instructions to ensure future AI agents immediately inherit these custom capabilities.

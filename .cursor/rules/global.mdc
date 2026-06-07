@@ -22,9 +22,9 @@ After quick backup completes, report destination path and `.cursor/BackUp-Notez.
 
 | Operator says | Agent action |
 |---------------|--------------|
-| **`push website live`**, **`push it live`**, **`push site live`**, **`deploy live`** | Run **Push Website Live** ([`.cursor/prompts/Push-Website-Live.md`](../prompts/Push-Website-Live.md)) — **MCP zip default:** `npm run push:website:live` → `hosting_deployJsApplication` → poll logs → **restart reminder** → `verify:live`. **FTPS fallback:** `npm run push:website:live -- --ftps` if MCP fails. |
+| **`push website live`**, **`push it live`**, **`push site live`**, **`deploy live`** | Run **Push Website Live** ([`.cursor/prompts/Push-Website-Live.md`](../prompts/Push-Website-Live.md)) — **`AskQuestion` first:** Quick DB (~1–2 min) · Full FTPS (~45–60 min) · MCP code-only (~5–10 min). **MCP/Git ≠ DB deploy** — verify live DB after code deploys. Do **not** auto-run full build without Jon’s choice. |
 
-**Local commands:** `npm run push:website:live` · `npm run deploy:zip` · dry-run: `-- --dry-run` · FTPS: `-- --ftps`
+**Local commands:** `npm run msc:push:db:live` (Quick DB) · `npm run push:website:live` (MCP code-only) · `powershell -File scripts/push-website-live.ps1 -Ftps` (full) · dry-run: `-- --dry-run`
 
 **Deployment zips:** `zips/MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip` only (never repo parent folder).
 

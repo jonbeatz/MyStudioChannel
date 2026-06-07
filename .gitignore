@@ -19,6 +19,8 @@ yarn-error.log*
 # env files (track .env.example; never commit .env.local)
 .env*
 !.env.example
+# Hostinger import bundle (secrets — PC only)
+.cursor/MSC-Hostinger/
 
 # Payload / SQLite (ignore WAL sidecars)
 # Do NOT ignore payload.sqlite for the initial Hostinger deploy seed.
