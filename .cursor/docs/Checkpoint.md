@@ -10,6 +10,7 @@
 - **Git:** `main` synced with `MSC-Website-v5`; `MSC-Website-v4` frozen at v4.0.0
 
 ## Recent Milestones
+| 2026-06-07 | **Jina Reader & Canonical Tool Chest Integrated** | feat |
 | 2026-06-07 | **Skill Packs Created** | chore |
 | 2026-06-07 | **Linting Optimization & Workflow Smoothing Complete** | chore |
 | 2026-06-07 | **Automated Onboarding & Content Seeding Complete** | feat |
@@ -25,10 +26,8 @@
 | 2026-06-01 | Hostinger Path C deployment docs + doc sync | `8a44d95` |
 | 2026-06-01 | First Hostinger zip deploy (v3.0.0) | `c0bdaac` |
 
-## Next Milestones
-- [x] Set / verify all hPanel env vars (fixes `/api/globals/projects-home` 500)
-- [x] Engine Consolidation (Phase 1 & 2)
-- [x] Create Isolated Test Playground (`/test`)
-- [x] Automated Onboarding & Content Seeding (`setup:dev`)
+## Recent Milestones
+- [x] Create canonical TOOL-CHEST.md indexing Jina Reader API details
+- [x] Integrate Jina Reader guidelines into Premium UI and developer skills
+- [x] Perform documentation synchronization checks on the updated tree
 - [ ] Feature work on `MSC-Website-v5`
-- [ ] Test all button redirects

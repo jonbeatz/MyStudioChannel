@@ -1,5 +1,11 @@
 # Project Session Log
 
+## [2026-06-07 03:40] - Jina Reader & Tool Chest Integration
+- **Branch:** MSC-Website-v5
+- **Changes:** Created a canonical `.cursor/docs/TOOL-CHEST.md` outlining the integration of Jina Reader, Resend, Stripe, and Vertex AI/LiteLLM. Upgraded the `GitHub-Ops` skill pack to incorporate fast Markdown-fetching conventions using Jina's proxy. Updated root `README.md` to reference the new Tool Chest. Registered a secure restore point.
+- **Status:** completed
+- **Next:** Proceed with feature development on `MSC-Website-v5` or begin next session tasks.
+
 ## [2026-06-06 23:35] - Linting Optimization & Workflow Smoothing
 - **Branch:** MSC-Website-v5
 - **Changes:** Created `.eslintrc.json` to optimize linting rules for automated development. Downgraded `no-unused-vars` to warning and disabled `react/no-unescaped-entities` to prevent Husky pre-commit hooks from blocking valid commits for minor syntax issues. Added `npm run lint:fix` alias to `package.json`. Updated `AGENTS.md` with a new rule to run lint-fix before committing.
