@@ -37,7 +37,7 @@ After setup, run `npm run dev` and visit [http://localhost:3000](http://localhos
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Cursor](https://img.shields.io/badge/Cursor-Agent_Ready-8E44AD?logo=cursor)](https://cursor.com/)
 [![Troubleshooting](https://img.shields.io/badge/Troubleshooting-Active_Guide-red?logo=github)](.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md)
-![Version](https://img.shields.io/badge/version-5.0.0-blue)
+![Version](https://img.shields.io/badge/version-6.0.0-blue)
 ![Deploy](https://img.shields.io/badge/deploy-ftps-success)
 
 ---
@@ -48,7 +48,7 @@ After setup, run `npm run dev` and visit [http://localhost:3000](http://localhos
 
 | Metric              | Value                                                                  |
 | ------------------- | ---------------------------------------------------------------------- |
-| **Version**         | v5.0.0 (live at [mystudiochannel.com](https://mystudiochannel.com)) |
+| **Version**         | v6.0.0 (dev branch; live at [mystudiochannel.com](https://mystudiochannel.com) until next deploy) |
 | **Stack**           | Next.js 15 (React 19) + Payload CMS 3.81.0                             |
 | **CMS Engine**      | ✅ MSC PRO ENGINE Studio Mode — Gold Sidebar + Dashboard               |
 | **Deployment**      | ✅ Tiered FTPS (Hostinger/hPanel) via `PushItUP`                       |
@@ -131,7 +131,7 @@ My Studio Channel
 
 ## 🛡️ Production-Hardening & Reliability Features
 
-The `MSC-Website-v5` release introduces comprehensive safety and developer experience features:
+The `MSC-Website-v6` line continues comprehensive safety and developer experience features from v5:
 - **Database Optimization Utility:** Optimize database files with `npm run db:optimize` (using `PRAGMA optimize` + `VACUUM`), automated to prevent bloat.
 - **Git Pre-commit Hook (Husky):** Enforces lint checks automatically on every `git commit`, preventing bad syntax or build errors from entering git.
 - **SSH Live Log Streaming:** Instantly tail remote host logs on your PC terminal via `npm run logs:live` (stderr) and `npm run logs:live:console`.

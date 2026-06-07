@@ -1,3 +1,9 @@
+## [2026-06-07 22:30] - Version bump to 6.0.0 and MSC-Website-v6 branch cut
+- **Branch:** MSC-Website-v6 (cut from MSC-Website-v5 @ `92918b6`)
+- **Changes:** Bumped global project version to `6.0.0` in `package.json`. Created `MSC-Website-v6` development branch. Synchronized branch/version references across operational documentation (README, TRUTH, Checkpoint, CHANGELOG, MASTER-COMMANDS, HOSTINGER-DEPLOY, Jedi-List, Go-Live-Checklist, GitHub-Cheat-Sheet, Development, ReCall, Restore-Points). Updated `msc-audit-docs.mjs` for v6 branch checks. Test playground footer reads version from `lib/msc-app-version.ts`.
+- **Status:** completed
+- **Next:** Feature work on `MSC-Website-v6`; deploy when ready to show v6.0.0 on live.
+
 ## [2026-06-07 18:00] - Deploy hardening, live DB sync, docs sync
 - **Branch:** MSC-Website-v5 @ `06ec2be`
 - **Changes:** Fixed Sentry org/project wiring (`mystudiochannel`); migrated to `instrumentation-client.ts` + `global-error.tsx`. Added SSH scripts (`msc:hostinger:stop-node`, `msc:hostinger:sync-db`), quick DB deploy (`msc:push:db:live`), and `msc:session:stop`. Wired auto `sync-db` into `pushit:live` (FTPS landing → live app root). Documented MCP/Git as code-only deploys with AskQuestion mode picker. Restored live site via Full FTPS + sync-db; `msc:verify:live` passed. Pushed `MSC-Website-v5` and fast-forwarded `main` on GitHub.

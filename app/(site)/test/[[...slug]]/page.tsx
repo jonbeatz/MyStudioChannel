@@ -1,5 +1,6 @@
 // NOTE: This page uses Next.js Fast Refresh. Edit any test component and save to see changes instantly.
 import Link from 'next/link'
+import { MSC_APP_VERSION } from '@/lib/msc-app-version'
 
 export const metadata = {
   title: '🧪 Test Playground | MyStudioChannel',
@@ -66,7 +67,7 @@ export default async function TestPage({ params }: { params: Promise<{ slug?: st
       {/* Global Test Footer */}
       <footer className="mt-20 border-t border-gray-900 py-10 text-center">
         <div className="text-[10px] text-gray-600 font-mono tracking-tighter uppercase">
-          MyStudioChannel Engine v5.0.0 • Debug Mode: Active
+          MyStudioChannel Engine v{MSC_APP_VERSION} • Debug Mode: Active
         </div>
       </footer>
     </div>

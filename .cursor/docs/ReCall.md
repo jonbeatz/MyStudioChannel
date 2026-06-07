@@ -90,15 +90,21 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Gallery hydration:** **`lib/cms/homepage-gallery-seed.ts`**, **`lib/cms/homepage-gallery-hydrate.ts`** (`afterRead` → full Media shape for admin + site).
 - **Public URLs:** **`lib/public-origin.ts`** + **`lib/site-origin-defaults.ts`** — **`PAYLOAD_PUBLIC_SERVER_URL`** / **`NEXT_PUBLIC_SERVER_URL`** / **`MSC_CANONICAL_SITE_ORIGIN`**; **`getPublicOriginClient()`** for admin Client Components; **`payload.config.ts`** **`serverURL`** + env-built **CSRF**.
 - **Marketing site:** Header/footer in-page hash scroll (mobile drawer defer); **`HomeHashScroll`**; **`middleware`** pathname-only rewrites (host-agnostic).
-- **Version:** **`v5.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v5.0.0`**, admin **`MyStudioChannel Admin v5.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
-- **Live:** **`https://mystudiochannel.com`** — **v5.0.0** healthy (2026-06-07 FTPS + **`msc:hostinger:sync-db`**). **`msc:verify:live`** passed including **`/api/globals/*`**.
+- **Version:** **`v6.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v6.0.0`**, admin **`MyStudioChannel Admin v6.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
+- **Live:** **`https://mystudiochannel.com`** — healthy; may still show **v5.0.0** until next deploy. **`msc:verify:live`** passed (2026-06-07).
 - **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (deploy modes), **`DEPLOYMENT-TROUBLESHOOTING.md`**. Say **push it live** → agent asks mode (Quick DB · Full FTPS · MCP code-only). **MCP/Git ≠ DB deploy**.
-- **Branches:** **`MSC-Website-v5`** @ **`06ec2be`** (active dev); **`main`** synced @ **`06ec2be`**; **`MSC-Website-v4`** frozen at v4.0.0.
-- **Next ideas:** Feature work on v5; code-only → MCP (verify DB after); CMS/API stub DB → **`msc:push:db:live`**; full parity → **`push-website-live.ps1 -Ftps`** or **`pushit:live`** (auto sync-db).
+- **Branches:** **`MSC-Website-v6`** (active dev); **`MSC-Website-v5`** frozen; **`MSC-Website-v4`** frozen at v4.0.0; **`main`** syncs with active dev line on push.
+- **Next ideas:** Feature work on v6; deploy when ready to update live version labels.
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-07 — v6.0.0 development branch and MSC-Website-v6 branch cut
+
+- **Branch:** Created **`MSC-Website-v6`** from **`MSC-Website-v5`** @ **`92918b6`**.
+- **Version:** Bumped **`package.json`** to **`6.0.0`**; UI labels follow via **`lib/msc-app-version.ts`** dynamically.
+- **Policy:** **`MSC-Website-v5`** frozen as backup branch; all active development on **`MSC-Website-v6`**.
 
 ### 2026-06-07 — Deploy hardening, live DB sync, Sentry org fix
 

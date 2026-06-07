@@ -2,7 +2,7 @@
 
 **Live site:** [https://mystudiochannel.com](https://mystudiochannel.com)  
 **Project root (Local):** `D:\Cursor_Projectz\MyStudioChannel`  
-**Branch:** `MSC-Website-v5`  
+**Branch:** `MSC-Website-v6`  
 **Stack:** Next.js 15 + Payload CMS 3 + SQLite · entry **`server.js`** (Hostinger may auto-detect **`next start`** for Next.js preset)
 
 **Related:** [DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md) (2026-06-01 learnings) · [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md) (503/500/504 root-cause guide) · [Go-Live-Checklist.md](./Go-Live-Checklist.md) · [`.env.example`](../../.env.example)
@@ -86,7 +86,7 @@ npm run build
 npm run verify:local
 ```
 
-Confirm footer shows **`MyStudioChannel v5.0.0`** on `http://localhost:3000/`.
+Confirm footer shows **`MyStudioChannel v6.0.0`** on `http://localhost:3000/`.
 
 ### 1) `package.json` — production dependency rule
 
@@ -173,9 +173,9 @@ Template copy: [`.env.example`](../../.env.example)
 **Incognito:**
 
 - `https://mystudiochannel.com/` — Next.js site (not WordPress / `wp-content`)
-- Footer: **`MyStudioChannel v5.0.0`**
+- Footer: **`MyStudioChannel v6.0.0`**
 - `https://mystudiochannel.com/admin` — Payload login
-- After login: sidebar **`MyStudioChannel Admin v5.0.0`**
+- After login: sidebar **`MyStudioChannel Admin v6.0.0`**
 
 **Local smoke script:**
 
@@ -359,7 +359,7 @@ npm run verify:live
 
 - [https://mystudiochannel.com](https://mystudiochannel.com)
 - [https://mystudiochannel.com/admin](https://mystudiochannel.com/admin)
-- Footer shows correct version (**`MyStudioChannel v5.0.0`**)
+- Footer shows correct version (**`MyStudioChannel v6.0.0`**)
 
 ---
 
@@ -504,8 +504,8 @@ Running `npm run push:website:live -- --ftps` automatically:
 3. **`payload.sqlite`** in a zip/repo does not mean the live app uses it — FTPS needs **`msc:hostinger:sync-db`** (FTPS lands under `public_html/nodejs/`).
 3. **`PAYLOAD_DISABLE_SHARP=true`** on Hostinger.
 4. Production URLs must be **`https://mystudiochannel.com`** (both `NEXT_PUBLIC_*` and `PAYLOAD_PUBLIC_*`).
-5. After deploy, confirm version labels: **`MyStudioChannel v5.0.0`** / **`MyStudioChannel Admin v5.0.0`**.
+5. After deploy, confirm version labels: **`MyStudioChannel v6.0.0`** / **`MyStudioChannel Admin v6.0.0`**.
 
 ---
 
-*Last updated: 2026-06-02 — v5.0.0 live on mystudiochannel.com (Automated WAL cleanup & 503 fix)*
+*Last updated: 2026-06-07 — v6.0.0 dev branch MSC-Website-v6 (deploy to update live version labels)*

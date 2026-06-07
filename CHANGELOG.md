@@ -7,16 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.0.0] - 2026-06-07
+
 ### Added
+- **`MSC-Website-v6` branch cut** — new active development line from `MSC-Website-v5` @ `92918b6`
 - **`msc:push:db:live`** — quick (~1–2 min) live database deploy path
 - **`msc:hostinger:stop-node`** and **`msc:hostinger:sync-db`** — SSH stop Node and copy FTPS DB into live app root
 - **`msc:session:stop`** — end-session cleanup (dev :3000 + LiteLLM/ngrok)
 - **`app/global-error.tsx`** and **`instrumentation-client.ts`** — Sentry client boundary (replaces deprecated `sentry.client.config.ts`)
 
 ### Changed
+- **Version bump** to **6.0.0** in `package.json`; UI labels via `lib/msc-app-version.ts`
 - **Deploy workflow:** say **push it live** → agent asks mode (Quick DB · Full FTPS · MCP code-only); **MCP/Git ≠ DB deploy** documented across ops docs
 - **`pushit:live`** — auto-runs **`msc:hostinger:sync-db`** after `payload.sqlite` FTPS upload (7-step pipeline)
 - **Sentry:** correct org slug `mystudiochannel`; env-driven org/project in `next.config.mjs`
+- Updated operational docs for **`MSC-Website-v6`** and **v6.0.0**
 
 ### Fixed
 - Live **4 KB stub DB** after MCP/Git deploy — FTPS + `sync-db` restores ~500 KB DB to Node app root; `/api/globals/*` **200** after fix

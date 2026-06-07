@@ -1,8 +1,8 @@
 # MyStudioChannel - Master Command Reference
 
 **Last Updated:** 2026-06-06
-**Branch:** `MSC-Website-v5`
-**Version:** `5.0.0`
+**Branch:** `MSC-Website-v6`
+**Version:** `6.0.0`
 
 ---
 
@@ -190,7 +190,7 @@ npm run test:hostinger-ftp
 | Check | Expected result |
 |-------|-----------------|
 | `npm run verify:live` | 3/3 PASS (200 OK) |
-| Footer version | MyStudioChannel v5.0.0 |
+| Footer version | MyStudioChannel v6.0.0 |
 | `/admin` login | Works |
 | Demos section | Loads with images |
 
