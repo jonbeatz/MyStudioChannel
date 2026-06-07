@@ -103,7 +103,7 @@ Is your site down?
 ## 5) Navigation Different on Live vs Local
 
 ### Symptoms
-- Local has updated navigation links (example: "Pages"), live does not
+- Local has updated navigation links (example: **Legal** dropdown), live does not
 
 ### Root Causes
 - Live database does not contain latest navigation/global content

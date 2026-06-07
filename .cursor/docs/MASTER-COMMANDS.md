@@ -64,6 +64,12 @@
 | `npm run db:maintain` | Optimize local database then create clean copy for deploy | ✅ Safe all-in-one prep command |
 | `npm run pushitup -- payload.sqlite` | Upload database via FTPS | Manual |
 
+### SQLite field migrations (`db.push: false`)
+| Command | When to run |
+|---------|-------------|
+| `npm run msc:migrate:sqlite:header-nav-submenu-source` | After deploy with Header **`submenuSource`** field; sets legacy **Pages** rows and renames to **Legal** |
+| `npm run msc:migrate:sqlite:pages-show-in-header-nav` | After deploy with Pages **`showInHeaderNav`** field; opts MSC1 out of header nav |
+
 ### Database Safety Rules:
 - ✅ Always stop `npm run dev` (`Ctrl+C`) before copying database
 - ✅ Run `npm run db:copy` to create a clean temp file

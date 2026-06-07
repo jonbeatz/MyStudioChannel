@@ -17,6 +17,13 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-07] Header Pages dropdown confusing — magic label vs manual submenus
+- **Error:** **Pages** nav showed MSC1, Privacy Policy, and Terms of Service, but Header admin had no submenu rows (unlike Services/Resources). Renaming or editing manual submenu had no effect.
+- **Cause:** Runtime treated any nav row labeled exactly **Pages** as special — it ignored manual submenu/link and auto-built the dropdown from the **Pages** collection. Two different systems looked like one broken editor.
+- **Solution:** Added explicit **`submenuSource`** per Header row (**Manual** | **From Pages collection**). Added **`showInHeaderNav`** on Pages (MSC1 opted out). Renamed dropdown label to **Legal**. Migrations: **`msc:migrate:sqlite:header-nav-submenu-source`** (adds column, sets legacy rows, renames **Pages** → **Legal**), **`msc:migrate:sqlite:pages-show-in-header-nav`**.
+- **Files Changed:** `globals/Header.ts`, `lib/cms/header.ts`, `collections/Pages.ts`, `seed-data/header.json`, `scripts/migrate-sqlite-header-nav-submenu-source.py`, `scripts/migrate-sqlite-pages-show-in-header-nav.py`, `package.json`, `payload-types.ts`, `.cursor/docs/Development.md`
+- **Prevention:** Use **Submenu source** in Header admin — never rely on label text for behavior. After code deploy with new fields, run both SQLite migrations on live before restart.
+
 ## [2026-06-07] Live stub DB after MCP/Git deploy — FTPS lands in wrong tree
 - **Error:** Live `/api/globals/*` returned **500** (`no such table: site_settings`) while `/` and `/admin` returned **200**. File Manager showed **`payload.sqlite` = 4 KB** in live app root (`/nodejs/`) despite Git repo and deploy zip containing **~507–540 KB** DB.
 - **Cause:** **MCP zip and Git-connected hPanel rebuilds are code deploys, not DB deploys** — server build/extract does not reliably apply `payload.sqlite` to the Node app root. Separately, FTPS uploads with `remotePath: /nodejs` land under **`public_html/nodejs/`**, not where the Node process reads files.

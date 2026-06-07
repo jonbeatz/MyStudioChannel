@@ -345,6 +345,16 @@ export const Pages: CollectionConfig = {
               },
             },
             {
+              name: "showInHeaderNav",
+              type: "checkbox",
+              label: "Show in header nav",
+              defaultValue: true,
+              admin: {
+                description:
+                  "When enabled, this page can appear in a header nav row whose **Submenu source** is **From Pages collection** (Site → Header). Disable for demo or internal pages you still want at `/slug`.",
+              },
+            },
+            {
               name: "viewPageLink",
               type: "ui",
               admin: {

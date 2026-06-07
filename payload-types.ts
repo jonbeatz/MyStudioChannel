@@ -270,6 +270,10 @@ export interface Page {
    */
   slug: string;
   /**
+   * When enabled, this page can appear in a header nav row whose **Submenu source** is **From Pages collection** (Site → Header). Disable for demo or internal pages you still want at `/slug`.
+   */
+  showInHeaderNav?: boolean | null;
+  /**
    * Short page summary used as fallback meta description.
    */
   description?: string | null;
@@ -572,6 +576,7 @@ export interface LeadsSelect<T extends boolean = true> {
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  showInHeaderNav?: T;
   description?: T;
   pageHero?:
     | T
@@ -688,7 +693,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
- * Hero carousel, stat row, Programming Styles (7), and Channel preview gallery (7). Rows default to static /public/media assets (after media:sync); clear an image (null) to use site fallbacks for that slot only. Override any slot via relationship → Choose from existing. With SQLite and db.push disabled, if this screen errors run: npm run migrate:sqlite:homepage-hero-secondary-cta, migrate:sqlite:homepage-programming-styles, and migrate:sqlite:homepage-services-gallery
+ * Hero carousel, stat row, Programming Styles (7), and Channel preview gallery (7). Rows default to static /public/media assets (after media:sync); clear an image (null) to use site fallbacks for that slot only. Override any slot via relationship → Choose from existing. With SQLite and db.push disabled, if this screen errors run: migrate:sqlite:homepage-is-styles-visible, migrate:sqlite:homepage-hero-secondary-cta, migrate:sqlite:homepage-programming-styles, and migrate:sqlite:homepage-services-gallery
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "homepage".
@@ -789,13 +794,17 @@ export interface Homepage {
 export interface Header {
   id: number;
   /**
-   * Add a row whose label is exactly **Pages** (case-sensitive) to show a dropdown of all entries from the Pages collection (slug `home` excluded). The link and any manual submenu rows for that item are ignored at runtime and filled automatically.
+   * Set **Submenu source** to **From Pages collection** when a row should list published pages from **Site → Pages** (slug `home` and `msc1` excluded; each page can opt out with **Show in header nav**). Use **Manual** for section anchors like Services and Resources.
    */
   navItems?:
     | {
         label: string;
         /**
-         * Use section anchors (e.g. #msc-contact); runtime resolves to # on the home page and /# off home. Full URLs allowed.
+         * **Manual** — edit **Submenu items** below. **From Pages collection** — dropdown is built from **Site → Pages** at runtime (manual submenu and link are ignored).
+         */
+        submenuSource?: ('manual' | 'pages-collection') | null;
+        /**
+         * Use section anchors (e.g. #msc-contact); runtime resolves to # on the home page and /# off home. Full URLs allowed. Ignored when **Submenu source** is **From Pages collection** (parent link becomes `/`).
          */
         link: string;
         submenu?:
@@ -812,7 +821,7 @@ export interface Header {
   createdAt?: string | null;
 }
 /**
- * Manage demo projects in one draggable row list, similar to Homepage hero slides.
+ * Manage demo projects shown in the Demos section. Drag rows to reorder. The first visible row is shown in the large featured card unless one row has ★ Featured checked. Only visible rows appear on the live site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects-home".
@@ -821,25 +830,34 @@ export interface ProjectsHome {
   id: number;
   projectItems?:
     | {
-        title: string;
-        subtitle: string;
-        category: string;
         /**
-         * Preview for this project row only. Pick or create Media per slot (independent of other rows).
-         */
-        image: number | Media;
-        /**
-         * Live demo URL (https://...) or anchor (#msc-demos).
-         */
-        demoUrl: string;
-        /**
-         * Shows this project in the large featured card on the public homepage (Demos section). Only one row should be featured.
+         * ★ Shows this project in the large featured card (Demos section). Only one row is featured at a time — the hook clears duplicates on save.
          */
         isFeatured?: boolean | null;
         /**
-         * Must be ON for this project to appear on the live site. When OFF, saves in admin still work but the homepage ignores this row.
+         * Visible on live site. Uncheck to hide this project without deleting it — useful for work-in-progress entries.
          */
         isVisible?: boolean | null;
+        /**
+         * Short project name shown in the demos rail and featured card heading.
+         */
+        title: string;
+        /**
+         * Category badge displayed above the title (e.g. "MSC-Platform", "E-Commerce", "Podcast Platform").
+         */
+        category: string;
+        /**
+         * One or two sentences describing the project. Shown under the title in the featured card and demos list.
+         */
+        subtitle: string;
+        /**
+         * Preview image for this project. Pick from Media library or upload a new file — each row uses its own image independently.
+         */
+        image: number | Media;
+        /**
+         * Full URL to the live demo (https://...) or an in-page anchor like "#msc-demos". Shown on the "View Live Demo" button.
+         */
+        demoUrl: string;
         id?: string | null;
       }[]
     | null;
@@ -966,6 +984,7 @@ export interface HeaderSelect<T extends boolean = true> {
     | T
     | {
         label?: T;
+        submenuSource?: T;
         link?: T;
         submenu?:
           | T
@@ -988,13 +1007,13 @@ export interface ProjectsHomeSelect<T extends boolean = true> {
   projectItems?:
     | T
     | {
-        title?: T;
-        subtitle?: T;
-        category?: T;
-        image?: T;
-        demoUrl?: T;
         isFeatured?: T;
         isVisible?: T;
+        title?: T;
+        category?: T;
+        subtitle?: T;
+        image?: T;
+        demoUrl?: T;
         id?: T;
       };
   updatedAt?: T;

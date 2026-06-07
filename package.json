@@ -65,6 +65,8 @@
     "msc:migrate:sqlite:page-hero-buttons": "python scripts/migrate-sqlite-page-hero-buttons.py",
     "msc:migrate:sqlite:pages-blocks-uid": "python scripts/migrate-sqlite-pages-blocks-uid.py",
     "msc:migrate:sqlite:site-settings-sticky-header": "python scripts/migrate-sqlite-site-settings-sticky-header.py",
+    "msc:migrate:sqlite:pages-show-in-header-nav": "python scripts/migrate-sqlite-pages-show-in-header-nav.py",
+    "msc:migrate:sqlite:header-nav-submenu-source": "python scripts/migrate-sqlite-header-nav-submenu-source.py",
     "msc:migrate:sqlite:homepage-hero-secondary-cta": "python scripts/migrate-sqlite-homepage-hero-secondary-cta.py",
     "msc:migrate:sqlite:homepage-services-gallery": "python scripts/migrate-sqlite-homepage-services-gallery.py",
     "msc:migrate:sqlite:homepage-programming-styles": "python scripts/migrate-sqlite-homepage-programming-styles.py",

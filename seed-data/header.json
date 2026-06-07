@@ -64,8 +64,9 @@
     },
     {
       "id": "69d6ef4c30708328f5d1eee0",
-      "label": "Pages",
-      "link": "/msc1",
+      "label": "Legal",
+      "submenuSource": "pages-collection",
+      "link": "/",
       "submenu": []
     },
     {

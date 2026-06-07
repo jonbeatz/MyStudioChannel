@@ -1,3 +1,9 @@
+## [2026-06-08] - Header nav submenuSource, Legal label, docs sync
+- **Branch:** MSC-Website-v6
+- **Changes:** Replaced magic **Pages** nav label with explicit **`submenuSource`** (Manual | From Pages collection). Added **`showInHeaderNav`** on Pages; excluded MSC1. Renamed dropdown to **Legal**. SQLite migrations + seed update. Synced CHANGELOG, ISSUES-RESOLVED, Development, MASTER-COMMANDS, Checkpoint, DEPLOYMENT-TROUBLESHOOTING.
+- **Status:** completed
+- **Next:** Deploy v6 + run live SQLite migrations when pushing header nav changes.
+
 ## [2026-06-07 23:30] - GitHub releases/tags backfill and docs audit
 - **Branch:** MSC-Website-v6 @ `17b3da8`
 - **Changes:** Published GitHub tags/releases for `v4.0.0` (`87ec9de`), `v5.0.0` (`d14a4b2`), and `v6.0.0` (`17b3da8`). Set `v6.0.0` as Latest. Ran `msc:docs:audit` (PERFECT SYNC). Updated Checkpoint, CHANGELOG compare links, GitHub-Cheat-Sheet releases table, ReCall.

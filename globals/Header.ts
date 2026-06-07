@@ -22,7 +22,7 @@ export const HeaderGlobal: GlobalConfig = {
       admin: {
         ...adminRowsStartCollapsed,
         description:
-          'Add a row whose label is exactly **Pages** (case-sensitive) to show a dropdown of all entries from the Pages collection (slug `home` excluded). The link and any manual submenu rows for that item are ignored at runtime and filled automatically.',
+          "Set **Submenu source** to **From Pages collection** when a row should list published pages from **Site → Pages** (slug `home` and `msc1` excluded; each page can opt out with **Show in header nav**). Use **Manual** for section anchors like Services and Resources.",
       },
       defaultValue: [
         { label: "About", link: "#msc-about" },
@@ -55,12 +55,26 @@ export const HeaderGlobal: GlobalConfig = {
           required: true,
         },
         {
+          name: "submenuSource",
+          label: "Submenu source",
+          type: "select",
+          defaultValue: "manual",
+          options: [
+            { label: "Manual", value: "manual" },
+            { label: "From Pages collection", value: "pages-collection" },
+          ],
+          admin: {
+            description:
+              "**Manual** — edit **Submenu items** below. **From Pages collection** — dropdown is built from **Site → Pages** at runtime (manual submenu and link are ignored).",
+          },
+        },
+        {
           name: "link",
           type: "text",
           required: true,
           admin: {
             description:
-              "Use section anchors (e.g. #msc-contact); runtime resolves to # on the home page and /# off home. Full URLs allowed.",
+              "Use section anchors (e.g. #msc-contact); runtime resolves to # on the home page and /# off home. Full URLs allowed. Ignored when **Submenu source** is **From Pages collection** (parent link becomes `/`).",
           },
         },
         {
@@ -69,6 +83,8 @@ export const HeaderGlobal: GlobalConfig = {
           type: "array",
           admin: {
             ...adminRowsStartCollapsed,
+            condition: (_data, siblingData) =>
+              siblingData?.submenuSource !== "pages-collection",
           },
           fields: [
             {

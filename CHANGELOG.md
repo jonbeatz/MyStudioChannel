@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Header nav `submenuSource`** — per-row **Submenu source**: Manual | From Pages collection (replaces magic **Pages** label behavior)
+- **`showInHeaderNav`** on Pages collection — opt pages in/out of the **Legal** dropdown
+- **SQLite migrations:** `msc:migrate:sqlite:header-nav-submenu-source`, `msc:migrate:sqlite:pages-show-in-header-nav`
+
+### Changed
+- **Legal** nav label (was **Pages**) for the collection-driven dropdown (Privacy Policy, Terms of Service)
+- Header global admin copy and `lib/cms/header.ts` runtime use explicit `submenuSource` with legacy fallback for unmigrated rows
+
+### Fixed
+- **MSC1** excluded from header nav via `showInHeaderNav` + runtime slug filter
+
 ## [6.0.0] - 2026-06-07
 
 ### Added

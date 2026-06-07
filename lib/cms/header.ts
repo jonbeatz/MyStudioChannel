@@ -15,6 +15,8 @@ export type HeaderNavItem = {
 
 export { normalizeInternalNavLink }
 
+type NavSubmenuSource = "manual" | "pages-collection"
+
 function normalizeNavItem(item: HeaderNavItem): HeaderNavItem {
   const submenu = item.submenu?.map((s) => ({
     ...s,
@@ -73,7 +75,10 @@ async function getPageLinksForPagesMenu(
         const slug = typeof doc.slug === "string" ? doc.slug.trim() : ""
         if (!slug) return null
         const lower = slug.toLowerCase()
-        if (lower === "home") return null
+        if (lower === "home" || lower === "msc1") return null
+        const showInNav = (doc as { showInHeaderNav?: boolean | null })
+          .showInHeaderNav
+        if (showInNav === false) return null
         return {
           label: title.length > 0 ? title : slug,
           link: `/${encodeURIComponent(slug)}`,
@@ -87,30 +92,31 @@ async function getPageLinksForPagesMenu(
   }
 }
 
-/**
- * If a Header global row is labeled exactly `Pages`, replace its URL and manual
- * submenu with Payload `pages` collection links (excluding slug `home`). If there
- * are no pages, the item becomes a simple link to `/`.
- */
-function applyDynamicPagesNav(
-  items: HeaderNavItem[],
-  pageSubmenu: Array<{ label: string; link: string }>,
-): HeaderNavItem[] {
-  return items.map((item) => {
-    if (item.label !== "Pages") return item
-    if (pageSubmenu.length === 0) {
-      return { label: "Pages", link: "/" }
-    }
-    return { label: "Pages", link: "/", submenu: pageSubmenu }
+/** Resolve submenu source; legacy rows labeled exactly `Pages` without the field still work. */
+function resolveSubmenuSource(row: Record<string, unknown>): NavSubmenuSource {
+  const raw = row.submenuSource
+  if (raw === "pages-collection") return "pages-collection"
+  if (raw === "manual") return "manual"
+  const label = typeof row.label === "string" ? row.label.trim() : ""
+  if (label === "Pages") return "pages-collection"
+  return "manual"
+}
+
+function rowsNeedPagesCollection(rows: unknown[]): boolean {
+  return rows.some((row) => {
+    if (!row || typeof row !== "object") return false
+    return resolveSubmenuSource(row as Record<string, unknown>) === "pages-collection"
   })
 }
 
-function headerRowsIncludeExactPagesLabel(rows: unknown[]): boolean {
-  return rows.some((row) => {
-    if (!row || typeof row !== "object") return false
-    const label = (row as { label?: unknown }).label
-    return typeof label === "string" && label.trim() === "Pages"
-  })
+function applyPagesCollectionSubmenu(
+  item: HeaderNavItem,
+  pageSubmenu: Array<{ label: string; link: string }>,
+): HeaderNavItem {
+  if (pageSubmenu.length === 0) {
+    return { label: item.label, link: "/" }
+  }
+  return { label: item.label, link: "/", submenu: pageSubmenu }
 }
 
 export async function getHeaderNavItems(): Promise<HeaderNavItem[]> {
@@ -122,7 +128,7 @@ export async function getHeaderNavItems(): Promise<HeaderNavItem[]> {
     })
 
     const rows = Array.isArray(doc?.navItems) ? doc.navItems : []
-    const shouldFetchPages = headerRowsIncludeExactPagesLabel(rows)
+    const shouldFetchPages = rowsNeedPagesCollection(rows)
     const pageSubmenu = shouldFetchPages
       ? await getPageLinksForPagesMenu(payload)
       : []
@@ -130,15 +136,18 @@ export async function getHeaderNavItems(): Promise<HeaderNavItem[]> {
     const mapped = rows
       .map((row) => {
         if (!row || typeof row !== "object") return null
-        const label = typeof row.label === "string" ? row.label.trim() : ""
-        const link = typeof row.link === "string" ? row.link.trim() : ""
+        const record = row as Record<string, unknown>
+        const label = typeof record.label === "string" ? record.label.trim() : ""
+        const link = typeof record.link === "string" ? record.link.trim() : ""
         if (!label || !link) return null
 
-        const submenuRows = Array.isArray((row as { submenu?: unknown }).submenu)
-          ? ((row as { submenu: unknown[] }).submenu as Array<{
-              label?: unknown
-              link?: unknown
-            }>)
+        const source = resolveSubmenuSource(record)
+        if (source === "pages-collection") {
+          return applyPagesCollectionSubmenu({ label, link }, pageSubmenu)
+        }
+
+        const submenuRows = Array.isArray(record.submenu)
+          ? (record.submenu as Array<{ label?: unknown; link?: unknown }>)
               .map((item) => {
                 const subLabel =
                   typeof item?.label === "string" ? item.label.trim() : ""
@@ -149,15 +158,19 @@ export async function getHeaderNavItems(): Promise<HeaderNavItem[]> {
               })
               .filter(
                 (
-                  item
+                  item,
                 ): item is {
                   label: string
                   link: string
-                } => item !== null
+                } => item !== null,
               )
           : []
 
-        return { label, link, submenu: submenuRows.length > 0 ? submenuRows : undefined }
+        return {
+          label,
+          link,
+          submenu: submenuRows.length > 0 ? submenuRows : undefined,
+        }
       })
       .filter((row): row is Exclude<typeof row, null> => row !== null)
 
@@ -166,9 +179,8 @@ export async function getHeaderNavItems(): Promise<HeaderNavItem[]> {
         ? mapped.map((item) => normalizeNavItem(item))
         : DEFAULT_HEADER_NAV_ITEMS.map((item) => normalizeNavItem(item))
 
-    return applyDynamicPagesNav(base, pageSubmenu)
+    return base
   } catch {
     return DEFAULT_HEADER_NAV_ITEMS.map((item) => normalizeNavItem(item))
   }
 }
-
