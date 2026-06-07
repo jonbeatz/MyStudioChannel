@@ -214,6 +214,19 @@ Secrets live in **`.env.local`** only. After changing GitHub, Resend, WordPress,
 | **`npm run msc:litellm:stop`** | Gracefully clears LiteLLM, ngrok, and port **4000** / **4040** processes. |
 | **`npm run fix:hero-slide-images`** | Reassigns homepage hero slide **Media** IDs in **`payload.sqlite`** (Python). |
 
+---
+
+## Design Extraction (DesignMD CLI)
+
+Tool for extracting design systems from production websites.
+
+| Command | Purpose |
+|---------|---------|
+| **`dmd <url>`** | Extract design to terminal. |
+| **`dmd <url> --out <path>`** | Save extraction to file. |
+
+**Canonical Storage:** Save extractions to **`.cursor/DesignMD/`** for project reuse and portable design references.
+
 **Project MCP files (committed, placeholders only):** **`.cursor/mcp.json`**, **`.cursor/mcp.json.example`**, **`.cursor/mcp.servers.archived.json`**.
 
 **Payload CMS MCP:** Do **not** add **`@govcraft/payload-cms-mcp`** to **`mcp.json`**. Use workspace **`user-payload`**, REST **`/api/*`**, or **`/admin`** — see **MCP-SETUP.md**.

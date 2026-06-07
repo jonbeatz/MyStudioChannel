@@ -1,5 +1,17 @@
 # Project Session Log
 
+## [2026-06-06 20:57] - DesignMD Module Integrated
+- **Branch:** MSC-Website-v5
+- **Changes:** Installed `@designmdcc/cli` globally. Created `.cursor/DesignMD/` as the canonical store for design extractions. Extracted `linear.app` design system to `DESIGN-LINEAR.md`. Logged this as a new portable design-extraction skill.
+- **Status:** completed
+- **Next:** Use `dmd <url> --out .cursor/DesignMD/DESIGN-<NAME>.md` for future extractions.
+
+## [2026-06-03 16:33] - Session closeout (ops + Vertex AI verify)
+- **Branch:** MSC-Website-v5 @ `ac356d8`
+- **Changes:** Cold-start ritual (docs load, lint pass). Quick backup to `G:\Cursor_Project_BackUpz\MyStudioChannel\msc-website-v1-s` (standard, 6/6 verify). Started Google API proxy (`msc:google-api:start` — LiteLLM :4000 + ngrok). Verified Vertex via `msc:litellm:verify` and live chat smoke (`vader-3-flash` → capital of Massachusetts). Stopped LiteLLM/ngrok on closeout. No app/runtime code edits.
+- **Status:** completed
+- **Next:** Feature work on `MSC-Website-v5` (creators, media workflows, or WP dual-sourcing); say **Start Project** to resume.
+
 ## [2026-06-02 13:30] - Production-Hardening Upgrades & Docs Sync
 - **Branch:** MSC-Website-v5
 - **Changes:** Completed all project audit upgrades. Created `scripts/db-optimize.mjs` for database optimization. Installed and configured Husky pre-commit linting hook. Developed `scripts/stream-live-logs.mjs` for remote SSH log tailing. Integrated version tracking and post-backup self-test checks into `scripts/msc-backup.mjs`. Created `scripts/clean-old-backups.ps1` retention manager. Created `scripts/audit-docs.mjs` documentation integrity scanner and resolved all broken internal markdown links. Updated README with v5.0.0 and FTPS deploy badges. Executed quick project backup.
