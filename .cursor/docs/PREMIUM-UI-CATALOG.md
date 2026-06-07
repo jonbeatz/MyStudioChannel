@@ -51,21 +51,33 @@ These resources support the shadcn standard, but require direct JSON URLs or ind
 *   **React Wrapper Setup:** Wrap Layout with `<ReactLenis root />` importing `'lenis/dist/lenis.css'`.
 *   **Hot Primitives:** `<ReactLenis>`, `useLenis()` hook.
 
+### 7. 21st.dev (Magic MCP)
+*   **Aesthetic:** Modern custom UI components built instantly in your IDE from natural language prompts.
+*   **Documentation:** [https://21st.dev/](https://21st.dev/)
+*   **Integration:** Configured in `.cursor/mcp.json` under `21st-dev-magic`.
+*   **API Activation:** Set `21ST_DEV_MAGIC_API_KEY` in `.env.local`, then sync using `npm run msc:sync:mcp-env` to reload the Cursor server.
+*   **Usage:** Prompt Cursor to generate custom components inspired by 21st.dev styling.
+
 ---
 
 ## 🎨 Copy-Paste playgrounds
 
 These do not rely on registries but are high-value design systems, design languages, and layout assets:
 
-### 6. Uiverse.io
+### 8. Uiverse.io
 *   **Focus:** A massive community library with thousands of buttons, loaders, and card effects in HTML/CSS and Tailwind.
 *   **Documentation:** [https://uiverse.io/](https://uiverse.io/)
 *   **Usage:** Copy the Tailwind markup or raw CSS animations to spruce up button hover highlights, glowing cards, or custom spinners.
 
-### 7. VibeUI Prompts
+### 9. VibeUI Prompts
 *   **Focus:** Structured layout prompts designed specifically to feed into AI models (Cursor, Claude, Bolt, Lovable) alongside UI screenshots to match aesthetic structures.
 *   **Documentation:** [https://vibeui.online/](https://vibeui.online/)
 *   **Usage:** Copy layout prompt strings to jump-start beautiful landing pages, hero segments, bento features, or multi-step onboarding flows.
+
+### 10. MotionSites.ai
+*   **Focus:** Curated prompt library with 65 high-performance structural templates designed for AI layout generation (Bolt.new, Cursor, v0).
+*   **Documentation:** [https://motionsites.ai/](https://motionsites.ai/)
+*   **Usage:** Copy and adapt their pro-grade layout prompts and motion-rich specifications during generation tasks.
 
 ---
 

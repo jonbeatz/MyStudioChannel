@@ -38,8 +38,10 @@ npm install lenis
 ```
 
 ### 3. Snippet Injection & AI Prompts
+- **21st.dev (Magic MCP)**: Populate your `21ST_DEV_MAGIC_API_KEY` in `.env.local` and run `npm run msc:sync:mcp-env` to bind your API key to local `.cursor/mcp.json`. Then, ask Cursor: *"Use 21st.dev Magic MCP to build a custom component styled like 21st.dev's library"* to instantly generate high-fidelity files directly in your workspace.
 - **Uiverse.io**: Grab optimized raw CSS animations and Tailwind blocks. Use to spice up buttons, inputs, and interactive loaders.
 - **VibeUI**: High-quality layout prompt strings tailored for AI generation context (Cursor, Claude, Bolt). Copy the pattern, combine with active screenshots, and let the model construct clean layouts.
+- **MotionSites.ai**: Use their 65 pro-grade layout prompts and motion-rich design patterns during UI modeling tasks.
 
 ## Guidelines
 - **Framer Motion Dependencies**: Ensure `framer-motion` (or `motion` package) is active when adding interactive elements.
