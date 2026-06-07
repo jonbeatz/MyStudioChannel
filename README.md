@@ -162,6 +162,7 @@ Optimized for **Hostinger (hPanel)** with **automated validation and recovery**:
 | [DEPLOYMENT-FIXES.md](./.cursor/docs/DEPLOYMENT-FIXES.md) | Hostinger deploy learnings & canonical dependency rule |
 | [Jedi-List.md](./.cursor/docs/Jedi-List.md)       | Command quick-reference for npm scripts           |
 | [CHANGELOG.md](./CHANGELOG.md)                    | Release history                                   |
+| [TOOL-CHEST.md](./.cursor/docs/TOOL-CHEST.md)     | Master index of external APIs, services, and search proxies |
 | [Restore-Points.md](./.cursor/docs/Restore-Points.md) | Milestone checkpoints & rollback instructions |
 
 ---
