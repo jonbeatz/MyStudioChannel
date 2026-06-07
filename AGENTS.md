@@ -12,6 +12,7 @@
 - Follow the "Start Project" ritual to begin a session.
 - Follow the "End Project" ritual to close a session.
 - **Commands:** Prefer the short aliases listed in `MASTER-COMMANDS.md` (e.g., `npm run sync` instead of `npm run msc:docs:sync`).
+- **Commits:** Always run `npm run lint:fix` before committing to satisfy Husky pre-commit hooks.
 
 ## Documentation Workflow
 - **Log Fixes:** Run `npm run msc:log:fix` immediately after resolving any bug.

@@ -110,6 +110,7 @@
     "backup:project": "npm run msc:backup",
     "backup:quick": "npm run msc:backup:quick",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "postinstall": "patch-package",
     "prepare": "husky"
   },

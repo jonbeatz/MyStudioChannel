@@ -10,6 +10,7 @@
 - **Git:** `main` synced with `MSC-Website-v5`; `MSC-Website-v4` frozen at v4.0.0
 
 ## Recent Milestones
+| 2026-06-07 | **Linting Optimization & Workflow Smoothing Complete** | chore |
 | 2026-06-07 | **Automated Onboarding & Content Seeding Complete** | feat |
 | 2026-06-07 | **Engine Hardening & Isolated Test Playground Complete** | chore |
 | 2026-06-07 | **Phase 2 Complete - Command Aliases & Documentation Automation** | chore |
