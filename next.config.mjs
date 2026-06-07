@@ -62,7 +62,7 @@ const nextConfig = {
   poweredByHeader: false,
   // Hostinger runs `npm install --production` — ESLint is not on the server (see DEPLOYMENT-FIXES.md).
   eslint: { ignoreDuringBuilds: true },
-  transpilePackages: ["three", "@react-three/fiber", "@react-three/drei"],
+  transpilePackages: ["three", "@react-three/fiber", "@react-three/drei", "motion"],
   // Payload requires a Node server. Static `out/` export is disabled while CMS is integrated.
   // next/image: local `/api/media/file/*` and `/media/*` (public/media) are same-origin — no remotePatterns entry needed.
   images: {

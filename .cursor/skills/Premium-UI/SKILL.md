@@ -36,12 +36,27 @@ npx shadcn@latest add https://animate-ui.com/r/install-tabs
 # Lenis (Butter-smooth scrolling and scroll-linked animations)
 npm install lenis
 
+# Motion for React (Formerly Framer Motion — React 19 optimized)
+npm install motion
+
 # Three.js & React Three Fiber (R3F) (Interactive 3D web graphics)
 npm install three @react-three/fiber @react-three/drei
 npm install --save-dev @types/three
 ```
 
-### 3. Next.js 15 & React 19 Considerations for 3D
+### 3. Motion React (React 19 & Next.js 15 Native)
+When using motion in React 19:
+1. Always import from `"motion/react"` instead of `"framer-motion"` to use the React 19 native optimizations.
+2. Add `"motion"` to your `transpilePackages` array inside `next.config.mjs`.
+3. Syntax mapping:
+```typescript
+import { motion, AnimatePresence } from "motion/react"
+
+// Use exactly like framer-motion:
+<motion.div animate={{ opacity: 1 }} />
+```
+
+### 4. Next.js 15 & React 19 Considerations for 3D
 When setting up a 3D Canvas component in Next.js 15:
 1. Always add `"use client"` to the top of your 3D canvas files.
 2. Ensure you have `"three", "@react-three/fiber", "@react-three/drei"` added to `transpilePackages` in `next.config.mjs`.

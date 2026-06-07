@@ -93,6 +93,13 @@ These do not rely on registries but are high-value design systems, design langua
 *   **Command Configuration:** Runs locally using Node.js's CLI loader: `npx @pencil.dev/cli mcp-server`.
 *   **Usage:** Launch your Pencil desktop application or IDE extension, start Cursor, and call design automation tools (e.g. `read_canvas`, `get_style_guide`) to translate structural layouts directly into matching Next.js/Tailwind components.
 
+### 13. Motion for React (Formerly Framer Motion)
+*   **Aesthetic:** Industry-standard animation primitives, gesture controls, layout transitions, exit animations, and keyframe-driven UI elements.
+*   **Documentation:** [https://motion.dev/](https://motion.dev/)
+*   **Installation:** `npm install motion`
+*   **Next.js Integration:** Added to `transpilePackages` inside `next.config.mjs` to resolve ESM/CJS build-time bundler mismatches on Node.
+*   **Usage:** Import directly from `"motion/react"` in client-side Next.js files to leverage the optimized React 19 reconciler rendering pipeline.
+
 ---
 
 ## 🚨 Guidelines for AI Agents
