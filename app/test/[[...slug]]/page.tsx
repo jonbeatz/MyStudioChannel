@@ -46,8 +46,9 @@ export default async function TestPage({ params }: { params: Promise<{ slug?: st
         {testName === 'supabase-card' && <SupabaseCardTest />}
         {testName === 'tesla-hero' && <TeslaHeroTest />}
         {testName === 'design-reference' && <DesignReferenceTest />}
+        {testName === 'three-d' && <ThreeDTest />}
         
-        {!['index', 'stripe-card', 'supabase-card', 'tesla-hero', 'design-reference'].includes(testName) && (
+        {!['index', 'stripe-card', 'supabase-card', 'tesla-hero', 'design-reference', 'three-d'].includes(testName) && (
           <div className="text-center py-32 border-2 border-dashed border-gray-800 rounded-3xl">
             <div className="text-6xl mb-6">🔍</div>
             <h2 className="text-3xl font-bold text-gray-300">Test Not Found</h2>
@@ -102,6 +103,13 @@ function TestIndex() {
       desc: "Viewer for all available tokens from extraction logs.",
       file: 'Multiple',
       icon: '📁'
+    },
+    {
+      id: 'three-d',
+      title: '3D Scene (Three.js & R3F)',
+      desc: "Interactive 3D canvas rendering an animated geometric globe using React Three Fiber.",
+      file: 'ThreeJS',
+      icon: '🌐'
     }
   ]
 
@@ -351,3 +359,36 @@ function DesignReferenceTest() {
     </div>
   )
 }
+
+// 3D Test Component dynamically imported on the client to bypass Next.js SSR mismatch issues
+import { AnimatedThreeDScene } from './ThreeDWrapper'
+
+function ThreeDTest() {
+  return (
+    <div className="max-w-4xl mx-auto py-10 space-y-8">
+      <div className="space-y-2">
+        <h2 className="text-3xl font-bold">Interactive 3D Experiment</h2>
+        <p className="text-gray-400">
+          Powered by <strong className="text-white">Three.js</strong>, <strong className="text-white">React Three Fiber (R3F)</strong>, and <strong className="text-white">@react-three/drei</strong>. Fully React 19 & Next.js 15 compatible.
+        </p>
+      </div>
+
+      <div className="relative">
+        <AnimatedThreeDScene />
+      </div>
+
+      <div className="p-8 rounded-2xl bg-purple-500/5 border border-purple-500/20">
+        <h3 className="font-bold text-purple-400 mb-4 flex items-center gap-2">
+          <span>🎮</span> Interactive Controls
+        </h3>
+        <ul className="space-y-2 text-sm text-gray-400 list-disc list-inside">
+          <li><strong>Rotate:</strong> Click and drag anywhere on the canvas to rotate the viewport.</li>
+          <li><strong>Zoom:</strong> Use your mouse wheel or trackpad pinch gestures to zoom in and out.</li>
+          <li><strong>Pan:</strong> Hold <code className="bg-black/40 px-1 rounded font-mono text-purple-300">Shift</code> and drag to move the camera focus.</li>
+          <li><strong>Hover:</strong> Hover over the meshes to trigger visual feedback (color changes/scaling).</li>
+        </ul>
+      </div>
+    </div>
+  )
+}
+

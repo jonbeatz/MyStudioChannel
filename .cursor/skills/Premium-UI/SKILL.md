@@ -35,9 +35,26 @@ npx shadcn@latest add https://animate-ui.com/r/install-tabs
 
 # Lenis (Butter-smooth scrolling and scroll-linked animations)
 npm install lenis
+
+# Three.js & React Three Fiber (R3F) (Interactive 3D web graphics)
+npm install three @react-three/fiber @react-three/drei
+npm install --save-dev @types/three
 ```
 
-### 3. Snippet Injection & AI Prompts
+### 3. Next.js 15 & React 19 Considerations for 3D
+When setting up a 3D Canvas component in Next.js 15:
+1. Always add `"use client"` to the top of your 3D canvas files.
+2. Ensure you have `"three", "@react-three/fiber", "@react-three/drei"` added to `transpilePackages` in `next.config.mjs`.
+3. Wrap your canvas in a client-side dynamic import in a helper file to bypass server-side hydration mismatches:
+```typescript
+import dynamic from "next/dynamic"
+export const AnimatedThreeDScene = dynamic(() => import("./ThreeDComponent"), {
+  ssr: false,
+  loading: () => <div className="animate-pulse">Loading 3D...</div>
+})
+```
+
+### 4. Snippet Injection & AI Prompts
 - **21st.dev (Magic MCP)**: Populate your `21ST_DEV_MAGIC_API_KEY` in `.env.local` and run `npm run msc:sync:mcp-env` to bind your API key to local `.cursor/mcp.json`. Then, ask Cursor: *"Use 21st.dev Magic MCP to build a custom component styled like 21st.dev's library"* to instantly generate high-fidelity files directly in your workspace.
 - **Uiverse.io**: Grab optimized raw CSS animations and Tailwind blocks. Use to spice up buttons, inputs, and interactive loaders.
 - **VibeUI**: High-quality layout prompt strings tailored for AI generation context (Cursor, Claude, Bolt). Copy the pattern, combine with active screenshots, and let the model construct clean layouts.

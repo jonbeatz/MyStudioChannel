@@ -79,6 +79,13 @@ These do not rely on registries but are high-value design systems, design langua
 *   **Documentation:** [https://motionsites.ai/](https://motionsites.ai/)
 *   **Usage:** Copy and adapt their pro-grade layout prompts and motion-rich specifications during generation tasks.
 
+### 11. Three.js & React Three Fiber (R3F)
+*   **Aesthetic:** Immersive 3D interactive experiences, customizable geometric objects, particle physics systems, and 3D web graphics.
+*   **Documentation:** [https://threejs.org/](https://threejs.org/) and [https://r3f.docs.pmnd.rs/](https://r3f.docs.pmnd.rs/)
+*   **Installation:** `npm install three @react-three/fiber @react-three/drei` and `npm install --save-dev @types/three`
+*   **Next.js Integration:** Added to `transpilePackages` inside `next.config.mjs` to allow full compilation. Always use dynamic import with `{ ssr: false }` for canvas scenes to bypass server-side hydration mismatches.
+*   **Usage:** Prototype 3D canvases under `/test/three-d` to render and interact with complex models in isolated environments.
+
 ---
 
 ## 🚨 Guidelines for AI Agents
