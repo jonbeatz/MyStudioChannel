@@ -1,5 +1,29 @@
 # My Studio Channel (MSC) — Next-Gen Creator Platform
 
+## 🚀 Quick Start for Contributors
+
+### Prerequisites
+- **Node.js** 18, 20, 22, or 24
+- **Git**
+
+### One-command setup
+
+```bash
+git clone https://github.com/jonbeatz/MyStudioChannel.git
+cd MyStudioChannel
+npm run setup:dev
+```
+
+This command will:
+- **Install** all dependencies
+- **Create** your `.env.local` file
+- **Optionally seed** the database with sample data
+- **Run a health check** to ensure everything is ready
+
+After setup, run `npm run dev` and visit [http://localhost:3000](http://localhost:3000)
+
+---
+
 **The production-hardened development operating system for creator platforms.**  
 **Build studio-style websites with a visual command center,** 
 **Next.js 15 stability, and the custom MSC PRO ENGINE.**

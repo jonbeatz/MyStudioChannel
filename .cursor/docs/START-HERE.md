@@ -6,6 +6,18 @@ Project root: `D:\Cursor_Projectz\MyStudioChannel`
 
 ---
 
+## For new developers
+
+If you are joining the project for the first time, use our automated onboarding command:
+
+```bash
+npm run setup:dev
+```
+
+This script automates the installation, environment configuration, and initial database setup. Once complete, run `npm run dev` to begin.
+
+---
+
 ## Operator profile
 
 - Operator name: **Jon**

@@ -7,6 +7,7 @@ This is the single source of truth for ALL custom commands and scripts wired int
 | Alias | Full Command | Purpose |
 |-------|--------------|---------|
 | `npm run doctor` | `npm run msc:doctor` | Full project health check |
+| `npm run setup:dev` | `node scripts/setup-dev.mjs` | Automated contributor onboarding |
 | `npm run log:session` | `npm run msc:log:session` | Log interactive session summary |
 | `npm run log:fix` | `npm run msc:log:fix` | Log interactive bug fix |
 | `npm run log:milestone` | `npm run msc:log:milestone` | Log milestone achievement |

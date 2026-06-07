@@ -1,0 +1,79 @@
+{
+  "id": 1,
+  "navItems": [
+    {
+      "id": "69d6ef48ceba9e3858653912",
+      "label": "About",
+      "link": "/#msc-about",
+      "submenu": []
+    },
+    {
+      "id": "69d6ef48ceba9e3858653917",
+      "label": "Services",
+      "link": "/#msc-services",
+      "submenu": [
+        {
+          "id": "69d6ef48ceba9e3858653913",
+          "label": "Own Your Platform",
+          "link": "/#msc-own-platform"
+        },
+        {
+          "id": "69d6ef48ceba9e3858653914",
+          "label": "Packages",
+          "link": "/#msc-packages"
+        },
+        {
+          "id": "69d6ef48ceba9e3858653915",
+          "label": "Requirements",
+          "link": "/#msc-requirements"
+        },
+        {
+          "id": "69d6ef48ceba9e3858653916",
+          "label": "What We Do",
+          "link": "/#msc-creators"
+        }
+      ]
+    },
+    {
+      "id": "69d6ef48ceba9e3858653918",
+      "label": "Demos",
+      "link": "/#msc-demos",
+      "submenu": []
+    },
+    {
+      "id": "69d6ef48ceba9e385865391c",
+      "label": "Resources",
+      "link": "/#msc-testimonials",
+      "submenu": [
+        {
+          "id": "69d6ef48ceba9e3858653919",
+          "label": "Testimonials",
+          "link": "/#msc-testimonials"
+        },
+        {
+          "id": "69d6ef48ceba9e385865391a",
+          "label": "Extras",
+          "link": "/#msc-addons"
+        },
+        {
+          "id": "69d6ef48ceba9e385865391b",
+          "label": "FAQ",
+          "link": "/#msc-faq"
+        }
+      ]
+    },
+    {
+      "id": "69d6ef4c30708328f5d1eee0",
+      "label": "Pages",
+      "link": "/msc1",
+      "submenu": []
+    },
+    {
+      "id": "69d6ef48ceba9e385865391d",
+      "label": "Contact",
+      "link": "/#msc-contact",
+      "submenu": []
+    }
+  ],
+  "globalType": "header"
+}

@@ -1,5 +1,11 @@
 # Project Session Log
 
+## [2026-06-06 23:30] - Automated Onboarding & Seeding System
+- **Branch:** MSC-Website-v5
+- **Changes:** Created `scripts/setup-dev.mjs` for one-command developer onboarding. Implemented a comprehensive seeding system via a Dev Lab API route (`app/api/dev/seed/route.ts`) and CLI manager (`scripts/msc-seed-manager.ts`). Content can now be exported to and imported from `seed-data/` JSON files. Added `npm run seed:production` and `npm run seed:all` commands. Integrated these into the `setup:dev` workflow. Updated `README.md` and `START-HERE.md` for new contributors.
+- **Status:** completed
+- **Next:** Invite collaborators to test the new onboarding flow.
+
 ## [2026-06-06 23:00] - Engine Hardening & Test Playground
 - **Branch:** MSC-Website-v5
 - **Changes:** Executed Phase 1 & 2 of Engine Consolidation: standardized scripts with `msc:` prefix, added `msc-doctor.mjs` health check, and implemented `msc-logger.mjs` for documentation automation. Created `AGENTS.md` and `specs/` structure for project governance. Created an isolated **Test Playground** at `app/test/[[...slug]]/page.tsx` with Stripe, Supabase, and Tesla design experiments. Fixed `msc:kill-dev-port` to default to port 3000 in `package.json`.

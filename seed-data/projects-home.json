@@ -1,0 +1,56 @@
+{
+  "id": 1,
+  "projectItems": [
+    {
+      "id": "a1d222cb-1c70-4c51-b137-297ab7f9e28e",
+      "isFeatured": true,
+      "isVisible": true,
+      "title": "Talk Show Land",
+      "category": "msc-platform",
+      "subtitle": "Pro grade video production website designs.",
+      "image": 33,
+      "demoUrl": "https://demos.mystudiochannel.com/demo1/"
+    },
+    {
+      "id": "49940a12-8876-4f6d-bb5a-468a0de5c6b8",
+      "isFeatured": false,
+      "isVisible": true,
+      "title": "Xtronic E-Commerece",
+      "category": "E-Commerce",
+      "subtitle": "E-Commerce-driven content platform with  step-by-step guides, and custom shop planning integration.",
+      "image": 34,
+      "demoUrl": "https://demos.mystudiochannel.com/demo2"
+    },
+    {
+      "id": "53f2e3ff-1d2c-4cad-904e-deef5524d4fb",
+      "isFeatured": false,
+      "isVisible": true,
+      "title": "Indie World Wide Inc. ",
+      "category": "interview-format",
+      "subtitle": "Professional talk show layout with guest management, episode scheduling, and live audience interaction features.",
+      "image": 35,
+      "demoUrl": "https://demos.mystudiochannel.com/demo3"
+    },
+    {
+      "id": "0c9225fd-f0d3-48c3-9beb-2cf1a968d074",
+      "isFeatured": false,
+      "isVisible": true,
+      "title": "The Starting Blocks ",
+      "category": "podcast-platform",
+      "subtitle": "Audio-first streaming experience with playlist support, transcriptions, and subscriber management.",
+      "image": 36,
+      "demoUrl": "https://demos.mystudiochannel.com/demo4"
+    },
+    {
+      "id": "ecd237de-1bfc-47d2-ba72-b4dd68d80562",
+      "isFeatured": false,
+      "isVisible": true,
+      "title": "Every Way Woman",
+      "category": "realTV-series",
+      "subtitle": "Cinematic storytelling platform with chapter navigation, behind-the-scenes content, and filmmaker profiles.",
+      "image": 37,
+      "demoUrl": "https://demos.mystudiochannel.com/demo5"
+    }
+  ],
+  "globalType": "projects-home"
+}

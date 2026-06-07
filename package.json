@@ -3,6 +3,9 @@
   "version": "5.0.0",
   "private": true,
   "scripts": {
+    "setup:dev": "node scripts/setup-dev.mjs",
+    "seed:production": "npx tsx scripts/msc-seed-manager.ts --export",
+    "seed:all": "npx tsx scripts/msc-seed-manager.ts",
     "dev": "npm run msc:kill-dev-port && next dev",
     "dev:launcher": "npm run msc:kill-dev-port && next dev",
     "dev:quick": "next dev",

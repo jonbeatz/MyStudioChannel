@@ -1,0 +1,15 @@
+{
+  "id": 1,
+  "siteName": "My Studio Channel",
+  "tagline": "Custom-engineered platforms for creators who own their audience. We build high-performance studio websites that turn viewers into a dedicated community.",
+  "stickyHeader": true,
+  "siteLogo": null,
+  "favicon": null,
+  "ogImage": null,
+  "siteTitleSuffix": "| My Studio Channel",
+  "enableAdminNotifications": true,
+  "notificationEmails": [],
+  "adminFallbackEmail": "jonbeatz@gmail.com",
+  "systemFromEmail": "onboarding@resend.dev",
+  "globalType": "site-settings"
+}

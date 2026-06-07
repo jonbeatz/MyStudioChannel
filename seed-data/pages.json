@@ -1,0 +1,2142 @@
+[
+  {
+    "id": 3,
+    "title": "Terms of Service",
+    "slug": "terms-of-service",
+    "description": "Rules and conditions for using My Studio Channel services — payments (50/25/25), revisions, governing law, and project expectations.",
+    "pageHero": {
+      "enabled": true,
+      "image": 2,
+      "eyebrow": "Legal",
+      "headlineLine1": "Terms",
+      "headlineLine2": "of Service",
+      "headlineLine3": "",
+      "sub": "Payment terms, revisions, governing law, and conditions for our creative services.",
+      "buttons": {
+        "showPrimaryButton": false,
+        "primaryButtonAction": "lightbox",
+        "primaryButtonLink": "",
+        "showSecondaryButton": false,
+        "secondaryButtonLabel": "View Demos",
+        "secondaryButtonLink": "/#msc-demos"
+      }
+    },
+    "sections": [
+      {
+        "id": "69dbe83973868a0904b2e015",
+        "rowInstanceUid": "dfa38175-abb2-4c1c-a9ac-c70c7c1ff201",
+        "sectionId": "legal-body",
+        "title": "",
+        "content": {
+          "root": {
+            "type": "root",
+            "version": 1,
+            "format": "",
+            "indent": 0,
+            "direction": "ltr",
+            "children": [
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Last updated: see the date posted at the top of this page. By purchasing services, scheduling a call, or submitting payment, you agree to these Terms of Service.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Governing Law",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "This Agreement shall be governed by the laws of North Carolina for the Client and California for the Contractor (Jon), without regard to conflict of law provisions.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Payment Schedule & PayPal",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Payments are processed through PayPal only, as follows:",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "list",
+                "version": 1,
+                "listType": "bullet",
+                "start": 1,
+                "tag": "ul",
+                "children": [
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "50% non-refundable deposit to begin work",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "25% due at the mid-project milestone",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "25% due at launch / project completion",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Deposits are non-refundable. The remaining balance may be due if a project is terminated after work has begun, as described below.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Revisions",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Revision rounds are limited by package:",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "list",
+                "version": 1,
+                "listType": "bullet",
+                "start": 1,
+                "tag": "ul",
+                "children": [
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Package 1 (Creator Launch): 2 revision rounds included",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Package 2 (Studio Pro and above in your proposal): 4 revision rounds included",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Additional revisions beyond the included rounds may be quoted and billed separately.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Client Assets & Deliverables",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "You agree to submit required materials in a timely manner, including images, thumbnails, video/audio links, written copy, branding assets, domain and hosting access, and other items specified in your proposal or onboarding checklist.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Consulting Calls",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Consulting calls must be attended on a desktop or laptop browser for technical compatibility. A signed agreement may be required before certain work proceeds.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Queue, Deadlines & Missed Assets",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Missed assets or missed deadlines may move your project to the back of the production queue. Meeting deadlines is important to protect your launch timeline.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Termination & Kill Fee",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Deposits are non-refundable. If you terminate the project after work has begun, the remaining balance may be due in accordance with your signed agreement and the stage of work completed.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Intellectual Property",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Clients own their content (e.g., media and copy they provide). Proprietary tools, frameworks, and internal workflows developed by My Studio Channel remain our property unless otherwise agreed in writing.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Limitations",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "We do not guarantee specific revenue, views, or third-party platform performance. We are not liable for outages or issues caused by third-party hosting, payment processors, or platforms outside our reasonable control.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Third-Party Links",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Our site may contain links to third-party websites. We are not responsible for the content, policies, or practices of those sites.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Changes to These Terms",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "We may update these Terms from time to time. Revised Terms will be posted on this page. Continued use of the site or services after changes constitutes acceptance of the revised Terms.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Contact",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "For questions about these Terms, contact us at Admin@MyStudioChannel.com or (336) 303-1658.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "blockName": null,
+        "blockType": "richText"
+      }
+    ],
+    "content": null,
+    "meta": {
+      "title": "Terms of Service",
+      "description": "Terms of Service: PayPal payment schedule, revision limits, NC/CA governing law, assets, and limitations.",
+      "image": null
+    }
+  },
+  {
+    "id": 2,
+    "title": "Privacy Policy",
+    "slug": "privacy-policy",
+    "description": "How My Studio Channel collects, uses, and protects your information — including PayPal payments and client asset ownership.",
+    "pageHero": {
+      "enabled": true,
+      "image": 2,
+      "eyebrow": "Legal",
+      "headlineLine1": "Privacy",
+      "headlineLine2": "Policy",
+      "headlineLine3": "",
+      "sub": "How we handle your information when you use our website and services.",
+      "buttons": {
+        "showPrimaryButton": false,
+        "primaryButtonAction": "lightbox",
+        "primaryButtonLink": "",
+        "showSecondaryButton": false,
+        "secondaryButtonLabel": "View Demos",
+        "secondaryButtonLink": "/#msc-demos"
+      }
+    },
+    "sections": [
+      {
+        "id": "69dbe83973868a0904b2e014",
+        "rowInstanceUid": "d56a97f0-8914-43ad-9253-cc2925e21185",
+        "sectionId": "legal-body",
+        "title": "",
+        "content": {
+          "root": {
+            "type": "root",
+            "version": 1,
+            "format": "",
+            "indent": 0,
+            "direction": "ltr",
+            "children": [
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Last updated: see the date posted at the top of this page. My Studio Channel (“we,” “us,” or “our”) respects your privacy and is committed to protecting the personal information you share with us. This Privacy Policy explains what information we collect, how we use it, and the choices you have regarding your information.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Information We Collect",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "We may collect the following types of information when you visit our website or work with us:",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h3",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Personal Information You Provide",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "list",
+                "version": 1,
+                "listType": "bullet",
+                "start": 1,
+                "tag": "ul",
+                "children": [
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Name",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Email address",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Phone number",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Business name",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Billing information (processed through PayPal — we do not store full card numbers on our servers)",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Files, links, images, videos, audio, and other assets you submit for your project",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h3",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Automatically Collected Information",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "list",
+                "version": 1,
+                "listType": "bullet",
+                "start": 1,
+                "tag": "ul",
+                "children": [
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "IP address",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Browser type and device information",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Pages visited and time spent on the site",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Referring URLs",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "This information is collected through standard analytics and website tools.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "How We Use Your Information",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "list",
+                "version": 1,
+                "listType": "bullet",
+                "start": 1,
+                "tag": "ul",
+                "children": [
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Communicate with you about inquiries, projects, and services",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Deliver and manage Studio Channel services",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Process payments and invoices",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Schedule consulting calls and meetings",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Improve our website and services",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Maintain internal records and documentation",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "We do not sell, rent, or trade your personal information.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Payments (PayPal)",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "All payments are processed securely through PayPal. We do not store or have access to your full payment card details. PayPal’s own privacy policy and terms govern how your payment information is handled when you check out.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "File Uploads & Client Asset Ownership",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Any files, links, or materials you provide (including images, videos, audio, thumbnails, and written content) are used solely for the purpose of completing your project.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "You retain ownership of your content. We do not reuse, distribute, or publish client assets without written permission.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Cookies & Analytics",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Our website may use cookies or similar technologies to:",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "list",
+                "version": 1,
+                "listType": "bullet",
+                "start": 1,
+                "tag": "ul",
+                "children": [
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Understand how visitors use the site",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Improve functionality and performance",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "You can disable cookies through your browser settings if you choose.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Third-Party Services",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "We may use trusted third-party tools for:",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "list",
+                "version": 1,
+                "listType": "bullet",
+                "start": 1,
+                "tag": "ul",
+                "children": [
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Scheduling (calendar tools)",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "File storage and sharing",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Website hosting",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Analytics",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "These providers only receive the information necessary to perform their services and are expected to handle data responsibly.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Data Security",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "We take reasonable steps to protect your information. However, no method of transmission over the internet or electronic storage is 100% secure. By using our site, you acknowledge this risk.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Your Rights",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "You may request to:",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "list",
+                "version": 1,
+                "listType": "bullet",
+                "start": 1,
+                "tag": "ul",
+                "children": [
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Access the personal information we have about you",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Correct or update your information",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Request deletion of your information (subject to legal and contractual obligations)",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": ""
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Requests can be made by contacting us directly. For EU residents, you may request access, deletion, or corrections to your personal information.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Children’s Privacy",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Our services are not intended for individuals under the age of 18. We do not knowingly collect personal information from children.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Changes to This Policy",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Contact Us",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "If you have questions about this Privacy Policy or how your information is handled, please contact us at:",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "My Studio Channel",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Email: Admin@MyStudioChannel.com",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Phone: (336) 303-1658",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "blockName": null,
+        "blockType": "richText"
+      }
+    ],
+    "content": null,
+    "meta": {
+      "title": "Privacy Policy",
+      "description": "Privacy Policy for My Studio Channel: data practices, PayPal processing, cookies, third parties, and your rights.",
+      "image": null
+    }
+  },
+  {
+    "id": 1,
+    "title": "MSC1",
+    "slug": "msc1",
+    "description": "This is a description for MSC1 here 12345",
+    "pageHero": {
+      "enabled": true,
+      "image": 2,
+      "eyebrow": null,
+      "headlineLine1": null,
+      "headlineLine2": null,
+      "headlineLine3": null,
+      "sub": null,
+      "buttons": {
+        "showPrimaryButton": true,
+        "primaryButtonAction": "lightbox",
+        "primaryButtonLink": null,
+        "showSecondaryButton": false,
+        "secondaryButtonLabel": "View Demos",
+        "secondaryButtonLink": "/#msc-demos"
+      }
+    },
+    "sections": [
+      {
+        "id": "1",
+        "rowInstanceUid": "27c884d8-e2c0-4b80-8626-bde0e809f59d",
+        "sectionId": "studio",
+        "title": "The Studio",
+        "content": {
+          "root": {
+            "type": "root",
+            "version": 1,
+            "format": "",
+            "indent": 0,
+            "direction": "ltr",
+            "children": [
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h2",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Welcome to the MSC Studio Experience",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam, in vehicula eros tincidunt quis.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "list",
+                "version": 1,
+                "listType": "bullet",
+                "start": 1,
+                "tag": "ul",
+                "children": [
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Deliver studio-grade creator platforms with premium visual standards.",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "color:#D4AF37;"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Design resilient media workflows that scale with audience demand.",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "color:#D4AF37;"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "listitem",
+                    "version": 1,
+                    "value": 1,
+                    "indent": 0,
+                    "format": "",
+                    "direction": "ltr",
+                    "children": [
+                      {
+                        "type": "text",
+                        "version": 1,
+                        "text": "Unify production, brand storytelling, and audience growth into one system.",
+                        "detail": 0,
+                        "format": 0,
+                        "mode": "normal",
+                        "style": "color:#D4AF37;"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "blockName": "The Studio",
+        "blockType": "richText"
+      },
+      {
+        "id": "1",
+        "rowInstanceUid": "0bed5836-01c8-4a8b-9e68-ec09d469bb7a",
+        "sectionId": "tour",
+        "title": "Virtual Tour",
+        "videoUrl": "https://www.youtube.com/watch?v=LXb3EKWsInQ",
+        "videoFile": null,
+        "blockName": "Virtual Tour",
+        "blockType": "videoPlayer"
+      },
+      {
+        "id": "1",
+        "rowInstanceUid": "954a9c40-f8fc-4a46-9deb-d3c8e38b5607",
+        "sectionId": "solutions",
+        "title": "Our Solutions",
+        "blockName": "Our Solutions",
+        "items": [
+          {
+            "id": "1",
+            "itemInstanceUid": "c60435ac-47ba-4fba-b201-f38fdc4aa753",
+            "icon": "mic",
+            "text": "Podcast Production"
+          },
+          {
+            "id": "2",
+            "itemInstanceUid": "83827f49-3de2-4901-9b7c-54c3f0cb4039",
+            "icon": "video",
+            "text": "Live Streaming"
+          },
+          {
+            "id": "3",
+            "itemInstanceUid": "b7cf9cb4-4249-4ec9-9aa3-a3a699c2b9fe",
+            "icon": "layers",
+            "text": "Set Design"
+          },
+          {
+            "id": "4",
+            "itemInstanceUid": "18c7e05d-df63-4f0f-9a1f-1699a65d6149",
+            "icon": "film",
+            "text": "Post-Production"
+          },
+          {
+            "id": "5",
+            "itemInstanceUid": "67a9892c-95dc-455f-a912-ecfd7066bdc3",
+            "icon": "sparkles",
+            "text": "Brand Strategy"
+          },
+          {
+            "id": "6",
+            "itemInstanceUid": "973120e8-77fc-433d-93aa-bff85395b269",
+            "icon": "users",
+            "text": "Audience Growth"
+          }
+        ],
+        "blockType": "featureGrid"
+      },
+      {
+        "id": "2",
+        "rowInstanceUid": "086b2524-2700-4105-b5a5-5e5ffb89b878",
+        "sectionId": "case-study",
+        "title": "Case Study",
+        "videoUrl": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+        "videoFile": null,
+        "blockName": "Case Study",
+        "blockType": "videoPlayer"
+      },
+      {
+        "id": "2",
+        "rowInstanceUid": "9069df17-52cf-4dff-8422-bb85d08cf37a",
+        "sectionId": "booking",
+        "title": "Get Started",
+        "content": {
+          "root": {
+            "type": "root",
+            "version": 1,
+            "format": "",
+            "indent": 0,
+            "direction": "ltr",
+            "children": [
+              {
+                "type": "heading",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "tag": "h3",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Ready to Launch Your Creator Platform?",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "version": 1,
+                "indent": 0,
+                "format": "",
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "version": 1,
+                    "text": "Share your vision with our team, outline your goals, and schedule your strategy call. We will map your content workflow, branding direction, and technical stack so you can move from concept to launch with confidence.",
+                    "detail": 0,
+                    "format": 0,
+                    "mode": "normal",
+                    "style": ""
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "blockName": "Get Started",
+        "blockType": "richText"
+      }
+    ],
+    "content": null,
+    "meta": {
+      "title": null,
+      "description": null,
+      "image": null
+    }
+  }
+]
