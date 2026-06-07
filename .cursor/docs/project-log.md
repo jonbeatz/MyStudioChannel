@@ -1,3 +1,9 @@
+## [2026-06-07 23:30] - GitHub releases/tags backfill and docs audit
+- **Branch:** MSC-Website-v6 @ `17b3da8`
+- **Changes:** Published GitHub tags/releases for `v4.0.0` (`87ec9de`), `v5.0.0` (`d14a4b2`), and `v6.0.0` (`17b3da8`). Set `v6.0.0` as Latest. Ran `msc:docs:audit` (PERFECT SYNC). Updated Checkpoint, CHANGELOG compare links, GitHub-Cheat-Sheet releases table, ReCall.
+- **Status:** completed
+- **Next:** Feature work on `MSC-Website-v6`; deploy to show v6.0.0 on live.
+
 ## [2026-06-07 22:30] - Version bump to 6.0.0 and MSC-Website-v6 branch cut
 - **Branch:** MSC-Website-v6 (cut from MSC-Website-v5 @ `92918b6`)
 - **Changes:** Bumped global project version to `6.0.0` in `package.json`. Created `MSC-Website-v6` development branch. Synchronized branch/version references across operational documentation (README, TRUTH, Checkpoint, CHANGELOG, MASTER-COMMANDS, HOSTINGER-DEPLOY, Jedi-List, Go-Live-Checklist, GitHub-Cheat-Sheet, Development, ReCall, Restore-Points). Updated `msc-audit-docs.mjs` for v6 branch checks. Test playground footer reads version from `lib/msc-app-version.ts`.

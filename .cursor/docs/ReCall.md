@@ -93,7 +93,8 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Version:** **`v6.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v6.0.0`**, admin **`MyStudioChannel Admin v6.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
 - **Live:** **`https://mystudiochannel.com`** — healthy; may still show **v5.0.0** until next deploy. **`msc:verify:live`** passed (2026-06-07).
 - **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (deploy modes), **`DEPLOYMENT-TROUBLESHOOTING.md`**. Say **push it live** → agent asks mode (Quick DB · Full FTPS · MCP code-only). **MCP/Git ≠ DB deploy**.
-- **Branches:** **`MSC-Website-v6`** (active dev); **`MSC-Website-v5`** frozen; **`MSC-Website-v4`** frozen at v4.0.0; **`main`** syncs with active dev line on push.
+- **Branches:** **`MSC-Website-v6`** @ **`17b3da8`** (active dev); **`main`** @ **`17b3da8`**; **`MSC-Website-v5`** frozen at v5.0.0; **`MSC-Website-v4`** frozen at v4.0.0.
+- **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v6.0.0`**; **Latest = `v6.0.0`**.
 - **Next ideas:** Feature work on v6; deploy when ready to update live version labels.
 
 ---

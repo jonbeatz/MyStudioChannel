@@ -48,7 +48,7 @@ After setup, run `npm run dev` and visit [http://localhost:3000](http://localhos
 
 | Metric              | Value                                                                  |
 | ------------------- | ---------------------------------------------------------------------- |
-| **Version**         | v6.0.0 (dev branch; live at [mystudiochannel.com](https://mystudiochannel.com) until next deploy) |
+| **Version**         | v6.0.0 ([Latest release](https://github.com/jonbeatz/MyStudioChannel/releases/latest); live at [mystudiochannel.com](https://mystudiochannel.com) until next deploy) |
 | **Stack**           | Next.js 15 (React 19) + Payload CMS 3.81.0                             |
 | **CMS Engine**      | ✅ MSC PRO ENGINE Studio Mode — Gold Sidebar + Dashboard               |
 | **Deployment**      | ✅ Tiered FTPS (Hostinger/hPanel) via `PushItUP`                       |

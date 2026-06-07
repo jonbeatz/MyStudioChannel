@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [6.0.0] - 2026-06-07
 
 ### Added
+- **GitHub releases/tags** — `v4.0.0`, `v5.0.0`, `v6.0.0` published on [releases](https://github.com/jonbeatz/MyStudioChannel/releases) (`v6.0.0` = Latest)
 - **`MSC-Website-v6` branch cut** — new active development line from `MSC-Website-v5` @ `92918b6`
 - **`msc:push:db:live`** — quick (~1–2 min) live database deploy path
 - **`msc:hostinger:stop-node`** and **`msc:hostinger:sync-db`** — SSH stop Node and copy FTPS DB into live app root
@@ -99,6 +100,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[6.0.0]: https://github.com/jonbeatz/MyStudioChannel/compare/v5.0.0...v6.0.0
+[5.0.0]: https://github.com/jonbeatz/MyStudioChannel/compare/v4.0.0...v5.0.0
 [4.0.0]: https://github.com/jonbeatz/MyStudioChannel/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/jonbeatz/MyStudioChannel/compare/v2.0.0...v3.0.0
-[2.0.0]: https://github.com/jonbeatz/MyStudioChannel/compare/v1.0.24...v2.0.0
+[2.0.0]: https://github.com/jonbeatz/MyStudioChannel/compare/v1.0.0...v2.0.0
