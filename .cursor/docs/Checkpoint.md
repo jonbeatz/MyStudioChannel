@@ -2,7 +2,7 @@
 
 ## Current Status
 - **Date:** 2026-06-07 (Audit complete @ `9d9831f`; planning docs `ideaz` + `review`)
-- **Branch:** MSC-Website-v6 @ `9d9831f` (active dev)
+- **Branch:** MSC-Website-v6 @ `2c2e94d` (active dev)
 - **Version:** 6.0.0 (`package.json` — sole release number)
 - **Build Status:** Passing (`npm run build` / `verify:next:safe`)
 - **Deploy default:** **`npm run pushit:live:fast`** (~10–15 min) for daily code/UI; **`pushit:live`** for full DB + media. Say **push it live** → agent asks mode (Quick DB · Fast FTPS · Full FTPS · MCP avoid). [hPanel restart](https://hpanel.hostinger.com/websites/mystudiochannel.com).
@@ -14,7 +14,7 @@
 ## Recent Milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
-| 2026-06-07 | **Planning docs — `ideaz.md` (portable kit) + `review.md` (audit queue)** | pending |
+| 2026-06-07 | **Planning docs — `ideaz.md` (portable kit) + `review.md` (audit queue)** | `2c2e94d` |
 | 2026-06-07 | **Comprehensive audit Phases 2–4** | `9d9831f` |
 | 2026-06-07 | **Backup bloat fix — exclude `zips/`, `backup:clean-zips`** | `273d03d` |
 | 2026-06-08 | **Hostinger MCP spawn EINVAL fix + MCP-SETUP global 12 + sync script** | `ecfa5ea` |
