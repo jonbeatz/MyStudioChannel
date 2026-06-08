@@ -14,7 +14,7 @@
 ## Recent Milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
-| 2026-06-08 | **Hostinger MCP spawn EINVAL fix + MCP-SETUP global 12 + sync script** | pending |
+| 2026-06-08 | **Hostinger MCP spawn EINVAL fix + MCP-SETUP global 12 + sync script** | `ecfa5ea` |
 | 2026-06-08 | **MSC Tooling Upgrade — UI taste skill, MCP consolidation, Obsidian pilot, cursor-mcp-refresh** | `27adb12` |
 | 2026-06-08 | **pushit:live:fast — Tier 2b zip deploy + docs sync** | `8700e61` |
 | 2026-06-08 | **Live 503 fix — sync-app + npm-install; deploy docs sync** | `b368d3e` |
