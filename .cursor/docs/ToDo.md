@@ -32,4 +32,4 @@ Lightweight list for **Jon** and the agent: what you might work on next, without
 
 ## Done (recent)
 
-- **Media (2026-04-11)** — Single static asset location: **`public/media`**, URLs **`/media/...`**. **`npm run media:consolidate`** and **`npm run media:sync`** are live in **`package.json`** (see **Jedi-List.md**, **Custom-Prompts** items 33–35). Legacy duplicate folders at repo root **`media/`** and under **`public/`** for old static images were removed; do not reintroduce alternate image roots.
+- **Media (2026-04-11)** — Single static asset location: **`public/media`**, URLs **`/media/...`**. **`npm run msc:media:consolidate`** and **`npm run msc:media:sync`** are live in **`package.json`** (see **Jedi-List.md**, **Custom-Prompts** items 33–35). Legacy duplicate folders at repo root **`media/`** and under **`public/`** for old static images were removed; do not reintroduce alternate image roots.

@@ -41,8 +41,6 @@ When user says **"backup quick"**, **"backup project quick"**, **"backup full"**
 
 ## Push Website Live
 When user says **"push website live"**, **"push it live"**, **"push site live"**, or **"deploy live"**:
-- Execute `.cursor/prompts/Push-Website-Live.md` — **`AskQuestion` deploy mode first** (Quick DB · Full FTPS · MCP code-only). **MCP/Git ≠ DB deploy** — verify DB after MCP. Always print hPanel **restart** link
-- Run the **chosen mode** from repo root (Quick: `msc:push:db:live` · FTPS: `push-website-live.ps1 -Ftps` · MCP: `push:website:live` or `--dry-run` preflight)
-- Use **AskQuestion** to confirm hPanel server prep (STOP + cleanup) and restart (START) when the script reaches those gates
-- Report `verify:live` and `verify:live:version` results
-- See `.cursor/rules/global.mdc`
+- **Canonical deploy modes and commands:** [`.cursor/rules/global.mdc`](./global.mdc) → *Push website live*
+- Execute [`.cursor/prompts/Push-Website-Live.md`](../prompts/Push-Website-Live.md) with **`AskQuestion` first** (Quick DB · **Fast FTPS** · Full FTPS · MCP avoid)
+- Tier reference (when editing deploy scripts): [`.cursor/rules/deploy-safety-hostinger.mdc`](./deploy-safety-hostinger.mdc)

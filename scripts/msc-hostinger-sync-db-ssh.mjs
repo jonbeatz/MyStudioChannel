@@ -7,11 +7,10 @@ import "./lib/msc-load-env.mjs";
 
 import { Client } from "ssh2";
 import process from "node:process";
+import { requireHostingerSshEnv } from "./lib/msc-hostinger-ssh-preflight.mjs";
 
 const BANNER = "[msc:hostinger:sync-db]";
-const appRoot =
-  process.env.HOSTINGER_APP_ROOT ||
-  "/home/u942711528/domains/mystudiochannel.com/nodejs";
+const { host, port, username, password, appRoot } = requireHostingerSshEnv(BANNER);
 const ftpLanding = appRoot.replace(/\/nodejs$/, "/public_html/nodejs");
 
 const cmd = [
@@ -37,7 +36,7 @@ conn.on("ready", () => {
     stream.stderr.on("data", (d) => process.stderr.write(d));
     stream.on("close", (code) => {
       conn.end();
-      process.exit(code === 0 ? 0 : 1);
+      process.exit(code === 0 ? 0 : code || 1);
     });
   });
 });
@@ -45,9 +44,4 @@ conn.on("error", (e) => {
   console.error(`${BANNER} FAIL — ${e.message}`);
   process.exit(1);
 });
-conn.connect({
-  host: process.env.HOSTINGER_SSH_HOST,
-  port: parseInt(process.env.HOSTINGER_SSH_PORT || "65002", 10),
-  username: process.env.HOSTINGER_SSH_USER,
-  password: process.env.HOSTINGER_SSH_PASSWORD,
-});
+conn.connect({ host, port, username, password });

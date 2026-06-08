@@ -63,7 +63,7 @@ Nav labels and Legal dropdown are **DB-driven** — code-only deploy without DB 
 
 | Symptom | Meaning | Action |
 |---------|---------|--------|
-| hPanel **Build failed** (red X) | Often stale **MCP** record — `better-sqlite3` compile failed on server | Ignore if **`verify:live`** passes after **FTPS** |
+| hPanel **Build failed** (red X) | Often stale **MCP** record — `better-sqlite3` compile failed on server | Ignore if **`msc:verify:live`** passes after **FTPS** |
 | Live **503** after FTPS | Usually broken **`node_modules`** (missing webpack) or missing **`.builds`** | **`msc:hostinger:npm-install`** or **`msc:hostinger:recover`** → Restart |
 | MCP deploy | Server runs `npm install` + `npm run build` | **Unreliable** on this account — use **`pushit:live`** instead |
 
@@ -96,8 +96,8 @@ Before considering your deployment complete, verify these in hPanel:
 ### Run Verification
 
 ```bash
-npm run verify:live
-npm run verify:live:version
+npm run msc:verify:live
+npm run msc:verify:live:version
 ```
 
 All green? Your site is live and configured correctly!
@@ -139,9 +139,9 @@ Do **not** run `pushitup` or zip uploads in **Hostinger Terminal** — upload fr
 
 ```powershell
 cd D:\Cursor_Projectz\MyStudioChannel
-node scripts/kill-dev-port.mjs
+node scripts/msc-kill-dev-port.mjs
 npm run build
-npm run verify:local
+npm run msc:verify:local
 ```
 
 Confirm footer shows **`MyStudioChannel v6.0.0`** on `http://localhost:3000/`.
@@ -174,13 +174,13 @@ If a build-time import is missing from that list → move it to **`dependencies`
 
 ### 2) Create deployment zip (Local)
 
-**Output:** `D:\Cursor_Projectz\MyStudioChannel-deploy.zip`
+**Output:** `zips/MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip`
 
 **Exclude:** `node_modules/`, `.next/`, `.git/`, `*.zip`, `payload.sqlite-wal`, `payload.sqlite-shm`
 
 **Include:** all source, `payload.sqlite`, `public/media/`, `server.js`, `package.json`, `package-lock.json`, `.env.example`, `patches/`, config files, `.cursor/` (optional but harmless).
 
-Stop dev server first (`node scripts/kill-dev-port.mjs`) so SQLite is not locked.
+Stop dev server first (`node scripts/msc-kill-dev-port.mjs`) so SQLite is not locked.
 
 **Reliable method (nested exclusions):** use robocopy to a temp folder, then zip — or ask Cursor to run the deploy-zip script. Simple `Compress-Archive` on the top-level folder **does not** exclude nested `node_modules` / `.next`.
 
@@ -238,7 +238,7 @@ Template copy: [`.env.example`](../../.env.example)
 **Local smoke script:**
 
 ```powershell
-npm run verify:live
+npm run msc:verify:live
 ```
 
 ---
@@ -280,7 +280,7 @@ Wrong **`remotePath`** or skipping SSH sync → live app never sees your `.next`
 1. **Local:** `npm run push:website:live` (kill dev → build → `zips/MyStudioChannel-deploy-*.zip`)
 2. **MCP:** `hosting_deployJsApplication` + poll `hosting_listJsDeployments` / logs on failure
 3. **Restart:** https://hpanel.hostinger.com/websites/mystudiochannel.com → Node.js → **Restart**
-4. **Verify:** `npm run verify:live` + `verify:live:version`
+4. **Verify:** `npm run msc:verify:live` + `msc:verify:live:version`
 
 **FTPS fallback (if MCP fails):**
 ```powershell
@@ -294,7 +294,7 @@ npm run push:website:live -- --dry-run
 
 **Zip-only** (after manual build):
 ```powershell
-npm run deploy:zip
+npm run msc:deploy:zip
 ```
 
 **Deployment zip folder:** `zips/` at repo root — `MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip` (gitignored). Never save deploy zips to `D:\Cursor_Projectz\`.
@@ -333,7 +333,7 @@ npm run pushit:live:fast -- -WithDb -WithMedia
 npm run pushit:live:fast -- -DryRun
 ```
 
-**When not to use:** first deploy, new npm packages (use **`pushit:live`** or **`pushitup:server-config`** + **`msc:hostinger:npm-install`**), or when CMS/media must always ship with code (use full **`pushit:live`**).
+**When not to use:** first deploy, new npm packages (use **`pushit:live`** or **`msc:pushitup:server-config`** + **`msc:hostinger:npm-install`**), or when CMS/media must always ship with code (use full **`pushit:live`**).
 
 ---
 
@@ -341,7 +341,7 @@ npm run pushit:live:fast -- -DryRun
 
 **What it uploads (Local → Live via FTPS):**
 
-- **`pushitup:admin-ui`** — Payload admin sources (middleware, branding, config, etc.)
+- **`msc:pushitup:admin-ui`** — Payload admin sources (middleware, branding, config, etc.)
 - **`.next/`** — production build
 - **`payload.sqlite`** — local CMS database
 - **`public/media/`** — on-disk media assets
@@ -358,7 +358,7 @@ npm run pushit:live:fast -- -DryRun
 ```bash
 # 1. Pre-flight (optional but recommended)
 npm run build
-npm run verify:local
+npm run msc:verify:local
 
 # 2. Push live (includes build + FTPS upload)
 npm run pushit:live
@@ -366,9 +366,9 @@ npm run pushit:live
 # 3. Live (hPanel) → Restart Node.js app
 ```
 
-Safer variant: **`npm run pushit:live:safe`** — runs **`verify:local`** first, then full **`pushit:live`**.
+Safer variant: **`npm run msc:pushit:live:safe`** — runs **`msc:verify:local`** first, then full **`pushit:live`**.
 
-**After adding new npm packages:** run **`pushit:live`** (includes lockfile + **`sync-app`** npm step) or **`pushitup:server-config`** + **`npm run msc:hostinger:npm-install`**. FTPS upload alone without **`sync-app`** will **not** update app root or `node_modules`.
+**After adding new npm packages:** run **`pushit:live`** (includes lockfile + **`sync-app`** npm step) or **`msc:pushitup:server-config`** + **`npm run msc:hostinger:npm-install`**. FTPS upload alone without **`sync-app`** will **not** update app root or `node_modules`.
 
 ---
 
@@ -424,7 +424,7 @@ The MCP uploads a source zip (`create-deploy-zip.ps1` **includes** `payload.sqli
 | Step | Command | Why |
 |------|---------|-----|
 | 1 | `npm run build` | Verify build passes locally |
-| 2 | `npm run verify:local` | Test all local endpoints |
+| 2 | `npm run msc:verify:local` | Test all local endpoints |
 | 3 | `npm ls --omit=dev --depth=0` | Audit production deps ([DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md)) |
 | 4 | `git status` | Ensure clean working tree (or know what you're shipping) |
 
@@ -436,7 +436,7 @@ After any update:
 
 ```bash
 # Local smoke test (optional)
-npm run verify:live
+npm run msc:verify:live
 ```
 
 **Manual checks (Incognito):**
@@ -458,7 +458,7 @@ npm run verify:live
 | Old content showing | Browser cache | Hard refresh (Ctrl+Shift+R) or Incognito |
 | Vendor-chunk 500 | Stale **`.next`** on host | Re-upload **`.next`** after local build; run **`msc:hostinger:sync-app`** |
 | 503 after FTPS / wrong version | Code landed in **`public_html/nodejs`** only, or broken **`node_modules`** | **`msc:hostinger:sync-app`** or **`msc:hostinger:npm-install`** → Restart |
-| hPanel Build failed (MCP) | **`better-sqlite3`** compile on host | Use **`pushit:live`**; ignore stale MCP status if **`verify:live`** passes |
+| hPanel Build failed (MCP) | **`better-sqlite3`** compile on host | Use **`pushit:live`**; ignore stale MCP status if **`msc:verify:live`** passes |
 
 ---
 
@@ -480,7 +480,7 @@ npm run verify:live
 
 ```bash
 # Local pre-flight
-npm run build && npm run verify:local
+npm run build && npm run msc:verify:local
 
 # Push live (FTPS)
 npm run pushit:live
@@ -488,7 +488,7 @@ npm run pushit:live
 # Then in hPanel: Restart Node.js app
 
 # Check live health
-npm run verify:live
+npm run msc:verify:live
 ```
 
 ---
@@ -560,7 +560,7 @@ Running `npm run push:website:live -- --ftps` automatically:
 
 **Fix (Manual / Fail-safe Fallback):**
 1. Stop local `npm run dev` (Ctrl+C).
-2. Run `npm run db:copy` (to create a clean temp database).
+2. Run `npm run msc:db:copy` (to create a clean temp database).
 3. Upload `payload.sqlite.temp` to `/nodejs/` and rename it to `payload.sqlite`.
 4. Delete `payload.sqlite-wal` and `payload.sqlite-shm` on the server manually.
 5. Restart the Node app in hPanel.
@@ -572,12 +572,12 @@ Running `npm run push:website:live -- --ftps` automatically:
 | Step | Where | Action |
 |------|--------|--------|
 | 1 | **Local** | Dependency audit: `npm ls --omit=dev --depth=0` |
-| 2 | **Local** | `npm run build` + `npm run verify:local` |
+| 2 | **Local** | `npm run build` + `npm run msc:verify:local` |
 | 3 | **Local** | Zip deploy **or** `npm run pushit:live` |
 | 4 | **Live (hPanel)** | Set / verify environment variables |
 | 5 | **Live (hPanel)** | Deploy or wait for FTPS upload to finish (WAL files are cleaned up automatically in `--ftps` mode) |
 | 6 | **Live (hPanel)** | **Restart** Node.js application (Stop then Start) |
-| 7 | **Local** | `npm run verify:live` + Incognito check `/` and `/admin` |
+| 7 | **Local** | `npm run msc:verify:live` + Incognito check `/` and `/admin` |
 
 **Do not run on Hostinger Terminal:** `pushitup`, zip creation, or `git pull` from your PC workflow unless you explicitly maintain server-side git.
 

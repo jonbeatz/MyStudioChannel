@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
+import { notFound } from 'next/navigation';
 import * as Sentry from '@sentry/nextjs';
 
 export async function GET() {
+  if (process.env.NODE_ENV === 'production') {
+    notFound();
+  }
   try {
     // Generate an isolated transaction span inside Sentry
     return Sentry.withActiveSpan(null, () => {

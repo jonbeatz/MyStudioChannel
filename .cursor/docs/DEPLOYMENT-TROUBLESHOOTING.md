@@ -103,7 +103,7 @@ Is your site down?
 
 ### Solutions
 1. Ensure `.env.local` has `FTP_REMOTE_PATH=/nodejs`
-2. Run `npm run sync:sftp-env`
+2. Run `npm run msc:sync:sftp-env`
 3. In hPanel -> Node.js, verify Root Directory is `/nodejs`
 
 ---
@@ -134,7 +134,7 @@ Is your site down?
 
 ### Solutions
 1. Stop dev server before copying DB (`Ctrl+C`)
-2. Use `npm run db:copy` (safe copy workflow)
+2. Use `npm run msc:db:copy` (safe copy workflow)
 3. Upload clean copy
 4. Delete WAL/SHM files on server
 5. Restart Node app
@@ -254,7 +254,7 @@ Then Restart Node → **`npm run msc:verify:live`**
 
 ### Symptoms
 - Dashboard shows red **Build failed** on last deployment
-- Site works after **`pushit:live`** and **`verify:live`** passes
+- Site works after **`pushit:live`** and **`msc:verify:live`** passes
 
 ### Root Cause
 **MCP zip** triggers server **`npm install` + `npm run build`**, which fails compiling **`better-sqlite3`** on this shared host. The failed record remains in hPanel; it does not reflect FTPS + pre-built **`.next`** deploys.
@@ -292,11 +292,11 @@ This is now **100% automated** on our PC-side deployment scripts!
 |---|---|
 | Site down / 503 | `stderr.log`: preload → **`msc:hostinger:recover`**; webpack → **`msc:hostinger:npm-install`**; else **`msc:hostinger:sync-app`** → restart |
 | Wrong version/nav | **`pushit:live`** or **`msc:push:db:live`** (sync-db + sync-app) |
-| hPanel Build failed | Stale MCP — use FTPS; ignore if **`verify:live`** passes |
+| hPanel Build failed | Stale MCP — use FTPS; ignore if **`msc:verify:live`** passes |
 | API 500 / stub DB | `npm run msc:push:db:live` → restart → `msc:verify:live` |
-| Database wrong size | `npm run db:copy` then Quick DB or Full FTPS + `msc:hostinger:sync-db` |
-| Wrong files deployed | Check `FTP_REMOTE_PATH=/nodejs`, run `npm run sync:sftp-env` |
-| FTPS upload issues | `npm run test:hostinger-ftp` |
+| Database wrong size | `npm run msc:db:copy` then Quick DB or Full FTPS + `msc:hostinger:sync-db` |
+| Wrong files deployed | Check `FTP_REMOTE_PATH=/nodejs`, run `npm run msc:sync:sftp-env` |
+| FTPS upload issues | `npm run msc:test:hostinger-ftp` |
 | Full deploy with DB | `push-website-live.ps1 -Ftps` (WAL cleanup + `sync-db`) |
 | Code-only deploy | `npm run push:website:live` (MCP) — verify DB size after |
 
@@ -324,7 +324,7 @@ This is now **100% automated** on our PC-side deployment scripts!
 | Staging vs live | Compare `public_html/nodejs/package.json` vs app root `nodejs/package.json` version |
 | API errors | `/nodejs/console.log` via File Manager |
 | Database issues | File Manager -> `/nodejs/payload.sqlite` size |
-| FTPS issues | `npm run test:hostinger-ftp` |
+| FTPS issues | `npm run msc:test:hostinger-ftp` |
 | Build fails | hPanel -> Deployments -> Build logs |
 
 ---
@@ -359,10 +359,10 @@ This is now **100% automated** on our PC-side deployment scripts!
 | Item | Method | Command |
 |------|--------|---------|
 | MCP connection | `hosting_listWebsitesV1` | Verified via MCP |
-| FTPS auth | `test:hostinger-ftp` | `npm run test:hostinger-ftp` |
+| FTPS auth | `msc:test:hostinger-ftp` | `npm run msc:test:hostinger-ftp` |
 | SSH access | SSH connection test | Manual or script |
 | File system | File Manager / SSH | `ls -la /nodejs/` |
-| Live endpoints | `verify:live` | `npm run verify:live` |
+| Live endpoints | `msc:verify:live` | `npm run msc:verify:live` |
 
 ### UI-Only Checks (Must Verify in hPanel)
 

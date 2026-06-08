@@ -16,7 +16,7 @@ Never run local uploader commands on the server shell.
 
 ## Standard safe flow
 
-1. Optional preflight check (`verify:local` equivalent).
+1. Optional preflight check (`msc:verify:local` equivalent).
 2. Build locally.
 3. Upload full build artifact/folder (`.next` equivalent for Next.js).
 4. Upload changed runtime/config files (if applicable).

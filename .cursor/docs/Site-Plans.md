@@ -18,7 +18,7 @@ Reference doc for choosing and implementing how the MSC Next site (`MyStudioChan
 
 **Current state:** The migration from **static export** to a **full Next.js + Payload** bundle is **complete**. **`output: 'export'` is not used.** Deploy with **`next build`** + upload **`.next`** + **`next start`** on the host (Hostinger Node app), same as **Development.md** / **HOSTINGER-DEPLOY.md**.
 
-**Assets:** All site static images live under **`public/media`** and are addressed as **`/media/...`** (Payload **Media** + `npm run media:sync` / `npm run media:consolidate`). There is no parallel **`out/`**-only marketing deploy for this repo.
+**Assets:** All site static images live under **`public/media`** and are addressed as **`/media/...`** (Payload **Media** + `npm run msc:media:sync` / `npm run msc:media:consolidate`). There is no parallel **`out/`**-only marketing deploy for this repo.
 
 **Historical note:** Earlier experiments shipped only files from **`out/`**; that path conflicts with Payload admin, **`/api`**, and unified **`/media/`** hosting.
 
@@ -92,7 +92,7 @@ See [Development.md](./Development.md) for run commands, env, import map, and hy
 
 **Done:** `withPayload`, `app/(payload)` routes, `app/(site)` marketing home, **`payload.config.ts`**, SQLite adapter, **`users`**, **`media`** (files on disk under **`public/media`**, URLs **`/media/...`**), **`bookings`**, **`leads`**; globals **`homepage`** (hero from Media) and **`site-settings`** (SEO). **`lib/booking.ts`** posts to **`/api/bookings`** when `NEXT_PUBLIC_MSC_BOOKING_URL=payload`. Marketing hero and metadata read from CMS when populated; otherwise built-in defaults. Admin includes a visible **Log out** nav link plus **`/admin/logout`**.
 
-**You do next:** copy **`.env.example` → `.env.local`**, run **`npm run dev:payload`**, in **`/admin`** open **Site → Homepage**: pick images from **Media**, add hero slides; optional **Site settings** for title/tagline. Add files to **`public/media`** and run **`npm run media:sync`** when bulk-importing. Test **`/`** and booking flow.
+**You do next:** copy **`.env.example` → `.env.local`**, run **`npm run dev:payload`**, in **`/admin`** open **Site → Homepage**: pick images from **Media**, add hero slides; optional **Site settings** for title/tagline. Add files to **`public/media`** and run **`npm run msc:media:sync`** when bulk-importing. Test **`/`** and booking flow.
 
 **Phase B (production DB):** switch **`payload.config.ts`** to **`@payloadcms/db-postgres`** and Neon (or other Postgres) on the live host; lock down public **`bookings`** create (API key / rate limit).
 
@@ -117,7 +117,7 @@ Remove Payload, restore **`output: 'export'`**, and use **headless WordPress** o
 
 **Payload:** Do **not** use **`@govcraft/payload-cms-mcp`** locally (Redis + SSE; broken stdio). Use **`user-payload`**, REST, or admin.
 
-**After `.env.local` changes:** **`npm run sync:mcp-env`** → reload MCP in Cursor.
+**After `.env.local` changes:** **`npm run msc:sync:mcp-env`** → reload MCP in Cursor.
 
 **Not used for this project:** Postgres/Neon MCP (SQLite locally), duplicate browser MCPs (archived in **`.cursor/mcp.servers.archived.json`**).
 
@@ -140,8 +140,8 @@ Remove Payload, restore **`output: 'export'`**, and use **headless WordPress** o
 | Date | Note |
 |------|------|
 | 2026-05-30 | **Hostinger Migration:** Removed all references to Spaceship; updated to Hostinger (hPanel) deployment model. |
-| 2026-05-29 | **MCP reorg:** Global trimmed to 7 servers; WordPress MCPs in project **`.cursor/mcp.json`**; **`npm run sync:mcp-env`**; **MCP-SETUP.md** documents Payload skip + **`user-payload`** workspace MCP. |
-| 2026-04-11 | **Architecture lock-in:** Docs updated to state **full Next.js + Payload** bundle (no static **`out/`** deploy), unified static assets in **`public/media`** / **`/media/...`**, and **`media:sync` / `media:consolidate`** as the operational scripts. Option table and recommendations aligned with **START-HERE** source order. |
+| 2026-05-29 | **MCP reorg:** Global trimmed to 7 servers; WordPress MCPs in project **`.cursor/mcp.json`**; **`npm run msc:sync:mcp-env`**; **MCP-SETUP.md** documents Payload skip + **`user-payload`** workspace MCP. |
+| 2026-04-11 | **Architecture lock-in:** Docs updated to state **full Next.js + Payload** bundle (no static **`out/`** deploy), unified static assets in **`public/media`** / **`/media/...`**, and **`msc:media:sync` / `msc:media:consolidate`** as the operational scripts. Option table and recommendations aligned with **START-HERE** source order. |
 | 2026-04-08 | Created `Site-Plans.md` — consolidates backend/CMS options, static-export vs Payload, headless WP architecture, and phased plan for reference. |
 | 2026-04-08 | **Payload Phase A** — integrated in-repo (`withPayload`, `(payload)` routes, SQLite, `bookings`, booking POST); static export removed. |
 | 2026-04-08 | **Admin ops** — documented visible sidebar “Log out”, `/admin/logout`, import map path, and extension-related hydration troubleshooting (see Development.md). |

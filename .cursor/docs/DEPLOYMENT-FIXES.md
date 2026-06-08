@@ -86,7 +86,7 @@ See **The Canonical Rule** above. In short: anything needed at build time must s
 **Stop dev before zip:**
 
 ```powershell
-node scripts/kill-dev-port.mjs
+node scripts/msc-kill-dev-port.mjs
 ```
 
 **Audit production deps:**
@@ -99,17 +99,17 @@ npm ls --omit=dev --depth=0
 
 ```powershell
 npm run build
-npm run verify:local
+npm run msc:verify:local
 ```
 
-**Create deploy zip** (output: `D:\Cursor_Projectz\MyStudioChannel-deploy.zip`):
+**Create deploy zip** (output: `zips/MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip`):
 
 Use robocopy staging so nested `node_modules` / `.next` are excluded — see [HOSTINGER-DEPLOY.md](./HOSTINGER-DEPLOY.md) § Path A step 2. Simple top-level `Compress-Archive` is **not** safe for nested folders.
 
 **Live smoke:**
 
 ```powershell
-npm run verify:live
+npm run msc:verify:live
 ```
 
 ---

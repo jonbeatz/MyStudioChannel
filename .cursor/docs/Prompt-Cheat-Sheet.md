@@ -12,10 +12,10 @@
 | `npm run log:fix` | `npm run msc:log:fix` | Log a bug fix |
 | `npm run log:milestone` | `npm run msc:log:milestone` | Log a milestone |
 | `npm run doctor` | `npm run msc:doctor` | Full health check |
-| `npm run docs` | `npm run docs:audit` | Audit documentation |
-| `npm run sync` | `npm run docs:sync` | Sync documentation |
+| `npm run docs` | `npm run msc:docs:audit` | Audit documentation |
+| `npm run sync` | `npm run msc:docs:sync` | Sync documentation |
 | `npm run backup` | `npm run msc:backup:quick` | Quick backup |
-| `npm run deploy` | `npm run push:website:live` | Deploy code only |
+| `npm run deploy` | `npm run pushit:live:fast` | Fast FTPS code deploy |
 | `npm run deploy:full` | `npm run push:website:live -- --ftps` | Deploy code + database |
 | `npm run msc:codeburn` | `codeburn` | Token usage / cost review |
 
@@ -192,7 +192,7 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 
 ### ➡️ `"Push my branding"`  
 - **Action:** **Tier 1 — Fast FTP (look and feel only).**
-- **Script Command:** `npm run pushitup:admin-branding`
+- **Script Command:** `npm run msc:pushitup:admin-branding`
 
 ### ➡️ `"Push Website Live"` / `"push it live"`
 *Alternative phrasings: `"push site live"`, `"deploy live"`*
@@ -202,11 +202,11 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
   - **Full FTPS** (~45–60 min) → `pushit:live` / `push-website-live.ps1 -Ftps` → Restart → verify (includes **`sync-db`** + **`sync-app`** + media)
   - **MCP zip** — **avoid on this host** (`better-sqlite3` fails); use FTPS instead
 - **Quick DB when:** `/` + `/admin` OK but `/api/globals/*` returns 500 (stub `payload.sqlite` on live).
-- **503 when:** `msc:hostinger:npm-install` (webpack) or `msc:hostinger:recover` (preload) → Restart → `verify:live`.
+- **503 when:** `msc:hostinger:npm-install` (webpack) or `msc:hostinger:recover` (preload) → Restart → `msc:verify:live`.
 
 ### ➡️ `"Push server config"`  
 - **Action:** **Tier 3 — Hosting / Node runtime contract.**
-- **Script Command:** `npm run pushitup:server-config`
+- **Script Command:** `npm run msc:pushitup:server-config`
 
 ---
 
@@ -240,7 +240,7 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 
 ### ➡️ `"Lets Verify Live"`  
 - **Action:** Remote environment testing.
-- **Script Command:** `npm run verify:live`
+- **Script Command:** `npm run msc:verify:live`
 
 ---
 

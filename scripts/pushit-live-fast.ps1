@@ -256,8 +256,13 @@ if ($WithMedia) {
 }
 
 Write-Step 8 $totalSteps "Syncing to app root (msc:hostinger:sync-app)..."
-if (-not (Invoke-DryNote "npm run msc:hostinger:sync-app")) {
-  npm run msc:hostinger:sync-app
+$syncAppCmd = if ($WithDb) { "npm run msc:hostinger:sync-app" } else { "npm run msc:hostinger:sync-app -- --skip-db" }
+if (-not (Invoke-DryNote $syncAppCmd)) {
+  if ($WithDb) {
+    npm run msc:hostinger:sync-app
+  } else {
+    npm run msc:hostinger:sync-app -- --skip-db
+  }
   if ($LASTEXITCODE -ne 0) {
     Write-Host "pushit:live:fast - ABORT: sync-app failed" -ForegroundColor Red
     exit 1

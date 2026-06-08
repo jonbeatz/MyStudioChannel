@@ -7,21 +7,10 @@ import "./lib/msc-load-env.mjs";
 
 import { Client } from "ssh2";
 import process from "node:process";
+import { requireHostingerSshEnv } from "./lib/msc-hostinger-ssh-preflight.mjs";
 
 const BANNER = "[msc:hostinger:stop-node]";
-
-const host = process.env.HOSTINGER_SSH_HOST;
-const port = parseInt(process.env.HOSTINGER_SSH_PORT || "65002", 10);
-const username = process.env.HOSTINGER_SSH_USER;
-const password = process.env.HOSTINGER_SSH_PASSWORD;
-const appRoot =
-  process.env.HOSTINGER_APP_ROOT ||
-  "/home/u942711528/domains/mystudiochannel.com/nodejs";
-
-if (!host || !username || !password) {
-  console.error(`${BANNER} FAIL — set HOSTINGER_SSH_* in .env.local`);
-  process.exit(1);
-}
+const { host, port, username, password, appRoot } = requireHostingerSshEnv(BANNER);
 
 const cmd = [
   `cd ${appRoot}`,

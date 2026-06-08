@@ -37,8 +37,11 @@ type VideoPlayerSection = {
 
 type PageSection = RichTextSection | FeatureGridSection | VideoPlayerSection
 
-/** Brute-force unique keys: id + index + blockType (survives duplicate numeric ids from CMS). */
+/** Prefer stable CMS UUIDs; fall back to id + index + blockType for legacy rows. */
 function sectionBlockKey(block: PageSection, index: number): string {
+  if (block.rowInstanceUid && String(block.rowInstanceUid).length > 0) {
+    return `uid-${block.rowInstanceUid}`
+  }
   const idPart =
     block.id !== undefined && block.id !== null ? String(block.id) : "noid"
   const t =

@@ -68,7 +68,7 @@ flowchart LR
 
 ## Phased delivery (WordPress track — optional; Payload is Phase-complete for MSC)
 
-**Current MSC (done):** Payload admin, **`/api`**, **`public/media`**, **`npm run media:sync`** — see **START-HERE.md** and **Development.md**.
+**Current MSC (done):** Payload admin, **`/api`**, **`public/media`**, **`npm run msc:media:sync`** — see **START-HERE.md** and **Development.md**.
 
 **WP Phase 1 — booking + signup via WordPress (only if you choose this path)**
 1. Build and install the WordPress plugin on LocalWP.

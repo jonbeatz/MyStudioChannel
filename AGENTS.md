@@ -2,7 +2,7 @@
 
 ## First Time Here?
 1. Read `TRUTH.md` - This is the constitution. It has final authority.
-2. Read `START-HERE.md` - Cold-start ritual and daily workflow.
+2. Read `.cursor/docs/START-HERE.md` - Cold-start ritual and daily workflow.
 3. Read `.cursor/docs/MASTER-COMMANDS.md` - All commands in one place.
 
 ## Core Rules
@@ -24,7 +24,7 @@
 | Priority | Document | Purpose |
 |----------|----------|---------|
 | 1 | `TRUTH.md` | Constitution (final authority) |
-| 2 | `START-HERE.md` | Entry point and rituals |
+| 2 | `.cursor/docs/START-HERE.md` | Entry point and rituals |
 | 3 | `.cursor/docs/MASTER-COMMANDS.md` | Command reference |
 | 4 | `.cursor/skills/` | Portable AI agent skills |
 

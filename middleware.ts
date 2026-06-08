@@ -5,7 +5,7 @@ import type { NextRequest } from "next/server"
  * Single-segment slugs that must never rewrite to `/pages/:slug` (marketing CMS).
  * `/admin` is handled first via `pathname.startsWith("/admin")` so the CMS rewrite never runs.
  * Logic is **host-agnostic** (pathname only) — same behavior on `localhost`, `mystudiochannel.com`, or Hostinger.
- * Keep in sync with path roots: admin, api, _next, media (plus dev tools).
+ * Keep in sync with path roots: admin, api, _next, media, dev, test (plus legal static routes).
  * Static legal pages (privacy-policy, terms-of-service) are served by dedicated app/(site)/ routes.
  */
 const RESERVED_PATHS = [
@@ -14,6 +14,7 @@ const RESERVED_PATHS = [
   "_next",
   "media",
   "dev",
+  "test",
   "privacy-policy",
   "terms-of-service",
 ] as const

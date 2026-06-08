@@ -274,7 +274,7 @@ index 38580cf..1db91b3 100644
  //# sourceMappingURL=isRowCollapsed.d.ts.map
 \ No newline at end of file
 diff --git a/node_modules/@payloadcms/ui/dist/forms/fieldSchemasToFormState/isRowCollapsed.js b/node_modules/@payloadcms/ui/dist/forms/fieldSchemasToFormState/isRowCollapsed.js
-index acb4a10..44dffff 100644
+index acb4a10..29091d9 100644
 --- a/node_modules/@payloadcms/ui/dist/forms/fieldSchemasToFormState/isRowCollapsed.js
 +++ b/node_modules/@payloadcms/ui/dist/forms/fieldSchemasToFormState/isRowCollapsed.js
 @@ -2,17 +2,28 @@ export function isRowCollapsed({
@@ -313,3 +313,4 @@ index acb4a10..44dffff 100644
 +  return init;
  }
  //# sourceMappingURL=isRowCollapsed.js.map
+\ No newline at end of file

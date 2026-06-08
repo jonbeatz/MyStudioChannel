@@ -40,6 +40,18 @@ if (fs.existsSync(envPath)) {
   } else {
     console.warn(`⚠️ .env.local: Missing keys: ${missingKeys.join(', ')}`);
   }
+
+  const secretMatch = envContent.match(/^PAYLOAD_SECRET=(.*)$/m);
+  const secretVal = secretMatch?.[1]?.trim().replace(/^["']|["']$/g, '') ?? '';
+  if (
+    secretVal === '' ||
+    secretVal === 'dev-only-change-me-in-env' ||
+    secretVal.length < 32
+  ) {
+    console.warn(
+      `⚠️ .env.local: PAYLOAD_SECRET is missing, default, or short (<32 chars). Set a strong secret before production deploy.`,
+    );
+  }
 } else {
   console.error(`❌ .env.local: File missing!`);
   healthy = false;

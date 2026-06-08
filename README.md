@@ -51,7 +51,7 @@ After setup, run `npm run dev` and visit [http://localhost:3000](http://localhos
 | **Version**         | v6.0.0 ([Latest release](https://github.com/jonbeatz/MyStudioChannel/releases/latest); live at [mystudiochannel.com](https://mystudiochannel.com) until next deploy) |
 | **Stack**           | Next.js 15 (React 19) + Payload CMS 3.81.0                             |
 | **CMS Engine**      | ✅ MSC PRO ENGINE Studio Mode — Gold Sidebar + Dashboard               |
-| **Deployment**      | ✅ Tiered FTPS (Hostinger/hPanel) via `PushItUP`                       |
+| **Deployment**      | ✅ Tiered FTPS (Hostinger/hPanel) via `msc:pushitup`                       |
 | **Database**        | ✅ Local SQLite (Production-hardened)                                  |
 | **Verified**        | ✅ `npm run verify:next` (Build Gate + Integrity)                      |
 | **Status**          | 🟢 Production Ready                                                    |
@@ -132,22 +132,22 @@ My Studio Channel
 ## 🛡️ Production-Hardening & Reliability Features
 
 The `MSC-Website-v6` line continues comprehensive safety and developer experience features from v5:
-- **Database Optimization Utility:** Optimize database files with `npm run db:optimize` (using `PRAGMA optimize` + `VACUUM`), automated to prevent bloat.
+- **Database Optimization Utility:** Optimize database files with `npm run msc:db:optimize` (using `PRAGMA optimize` + `VACUUM`), automated to prevent bloat.
 - **Git Pre-commit Hook (Husky):** Enforces lint checks automatically on every `git commit`, preventing bad syntax or build errors from entering git.
-- **SSH Live Log Streaming:** Instantly tail remote host logs on your PC terminal via `npm run logs:live` (stderr) and `npm run logs:live:console`.
+- **SSH Live Log Streaming:** Instantly tail remote host logs on your PC terminal via `npm run msc:logs:live` (stderr) and `npm run msc:logs:live:console`.
 - **Version & Branch Tracking:** Automated version mapping, branch names, and commit hashes embedded inside backup notes.
 - **Post-Backup Verification:** Self-testing backup checker that validates the structural completeness of local backups automatically.
-- **Backup Retention Manager:** Simple retention utility via `npm run backup:clean` that retains only the 10 most recent backups and purges older folders.
+- **Backup Retention Manager:** Simple retention utility via `npm run msc:backup:clean` that retains only the 10 most recent backups and purges older folders.
 
 ## 📦 Deployment Workflow
 
 Optimized for **Hostinger (hPanel)** with **automated validation and recovery**:
 
 - **Say "push it live"** in Cursor — agent asks mode: **Quick DB** · **Fast FTPS** (`pushit:live:fast`) · **Full FTPS** · **MCP** (avoid on this host)
-- **Tier 1 (Branding):** `npm run pushitup:admin-branding` (CSS + Graphics fast ship)
+- **Tier 1 (Branding):** `npm run msc:pushitup:admin-branding` (CSS + Graphics fast ship)
 - **Tier 2b (Fast):** `npm run pushit:live:fast` (zip `.next` + admin-ui + **`sync-app`** — ~10–15 min)
 - **Tier 2 (Full):** `npm run pushit:live` (build + `.next` + DB + media; SSH **`sync-db`** + **`sync-app`**)
-- **Tier 3 (Config):** `npm run pushitup:server-config` (Package/Server files contract)
+- **Tier 3 (Config):** `npm run msc:pushitup:server-config` (Package/Server files contract)
 
 ---
 

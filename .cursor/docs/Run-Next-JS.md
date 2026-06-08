@@ -24,7 +24,7 @@ http://localhost:3000/
 1. Copy **`.env.example`** to **`.env.local`**.
 2. Set **`PAYLOAD_SECRET`**, **`DATABASE_URL`** (default `file:./payload.sqlite`), and **`NEXT_PUBLIC_SERVER_URL`**.
 3. Optional keys: **`GITHUB_PERSONAL_ACCESS_TOKEN`**, **`RESEND_API_KEY`**, **`WORDPRESS_*`** (see **`.env.example`**).
-4. After editing secrets used by Cursor MCP: **`npm run sync:mcp-env`**, then reload MCP in Cursor. Details: **[MCP-SETUP.md](./MCP-SETUP.md)**.
+4. After editing secrets used by Cursor MCP: **`npm run msc:sync:mcp-env`**, then reload MCP in Cursor. Details: **[MCP-SETUP.md](./MCP-SETUP.md)**.
 
 ---
 
@@ -40,7 +40,7 @@ From the directory with **`package.json`**:
 | Production build | `npm run build` | Requires env vars (see above) |
 | Production serve | `npm run start` | After `build` -- local smoke test |
 | FTP upload (paths) | `npm run pushitup -- <target...>` | Upload files/folders to Hostinger FTPS |
-| FTP upload (zip-first) | `npm run pushitupzip -- <target...>` | Packs target(s) to zip(s), then uploads |
+| FTP upload (zip-first) | `npm run msc:pushitupzip -- <target...>` | Packs target(s) to zip(s), then uploads |
 
 **First visit:** open **`/admin`** and create the first admin user.
 
@@ -66,7 +66,7 @@ Use this flow instead:
 
 1. Local machine:
    - `npm run build`
-   - `npm run pushitupzip -- .next`
+   - `npm run msc:pushitupzip -- .next`
    - `npm run pushitup -- patches package.json package-lock.json server.js`
 2. Host terminal:
    - `npm install --legacy-peer-deps`

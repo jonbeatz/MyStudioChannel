@@ -89,7 +89,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - **Single release version:** `lib/msc-app-version.ts` reads root **`package.json`** only; removed **`lib/msc-admin-version.ts`**.
 - **User-facing branding:** Footer and Payload admin sidebar show **MyStudioChannel** + **`v3.0.0`** (no separate admin semver).
-- **`pushitup:admin-ui`** file list: `lib/msc-app-version.ts`, `components/msc-payload-nav-logout.tsx`.
+- **`msc:pushitup:admin-ui`** file list: `lib/msc-app-version.ts`, `components/msc-payload-nav-logout.tsx`.
 - **Production dependencies:** `@tailwindcss/postcss`, `postcss`, `tw-animate-css` moved from `devDependencies` for Hostinger builds.
 - **`main`** fast-forwarded from **`MSC-Website-v3`** (2026-06-01, tip **`8a44d95`**).
 - **Version Bump:** Upgraded project to `v3.0.0` and established `MSC-Website-v3` as the primary working branch.
@@ -113,7 +113,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - **Hosting Migration:** Fully transitioned from Spaceship (cPanel) to Hostinger (hPanel).
-- **Deployment Engine:** Updated `PushItUP` scripts and documentation for Hostinger FTPS.
+- **Deployment Engine:** Updated `msc:pushitup` scripts and documentation for Hostinger FTPS.
 - **Documentation:** Consolidated all human runbooks and agent prompts into a Hostinger-centric model.
 - **Footer:** Refined footer branding to "Powered by the MSC Media Engine".
 

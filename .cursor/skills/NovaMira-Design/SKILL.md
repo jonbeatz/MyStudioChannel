@@ -11,6 +11,8 @@ description: >-
 
 # NovaMira Design — Glass + Bento (“Plugin Jedi” direction)
 
+**UI skill read order:** NovaMira-Design (this file) → **MSC-UI-Taste** → **Premium-UI** for component sourcing.
+
 This skill complements **`.cursor/skills/Nova/SKILL.md`** (code conventions) and **`.cursor/docs/NovaMira-MSC-PRO-ENGINE.md`** (msc-shows-core behavior). It does **not** replace `.cursorrules` on security, Divi 4 scope, or `msc_` / `msc-` / `nm-` naming.
 
 **Goal:** Reach **Plugin Jedi Status** by combining **glassmorphism** with a **Bento Grid** — a layout idiom (from Japanese bento boxes) that uses **varied rectangular cells** to pack dashboards into a high-density, calm, premium feel.

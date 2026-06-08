@@ -66,7 +66,7 @@ Create a new restore branch from the current clean state:
 
 ## Deployment docs ↔ `package.json` (keep in sync)
 
-**Source of truth for npm deploy aliases:** root **`package.json`** (`pushitup`, **`pushitup:admin-ui`**, **`pushitup:admin-branding`**, **`pushit:live:fast`**, **`pushit:live`**, **`pushit:live:safe`**, etc.).
+**Source of truth for npm deploy aliases:** root **`package.json`** (`pushitup`, **`msc:pushitup:admin-ui`**, **`msc:pushitup:admin-branding`**, **`pushit:live:fast`**, **`pushit:live`**, **`msc:pushit:live:safe`**, etc.).
 
 These operator docs should match those scripts whenever deploy behavior changes:
 
@@ -78,9 +78,9 @@ These operator docs should match those scripts whenever deploy behavior changes:
 
 If **`package.json`** scripts change, update the five docs in the same commit when possible.
 
-**Release version / admin bundle (2026-06-01):** Bump root **`package.json`** `"version"` only. **`pushitup:admin-ui`** ships **`lib/msc-app-version.ts`** + **`components/msc-payload-nav-logout.tsx`** (see **`package.json`** script). Older log entries may mention **`msc-admin-version.ts`** — historical only.
+**Release version / admin bundle (2026-06-01):** Bump root **`package.json`** `"version"` only. **`msc:pushitup:admin-ui`** ships **`lib/msc-app-version.ts`** + **`components/msc-payload-nav-logout.tsx`** (see **`package.json`** script). Older log entries may mention **`msc-admin-version.ts`** — historical only.
 
-**MCP / GitHub tooling scripts** (`sync:mcp-env`, `sync:mcp-all`, `test:github-api`, `test:tavily-api`, `backup:github-repos`): keep **`Jedi-List.md`**, **`MCP-SETUP.md`**, and **`.env.example`** in sync.
+**MCP / GitHub tooling scripts** (`msc:sync:mcp-env`, `msc:sync:mcp-all`, `msc:test:github-api`, `msc:test:tavily-api`, `msc:backup:github-repos`): keep **`Jedi-List.md`**, **`MCP-SETUP.md`**, and **`.env.example`** in sync.
 
 ---
 
@@ -96,11 +96,29 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Branches:** **`MSC-Website-v6`** (active dev); **`main`** synced with v6; **`MSC-Website-v5`** frozen at v5.0.0.
 - **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v6.0.0`**; **Latest = `v6.0.0`**.
 - **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); **cursor-mcp-refresh** extension; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
-- **Next ideas:** Feature work on v6; Obsidian weekly distill → ReCall (Fridays, manual); **`codeburn`** weekly token review.
+- **Audit (2026-06-07):** Phases 1–4 complete (deploy safety, docs `msc:*` sync, rules dedup, Restore-Points trim to 3, Sentry pin, MCP sync extension) — **uncommitted** unless Jon asks.
+- **Next ideas:** Feature work on v6; **`msc:codeburn`** weekly token review; optional admin bundle analysis (Payload ~816 kB First Load JS).
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-07 — Comprehensive audit Phase 4 — cleanup + optimizations
+
+- **Rules:** `workflow.mdc` deploy section delegates to `global.mdc` + `deploy-safety-hostinger.mdc` (no duplicate mode lists).
+- **Restore-Points:** 3 active rows; 44 archived to **`_archive/Restore-Points-historical.md`**.
+- **Bundle/MCP:** `@sentry/nextjs` pinned **10.56.0**; `SectionsRenderer` uses **`rowInstanceUid`** keys; `msc:sync:mcp-env` syncs **21st-dev-magic** + **browserbase** from `.env.local`.
+
+### 2026-06-07 — Comprehensive audit Phase 3 — docs alias sync (Option B)
+
+- **Bulk sync:** `scripts/msc-sync-doc-commands.mjs` updated 36+ files to canonical **`msc:*`** npm names; fixed **`msc:msc:sync:mcp-env`** double-prefix in MCP docs.
+- **SoT:** **Jedi-List** now matches **TRUTH** (TRUTH → START-HERE → …). **AGENTS.md** START-HERE path corrected.
+- **Guardrails:** `/api/dev/sentry-test` returns **`notFound()`** in production; **`msc:doctor`** warns on weak **`PAYLOAD_SECRET`**.
+- **Drift:** Doc alias matrix → **0** invalid `npm run` refs (Nova WP **`build:wp-theme`** noted as external).
+
+### 2026-06-07 — Comprehensive audit Phase 2 — deploy safety + runtime fixes
+
+- **Payload UI patch** regenerated; **`test`** added to middleware **`RESERVED_PATHS`**; **`msc:hostinger:sync-app --skip-db`** default for **`pushit:live:fast`**; SSH preflight on all hostinger scripts; **`deploy`** → **`pushit:live:fast`**.
 
 ### 2026-06-07 — Backup bloat fix: exclude zips/ + clean-zips retention
 
@@ -119,7 +137,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 ### 2026-06-08 — MSC Tooling Upgrade + Obsidian pilot + MCP consolidation
 
 - **Skills:** **`.cursor/skills/MSC-UI-Taste/SKILL.md`** — merged taste-skill + impeccable + emilkowalski under NovaMira Gold. Extended **NovaMira-Design** + **Premium-UI** anti-slop cross-links.
-- **MCP:** Project **`.cursor/mcp.json`** → **6 servers** (removed **`browsermcp`**, **`antigravity-awesome-skills`** → archive). Browser QA: **`verify:live`** + **cursor-ide-browser**. **cursor-mcp-refresh** v1.1.0 installed (`.cursor/tools/`).
+- **MCP:** Project **`.cursor/mcp.json`** → **6 servers** (removed **`browsermcp`**, **`antigravity-awesome-skills`** → archive). Browser QA: **`msc:verify:live`** + **cursor-ide-browser**. **cursor-mcp-refresh** v1.1.0 installed (`.cursor/tools/`).
 - **Prompts:** **`.cursor/prompts/harsh-review.md`** (Gilfoyle) — code review only; rule in **`.cursor/rules/global.mdc`**.
 - **Dev tools:** **`npm run msc:codeburn`**; global **`codeburn`** install documented in **MASTER-COMMANDS** + **TOOL-CHEST**.
 - **Antigravity:** Curated whitelist **`.cursor/skills/imported/CURATED-INDEX.md`** — no bulk auto-install.
@@ -131,14 +149,14 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 - **Feature:** **`npm run pushit:live:fast`** — zip **`.next`** → single FTPS → SSH unzip (BUILD_ID) → **`sync-app`**. Flags **`-SkipBuild`**, **`-WithDb`**, **`-WithMedia`**, **`-DryRun`**. Preflight: **`msc:pushit:live:fast:dry`**.
 - **Fix:** FTPS zip must land at staging root **`deploy-next.zip`** (not **`zips/deploy-next.zip`** on remote).
-- **Live:** **`verify:live`** pass; **`pushit:live`** unchanged for full DB + media.
+- **Live:** **`msc:verify:live`** pass; **`pushit:live`** unchanged for full DB + media.
 
 ### 2026-06-08 — Live 503 fix, sync-app deploy pipeline, docs sync
 
 - **Commit:** **`b368d3e`** on **`MSC-Website-v6`** (pushed).
 - **Incident:** Live **503** after deploy — `stderr.log`: `Cannot find module 'next/dist/compiled/webpack/webpack'`. FTPS had landed files in **`public_html/nodejs/`**; **`sync-app`** + **`npm install --ignore-scripts`** required on app root.
 - **Fix scripts:** **`msc:hostinger:sync-app`**, **`msc:hostinger:npm-install`**, **`msc:hostinger:recover`**. **`pushit:live`** = FTPS → **`sync-db`** → **`sync-app`**.
-- **Live:** **v6.0.0**, Legal **`pages-collection`**, **`verify:live`** + **`verify:live:version`** pass.
+- **Live:** **v6.0.0**, Legal **`pages-collection`**, **`msc:verify:live`** + **`msc:verify:live:version`** pass.
 - **Policy:** Prefer **`pushit:live`** over MCP zip (`better-sqlite3` compile fails; hPanel **Build failed** can be stale). **Do not delete** **`public_html/nodejs/`** or **`.builds/`**.
 
 ### 2026-06-07 — v6.0.0 development branch and MSC-Website-v6 branch cut
@@ -163,7 +181,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ### 2026-06-02 — MCP-first “push website live” workflow
 
-- **Default deploy:** `npm run push:website:live` → kill dev → `npm run build` → `npm run deploy:zip` → Hostinger MCP **`hosting_deployJsApplication`** → hPanel **restart** → `verify:live`.
+- **Default deploy:** `npm run push:website:live` → kill dev → `npm run build` → `npm run msc:deploy:zip` → Hostinger MCP **`hosting_deployJsApplication`** → hPanel **restart** → `msc:verify:live`.
 - **Zip:** `zips/MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip` (robocopy excludes `node_modules`, `.next`, `.git`).
 - **FTPS fallback:** `npm run push:website:live -- --ftps` when MCP fails. Target **`FTP_REMOTE_PATH=/nodejs`**.
 - **Scripts:** `create-deploy-zip.ps1`, `print-hostinger-restart-reminder.ps1`, `sync-sftp-from-env.ps1`.
@@ -171,7 +189,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 ### 2026-06-01 — v4.0.0 live on Hostinger
 
 - **Live:** Deployed **`MSC-Website-v4`** @ **`87ec9de`** via Hostinger MCP (`MyStudioChannel-v4-deploy.zip`). Build completed; footer **`MyStudioChannel v4.0.0`** on **`/`**.
-- **Smoke:** **`npm run verify:live`** — **`/`** + **`/admin`** 200; **`/api/globals/projects-home`** 500 (env vars — set in hPanel).
+- **Smoke:** **`npm run msc:verify:live`** — **`/`** + **`/admin`** 200; **`/api/globals/projects-home`** 500 (env vars — set in hPanel).
 - **Git:** Docs sync; **`main`** fast-forwarded to match **`MSC-Website-v4`**.
 
 ### 2026-06-01 — v4.0.0 development branch
@@ -190,7 +208,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 ### 2026-06-01 — Version consolidation + `main` sync
 
 - **Versioning:** Removed **`lib/msc-admin-version.ts`** / **`MSC_ADMIN_VERSION`**. Added **`lib/msc-app-version.ts`** reading **`package.json`** only. User-facing labels: **`MyStudioChannel v3.0.0`** (footer), **`MyStudioChannel Admin v3.0.0`** (Payload sidebar).
-- **Docs:** **`Jedi-List.md`** — operators bump **`package.json`** only; **`pushitup:admin-ui`** file list synced.
+- **Docs:** **`Jedi-List.md`** — operators bump **`package.json`** only; **`msc:pushitup:admin-ui`** file list synced.
 - **Git:** Pushed **`MSC-Website-v3`**, fast-forward merged into **`main`**, pushed **`origin/main`**; continued dev on **`MSC-Website-v3`**.
 - **Other:** Hero slide 5 JPG (**`IWWI-Indie-WorldWide-Inc-Hero-6.jpg`**); **`scripts/test-mcps.mjs`** MCP health script.
 - **Commits:** **`50ae6b2`**, **`57910cd`** (docs).
@@ -207,7 +225,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Docs:** Removed all references to Spaceship and cPanel.
 - **SSoT:** Updated `START-HERE`, `Agent-Runbook`, `Jedi-List`, `ReCall`, `Site-Plans`, and `Go-Live-Checklist` to point to **Hostinger (hPanel)**.
 - **Rules:** Created `deploy-safety-hostinger.mdc` and updated project rules.
-- **Scripts:** Prepared scripts for renaming to Hostinger-specific aliases (e.g. `test:hostinger-ftp`).
+- **Scripts:** Prepared scripts for renaming to Hostinger-specific aliases (e.g. `msc:test:hostinger-ftp`).
 
 ### 2026-05-30 — End Project: Hostinger Audit + MCP Setup Complete
 
@@ -231,7 +249,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Workspace:** Updated project root to `D:\Cursor_Projectz\MyStudioChannel` across all docs and scripts after directory rename.
 - **Git:** Created and pushed public repository `jonbeatz/MyStudioChannel` via GitHub MCP.
 - **Release:** Created official GitHub release `v1.0.0` ("Initial Release - My Studio Channel v1.0.0") on the `main` branch.
-- **Health:** Dev server running safely on port 3000; `verify:local` passing all checks.
+- **Health:** Dev server running safely on port 3000; `msc:verify:local` passing all checks.
 - **Project Version:** Still at **`v1.0.8`** (admin version).
 
 ### 2026-05-30 — MCP additions + Google-API confirmed working
@@ -257,17 +275,17 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ### 2026-05-29 — Tavily MCP re-enabled + docs sync
 
-- **Global MCP:** **`tavily`** restored ([tavily-ai/tavily-mcp](https://github.com/tavily-ai/tavily-mcp)); **`TAVILY_API_KEY`** synced via **`npm run sync:mcp-env`**.
-- **Scripts:** **`scripts/test_tavily_api.py`** → **`npm run test:tavily-api`**.
+- **Global MCP:** **`tavily`** restored ([tavily-ai/tavily-mcp](https://github.com/tavily-ai/tavily-mcp)); **`TAVILY_API_KEY`** synced via **`npm run msc:sync:mcp-env`**.
+- **Scripts:** **`scripts/test_tavily_api.py`** → **`npm run msc:test:tavily-api`**.
 - **Docs:** **`GitHub-Cheat-Sheet.md`** (git + bundle recovery), MCP/Jedi/START-HERE/README updates; global count **8** servers.
 - **Security:** **`.env.example`** uses Tavily placeholder only; real key stays in **`.env.local`**.
 
 ### 2026-05-29 — MCP config reorganization (Cursor)
 
 - **Global `~/.cursor/mcp.json`:** trimmed to **7** servers (GitHub, filesystem, Playwright, fetch, terminal-controller, sequential-thinking, desktop-commander). **15** recipes archived to **`.cursor/mcp.servers.archived.json`**.
-- **Project `.cursor/mcp.json`:** WordPress only (**`local-wp`**, **`mcp-wordpress`**). Committed with placeholders; secrets via **`npm run sync:mcp-env`**.
+- **Project `.cursor/mcp.json`:** WordPress only (**`local-wp`**, **`mcp-wordpress`**). Committed with placeholders; secrets via **`npm run msc:sync:mcp-env`**.
 - **Payload MCP:** **`@govcraft/payload-cms-mcp`** not configured (Redis + SSE; broken local stdio). Use workspace **`user-payload`**, REST **`/api/*`**, or **`/admin`**.
-- **Scripts:** **`scripts/sync-mcp-env.js`**; **`sync:github-mcp`** → alias; Python **`sync_github_mcp_token.py`** deprecated.
+- **Scripts:** **`scripts/sync-mcp-env.js`**; **`msc:sync:github-mcp`** → alias; Python **`sync_github_mcp_token.py`** deprecated.
 - **Docs:** **`MCP-SETUP.md`**; cross-links in **Development**, **START-HERE**, **Jedi-List**, **Site-Plans**, **Run-Next-JS**, **README**.
 - **Git:** **`4a731a6`** on **`MSC-Site-Updates-v1`**.
 
@@ -315,37 +333,37 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Shipped in commit `43fd417` (`mcs-Live-v5-Restore`):** Programming Styles / Services Gallery — **`globals/Homepage`** relationship images with **drawer** admin UI; seed + **`homepage-gallery-hydrate`**; **`components/services-section.tsx`** hybrid CMS/fallback; **`getPublicOrigin()`** for services gallery absolutized fallbacks on **`page.tsx`**; **`v1.0.8`**; **`payload-types`** regen; **Restore-Points** **`RP-2026-04-13-homepage-galleries-drawer-hydrate`**; **ReCall** this block.
 - **Verify:** **`npm run verify:next:safe`** green before commit; ESLint clean on **`lib/cms/homepage.ts`** (removed unused type import).
 - **No deploy** unless you run **`Lets Finish + Deploy`** — production still on prior push until **`npm run pushit:live`** + hPanel Node restart.
-- **Resume:** **`npm run dev:fresh`**, **`npm run verify:local`**; open **Globals → Homepage** to confirm gallery pickers.
+- **Resume:** **`npm run dev:fresh`**, **`npm run msc:verify:local`**; open **Globals → Homepage** to confirm gallery pickers.
 
 ### 2026-04-13 — Checkpoint: docs + commit (`Lets Checkpoint Docs + Commit`)
 
 - **Committed:** broad WIP merge — env URL protocol, **`v1.0.7`**, admin hydration fix, Leads SQLite delete preflight, marketing anchor scroll polish, legal pages + **`pages`** route group, contact modal, FTPS/SQLite tooling, **`.env.example`** updates.
 - **Docs synced:** **Jedi-List** (*Public site URL* table), **START-HERE** (env blurb + resume tip), **HOSTINGER-DEPLOY.md** (production env baseline + verify-email note), **Restore-Points** **`RP-2026-04-13-checkpoint-v107-env-nav-leads`**, this **ReCall** block.
 - **No deploy** in this flow — run **`npm run pushit:live`** when ready, then Hostinger Node restart.
-- **Verify before deploy:** **`npm run verify:next:safe`**, **`npm run verify:local`** (dev on **3000**).
+- **Verify before deploy:** **`npm run verify:next:safe`**, **`npm run msc:verify:local`** (dev on **3000**).
 
 ### 2026-04-12 — Session closeout (I'm done for now) — evening
 
 - **Chats:** Confirmed **docs + “Ready to begin”** readiness for next session; answered **Composer 2** vs **Composer 2 Fast** — same rough token use for a task; **standard Composer 2** is **lower cost per token** than **Fast** on usage-based pricing (see Cursor **Composer 2** blog); **Fast** is the default for latency.
 - **Git:** **`mscNowLive-v4-RestorePoint`** @ **`5201318`**, clean and pushed to **`origin`**.
 - **Next session:** **`Ready to begin`** (**`Custom-Prompts`** item **0** / **`Agent-Runbook`** §0) → **`npm run dev:fresh`** or **`npm run dev:payload`** from repo root if **`/`** / **`/admin`** need a boot.
-- **Local:** Freed port **3000** via **`scripts/kill-dev-port.mjs`** when a listener was present.
+- **Local:** Freed port **3000** via **`scripts/msc-kill-dev-port.mjs`** when a listener was present.
 
 ### 2026-04-12 — Docs + restore tip synced for tomorrow (`Ready to begin`)
 
 - **Restore-Points:** New row **`RP-2026-04-12-branch-tip-ready-tomorrow`** — branch **`mscNowLive-v4-RestorePoint`** (pull latest); **Files worth diffing** list deduped; **`HeroSlides`** removed from checklist (superseded by **Homepage** + **Media**).
 - **ReCall:** **Current focus** updated for hero/Media/email helpers; this entry confirms **Custom-Prompts** item **0** / **Agent-Runbook §0** are the canonical **Ready to begin** paste for the next session.
-- **Parity report:** **`parity-ftp-report.md`** is **gitignored** (**`b92d1be`**); **`npm run parity:ftp`** still writes it locally for drift checks.
+- **Parity report:** **`parity-ftp-report.md`** is **gitignored** (**`b92d1be`**); **`npm run msc:parity:ftp`** still writes it locally for drift checks.
 
 ### 2026-04-11 — Snapshot: MSC PRO admin branding + deploy docs (`Take a snapshot`)
 
 - **Checkpoint:** **`RP-2026-04-11-msc-pro-admin-branding`** in **`Restore-Points.md`**. **Branch:** **`mscNowLive-v4-RestorePoint`** @ **`6b84052`** + pushed **`snapshot/2026-04-11-msc-pro-admin-branding`** at the same commit.
 - **Verified:** **`npm run build`** green immediately before commit.
-- **Includes:** Payload admin graphics, password-field enhancement, **`pushitup:admin-ui` / `pushitup:admin-branding`**, doc sync (Jedi-List, HOSTINGER-DEPLOY.md, Go-Live, Custom-Prompts), hooks / **`verify-next-safe`**, version **1.0.5**.
+- **Includes:** Payload admin graphics, password-field enhancement, **`msc:pushitup:admin-ui` / `msc:pushitup:admin-branding`**, doc sync (Jedi-List, HOSTINGER-DEPLOY.md, Go-Live, Custom-Prompts), hooks / **`verify-next-safe`**, version **1.0.5**.
 
 ### 2026-04-11 — Deploy docs synced with `package.json` (admin branding scripts)
 
-- **`package.json`:** **`pushitup:admin-ui`** uploads the full MSC PRO ENGINE / Payload admin bundle (middleware, **`lib/msc-admin-version.ts`**, nav dashboard, **`msc-payload-graphics`**, **`msc-payload-admin-enhancements`**, **`collections/Users.ts`**, **`payload.config.ts`**, **`app/(payload)/custom.scss`**); **`pushitup:admin-branding`** uploads the branding subset only.
+- **`package.json`:** **`msc:pushitup:admin-ui`** uploads the full MSC PRO ENGINE / Payload admin bundle (middleware, **`lib/msc-admin-version.ts`**, nav dashboard, **`msc-payload-graphics`**, **`msc-payload-admin-enhancements`**, **`collections/Users.ts`**, **`payload.config.ts`**, **`app/(payload)/custom.scss`**); **`msc:pushitup:admin-branding`** uploads the branding subset only.
 - **Docs aligned:** **`Jedi-List.md`** (workflow + Deploy rows), **`HOSTINGER-DEPLOY.md`** (Standard update step 2), **`Go-Live-Checklist.md`**, **`Custom-Prompts.md`** (shortcut **Push my branding**) — all describe the same paths and commands as **`package.json`**.
 - **ReCall:** added **Deployment docs ↔ package.json** section above so future sessions treat the four docs + **`package.json`** as a single contract.
 
@@ -356,11 +374,11 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ### 2026-04-11 — Docs checkpoint (scripts ↔ Jedi-List)
 
-- **`Lets Checkpoint Docs`:** **`Jedi-List.md`** — added **`verify:next`**, new **Media (disk ↔ Payload)** table (**`media:consolidate`**, **`media:sync`**), clarified **`dev:fresh`** = **`npm run dev`**. **`Agent-Runbook.md` §0** and **`Custom-Prompts.md`** item **0** paste block now list the same script names alongside existing deploy/smoke commands. No commit/push in this checkpoint (per prompt).
+- **`Lets Checkpoint Docs`:** **`Jedi-List.md`** — added **`verify:next`**, new **Media (disk ↔ Payload)** table (**`msc:media:consolidate`**, **`msc:media:sync`**), clarified **`dev:fresh`** = **`npm run dev`**. **`Agent-Runbook.md` §0** and **`Custom-Prompts.md`** item **0** paste block now list the same script names alongside existing deploy/smoke commands. No commit/push in this checkpoint (per prompt).
 
 ### 2026-04-10 — Session closeout (docs + tomorrow’s focus)
 
-- **`Ready to begin`:** full-sync prompt in **Agent-Runbook §0** + **Custom-Prompts** (items 0, 31, 32); committed/pushed (`56a723e`); final dry-run: **`verify:local`** green.
+- **`Ready to begin`:** full-sync prompt in **Agent-Runbook §0** + **Custom-Prompts** (items 0, 31, 32); committed/pushed (`56a723e`); final dry-run: **`msc:verify:local`** green.
 - **`ToDo.md`:** lightweight next-session list (email templates review, Media / `public/media`, admin login password reveal); **START-HERE** docs map points here; backlog left empty (keep it simple).
 - **Next session:** see **`ToDo.md` → Next session (2026-04-11)**.
 - **Repo note:** **`ToDo.md`** and **`START-HERE.md`** (ToDo row) may still need **`git add` / commit** if not saved to `origin` yet.
@@ -369,9 +387,9 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 - **Demos:** `components/demos-section.tsx` — valid focusable rail (no `<button>` wrapping `<a>`), same-tab links for non-HTTP URLs, selection sync when CMS list changes; `lib/cms/projects.ts` fallback images aligned with hero assets.
 - **Tooling:** `eslint.config.mjs` + `next lint`; ESLint devDeps; lint fixes (`hash-nav`, requirements typing, toast action types, unused imports).
-- **Admin:** `MSC_ADMIN_VERSION` **1.0.4**; shipped with local **`npm run build`** + **`pushitup:admin-ui`** + **`pushitup -- .next`** (client bundle must include version).
+- **Admin:** `MSC_ADMIN_VERSION` **1.0.4**; shipped with local **`npm run build`** + **`msc:pushitup:admin-ui`** + **`pushitup -- .next`** (client bundle must include version).
 - **Docs / ops:** `START-HERE` + `Agent-Runbook` updated Hostinger hPanel bookmarks; new **`.cursor/rules/jon-operator-hpanel.mdc`** — always label **Local (Cursor)** vs **Live (Hostinger)** and use Jon’s bookmarks for Start/Stop vs host shell steps.
-- **Verify:** `npm run lint`, `npm run build`, `verify:local` / `verify:live`, `test:hostinger-ftp` used during session; port-3000 hijack note: free stale listener before `verify:local`.
+- **Verify:** `npm run lint`, `npm run build`, `msc:verify:local` / `msc:verify:live`, `msc:test:hostinger-ftp` used during session; port-3000 hijack note: free stale listener before `msc:verify:local`.
 
 ### 2026-04-10 — Email template dark-mode hardening + dev preview lab
 
@@ -394,11 +412,11 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
   1) remove server `.next`
   2) rebuild locally
   3) re-upload full `.next` from PC
-  4) re-upload failed chunk areas when `PushItUP` reports end-of-run failures
+  4) re-upload failed chunk areas when `msc:pushitup` reports end-of-run failures
   5) restart Node app
 - **Result:** live `https://mystudiochannel.com/` and `/admin` recovered; admin version `v1.0.3` visible.
-- **Local incident:** `verify:local` failed (`/` 404 + `/admin` 500) while API stayed `200` because stale node process kept port 3000 and dev booted on 3002/3003/3004.
-- **Local fix:** kill stale process on `3000`, rerun `npm run dev:fresh`, then `npm run verify:local` passes all checks.
+- **Local incident:** `msc:verify:local` failed (`/` 404 + `/admin` 500) while API stayed `200` because stale node process kept port 3000 and dev booted on 3002/3003/3004.
+- **Local fix:** kill stale process on `3000`, rerun `npm run dev:fresh`, then `npm run msc:verify:local` passes all checks.
 
 ### 2026-04-09 — Dev scripts aligned with Next.js 15.4 CLI
 
@@ -417,7 +435,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 - **Root causes fixed:** production postinstall missing `patch-package`, host-side `next build` OOM (`WebAssembly.instantiate`).
 - **Runtime/deps:** pinned `next` to **15.4.11** and Payload packages to exact **3.81.0**; moved `patch-package` into `dependencies`; `server.js` binds to `0.0.0.0`.
-- **Deploy tooling:** added **`scripts/PushItUP.ps1`** (path upload) and **`scripts/PushItUPzip.ps1`** (zip-first upload) with npm aliases `pushitup` / `pushitupzip`.
+- **Deploy tooling:** added **`scripts/PushItUP.ps1`** (path upload) and **`scripts/PushItUPzip.ps1`** (zip-first upload) with npm aliases `pushitup` / `msc:pushitupzip`.
 - **Shared-host workflow:** build locally, upload `.next` as zip + `patches` + runtime files, then host runs `npm install --legacy-peer-deps` and app restart (skip host build on low-memory plans).
 - **Result:** `https://mystudiochannel.com/` and `/admin/login` load successfully.
 
@@ -443,7 +461,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Header defaults (`globals/Header.ts`, `lib/cms/header.ts`):** Services submenu ends with **What We Do** → `#msc-creators`; order above it is Own Your Platform, Packages, Requirements. Resources: Testimonials → **Extras** → `#msc-addons`, then FAQ → `#msc-faq`.
 - **Demos (`components/demos-section.tsx`):** `#msc-demos` on the inner `max-w-7xl` wrapper; **`scroll-mt-30`** when sticky header is on; section uses **`py-*` padding** (not margin-top) so **`bg-surface-2`** covers the top band (no dark “divider” from `main` background).
 - **Scroll to top:** `components/scroll-to-top.tsx` mounted in `app/(site)/layout.tsx` (shows after ~half viewport scroll).
-- **Payload:** Homepage hero secondary CTA columns → `npm run migrate:sqlite:homepage-hero-secondary-cta` if `/admin/globals/homepage` 404s on SQLite without push. Sticky header field admin copy is short (no long SQLite paragraph).
+- **Payload:** Homepage hero secondary CTA columns → `npm run msc:migrate:sqlite:homepage-hero-secondary-cta` if `/admin/globals/homepage` 404s on SQLite without push. Sticky header field admin copy is short (no long SQLite paragraph).
 - **Docs refreshed:** `Development.md`, `README.md`, `.cursor/docs` + `public/` **CURSOR-SETUP-PROMPT.md**, **DIVI-CONVERSION-GUIDE.md** updated to match the above.
 
 ### 2026-04-08 — Final polish closeout: jump links + seeded demo page
@@ -451,7 +469,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Jump-link UX finalized:** Kept active-chip detection and auto-centering, but removed sticky behavior so in-page nav scrolls away naturally after passing it.
 - **Page flow cleanup:** Dynamic slug pages now suppress the "Page Content Coming Soon" card when sections exist; spacing between sections tightened for smoother premium rhythm.
 - **Demo validation content:** `msc1` now includes a full 5-block narrative flow (`The Studio`, `Virtual Tour`, `Our Solutions`, `Case Study`, `Get Started`) to test anchor progress and visual pacing.
-- **Seed script:** Added `scripts/seed-demo-page.ts` and npm alias `seed:demo-page`; local execution via Payload CLI still has alias-resolution limitations in this environment, so equivalent demo content was seeded directly into SQLite for this session.
+- **Seed script:** Added `scripts/seed-demo-page.ts` and npm alias `msc:seed:demo-page`; local execution via Payload CLI still has alias-resolution limitations in this environment, so equivalent demo content was seeded directly into SQLite for this session.
 - **Build status:** `npm run build` passes after final polish.
 
 ### 2026-04-08 — Closeout checkpoint for tomorrow resume
@@ -464,7 +482,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
   2. `git pull`
   3. `npm run dev:payload`
   4. Verify `http://localhost:3000/msc1` and `/admin` load cleanly.
-- **Known environment note:** `npm run seed:demo-page` is currently blocked by local Payload alias resolution in this machine runtime; `msc1` demo data is already seeded in local SQLite for this checkpoint.
+- **Known environment note:** `npm run msc:seed:demo-page` is currently blocked by local Payload alias resolution in this machine runtime; `msc1` demo data is already seeded in local SQLite for this checkpoint.
 
 ### 2026-04-08 — Dynamic Pages + Sections Builder + jump links
 
@@ -772,16 +790,16 @@ That **static `out/`** path is **obsolete** now that Payload needs **`next start
 - **Social tags:** OpenGraph + Twitter metadata now mirror the same active-slide SEO values.
 - **Helper:** new `getHomepageActiveSlideSeo()` in `lib/cms/homepage.ts`.
 
-### 2026-04-12 — Docs checkpoint (Tier 2 + `parity:ftp`)
+### 2026-04-12 — Docs checkpoint (Tier 2 + `msc:parity:ftp`)
 
 - **Trigger:** Custom-Prompts item **22** (`Lets Checkpoint Docs`) — sync docs to **`package.json`**, no required commit.
-- **Scripts:** Added **`npm run parity:ftp`** → **`scripts/ftp-parity-check.ps1`**; output **`parity-ftp-report.md`**.
-- **Tier 2 copy aligned** across **Jedi-List**, **Custom-Prompts** (items **3**, **38**), **Go-Live-Checklist**, **HOSTINGER-DEPLOY.md**, **START-HERE** (push to live), **Agent-Runbook** (script list): **`pushit:live`** = build → **`pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`pushitup -- public/media`** → **`dev:fresh`**.
-- **Jedi-List:** **`test:hostinger-ftp`** row updated (**PushItUP** honors **`remotePath`** when LIST fails).
+- **Scripts:** Added **`npm run msc:parity:ftp`** → **`scripts/ftp-parity-check.ps1`**; output **`parity-ftp-report.md`**.
+- **Tier 2 copy aligned** across **Jedi-List**, **Custom-Prompts** (items **3**, **38**), **Go-Live-Checklist**, **HOSTINGER-DEPLOY.md**, **START-HERE** (push to live), **Agent-Runbook** (script list): **`pushit:live`** = build → **`msc:pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`pushitup -- public/media`** → **`dev:fresh`**.
+- **Jedi-List:** **`msc:test:hostinger-ftp`** row updated (**PushItUP** honors **`remotePath`** when LIST fails).
 
 ### 2026-04-12 — Session closeout (I'm done for now)
 
-- **Shipped:** **`ff47fe5`** — docs checkpoint (Tier 2 + **`parity:ftp`**, **`PushItUP`**, **`pushit-live`**, tooling scripts). **`38dd8f8`** — remove **`HeroSlides`**, homepage/Media-driven hero, email **`lib/email-*`**, **`payload-types.ts`**, section/app updates, seeds.
+- **Shipped:** **`ff47fe5`** — docs checkpoint (Tier 2 + **`msc:parity:ftp`**, **`msc:pushitup`**, **`pushit-live`**, tooling scripts). **`38dd8f8`** — remove **`HeroSlides`**, homepage/Media-driven hero, email **`lib/email-*`**, **`payload-types.ts`**, section/app updates, seeds.
 - **Git:** **`mscNowLive-v4-RestorePoint`** matches **`origin`**; **`parity-ftp-report.md`** later added to **`.gitignore`** (**`b92d1be`**).
 - **Next session:** **`npm run dev:payload`** (or **`npm run dev`**) from repo root; read **ReCall** + **START-HERE** if resuming cold.
-- **Local:** Freed port **3000** via **`scripts/kill-dev-port.mjs`** so the next dev boot is clean.
+- **Local:** Freed port **3000** via **`scripts/msc-kill-dev-port.mjs`** so the next dev boot is clean.

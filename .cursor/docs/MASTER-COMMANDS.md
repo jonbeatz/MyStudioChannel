@@ -13,8 +13,8 @@
 | `npm run log:session` | `npm run msc:log:session` | Log session summary |
 | `npm run log:fix` | `npm run msc:log:fix` | Log a bug fix |
 | `npm run log:milestone` | `npm run msc:log:milestone` | Log a milestone |
-| `npm run dmd` | `npx @designmdcc/cli` | Extract design tokens |
-| `npm run gh-test` | `npm run msc:test:github-api` | Test GitHub API |
+| `npm run msc:docs:audit` | `npx @designmdcc/cli` | Extract design tokens |
+| `npm run msc:test:github-api` | `npm run msc:test:github-api` | Test GitHub API |
 | `npm run doctor` | `npm run msc:doctor` | Full health check |
 | `npm run docs` | `npm run msc:docs:audit` | Audit documentation |
 | `npm run sync` | `npm run msc:docs:sync` | Sync documentation |
@@ -31,7 +31,7 @@
 | `npm run dev` | Start local dev server on port 3000 | Every coding session |
 | `npm run build` | Create production build locally | Before deploying |
 | `npm run lint` | Check code quality | Before committing |
-| `npm run verify:local` | Test all local endpoints (/, /admin, /api) | Before pushing live |
+| `npm run msc:verify:local` | Test all local endpoints (/, /admin, /api) | Before pushing live |
 
 ---
 
@@ -44,7 +44,7 @@
 | `npm run push:website:live` | MCP zip (code only) — **verify DB after** | ❌ Not reliable | ~5–10 min |
 | `powershell -File scripts/push-website-live.ps1 -Ftps` | Full FTPS (code + DB + media) | ✅ Yes (+ `sync-db`) | ~45–60 min |
 | `npm run push:website:live -- --dry-run` | Preview deploy without uploading | N/A | ~30 sec |
-| `npm run deploy:zip` | Create deploy zip only | ✅ Yes (in /zips/) | ~10 sec |
+| `npm run msc:deploy:zip` | Create deploy zip only | ✅ Yes (in /zips/) | ~10 sec |
 | `npm run msc:hostinger:sync-db` | SSH: DB `public_html/nodejs/` → live app root | ✅ Yes | ~30 sec |
 | `npm run msc:hostinger:sync-app` | SSH: code + `.next` + lockfile → app root + `npm install --ignore-scripts` | ✅ Code parity | ~1–3 min |
 | `npm run msc:hostinger:npm-install` | SSH: repair `node_modules` on app root (fixes missing webpack) | N/A | ~1–2 min |
@@ -59,7 +59,7 @@
 
 ### After ANY deploy:
 1. Restart Node in hPanel: [https://hpanel.hostinger.com/websites/mystudiochannel.com](https://hpanel.hostinger.com/websites/mystudiochannel.com)
-2. Run `npm run verify:live`
+2. Run `npm run msc:verify:live`
 
 ---
 
@@ -67,10 +67,10 @@
 
 | Command | What it does | Safety check |
 |---------|--------------|--------------|
-| `npm run db:copy` | Create clean `payload.sqlite.temp` copy | ✅ Checks if dev server is running |
-| `npm run db:copy:force` | Force copy without prompts | ⚠️ Use carefully |
-| `npm run db:optimize` | Run `PRAGMA optimize` and `VACUUM` on `payload.sqlite` | ✅ Checks if dev server is running |
-| `npm run db:maintain` | Optimize local database then create clean copy for deploy | ✅ Safe all-in-one prep command |
+| `npm run msc:db:copy` | Create clean `payload.sqlite.temp` copy | ✅ Checks if dev server is running |
+| `npm run msc:db:copy:force` | Force copy without prompts | ⚠️ Use carefully |
+| `npm run msc:db:optimize` | Run `PRAGMA optimize` and `VACUUM` on `payload.sqlite` | ✅ Checks if dev server is running |
+| `npm run msc:db:maintain` | Optimize local database then create clean copy for deploy | ✅ Safe all-in-one prep command |
 | `npm run pushitup -- payload.sqlite` | Upload database via FTPS | Manual |
 
 ### SQLite field migrations (`db.push: false`)
@@ -81,7 +81,7 @@
 
 ### Database Safety Rules:
 - ✅ Always stop `npm run dev` (`Ctrl+C`) before copying database
-- ✅ Run `npm run db:copy` to create a clean temp file
+- ✅ Run `npm run msc:db:copy` to create a clean temp file
 - ✅ Upload `payload.sqlite.temp` then rename to `payload.sqlite` on server
 - ✅ Delete WAL files (`-wal`, `-shm`) on server after upload
 - ✅ Restart Node in hPanel after database changes
@@ -92,12 +92,12 @@
 
 | Command | What it does | Use when |
 |---------|--------------|----------|
-| `npm run test:hostinger-ftp` | Test FTPS connection | FTPS not working |
-| `npm run verify:ftp-smoke` | Upload/download test file | Verify FTPS write access |
-| `npm run verify:live` | Smoke test all live endpoints | After deployment |
-| `npm run verify:live:version` | Check footer version matches | Verify correct build |
-| `npm run logs:live` | Real-time stream of server `stderr.log` via SSH | Debugging live server errors / crashes |
-| `npm run logs:live:console` | Real-time stream of server `console.log` via SSH | Viewing live server application output |
+| `npm run msc:test:hostinger-ftp` | Test FTPS connection | FTPS not working |
+| `npm run msc:verify:ftp-smoke` | Upload/download test file | Verify FTPS write access |
+| `npm run msc:verify:live` | Smoke test all live endpoints | After deployment |
+| `npm run msc:verify:live:version` | Check footer version matches | Verify correct build |
+| `npm run msc:logs:live` | Real-time stream of server `stderr.log` via SSH | Debugging live server errors / crashes |
+| `npm run msc:logs:live:console` | Real-time stream of server `console.log` via SSH | Viewing live server application output |
 
 ### Manual Diagnostics (SSH)
 ```bash
@@ -118,8 +118,8 @@ ps aux | grep node             # Check if Node is running
 |---------|--------------|-----------|
 | `npm run msc:backup:quick` | Non-interactive standard backup to local backup drive (skips `node_modules`, `.next`, `logs`, `test-results`, `zips`) | Daily / before substantive changes |
 | `npm run msc:backup:quick:full` | Non-interactive full backup including `node_modules` and `.next` | Weekly / major upgrades |
-| `npm run backup:clean` | Retention manager: purges backups older than the 10 most recent | Monthly / as disk space requires |
-| `npm run backup:clean -- --dry-run` | Preview which folders would be cleaned up | Safely preview before deleting |
+| `npm run msc:backup:clean` | Retention manager: purges backups older than the 10 most recent | Monthly / as disk space requires |
+| `npm run msc:backup:clean -- --dry-run` | Preview which folders would be cleaned up | Safely preview before deleting |
 | `npm run backup:clean-zips` | Keeps only the 3 most recent deploy zips in `zips/` | After deploy sessions |
 
 ### 🛡️ Git Pre-Commit Security Hook
@@ -135,10 +135,10 @@ Every time you perform a `git commit` command, Husky automatically intercepts th
 
 | Issue | Command/Action |
 |-------|----------------|
-| Port 3000 in use | `node scripts/kill-dev-port.mjs` or `npm run kill-port` |
+| Port 3000 in use | `node scripts/msc-kill-dev-port.mjs` or `npm run msc:kill-dev-port` |
 | 503 error | `npm run msc:hostinger:recover` (preload) or `msc:hostinger:npm-install` (webpack in `stderr.log`) |
 | Wrong footer/nav on live | `npm run msc:hostinger:sync-app` or `pushit:live:fast -WithDb` or full `pushit:live` |
-| hPanel "Build failed" (MCP) | Ignore if `verify:live` passes — use `pushit:live`, not MCP |
+| hPanel "Build failed" (MCP) | Ignore if `msc:verify:live` passes — use `pushit:live`, not MCP |
 | Database 4KB (not 528KB) | Upload correct database via FTPS or File Manager |
 | WAL files causing lock | Delete `payload.sqlite-wal` and `payload.sqlite-shm` on server |
 | Wrong files deployed | `FTP_REMOTE_PATH=/nodejs` + run `sync-db` + `sync-app` (FTPS lands in `public_html/nodejs/`) |
@@ -185,19 +185,19 @@ npm run dev
 npm run push:website:live -- --ftps
 
 # Check live site
-npm run verify:live
+npm run msc:verify:live
 
 # Create safe database copy
-npm run db:copy
+npm run msc:db:copy
 
 # Test FTPS connection
-npm run test:hostinger-ftp
+npm run msc:test:hostinger-ftp
 ```
 
 ### After ANY Deployment (Manual Steps)
 🔄 Restart Node: [https://hpanel.hostinger.com/websites/mystudiochannel.com](https://hpanel.hostinger.com/websites/mystudiochannel.com)
 
-✅ Run: `npm run verify:live`
+✅ Run: `npm run msc:verify:live`
 
 🎉 Confirm site loads: [https://mystudiochannel.com](https://mystudiochannel.com)
 
@@ -207,7 +207,7 @@ npm run test:hostinger-ftp
 
 | Check | Expected result |
 |-------|-----------------|
-| `npm run verify:live` | 3/3 PASS (200 OK) |
+| `npm run msc:verify:live` | 3/3 PASS (200 OK) |
 | Footer version | MyStudioChannel v6.0.0 |
 | `/admin` login | Works |
 | Demos section | Loads with images |

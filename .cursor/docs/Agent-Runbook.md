@@ -34,8 +34,8 @@ Editor-facing copy for **Collections → Media** is configured in `collections/M
 
 - **Disk path:** `public/media` (see `upload.staticDir` in the same file).
 - **URLs:** An `afterRead` hook rewrites stored URLs to same-origin `/media/...` for the site and admin previews.
-- **Sync files → database rows:** **Local (repo root):** `npm run media:sync` — alias `npm run migrate:media:from-public-images` (see **Jedi-List.md**).
-- **Folder hygiene:** `npm run media:consolidate` — consolidates stray media paths when needed.
+- **Sync files → database rows:** **Local (repo root):** `npm run msc:media:sync` — alias `npm run msc:migrate:media:from-public-images` (see **Jedi-List.md**).
+- **Folder hygiene:** `npm run msc:media:consolidate` — consolidates stray media paths when needed.
 
 ---
 
@@ -53,19 +53,19 @@ You must actually read these files (not from memory) in this order:
 1) .cursor/docs/START-HERE.md — source-of-truth order, daily rules, Jon’s hPanel bookmarks, fast workflow.
 2) .cursor/docs/Agent-Runbook.md — operator handshake + command locality (Local Cursor vs Live Hostinger).
 3) .cursor/docs/HOSTINGER-DEPLOY.md — deploy protocol: pushit:live on PC (FTPS → sync-db → sync-app); hPanel = restart; npm repair via msc:hostinger:npm-install; never pushitup on host.
-4) .cursor/docs/Jedi-List.md — npm scripts (dev:fresh, dev:recover, verify:next:safe, build, lint, verify:local, verify:live, verify:next, media:sync, media:consolidate, pushit:live, parity:ftp, test:hostinger-ftp, sync:mcp-env, test:github-api, test:tavily-api).
+4) .cursor/docs/Jedi-List.md — npm scripts (dev:fresh, dev:recover, verify:next:safe, build, lint, verify:local, verify:live, verify:next, media:sync, media:consolidate, pushit:live, parity:ftp, test:hostinger-ftp, msc:sync:mcp-env, test:github-api, test:tavily-api).
 5) .cursor/docs/ReCall.md — "Current focus" + latest "Recent changes" entry.
 6) Skim .cursor/docs/Restore-Points.md — newest checkpoint row only (if any).
 
 Also load project constraints:
 - Read .cursorrules if present.
 - List and skim .cursor/rules/*.mdc — at minimum include operator/hPanel rules (e.g. jon-operator-hpanel.mdc): Jon’s bookmarks, always label Local vs Live when giving commands.
-- Note: **`npm run parity:ftp`** writes **`parity-ftp-report.md`** at repo root for drift review; the file is **gitignored** (regenerate anytime; do not expect it in `git status` as untracked).
+- Note: **`npm run msc:parity:ftp`** writes **`parity-ftp-report.md`** at repo root for drift review; the file is **gitignored** (regenerate anytime; do not expect it in `git status` as untracked).
 
 Then run Local (Cursor) checks from repo root:
 - git branch --show-current && git status -sb
 - If nothing healthy on http://localhost:3000/: free port 3000 if another node is bound, then npm run dev:fresh (or confirm dev already running on 3000).
-- Optionally: npm run verify:local — report pass/fail only for /, /admin, projects-home API.
+- Optionally: npm run msc:verify:local — report pass/fail only for /, /admin, projects-home API.
 
 Respond with:
 A) Confirmed docs read (one line).
@@ -302,7 +302,7 @@ Use this after deploy to run a fast confidence check.
 Lets Verify Live.
 
 Please do this:
-1) Run local preflight first: npm run verify:local
+1) Run local preflight first: npm run msc:verify:local
 2) Give me quick pass/fail for:
    - / (home)
    - /admin
@@ -324,7 +324,7 @@ Use this when you want guardrails before deploy.
 Lets Push It Live (Safe).
 
 From repo root D:\Cursor_Projectz\MyStudioChannel:
-1) Run npm run pushit:live:safe
+1) Run npm run msc:pushit:live:safe
 2) Show preflight results from verify:local
 3) If preflight passes, continue deploy and stream progress
 4) When done, give clickable Hostinger links and tell me to restart app
@@ -528,12 +528,12 @@ Start with handshake line: "Ok Jon - system check started."
 
 Please run these checks in order:
 1) Local health check:
-   - `npm run verify:local`
+   - `npm run msc:verify:local`
 2) Live health check:
-   - `npm run verify:live`
+   - `npm run msc:verify:live`
 3) FTP connection check:
-   - `npm run test:hostinger-ftp`
-   - Optional path proof: `npm run verify:ftp-smoke` (confirms `ftp-path-smoke-test.txt` exists at configured `remotePath`; see HOSTINGER-DEPLOY.md § FTP — `remotePath` is not the same as Hostinger path)
+   - `npm run msc:test:hostinger-ftp`
+   - Optional path proof: `npm run msc:verify:ftp-smoke` (confirms `ftp-path-smoke-test.txt` exists at configured `remotePath`; see HOSTINGER-DEPLOY.md § FTP — `remotePath` is not the same as Hostinger path)
 4) Repo readiness check:
    - `git status --short`
 
@@ -610,7 +610,7 @@ Use these as quick "commands in plain English" for the agent.
     - Runs local smoke checks and gives a concise post-deploy validation checklist + fast recovery if needed.
 
 15. **`Lets Push It Live (Safe)`**  
-    - Runs `verify:local` preflight first; only deploys if checks pass.
+    - Runs `msc:verify:local` preflight first; only deploys if checks pass.
 
 16. **`Run verify:local and show pass/fail only`**  
     - Fast health check without deploying; good before risky changes.
@@ -646,13 +646,13 @@ Use these as quick "commands in plain English" for the agent.
     - Runs live endpoint health checks only (`https://mystudiochannel.com/`, `/admin`, API) with concise pass/fail output.
 
 27. **`Lets test Local`**  
-    - Alias for running `verify:local` and returning pass/fail only.
+    - Alias for running `msc:verify:local` and returning pass/fail only.
 
 28. **`Lets test Live`**  
-    - Alias for running `verify:live` and returning pass/fail only.
+    - Alias for running `msc:verify:live` and returning pass/fail only.
 
 29. **`Lets test FTP`**  
-    - Runs `test:hostinger-ftp` for a quick FTPS login/list check and reports ready/not-ready. If deploys hit the wrong directory, follow **HOSTINGER-DEPLOY.md** § FTP (`remotePath` vs Hostinger path) and use **`npm run pushitup:ftp-smoke`** / **`npm run verify:ftp-smoke`**.
+    - Runs `msc:test:hostinger-ftp` for a quick FTPS login/list check and reports ready/not-ready. If deploys hit the wrong directory, follow **HOSTINGER-DEPLOY.md** § FTP (`remotePath` vs Hostinger path) and use **`npm run msc:pushitup:ftp-smoke`** / **`npm run msc:verify:ftp-smoke`**.
 
 30. **`Lets run system check`**  
     - Runs local + live + FTP + repo-status checks and returns one consolidated readiness report.

@@ -17,9 +17,30 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-07] Phase 4 audit — rules dedup, Restore-Points trim, bundle/MCP opts
+- **Error:** Overlapping deploy rules (`workflow.mdc` vs `global.mdc`); Restore-Points table had 47+ rows; `@sentry/nextjs` floated on `^`; SectionsRenderer ignored `rowInstanceUid`; project MCP secrets required manual paste.
+- **Cause:** Incremental doc/rule growth; no retention policy on restore points; caret range on Sentry; React keys used numeric id fallback; `msc-sync-mcp-env` only synced WordPress on project MCP.
+- **Solution:** `workflow.mdc` delegates deploy to `global.mdc` + `deploy-safety-hostinger.mdc`. Archived 44 historical restore points to `_archive/Restore-Points-historical.md` (kept 3 active). Pinned `@sentry/nextjs@10.56.0`. `SectionsRenderer` prefers `rowInstanceUid`. Extended sync for `21st-dev-magic` + `browserbase`. UI skill read order in NovaMira-Design.
+- **Files Changed:** `.cursor/rules/workflow.mdc`, `.cursor/rules/global.mdc`, `.cursor/docs/Restore-Points.md`, `.cursor/docs/_archive/Restore-Points-historical.md`, `components/blocks/SectionsRenderer.tsx`, `package.json`, `scripts/msc-sync-mcp-env.mjs`, `.env.example`, `next.config.mjs`, `.cursor/docs/MCP-SETUP.md`
+- **Prevention:** When adding restore points, trim table to 3 + archive older rows. New chat shortcuts go in `global.mdc`; `workflow.mdc` only wires triggers.
+
+## [2026-06-07] Phase 3 audit — docs alias sync (Option B) + guardrails
+- **Error:** ~52 npm script alias drift instances across docs/rules/skills; SoT order contradictions (Jedi-List vs TRUTH); dev Sentry test route exposed in production; weak `PAYLOAD_SECRET` not flagged by doctor.
+- **Cause:** Historical short aliases (`verify:live`, `sync:mcp-env`, `migrate:sqlite:*`) documented while `package.json` canonical names use `msc:*`; bulk sync script double-prefixed `msc:msc:sync:mcp-env`; Jedi-List ranked START-HERE above TRUTH.
+- **Solution:** Added `scripts/msc-sync-doc-commands.mjs` and bulk-updated 36+ doc files to `msc:*`. Fixed double-prefix in MCP docs. Aligned Jedi-List SoT with TRUTH-first. Gated `/api/dev/sentry-test` with `notFound()` in production. Doctor warns on short `PAYLOAD_SECRET`. Nova skill clarifies WP-only `build:wp-theme`.
+- **Files Changed:** `.cursor/docs/*`, `.cursor/rules/*`, `.cursor/skills/*`, `TRUTH.md`, `AGENTS.md`, `scripts/msc-doctor.mjs`, `scripts/msc-sync-doc-commands.mjs`, `app/api/dev/sentry-test/route.ts`
+- **Prevention:** Prefer **`msc:*`** in new docs. Re-run **`node scripts/msc-sync-doc-commands.mjs`** after large `package.json` script renames. Keep short aliases only where `KEEP_SHORT` in sync script lists them.
+
+## [2026-06-07] Phase 2 audit — deploy safety + Payload UI patch + /test route
+- **Error:** Missing `@payloadcms+ui` patch; `/test` hijacked by middleware; `sync-app` overwrote live DB on code-only fast deploy; `deploy` alias defaulted to MCP; SSH scripts lacked credential preflight.
+- **Cause:** Patch file lost from working tree; `test` not in `RESERVED_PATHS`; `sync-app` always `cp payload.sqlite`; `package.json` `deploy` → MCP gateway; only `stop-node` validated `HOSTINGER_SSH_*`.
+- **Solution:** Regenerated `patches/@payloadcms+ui+3.81.0.patch` via `patch-package`. Added `test` to middleware reserved paths. `msc:hostinger:sync-app --skip-db` for `pushit:live:fast` default; webpack missing fails deploy. `deploy` → `pushit:live:fast`. Shared `msc-hostinger-ssh-preflight.mjs`. `global.mdc` `msc:db:copy` → `msc:db:copy`.
+- **Files Changed:** `middleware.ts`, `patches/@payloadcms+ui+3.81.0.patch`, `scripts/msc-hostinger-*.mjs`, `scripts/lib/msc-hostinger-ssh-preflight.mjs`, `scripts/pushit-live-fast.ps1`, `package.json`, `.cursor/rules/global.mdc`
+- **Prevention:** Fast deploy uses `--skip-db` unless `-WithDb`. Run `npx patch-package` after `@payloadcms/ui` upgrades.
+
 ## [2026-06-07] Standard backup bloated by reproducible deploy zips (~400 MB)
 - **Error:** Standard backups jumped from ~244 MB to ~637 MB after deploy sessions; `zips/` alone was ~525 MB.
-- **Cause:** `scripts/msc-backup.mjs` standard robocopy included gitignored `zips/` (`deploy-next.zip`, timestamped `MyStudioChannel-deploy-*.zip`). Archives are reproducible via `deploy:zip` / `pushit:live:fast`.
+- **Cause:** `scripts/msc-backup.mjs` standard robocopy included gitignored `zips/` (`deploy-next.zip`, timestamped `MyStudioChannel-deploy-*.zip`). Archives are reproducible via `msc:deploy:zip` / `pushit:live:fast`.
 - **Solution:** Added `zips` to `STANDARD_DIRS` skip list. Added `scripts/clean-zips.ps1` + `npm run backup:clean-zips` (retain 3 newest). Backup folder naming uses `msc-website-v2-*`.
 - **Files Changed:** `scripts/msc-backup.mjs`, `scripts/clean-zips.ps1`, `package.json`, `.cursor/custom-scriptz/backup-system/*`, `.cursor/rules/global.mdc`, docs
 - **Prevention:** Run **`npm run backup:clean-zips`** after deploys. Standard backup never copies `zips/`.
@@ -40,8 +61,8 @@ Each entry follows this structure:
 
 ## [2026-06-08] pushit:live:fast — zip landed under zips/ on FTPS staging
 - **Error:** First **`pushit:live:fast`** test: SSH unzip failed (`missing deploy-next.zip on staging`); zip path fallback did not run; staging had **`zips/deploy-next.zip`** instead of **`deploy-next.zip`** at FTPS root.
-- **Cause:** **`PushItUP`** preserves relative paths — uploading **`zips/deploy-next.zip`** lands at **`public_html/nodejs/zips/deploy-next.zip`**, while **`msc:hostinger:unzip-deploy-next`** expected **`public_html/nodejs/deploy-next.zip`**.
-- **Solution:** **`pushit-live-fast.ps1`** copies zip to repo-root **`deploy-next.zip`** before FTPS (remote staging root). Unzip script checks **`zips/`** as legacy fallback. Added **`msc:pushit:live:fast:dry`** for preflight. Live verified after manual unzip + **`sync-app`**; **`verify:live`** pass.
+- **Cause:** **`msc:pushitup`** preserves relative paths — uploading **`zips/deploy-next.zip`** lands at **`public_html/nodejs/zips/deploy-next.zip`**, while **`msc:hostinger:unzip-deploy-next`** expected **`public_html/nodejs/deploy-next.zip`**.
+- **Solution:** **`pushit-live-fast.ps1`** copies zip to repo-root **`deploy-next.zip`** before FTPS (remote staging root). Unzip script checks **`zips/`** as legacy fallback. Added **`msc:pushit:live:fast:dry`** for preflight. Live verified after manual unzip + **`sync-app`**; **`msc:verify:live`** pass.
 - **Files Changed:** `scripts/pushit-live-fast.ps1`, `scripts/msc-hostinger-unzip-deploy-next-ssh.mjs`, `package.json`, deploy docs
 - **Prevention:** Always upload **`deploy-next.zip`** at FTPS **`/nodejs`** root (not under **`zips/`**). Preflight with **`npm run msc:pushit:live:fast:dry`**.
 
@@ -55,7 +76,7 @@ Each entry follows this structure:
 ## [2026-06-08] Live 503 after deploy — broken node_modules (missing Next webpack) + two-folder confusion
 - **Error:** `https://mystudiochannel.com` returned **503** after FTPS deploy. hPanel showed **Build failed** (MCP). Operator saw **`public_html/nodejs`** and top-level **`nodejs`** and assumed misplacement.
 - **Cause:** (1) FTPS lands under **`public_html/nodejs/`** while Node runs from **`domains/.../nodejs/`** — without **`sync-app`**, code/`.next`/lockfile never reached the app root. (2) Syncing **`package-lock.json`** without **`npm install`** left **`node_modules/next`** incomplete → `stderr.log`: `Cannot find module 'next/dist/compiled/webpack/webpack'`. (3) Plain **`npm install`** on host fails on **`better-sqlite3`** (`node-gyp` / GLIBC). (4) hPanel **Build failed** was a **stale MCP** attempt, not the healthy FTPS path.
-- **Solution:** SSH **`npm install --legacy-peer-deps --ignore-scripts`** on app root (script: **`msc:hostinger:npm-install`**). Hardened **`msc:hostinger:sync-app`** to mirror staging → app root and run the same npm step after every deploy. Added **`msc:hostinger:recover`** for diagnose/preload/log trim. **`pushit:live`** already runs **`sync-db`** + **`sync-app`**. Live restored: **`verify:live`** + **`verify:live:version`** **v6.0.0**, Legal **`pages-collection`**.
+- **Solution:** SSH **`npm install --legacy-peer-deps --ignore-scripts`** on app root (script: **`msc:hostinger:npm-install`**). Hardened **`msc:hostinger:sync-app`** to mirror staging → app root and run the same npm step after every deploy. Added **`msc:hostinger:recover`** for diagnose/preload/log trim. **`pushit:live`** already runs **`sync-db`** + **`sync-app`**. Live restored: **`msc:verify:live`** + **`msc:verify:live:version`** **v6.0.0**, Legal **`pages-collection`**.
 - **Files Changed:** `scripts/msc-hostinger-sync-app-ssh.mjs`, `scripts/msc-hostinger-npm-install-ssh.mjs`, `scripts/msc-hostinger-live-recover-ssh.mjs`, `package.json`, `.cursor/docs/HOSTINGER-DEPLOY.md`, `.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md`, `.cursor/docs/MASTER-COMMANDS.md`, `.cursor/docs/START-HERE.md`, `.cursor/docs/Go-Live-Checklist.md`, `.cursor/prompts/Push-Website-Live.md`
 - **Prevention:** Use **`npm run pushit:live`** for updates (not MCP alone). Never delete **`public_html/nodejs/`**. After any lockfile sync, ensure **`sync-app`** ran (includes **`--ignore-scripts`** npm). If **503**, check **`stderr.log`** for webpack/preload errors → **`msc:hostinger:npm-install`** or **`msc:hostinger:recover`**.
 
@@ -104,15 +125,15 @@ Each entry follows this structure:
 ## [2026-06-02] Hostinger verification gap: env vars are UI-only + FTPS auth fluctuation
 - **Error:** Connectivity checks gave mixed confidence: FTPS initially returned `530 Not logged in`, and automated checks could not reliably prove hPanel environment variables from scripts.
 - **Cause:** FTPS credentials/session state can intermittently fail; Hostinger env vars are managed in hPanel UI and are not consistently exposed via MCP/SSH read-only diagnostics.
-- **Solution:** Re-ran `npm run test:hostinger-ftp` to confirm FTPS login success; added docs guidance that env vars must be visually verified in hPanel; added final audit checklist and troubleshooting decision tree/cross-links.
+- **Solution:** Re-ran `npm run msc:test:hostinger-ftp` to confirm FTPS login success; added docs guidance that env vars must be visually verified in hPanel; added final audit checklist and troubleshooting decision tree/cross-links.
 - **Files Changed:** `.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md`, `.cursor/docs/HOSTINGER-DEPLOY.md`, `.cursor/docs/Prompt-Cheat-Sheet.md`, `.cursor/docs/START-HERE.md`
-- **Prevention:** After each deploy, run `npm run verify:live`, `npm run verify:live:version`, `npm run test:hostinger-ftp`, then complete hPanel UI env-var checklist.
+- **Prevention:** After each deploy, run `npm run msc:verify:live`, `npm run msc:verify:live:version`, `npm run msc:test:hostinger-ftp`, then complete hPanel UI env-var checklist.
 
 ## [2026-06-01] Live API 500 after v4 deploy — missing hPanel env vars
 - **Error:** `https://mystudiochannel.com/api/globals/projects-home?depth=1` returns **500** after successful v4 deploy; **`/`** and **`/admin`** return **200**.
 - **Cause:** Hostinger MCP cannot set environment variables; production **`PAYLOAD_SECRET`**, **`DATABASE_URL`**, and public URL vars must be set manually in hPanel → Node.js → Environment.
 - **Solution:** Set all vars per **HOSTINGER-DEPLOY.md** and **DEPLOYMENT-FIXES.md**; restart Node app in hPanel.
-- **Prevention:** After every zip/MCP deploy, verify env vars and run **`npm run verify:live`**.
+- **Prevention:** After every zip/MCP deploy, verify env vars and run **`npm run msc:verify:live`**.
 
 ## [2026-06-01] Hostinger build fails — missing production dependencies
 - **Error:** `Cannot find module '@tailwindcss/postcss'`, `Can't resolve 'tw-animate-css'` during `npm run build` on Hostinger Node.js.
@@ -160,7 +181,7 @@ Each entry follows this structure:
 - **Cause:** Previous dev server process still running in background
 - **Solution:** Found PID using netstat -ano | findstr :3000 and killed with taskkill /PID 11520 /F
 - **Files Changed:** None
-- **Prevention:** Always use Ctrl+C to stop dev servers; use npm run kill-dev-port script if needed
+- **Prevention:** Always use Ctrl+C to stop dev servers; use npm run msc:kill-dev-port script if needed
 
 ## [2026-05-30] Project Identity Bleed and Redundant Documentation
 - **Error:** Project contained legacy references to older project names (`msc-new`, `Vader-Engine`), outdated/deprecated hosting services (`Spaceship`, `cPanel`), duplicate custom prompt files (`Custom-Prompts.md` vs `Prompt-Cheat-Sheet.md`), and orphaned skill rules.
@@ -171,9 +192,9 @@ Each entry follows this structure:
   3. Rewrote and renamed `jon-operator-cpanel.mdc` to `jon-operator-hpanel.mdc` pointing to Hostinger hPanel.
   4. Updated `.cursorrules` and other docs (e.g., `START-HERE.md`, `README.md`, `Go-Live-Checklist.md`, `Development.md`, `Run-Next-JS.md`, `Headless-WP-Backend-Plan.md`, `Site-Plans.md`, `Agent-Runbook.md`, `MCP-SETUP.md`, `GitHub-Cheat-Sheet.md`) to standardize on `MyStudioChannel` and `Hostinger` hPanel.
   5. Established a single master source of truth in `TRUTH.md` at the project root and linked it in `README.md` and `START-HERE.md`.
-  6. Verified project health with `verify:next:safe` (0 errors) and ran `verify:local` to confirm all local smoke tests return `200`.
+  6. Verified project health with `verify:next:safe` (0 errors) and ran `msc:verify:local` to confirm all local smoke tests return `200`.
 - **Files Changed:** `TRUTH.md`, `README.md`, `.cursorrules`, `.cursor/docs/START-HERE.md`, `.cursor/docs/Prompt-Cheat-Sheet.md`, `.cursor/docs/Go-Live-Checklist.md`, `.cursor/docs/Development.md`, `.cursor/docs/Run-Next-JS.md`, `.cursor/docs/Headless-WP-Backend-Plan.md`, `.cursor/docs/Site-Plans.md`, `.cursor/docs/Agent-Runbook.md`, `.cursor/docs/MCP-SETUP.md`, `.cursor/docs/GitHub-Cheat-Sheet.md`, `.cursor/rules/jon-operator-hpanel.mdc` (created), `.cursor/rules/jon-operator-cpanel.mdc` (deleted).
-- **Prevention:** Adhere strictly to the `TRUTH.md` identity map and run `verify:local` to verify changes end-to-end.
+- **Prevention:** Adhere strictly to the `TRUTH.md` identity map and run `msc:verify:local` to verify changes end-to-end.
 
 ## Pending / To Be Investigated
 None currently

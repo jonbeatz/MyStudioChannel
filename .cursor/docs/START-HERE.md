@@ -90,7 +90,7 @@ Project rules layout:
 | `ReCall.md` | Session history and resume context | Optional |
 | `ToDo.md` | Next ideas / tomorrow’s focus (lightweight; not a full backlog) | Optional |
 | `Development.md` | Architecture and deep implementation details | Optional |
-| `MCP-SETUP.md` | Cursor MCP global vs project config, sync:mcp-env | Optional |
+| `MCP-SETUP.md` | Cursor MCP global vs project config, msc:sync:mcp-env | Optional |
 | `markdown-docs/*.md` | Local Markdown copies of external docs/tools | Optional |
 | `markdown-docs/*.md` | Converted Markdown documentation from external links | Optional |
 | `GitHub-Cheat-Sheet.md` | Git quick ref + bundle/archive recovery | Optional |
@@ -121,7 +121,7 @@ If local breaks with missing vendor chunks (`date-fns`, etc.), after **`pushit:l
 
 - **Local:** set **`NEXT_PUBLIC_SERVER_URL`** in **`.env.local`** to your dev origin (see **`.env.example`**) so Payload admin **CSRF** and **View site** match what you open in the browser.
 - **Production:** set **`NEXT_PUBLIC_SERVER_URL`** and/or **`PAYLOAD_PUBLIC_SERVER_URL`** on the host (see **HOSTINGER-DEPLOY.md**). If both are missing at build/runtime, the app falls back to **`https://mystudiochannel.com`** (override with **`MSC_CANONICAL_SITE_ORIGIN`**). Details: **`Jedi-List.md`** → *Public site URL*.
-- **MCP secrets:** after changing **`GITHUB_PERSONAL_ACCESS_TOKEN`**, **`RESEND_API_KEY`**, **`TAVILY_API_KEY`**, **`NGROK_AUTHTOKEN`**, or **`WORDPRESS_*`** in **`.env.local`**, run **`npm run sync:mcp-env`** and reload MCP in Cursor (**`MCP-SETUP.md`**).
+- **MCP secrets:** after changing **`GITHUB_PERSONAL_ACCESS_TOKEN`**, **`RESEND_API_KEY`**, **`TAVILY_API_KEY`**, **`NGROK_AUTHTOKEN`**, or **`WORDPRESS_*`** in **`.env.local`**, run **`npm run msc:sync:mcp-env`** and reload MCP in Cursor (**`MCP-SETUP.md`**).
 
 ### Google API Proxy (LiteLLM + ngrok)
 
@@ -175,15 +175,15 @@ Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.nex
 | Push **code** only (MCP zip) | Say **push it live** → choose MCP → verify DB size after |
 | Repair live `node_modules` (503 webpack) | **`npm run msc:hostinger:npm-install`** → restart in hPanel |
 | Diagnose live 503 | **`npm run msc:hostinger:recover`** → follow stderr hint → restart |
-| Stream server error logs live | **`npm run logs:live`** (SSH `tail -f stderr.log`) |
-| Stream server console logs live | **`npm run logs:live:console`** (SSH `tail -f console.log`) |
-| Optimize local database | **`npm run db:optimize`** (`PRAGMA optimize` + `VACUUM`) |
-| Purge old local backups | **`npm run backup:clean`** (retains only 10 most recent backups) |
+| Stream server error logs live | **`npm run msc:logs:live`** (SSH `tail -f stderr.log`) |
+| Stream server console logs live | **`npm run msc:logs:live:console`** (SSH `tail -f console.log`) |
+| Optimize local database | **`npm run msc:db:optimize`** (`PRAGMA optimize` + `VACUUM`) |
+| Purge old local backups | **`npm run msc:backup:clean`** (retains only 10 most recent backups) |
 | Trim deploy zips in repo | **`npm run backup:clean-zips`** (keeps 3 newest in `zips/`) |
 | Push with new packages | **`git push origin main`** (auto rebuild, if Git connected) |
 | Check what Hostinger will install | **`npm ls --omit=dev --depth=0`** |
-| Verify build before push | **`npm run build && npm run verify:local`** |
-| Test live site | **`npm run verify:live`** |
+| Verify build before push | **`npm run build && npm run msc:verify:local`** |
+| Test live site | **`npm run msc:verify:live`** |
 
 Full guide: **HOSTINGER-DEPLOY.md** → *Path C — Daily updates*.
 
@@ -208,7 +208,7 @@ Before considering your deployment complete, run through the:
 ## Top 7 rules (avoid pain)
 
 1. Do not run `pushitup` in Hostinger Terminal.
-2. For app/admin code changes: full `npm run build` + full `.next` upload. Keep **`.vscode/sftp.json`** **`remotePath`** aligned with **HOSTINGER-DEPLOY.md** (FTPS **`/`** vs Hostinger path); run **`npm run verify:ftp-smoke`** if anything about the upload target folder is uncertain.
+2. For app/admin code changes: full `npm run build` + full `.next` upload. Keep **`.vscode/sftp.json`** **`remotePath`** aligned with **HOSTINGER-DEPLOY.md** (FTPS **`/`** vs Hostinger path); run **`npm run msc:verify:ftp-smoke`** if anything about the upload target folder is uncertain.
 3. Do not partially upload random files inside `.next`.
 4. If you delete server `.next`, immediately re-upload `.next` from PC.
 5. After deploy, **`sync-app`** runs **`npm install --ignore-scripts`** on the host when lockfile changes — prefer **`pushit:live`** over manual hPanel npm. Manual repair: **`msc:hostinger:npm-install`**.
@@ -229,7 +229,7 @@ Before considering your deployment complete, run through the:
 ## Quick incident recovery (when things suddenly break)
 
 1. Local broken after deploy? Run `npm run dev:fresh`.
-2. If `verify:local` still fails on `/` + `/admin`, check for port hijack:
+2. If `msc:verify:local` still fails on `/` + `/admin`, check for port hijack:
    - kill stale node process on `3000`
    - rerun `npm run dev:fresh`
 3. Live 500 with `vendor-chunks` module errors:

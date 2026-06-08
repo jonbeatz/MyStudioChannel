@@ -26,7 +26,7 @@ Cross-links: [NovaMira-Design](../NovaMira-Design/SKILL.md) · [Premium-UI](../P
 Before designing **new** marketing or dashboard surfaces:
 
 1. Check `.cursor/DesignMD/DESIGN-*.md` for an existing extraction
-2. If none: run DesignMD (`npm run dmd <url>`) or `getdesign add <brand>`
+2. If none: run DesignMD (`npm run msc:docs:audit <url>`) or `getdesign add <brand>`
 3. Read **NovaMira-Design** for MSC Gold, 8px rhythm, 16:9 grids
 4. Apply taste dials below — never ship first-draft AI layout
 

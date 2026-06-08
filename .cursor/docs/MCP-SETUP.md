@@ -36,7 +36,7 @@ npm run msc:test:tavily-api
 
 | Check | Pass means |
 |-------|------------|
-| `msc:sync:mcp-env` | GitHub + Tavily tokens copied global → `~/.cursor/mcp.json`; WordPress copied if `WORDPRESS_*` set |
+| `msc:sync:mcp-env` | Global: GitHub, Tavily, Hostinger ×4. Project: WordPress, **21st-dev-magic**, **browserbase** (when keys set in `.env.local`) |
 | `msc:test:github-api` | `GITHUB_PERSONAL_ACCESS_TOKEN` in `.env.local` works |
 | `msc:test:tavily-api` | `TAVILY_API_KEY` in `.env.local` works |
 
@@ -50,8 +50,8 @@ Do **not** re-enable duplicate browser MCPs (`browsermcp`, `browser-tools-mcp`, 
 
 | Task | Tool |
 |------|------|
-| Local smoke `/` + `/admin` | `npm run verify:local` or **cursor-ide-browser** MCP |
-| Live smoke | `npm run verify:live` |
+| Local smoke `/` + `/admin` | `npm run msc:verify:local` or **cursor-ide-browser** MCP |
+| Live smoke | `npm run msc:verify:live` |
 | Scripted e2e | Global **playwright** MCP |
 | Cloud / Stagehand | Project **browserbase** (when API keys set) |
 
@@ -92,7 +92,7 @@ We **do not** configure `@govcraft/payload-cms-mcp` in any `mcp.json`.
    npm run msc:sync:mcp-env
    ```
 
-   Alias: `npm run sync:mcp-env` · `npm run msc:sync:mcp-all` (same + confirmation echo).
+   Alias: `npm run msc:sync:mcp-env` · `npm run msc:sync:mcp-all` (same + confirmation echo).
 
 3. **Reload MCP** — **cursor-mcp-refresh** status bar **`MCP (X/Y)`**, or restart Cursor.
 
@@ -113,8 +113,8 @@ These project servers still use **placeholders** in committed `.cursor/mcp.json`
 | Server | Required secrets | How to configure |
 |--------|------------------|------------------|
 | **`mcp-wordpress`** | `WORDPRESS_SITE_URL`, `WORDPRESS_USERNAME`, `WORDPRESS_APP_PASSWORD` | Add to `.env.local` → **`npm run msc:sync:mcp-env`** |
-| **`21st-dev-magic`** | `21ST_DEV_MAGIC_API_KEY` (maps to MCP `API_KEY`) | Add to `.env.local`, then paste into project `.cursor/mcp.json` → `21st-dev-magic.env.API_KEY` (sync script does **not** copy this yet) |
-| **`browserbase`** | `BROWSERBASE_API_KEY`, `BROWSERBASE_PROJECT_ID`, `GEMINI_API_KEY` | Add to `.env.local`, then paste into project `.cursor/mcp.json` → `browserbase.env.*` (sync script does **not** copy this yet) |
+| **`21st-dev-magic`** | `21ST_DEV_MAGIC_API_KEY` (maps to MCP `API_KEY`) | Add to `.env.local` → **`npm run msc:sync:mcp-env`** |
+| **`browserbase`** | `BROWSERBASE_API_KEY`, `BROWSERBASE_PROJECT_ID`, `GEMINI_API_KEY` | Add to `.env.local` → **`npm run msc:sync:mcp-env`** |
 | **`local-wp`** | None | Enable in Settings → MCP; Local by Flywheel site running |
 | **`pencil`** | None | Enable in Settings → MCP; **Pencil desktop app** must be running |
 | **`markdownify`** | None | Enable in Settings → MCP |
@@ -237,7 +237,7 @@ Use after editing `mcp.json` or when a server is stuck — faster than a full ID
 | Script | Action |
 |--------|--------|
 | `npm run msc:sync:mcp-env` | Sync `.env.local` → global + project MCP configs |
-| `npm run sync:mcp-env` | Alias for `msc:sync:mcp-env` |
+| `npm run msc:sync:mcp-env` | Alias for `msc:sync:mcp-env` |
 | `npm run msc:sync:mcp-all` | Same + confirmation echo |
 | `npm run msc:test:github-api` | Verify GitHub token from `.env.local` |
 | `npm run msc:test:tavily-api` | Verify Tavily token from `.env.local` |

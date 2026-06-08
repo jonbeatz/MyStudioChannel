@@ -213,6 +213,8 @@ function main() {
       WORDPRESS_APP_PASSWORD: env.WORDPRESS_APP_PASSWORD,
     };
     const hasWp = Object.values(wpUpdates).some(Boolean);
+    let projectChanged = false;
+
     if (hasWp && projectConfig.mcpServers?.['mcp-wordpress']) {
       const changed = setNestedEnv(projectConfig, 'mcp-wordpress', wpUpdates);
       for (const [k, v] of Object.entries(wpUpdates)) {
@@ -220,10 +222,45 @@ function main() {
           console.warn(`WARN: ${k} looks like a placeholder`);
         }
       }
+      if (changed) projectChanged = true;
       console.log(`${changed ? 'PASS' : 'OK'}: WordPress env → project mcp.json`);
-      writeJson(PROJECT_MCP, projectConfig);
     } else if (!hasWp) {
-      console.log('SKIP: No WORDPRESS_* keys in .env.local (project MCP unchanged)');
+      console.log('SKIP: No WORDPRESS_* keys in .env.local');
+    }
+
+    const magicKey = env['21ST_DEV_MAGIC_API_KEY'];
+    if (magicKey && projectConfig.mcpServers?.['21st-dev-magic']) {
+      const changed = setNestedEnv(projectConfig, '21st-dev-magic', {
+        API_KEY: magicKey,
+      });
+      if (isPlaceholder(magicKey)) {
+        console.warn('WARN: 21ST_DEV_MAGIC_API_KEY looks like a placeholder');
+      }
+      if (changed) projectChanged = true;
+      console.log(
+        `${changed ? 'PASS' : 'OK'}: 21st-dev-magic API_KEY → project (${maskSecret(magicKey)})`,
+      );
+    }
+
+    const browserbaseUpdates = {
+      BROWSERBASE_API_KEY: env.BROWSERBASE_API_KEY,
+      BROWSERBASE_PROJECT_ID: env.BROWSERBASE_PROJECT_ID,
+      GEMINI_API_KEY: env.GEMINI_API_KEY,
+    };
+    const hasBrowserbase = Object.values(browserbaseUpdates).some(Boolean);
+    if (hasBrowserbase && projectConfig.mcpServers?.browserbase) {
+      const changed = setNestedEnv(projectConfig, 'browserbase', browserbaseUpdates);
+      for (const [k, v] of Object.entries(browserbaseUpdates)) {
+        if (v && isPlaceholder(v)) {
+          console.warn(`WARN: ${k} looks like a placeholder`);
+        }
+      }
+      if (changed) projectChanged = true;
+      console.log(`${changed ? 'PASS' : 'OK'}: browserbase env → project mcp.json`);
+    }
+
+    if (projectChanged) {
+      writeJson(PROJECT_MCP, projectConfig);
     }
   }
 

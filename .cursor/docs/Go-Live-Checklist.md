@@ -18,13 +18,13 @@ Custom prompt shortcuts:
 Run these from your PC terminal in repo root:
 
 ```bash
-npm run verify:local
-npm run verify:live
-npm run test:hostinger-ftp
-npm run verify:ftp-smoke
+npm run msc:verify:local
+npm run msc:verify:live
+npm run msc:test:hostinger-ftp
+npm run msc:verify:ftp-smoke
 ```
 
-**FTPS path sanity:** **`.vscode/sftp.json`** **`remotePath`** for Hostinger FTPS is usually **`/`** — not a nested home folder — or **`PushItUP`** writes under the wrong nested folder (see **HOSTINGER-DEPLOY.md** § FTP). **`npm run verify:ftp-smoke`** must pass before you trust a full **`.next`** upload.
+**FTPS path sanity:** **`.vscode/sftp.json`** **`remotePath`** for Hostinger FTPS is usually **`/`** — not a nested home folder — or **`msc:pushitup`** writes under the wrong nested folder (see **HOSTINGER-DEPLOY.md** § FTP). **`npm run msc:verify:ftp-smoke`** must pass before you trust a full **`.next`** upload.
 
 **Post-upload sanity checks (do not skip):**
 - Live app root should contain **one** `.next` folder (not `/.next/.next` nesting).
@@ -82,10 +82,10 @@ Wait until build completes successfully.
 
 | Tier | Name | Command (Local / repo root) | What it ships | When to use |
 |------|------|----------------------------|---------------|-------------|
-| **1** | **Branding — Fast FTP** | `npm run pushitup:admin-branding` | **Only:** `components/msc-payload-graphics.tsx`, `components/msc-payload-admin-enhancements.tsx`, `collections/Users.ts`, `payload.config.ts`, `app/(payload)/custom.scss` | Quick look-and-feel / config / SCSS tweaks; **no** `build` or `.next` in this step. |
+| **1** | **Branding — Fast FTP** | `npm run msc:pushitup:admin-branding` | **Only:** `components/msc-payload-graphics.tsx`, `components/msc-payload-admin-enhancements.tsx`, `collections/Users.ts`, `payload.config.ts`, `app/(payload)/custom.scss` | Quick look-and-feel / config / SCSS tweaks; **no** `build` or `.next` in this step. |
 | **2b** | **Fast code/UI — zip `.next` + sync-app** | `npm run pushit:live:fast` | **`build`** → **`msc:pushitup:admin-ui`** → zip **`deploy-next.zip`** → FTPS → SSH unzip + BUILD_ID → **`msc:hostinger:sync-app`**. Flags: **`-SkipBuild`**, **`-WithDb`**, **`-WithMedia`**, **`-DryRun`**. Fallback: **`pushitup -- .next`**. | Daily code/UI when DB/media unchanged (~10–15 min). |
 | **2** | **Admin logic / pages — Full build + UI + `.next` + DB + media** | `npm run pushit:live` | **`build`** → **`msc:pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`msc:hostinger:sync-db`** → **`msc:hostinger:sync-app`** (staging → app root + **`npm install --ignore-scripts`**) → **`pushitup -- public/media`** | **Master** deploy. FTPS lands in **`public_html/nodejs/`**; SSH sync copies to live app root. |
-| **3** | **Hosting — server / package config** | `npm run pushitup:server-config` | **`server.js`**, **`package.json`**, **`package-lock.json`**, **`.env.example`** | Deps, lockfile, startup file, or documented env template changed; follow **§5** for **`npm install`** on the host. |
+| **3** | **Hosting — server / package config** | `npm run msc:pushitup:server-config` | **`server.js`**, **`package.json`**, **`package-lock.json`**, **`.env.example`** | Deps, lockfile, startup file, or documented env template changed; follow **§5** for **`npm install`** on the host. |
 
 **Tier 2** is the **full** pipeline: it uploads the **admin source bundle**, the **entire `.next`** output, **`payload.sqlite`**, and **`public/media`** so the live app, **`/admin`**, CMS data, and **`/media/...`** files stay consistent.
 
@@ -107,13 +107,13 @@ npm run pushit:live
 
 This is exactly: **`build`** → **`msc:pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`msc:hostinger:sync-db`** → **`msc:hostinger:sync-app`** → **`pushitup -- public/media`** (see `scripts/pushit-live.ps1`). **Never skip `sync-app`** — without it, code/`.next`/lockfile stay in staging only. **FTPS:** brief errors on 1–2 **`.next`** files are common; **PushItUP** retries once.
 
-**`pushitup:admin-ui`** includes (among others): `middleware.ts`, `lib/msc-app-version.ts`, `components/msc-payload-nav-dashboard.tsx`, `components/msc-payload-nav-logout.tsx`, branding components, `collections/Users.ts`, `payload.config.ts`, `app/(payload)/custom.scss`. After deploy, confirm **`MyStudioChannel Admin v6.0.0`** in the sidebar (matches **`package.json`** **`version`**).
+**`msc:pushitup:admin-ui`** includes (among others): `middleware.ts`, `lib/msc-app-version.ts`, `components/msc-payload-nav-dashboard.tsx`, `components/msc-payload-nav-logout.tsx`, branding components, `collections/Users.ts`, `payload.config.ts`, `app/(payload)/custom.scss`. After deploy, confirm **`MyStudioChannel Admin v6.0.0`** in the sidebar (matches **`package.json`** **`version`**).
 
 A full **`.next`** upload is what fixes many **vendor-chunk** / missing-module errors on the host; if the browser shows **`Cannot find module './vendor-chunks/...'`** or similar after a deploy, re-run **`npm run pushitup -- .next`** (after a successful local **`npm run build`**) so chunk paths stay in sync.
 
 ### If upload reports failures
 
-If `PushItUP` ends with failures, re-upload failed paths before restart.
+If `msc:pushitup` ends with failures, re-upload failed paths before restart.
 
 Common retry:
 
@@ -154,7 +154,7 @@ Check in Incognito:
 Optional command check:
 
 ```bash
-npm run verify:live
+npm run msc:verify:live
 ```
 
 ---

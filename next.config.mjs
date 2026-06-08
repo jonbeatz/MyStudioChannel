@@ -66,6 +66,7 @@ const nextConfig = {
   transpilePackages: ["three", "@react-three/fiber", "@react-three/drei", "motion"],
   // Payload requires a Node server. Static `out/` export is disabled while CMS is integrated.
   // next/image: local `/api/media/file/*` and `/media/*` (public/media) are same-origin — no remotePatterns entry needed.
+  // Hostinger: no Next image optimizer on shared Node — local /media and Payload URLs stay unoptimized.
   images: {
     unoptimized: true,
     remotePatterns,

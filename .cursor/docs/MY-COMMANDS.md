@@ -13,7 +13,7 @@ This is the single source of truth for ALL custom commands and scripts wired int
 | `npm run log:milestone` | `npm run msc:log:milestone` | Log milestone achievement |
 | `npm run backup` | `npm run msc:backup:quick` | Non-interactive standard backup |
 | `npm run sync` | `npm run msc:docs:sync` | Audit and sync all documentation |
-| `npm run docs` | `npm run docs:audit` | Audit internal documentation links |
+| `npm run docs` | `npm run msc:docs:audit` | Audit internal documentation links |
 | `npm run deploy:full` | `npm run pushit:live` | **Preferred** — FTPS + sync-db + sync-app |
 | `npm run deploy` | `npm run push:website:live` | MCP code-only (**avoid on this host**) |
 | `npm run msc:push:db:live` | — | Quick DB + sync-app (~1–2 min) |

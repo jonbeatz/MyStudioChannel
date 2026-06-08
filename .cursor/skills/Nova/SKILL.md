@@ -121,7 +121,7 @@ If the active repo already uses different prefixes (e.g. legacy `nova_` / `dt_`)
 - **Image Optimization:** In static mode, bypass the Next.js Image loader; use `unoptimized: true` to prevent 404s on Hostinger.
 - **Deployment Protocol:**
   1. `npm install` (if node_modules is missing/corrupt).
-  2. `npm run build:wp-theme` (using the mjs pipeline).
+  2. **WordPress/Divi child theme:** run **`build:wp-theme`** in the NovaMira WP repo (not in this Next bundle — here use **`npm run build`**).
   3. **ZIP Rule:** Only zip the *contents* of the `out` folder, never the `out` folder itself, to ensure the `index.html` sits at the root of the destination directory.
 
 

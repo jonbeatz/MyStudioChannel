@@ -1,12 +1,12 @@
 # Project Checkpoint
 
 ## Current Status
-- **Date:** 2026-06-08 (Hostinger MCP fix + MCP-SETUP sync)
+- **Date:** 2026-06-07 (Audit Phase 2–4 — deploy safety, docs sync, rules/restore trim)
 - **Branch:** MSC-Website-v6 (active dev)
 - **Version:** 6.0.0 (`package.json` — sole release number)
 - **Build Status:** Passing (`npm run build` / `verify:next:safe`)
 - **Deploy default:** **`npm run pushit:live:fast`** (~10–15 min) for daily code/UI; **`pushit:live`** for full DB + media. Say **push it live** → agent asks mode (Quick DB · Fast FTPS · Full FTPS · MCP avoid). [hPanel restart](https://hpanel.hostinger.com/websites/mystudiochannel.com).
-- **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v6.0.0** on live; Legal dropdown + **`verify:live`** passing
+- **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v6.0.0** on live; Legal dropdown + **`msc:verify:live`** passing
 - **Git:** `MSC-Website-v6` (active); `main` syncing with v6; `MSC-Website-v5` frozen @ `92918b6`
 - **Nav:** Header **Legal** dropdown via **`submenuSource: pages-collection`**; MSC1 excluded (**`showInHeaderNav`**)
 - **GitHub releases:** [v6.0.0 Latest](https://github.com/jonbeatz/MyStudioChannel/releases/latest) · tags `v1.0.0`–`v6.0.0` on [tags](https://github.com/jonbeatz/MyStudioChannel/tags)
@@ -14,6 +14,10 @@
 ## Recent Milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
+| 2026-06-07 | **Audit Phase 4 — rules dedup, Restore-Points trim (3), Sentry pin, MCP sync** | uncommitted |
+| 2026-06-07 | **Audit Phase 3 — bulk `msc:*` doc sync, SoT alignment, sentry-test gate** | uncommitted |
+| 2026-06-07 | **Audit Phase 2 — UI patch, sync-app `--skip-db`, SSH preflight, `/test` fix** | uncommitted |
+| 2026-06-07 | **Backup bloat fix — exclude `zips/`, `backup:clean-zips`** | `273d03d` |
 | 2026-06-08 | **Hostinger MCP spawn EINVAL fix + MCP-SETUP global 12 + sync script** | `ecfa5ea` |
 | 2026-06-08 | **MSC Tooling Upgrade — UI taste skill, MCP consolidation, Obsidian pilot, cursor-mcp-refresh** | `27adb12` |
 | 2026-06-08 | **pushit:live:fast — Tier 2b zip deploy + docs sync** | `8700e61` |

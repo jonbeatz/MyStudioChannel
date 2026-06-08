@@ -160,9 +160,9 @@ gh release edit vX.Y.Z --latest   # if a newer draft release stole Latest
 ## MyStudioChannel repo helpers (not plain git)
 
 ```bash
-npm run test:github-api      # token OK?
-npm run sync:mcp-env         # .env.local → Cursor MCP
-npm run backup:github-repos  # clone + .bundle → .cursor/GitHub-Repo-BackUps/
+npm run msc:test:github-api      # token OK?
+npm run msc:sync:mcp-env         # .env.local → Cursor MCP
+npm run msc:backup:github-repos  # clone + .bundle → .cursor/GitHub-Repo-BackUps/
 ```
 
 Output: **`GitHub-Bundle-Archive\*.bundle`**, **`GitHub-Development-Archive\<repo>\`**, and **`BACKUP-REPORT.md`**. Recovery: section below.
@@ -181,12 +181,12 @@ D:\Cursor_Projectz\MyStudioChannel\.cursor\GitHub-Repo-BackUps\
 |------|----------------|----------|
 | **Bundle files** (single file, all branches/tags) | `GitHub-Bundle-Archive\<repo-name>.bundle` | Disaster recovery, copy to another PC, repo deleted on GitHub |
 | **Working clones** (full folder) | `GitHub-Development-Archive\<repo-name>\` | Quick open, diff, branch checkout without re-downloading |
-| **Legacy layout** (older runs of `backup:github-repos`) | `GitHub-Repo-BackUps\<repo-name>\` + `<repo-name>.bundle` at folder root | Same as above — check both locations |
+| **Legacy layout** (older runs of `msc:backup:github-repos`) | `GitHub-Repo-BackUps\<repo-name>\` + `<repo-name>.bundle` at folder root | Same as above — check both locations |
 
 Regenerate everything from GitHub:
 
 ```bash
-npm run backup:github-repos
+npm run msc:backup:github-repos
 ```
 
 Requires **`GITHUB_PERSONAL_ACCESS_TOKEN`** in **`.env.local`**. Writes **`BACKUP-REPORT.md`** with per-repo status.
@@ -273,7 +273,7 @@ git fetch --all --prune --tags
 git pull origin main
 ```
 
-Then re-run **`npm run backup:github-repos`** to refresh the matching **`.bundle`**.
+Then re-run **`npm run msc:backup:github-repos`** to refresh the matching **`.bundle`**.
 
 ---
 
@@ -320,11 +320,11 @@ Check **`GitHub-Bundle-Archive\`** for files like:
 - `Node-Launcher.bundle`
 - … (one `.bundle` per backed-up repo)
 
-See **`BACKUP-REPORT.md`** after **`npm run backup:github-repos`** for the full list, sizes, and any errors.
+See **`BACKUP-REPORT.md`** after **`npm run msc:backup:github-repos`** for the full list, sizes, and any errors.
 
 ---
 
 - **Never commit:** `.env.local`, real API keys, `~/.cursor/mcp.json` secrets
 - **Commit template:** `.env.example`, `.cursor/mcp.json` (placeholders only)
-- **After env change:** `npm run sync:mcp-env` → reload MCP in Cursor
+- **After env change:** `npm run msc:sync:mcp-env` → reload MCP in Cursor
 - **Checkpoint before risky work:** commit + push, or new branch

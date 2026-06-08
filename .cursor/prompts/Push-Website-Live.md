@@ -70,7 +70,7 @@ npm run push:website:live
 ```
 
 This script:
-- Stops port **3000** (`kill-dev-port`)
+- Stops port **3000** (`msc:kill-dev-port`)
 - Runs **`npm run build`** with live `NEXT_PUBLIC_SERVER_URL`
 - Creates **`zips/MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip`**
 - Prints **`DEPLOY_ZIP_PATH=...`** and MCP instructions
@@ -82,7 +82,7 @@ npm run push:website:live -- --dry-run
 
 **Zip only (if build already done):**
 ```powershell
-npm run deploy:zip
+npm run msc:deploy:zip
 ```
 
 Confirm branch **`MSC-Website-v6`**, report `package.json` version, warn on uncommitted changes.
@@ -130,8 +130,8 @@ rm -f payload.sqlite-wal payload.sqlite-shm
 ### Step 5 — Live verification (Local)
 After restart (wait 20–30 s):
 ```powershell
-npm run verify:live
-npm run verify:live:version
+npm run msc:verify:live
+npm run msc:verify:live:version
 ```
 
 Expected:
@@ -140,7 +140,7 @@ Expected:
 - `/api/globals/projects-home?depth=1` → 200
 - Footer matches `package.json` version
 
-Poll automatically when using **`--ftps`** (script handles). For **MCP**, agent runs verify after Jon restarts (or poll `verify:live` up to ~3 min).
+Poll automatically when using **`--ftps`** (script handles). For **MCP**, agent runs verify after Jon restarts (or poll `msc:verify:live` up to ~3 min).
 
 ### Step 6 — Report
 Pass/fail summary. If API **500**, check hPanel env vars (`HOSTINGER-DEPLOY.md`). Suggest **`npm run dev:fresh`** locally after deploy.
@@ -165,7 +165,7 @@ When MCP fails or Jon requests FTPS:
 npm run push:website:live -- --ftps
 ```
 
-Requires **`.vscode/sftp.json`** (`FTP_REMOTE_PATH=/nodejs`). Runs **`pushit:live`** + polls **`verify:live`**.
+Requires **`.vscode/sftp.json`** (`FTP_REMOTE_PATH=/nodejs`). Runs **`pushit:live`** + polls **`msc:verify:live`**.
 
 ### Option B — SSH stop + FTPS + SSH DB sync (no hPanel Stop button)
 

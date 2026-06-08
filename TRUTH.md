@@ -22,11 +22,11 @@ These are the primary executable commands configured inside `package.json`. Alwa
 | `npm run verify:next:safe` | Safe production build check | Verifies compilation safety on Windows by ensuring port 3000 is clean and avoids corrupting `.next` during builds. |
 | `npm run start` | Run production server | Boots the compiled Next.js production server locally for smoke testing. |
 | `npm run lint` | Run ESLint static check | Scans for TypeScript and syntax issues. |
-| `npm run test:hostinger-ftp` | Smoke test FTP connection | Quick, read-only remote FTPS directory listing to test Hostinger logins. |
-| `npm run parity:ftp` | Audit local vs remote drift | Compares local file tree with live Hostinger file tree and outputs `parity-ftp-report.md` (gitignored). |
-| `npm run media:consolidate` | Clean up media folders | Relocates stray files from the root into `public/media/`. |
-| `npm run media:sync` | Sync media directory to DB | Registers physical files under `public/media/` into the Payload database, bypassing alt-text blocks. |
-| `npm run backup:github-repos` | Mirror GitHub repositories | Clones and bundles all active GitHub projects into `.cursor/GitHub-Repo-BackUps/`. |
+| `npm run msc:test:hostinger-ftp` | Smoke test FTP connection | Quick, read-only remote FTPS directory listing to test Hostinger logins. |
+| `npm run msc:parity:ftp` | Audit local vs remote drift | Compares local file tree with live Hostinger file tree and outputs `parity-ftp-report.md` (gitignored). |
+| `npm run msc:media:consolidate` | Clean up media folders | Relocates stray files from the root into `public/media/`. |
+| `npm run msc:media:sync` | Sync media directory to DB | Registers physical files under `public/media/` into the Payload database, bypassing alt-text blocks. |
+| `npm run msc:backup:github-repos` | Mirror GitHub repositories | Clones and bundles all active GitHub projects into `.cursor/GitHub-Repo-BackUps/`. |
 
 ---
 
@@ -70,7 +70,7 @@ This is the canonical Source of Truth reading order for all human developers and
 - **Environment Isolation:** Place secrets **only** in `.env.local` (never committed). `.env.example` serves as the public variable map.
 - **Pathing discipline:** Never write absolute local paths (like `D:\...`) inside code or scripts. Use relative path resolution or workspace variables.
 - **File Structure:** Marketing site resides under route group `app/(site)/`. Embedded Payload admin panel resides under `app/(payload)/` with custom graphics, custom logout, and suppression patches for hydration overlays.
-- **Assets Rule:** All images are served from `public/media/` addressing them as `/media/filename.ext`. Bulk uploads must be registered using `npm run media:sync`.
+- **Assets Rule:** All images are served from `public/media/` addressing them as `/media/filename.ext`. Bulk uploads must be registered using `npm run msc:media:sync`.
 
 ---
 
@@ -105,16 +105,16 @@ MyStudioChannel/
 | Path | When | Local command |
 |------|------|----------------|
 | **Zip upload** | First deploy, WordPress replacement, full refresh | Stop dev → **`npm run build`** → upload **`MyStudioChannel-deploy.zip`** via hPanel |
-| **FTPS** | Day-to-day updates (preferred) | **`npm run pushit:live`** → **`sync-db`** + **`sync-app`** → hPanel restart |
+| **FTPS** | Day-to-day updates (preferred) | **`npm run pushit:live`** or **`npm run pushit:live:fast`** → **`msc:hostinger:sync-db`** + **`msc:hostinger:sync-app`** → hPanel restart |
 
 **Critical rules:**
 
 1. **Two folders:** FTPS lands in **`public_html/nodejs/`** (staging); Node runs from **`domains/.../nodejs/`** (app root). Never delete staging folder. See **HOSTINGER-DEPLOY.md** § *folder map*.
 2. **Dependencies:** Packages imported in app/CSS/PostCSS must be in **`dependencies`** — Hostinger skips **`devDependencies`**. Audit: **`npm ls --omit=dev --depth=0`**.
-3. **Package manager:** **npm** only — ship **`package-lock.json`**, not **`pnpm-lock.yaml`**. After lockfile sync on host use **`npm install --ignore-scripts`** (via **`sync-app`**).
+3. **Package manager:** **npm** only — ship **`package-lock.json`**, not **`pnpm-lock.yaml`**. After lockfile sync on host use **`npm install --ignore-scripts`** (via **`msc:hostinger:sync-app`**).
 4. **Avoid MCP zip** for routine updates — `better-sqlite3` native compile fails on this host.
 5. **Env vars (hPanel):** `NODE_ENV`, `PAYLOAD_SECRET`, `DATABASE_URL`, `NEXT_PUBLIC_SERVER_URL`, `PAYLOAD_PUBLIC_SERVER_URL`, `RESEND_API_KEY`, `PAYLOAD_DISABLE_SHARP=true`.
-6. **After deploy:** Restart Node in hPanel; **`npm run verify:live`** + **`verify:live:version`**.
+6. **After deploy:** Restart Node in hPanel; **`npm run msc:verify:live`** + **`msc:verify:live:version`**.
 7. **503 repair:** **`msc:hostinger:npm-install`** (webpack) or **`msc:hostinger:recover`** (preload).
 
 **Docs:** [HOSTINGER-DEPLOY.md](.cursor/docs/HOSTINGER-DEPLOY.md) · [DEPLOYMENT-FIXES.md](.cursor/docs/DEPLOYMENT-FIXES.md) · [Go-Live-Checklist.md](.cursor/docs/Go-Live-Checklist.md)
@@ -133,5 +133,5 @@ When booting up a session, you **must** execute the following sequence:
 
 ---
 
-*Last Updated: 2026-06-07 (v6.0.0 dev branch MSC-Website-v6; live frozen at v5.0.0 until next deploy)*  
+*Last Updated: 2026-06-07 (v6.0.0 · branch `MSC-Website-v6` · confirm live label via `npm run msc:verify:live:version`)*  
 <sub>· Powered by the MyStudioChannel Media Engine</sub>
