@@ -1,7 +1,7 @@
 ## [2026-06-08] - v7.0.0 release — version bump, tag, GitHub release
 - **Branch:** `MSC-Website-v7`
 - **Changes:** `package.json` → **7.0.0**; `lib/msc-app-version.ts`; ops docs, README, TRUTH, CHANGELOG; GitHub tag **`v7.0.0`**
-- **Status:** completed — `d65c3e6` + tag `v7.0.0` + GitHub release
+- **Status:** completed — `a295fc4` + tag `v7.0.0` + GitHub release
 - **Next:** `pushit:live:fast` + `msc:verify:live:version` for live v7 label
 
 ## [2026-06-08] - MSC-Website-v7 branch cut

@@ -23,7 +23,7 @@
 | 2026-06-08 | **Live 503 fix — sync-app + npm-install; deploy docs sync** | `b368d3e` |
 | 2026-06-07 | **Header nav — submenuSource + Legal dropdown** | `6a21ce4` |
 | 2026-06-07 | **GitHub releases/tags backfill v4–v6** | ops |
-| 2026-06-08 | **v7.0.0 release — version bump + GitHub tag** | `d65c3e6` |
+| 2026-06-08 | **v7.0.0 release — version bump + GitHub tag** | `a295fc4` |
 | 2026-06-08 | **v7 development branch cut — MSC-Website-v7** | `c9e260e` |
 | 2026-06-07 | **v6.0.0 branch cut — MSC-Website-v6** | `17b3da8` |
 | 2026-06-07 | **Deploy hardening — SSH sync-db, Quick DB, Sentry org fix** | `06ec2be` |
