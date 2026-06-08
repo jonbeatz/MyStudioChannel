@@ -60,6 +60,8 @@ This is the canonical Source of Truth reading order for all human developers and
 | [`.cursor/docs/DEPLOYMENT-FIXES.md`](.cursor/docs/DEPLOYMENT-FIXES.md) | Hostinger deploy fixes and learnings (2026-06-01) | When live build fails or first-time zip deploy |
 | [`.cursor/docs/ISSUES-RESOLVED.md`](.cursor/docs/ISSUES-RESOLVED.md) | Debugging logs and resolutions index | During troubleshooting or after resolving a bug |
 | [`.cursor/docs/Restore-Points.md`](.cursor/docs/Restore-Points.md) | Backup history and local git rollbacks | When freezing a milestone or rolling back |
+| [`.cursor/review.md`](.cursor/review.md) | Audit follow-up queue and tomorrow’s work | After comprehensive audit or before next deploy session |
+| [`.cursor/ideaz.md`](.cursor/ideaz.md) | Portable studio kit / `custom-scriptz` roadmap | When starting a new project or extracting modules |
 
 ---
 

@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **`.cursor/ideaz.md`** — portable `custom-scriptz` / project-bootstrap roadmap (backlog)
+- **`.cursor/review.md`** — comprehensive audit follow-up queue and tomorrow work list
+- **Comprehensive audit (Phases 2–4)** — Payload UI patch regenerate; `/test` middleware fix; `sync-app --skip-db`; SSH preflight; bulk `msc:*` doc sync; rules dedup; Restore-Points trim; Sentry pin; MCP sync for 21st/browserbase
 - **Header nav `submenuSource`** — per-row **Submenu source**: Manual | From Pages collection (replaces magic **Pages** label behavior)
 - **`showInHeaderNav`** on Pages collection — opt pages in/out of the **Legal** dropdown
 - **SQLite migrations:** `msc:migrate:sqlite:header-nav-submenu-source`, `msc:migrate:sqlite:pages-show-in-header-nav`

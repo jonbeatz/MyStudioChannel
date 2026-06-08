@@ -1,3 +1,9 @@
+## [2026-06-07] - Docs sync — ideaz + review planning files
+- **Branch:** MSC-Website-v6 @ `9d9831f` (audit already pushed)
+- **Changes:** Added **`.cursor/ideaz.md`** (portable studio kit / `custom-scriptz` roadmap) and **`.cursor/review.md`** (audit follow-up, score 86/100, tomorrow queue). Ran **`msc:docs:sync`** (PERFECT SYNC). Updated TRUTH, START-HERE, Checkpoint, CHANGELOG, ReCall.
+- **Status:** completed — docs commit pending this entry
+- **Next:** See **review.md** — live v6 deploy, `NODE_ENV` in `.env.local`, `payload.sqlite` policy
+
 ## [2026-06-08] - Session closeout — MCP docs + Hostinger MCP fix
 - **Branch:** MSC-Website-v6 @ `667eb20`
 - **Changes:** Updated **MCP-SETUP.md** (global 12 servers, secrets checklist). Fixed Hostinger MCP **`spawn EINVAL`** — global `~/.cursor/mcp.json` now uses `cmd /c npx -y hostinger-api-mcp@latest`. Added **`HOSTINGER_API_TOKEN`** to `.env.local`; extended **`msc-sync-mcp-env.mjs`** to sync all four `hostinger-*` servers. Verified API (`mystudiochannel.com` listed). **Start Project** ritual run; ports stopped.

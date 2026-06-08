@@ -38,8 +38,13 @@ When docs differ, use this priority:
 3. `Agent-Runbook.md` (copy/paste prompts)
 4. `HOSTINGER-DEPLOY.md` (Hostinger deployment guide)
 5. `Jedi-List.md` (commands quick reference)
-5. `Development.md` (architecture details)
-6. `ReCall.md` / `Restore-Points.md` (history + checkpoints)
+6. `Development.md` (architecture details)
+7. `ReCall.md` / `Restore-Points.md` (history + checkpoints)
+
+**Planning backlog (optional, not daily ops):**
+
+- [`.cursor/review.md`](../review.md) — audit follow-up and next-session queue
+- [`.cursor/ideaz.md`](../ideaz.md) — portable `custom-scriptz` / new-project kit ideas
 
 ---
 

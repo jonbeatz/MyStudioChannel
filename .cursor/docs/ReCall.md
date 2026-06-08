@@ -96,12 +96,18 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Branches:** **`MSC-Website-v6`** (active dev); **`main`** synced with v6; **`MSC-Website-v5`** frozen at v5.0.0.
 - **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v6.0.0`**; **Latest = `v6.0.0`**.
 - **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); **cursor-mcp-refresh** extension; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
-- **Audit (2026-06-07):** Phases 1–4 complete (deploy safety, docs `msc:*` sync, rules dedup, Restore-Points trim to 3, Sentry pin, MCP sync extension) — **uncommitted** unless Jon asks.
-- **Next ideas:** Feature work on v6; **`msc:codeburn`** weekly token review; optional admin bundle analysis (Payload ~816 kB First Load JS).
+- **Audit (2026-06-07):** Phases 1–4 complete @ **`9d9831f`** (pushed). Planning backlog: **`.cursor/review.md`** (tomorrow queue) · **`.cursor/ideaz.md`** (portable studio kit).
+- **Next ideas:** Deploy v6 live + `msc:verify:live:version`; hygiene from **review.md**; portable kit from **ideaz.md** when starting new repos.
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-07 — Planning docs + docs sync
+
+- **Added:** `.cursor/ideaz.md` (portable `custom-scriptz` / bootstrap kit ideas) and `.cursor/review.md` (audit score 86/100, tomorrow queue).
+- **Synced:** TRUTH, START-HERE, Checkpoint, CHANGELOG, ReCall, project-log.
+- **Backup:** Quick backup `msc-website-v2-d` @ `9d9831f`.
 
 ### 2026-06-07 — Comprehensive audit Phase 4 — cleanup + optimizations
 

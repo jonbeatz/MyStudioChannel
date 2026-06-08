@@ -27,6 +27,10 @@ Shared installer helpers: [_lib/Msc-ModuleInstall.ps1](_lib/Msc-ModuleInstall.ps
 
 Say **`make new`** or **`create module`** — [Create-New-Module.md](../prompts/Create-New-Module.md)
 
+## Future modules (backlog)
+
+See **[`.cursor/ideaz.md`](../ideaz.md)** for the portable studio kit roadmap (`dev-runtime-core`, `docs-governance`, `project-bootstrap`, etc.).
+
 ## Agent entry (any project)
 
 **[Prompt-Module.md](Prompt-Module.md)** — tell the agent to read and follow this file, then name the module (e.g. `google-api-proxy`).
