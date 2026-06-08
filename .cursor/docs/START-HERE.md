@@ -179,6 +179,7 @@ Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.nex
 | Stream server console logs live | **`npm run logs:live:console`** (SSH `tail -f console.log`) |
 | Optimize local database | **`npm run db:optimize`** (`PRAGMA optimize` + `VACUUM`) |
 | Purge old local backups | **`npm run backup:clean`** (retains only 10 most recent backups) |
+| Trim deploy zips in repo | **`npm run backup:clean-zips`** (keeps 3 newest in `zips/`) |
 | Push with new packages | **`git push origin main`** (auto rebuild, if Git connected) |
 | Check what Hostinger will install | **`npm ls --omit=dev --depth=0`** |
 | Verify build before push | **`npm run build && npm run verify:local`** |

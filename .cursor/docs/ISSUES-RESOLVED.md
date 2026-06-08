@@ -17,6 +17,13 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-07] Standard backup bloated by reproducible deploy zips (~400 MB)
+- **Error:** Standard backups jumped from ~244 MB to ~637 MB after deploy sessions; `zips/` alone was ~525 MB.
+- **Cause:** `scripts/msc-backup.mjs` standard robocopy included gitignored `zips/` (`deploy-next.zip`, timestamped `MyStudioChannel-deploy-*.zip`). Archives are reproducible via `deploy:zip` / `pushit:live:fast`.
+- **Solution:** Added `zips` to `STANDARD_DIRS` skip list. Added `scripts/clean-zips.ps1` + `npm run backup:clean-zips` (retain 3 newest). Backup folder naming uses `msc-website-v2-*`.
+- **Files Changed:** `scripts/msc-backup.mjs`, `scripts/clean-zips.ps1`, `package.json`, `.cursor/custom-scriptz/backup-system/*`, `.cursor/rules/global.mdc`, docs
+- **Prevention:** Run **`npm run backup:clean-zips`** after deploys. Standard backup never copies `zips/`.
+
 ## [2026-06-08] Hostinger MCP spawn EINVAL on Windows (Cursor)
 - **Error:** `hostinger-hosting`, `hostinger-vps`, `hostinger-domains`, `hostinger-dns` failed to start — **`Error: spawn EINVAL`**; MCP panel showed duplicate `?` rows.
 - **Cause:** Global `~/.cursor/mcp.json` used **`"command": "npx.cmd"`** with `--package=…` args. Cursor's MCP runner on Windows does not spawn that reliably (unlike **`cmd /c npx -y …`** used by github/tavily).

@@ -47,10 +47,10 @@ Dry-run (verify only): `npm run msc:backup:quick -- --dry-run`
 
 | Option id | Label |
 |-----------|--------|
-| `standard` | **Standard** — skips node_modules, .next, logs, test-results |
+| `standard` | **Standard** — skips node_modules, .next, logs, test-results, zips |
 | `full` | **Full** — includes everything |
 
-**Standard skips only:** `node_modules`, `.next`, `logs`, `test-results`
+**Standard skips only:** `node_modules`, `.next`, `logs`, `test-results`, `zips`
 
 ### Step 2 — Destination
 
@@ -68,13 +68,13 @@ If **custom**, ask the operator for the path in chat before Step 3.
 
 ### Step 3 — Folder
 
-Scan backup root for **`msc-website-v1-*`** folders; suggest next letter (script: `npm run msc:backup` / `scripts/msc-backup.mjs`).
+Scan backup root for **`msc-website-v2-*`** folders; suggest next letter (script: `npm run msc:backup` / `scripts/msc-backup.mjs`).
 
 **`AskQuestion` prompt:** `Folder name for this backup?`
 
 | Option id | Label |
 |-----------|--------|
-| `suggested` | **Use suggested** — e.g. msc-website-v1-l |
+| `suggested` | **Use suggested** — e.g. msc-website-v2-c |
 | `custom` | **Custom name** — I'll type it next |
 
 If **custom**, accept folder name from the operator's next message.
@@ -85,7 +85,7 @@ Show summary in chat (no question yet):
 
 ```text
 Backup Summary:
-- Type: Standard (skips node_modules, .next, logs, test-results)
+- Type: Standard (skips node_modules, .next, logs, test-results, zips)
 - Destination: [path]
 - Folder: [name]
 ```

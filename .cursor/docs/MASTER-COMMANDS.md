@@ -116,10 +116,11 @@ ps aux | grep node             # Check if Node is running
 
 | Command | What it does | Frequency |
 |---------|--------------|-----------|
-| `npm run msc:backup:quick` | Non-interactive standard backup to local backup drive | Daily / before substantive changes |
+| `npm run msc:backup:quick` | Non-interactive standard backup to local backup drive (skips `node_modules`, `.next`, `logs`, `test-results`, `zips`) | Daily / before substantive changes |
 | `npm run msc:backup:quick:full` | Non-interactive full backup including `node_modules` and `.next` | Weekly / major upgrades |
 | `npm run backup:clean` | Retention manager: purges backups older than the 10 most recent | Monthly / as disk space requires |
 | `npm run backup:clean -- --dry-run` | Preview which folders would be cleaned up | Safely preview before deleting |
+| `npm run backup:clean-zips` | Keeps only the 3 most recent deploy zips in `zips/` | After deploy sessions |
 
 ### 🛡️ Git Pre-Commit Security Hook
 Every time you perform a `git commit` command, Husky automatically intercepts the commit to:

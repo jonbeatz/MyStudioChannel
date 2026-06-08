@@ -11,10 +11,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
 /** MyStudioChannel project default — override with MSC_BACKUP_ROOT in .env.local */
 const DEFAULT_BACKUP_ROOT = 'G:\\Cursor_Project_BackUpz\\MyStudioChannel';
-/** Folder names under backup root: msc-website-v1-a … msc-website-v1-z */
-const BACKUP_FOLDER_PREFIX = 'msc-website-v1';
-const BACKUP_FOLDER_PATTERN = /^msc-website-v1-([a-z])$/i;
-const STANDARD_DIRS = ['node_modules', '.next', 'logs', 'test-results'];
+/** Folder names under backup root: msc-website-v2-a … msc-website-v2-z */
+const BACKUP_FOLDER_PREFIX = 'msc-website-v2';
+const BACKUP_FOLDER_PATTERN = /^msc-website-v2-([a-z])$/i;
+const STANDARD_DIRS = ['node_modules', '.next', 'logs', 'test-results', 'zips'];
 const NOTES_REL_PATH = path.join('.cursor', 'BackUp-Notez.md');
 const NOTES_FOOTER =
   '\n*Backup created — includes source code, config, and portable modules.*\n';
@@ -68,7 +68,7 @@ function defaultBackupFolder(projectName) {
   return `${projectName}-backup-${stamp}`;
 }
 
-/** List `msc-website-v1-*` folders in backup root (for agent / interactive hints). */
+/** List `msc-website-v2-*` folders in backup root (for agent / interactive hints). */
 function listSequentialBackupFolders(backupRoot) {
   if (!fs.existsSync(backupRoot)) return [];
   return fs
@@ -79,7 +79,7 @@ function listSequentialBackupFolders(backupRoot) {
 }
 
 /**
- * Next folder: msc-website-v1-a … z (e.g. …-i → …-j). Falls back to timestamp name if z exhausted.
+ * Next folder: msc-website-v2-a … z (e.g. …-a → …-b). Falls back to timestamp name if z exhausted.
  */
 function suggestNextBackupFolder(backupRoot) {
   const existing = listSequentialBackupFolders(backupRoot);
@@ -417,9 +417,7 @@ async function main() {
 
     if (isStandardBackup || (!isFullBackup && !isStandardBackup)) {
       cmd += ` /XD ${STANDARD_DIRS.join(' ')}`;
-      console.log(
-        'ℹ️  Standard skips: node_modules, .next, logs, test-results\n',
-      );
+      console.log(`ℹ️  Standard skips: ${STANDARD_DIRS.join(', ')}\n`);
       console.log('ℹ️  Keep backup destination private (.env.local is copied).\n');
     } else {
       console.log('ℹ️  Full backup: no directory skips (includes node_modules, .next)\n');

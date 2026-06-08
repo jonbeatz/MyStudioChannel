@@ -4,7 +4,7 @@ Robocopy-based **Standard** and **Full** project backups to a configurable drive
 
 ## Standard skips
 
-`node_modules`, `.next`, `logs`, `test-results`
+`node_modules`, `.next`, `logs`, `test-results`, `zips`
 
 Summaries should list **skips only** — do not add “includes `.env.local`” or `BackUp-Notez.md` in the type/summary lines. Keep G: backups private.
 
@@ -26,13 +26,14 @@ Uses shared `_lib/Msc-ModuleInstall.ps1`. Pulls `msc-load-env` from `google-api-
 | `npm run msc:backup:full` | Full mirror (no directory skips) |
 | `npm run msc:backup -- --standard <folder> --yes` | Non-interactive Standard |
 | `npm run msc:backup -- --standard <folder> --yes --note "why"` | Non-interactive + backup note |
+| `npm run backup:clean-zips` | Retain 3 newest `zips/*.zip`; delete older deploy archives |
 
 Chat (Vader or after merging `global.mdc.fragment`): **`backup project`**
 
 ## Script flow (direct `npm run msc:backup`)
 
 1. Backup drive/folder (default `G:\Cursor_Project_BackUpz\MyStudioChannel`, or `MSC_BACKUP_ROOT`)
-2. Folder name — **`msc-website-v1-a`** … **`msc-website-v1-z`** (next letter auto-suggested from existing folders), or CLI arg / custom name
+2. Folder name — **`msc-website-v2-a`** … **`msc-website-v2-z`** (next letter auto-suggested from existing folders), or CLI arg / custom name
 3. Confirm (interactive only)
 4. Optional note prompt (interactive only; use `--note` when using `--yes`)
 5. Robocopy, then write `.cursor/BackUp-Notez.md`

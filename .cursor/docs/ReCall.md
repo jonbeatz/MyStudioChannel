@@ -102,6 +102,12 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ## Recent changes (latest first)
 
+### 2026-06-07 — Backup bloat fix: exclude zips/ + clean-zips retention
+
+- **Issue:** Standard backups ~637 MB vs ~244 MB — `zips/` deploy archives (~525 MB) copied despite being gitignored.
+- **Fix:** `STANDARD_DIRS` now skips **`zips`**. **`npm run backup:clean-zips`** keeps 3 newest `zips/*.zip`. Folder naming **`msc-website-v2-*`**.
+- **Docs:** MASTER-COMMANDS, START-HERE, ISSUES-RESOLVED, backup-system README/CURSOR, global.mdc.
+
 ### 2026-06-08 — Hostinger MCP fix + MCP-SETUP sync (global 12)
 
 - **Error fixed:** Hostinger MCPs failed with **`spawn EINVAL`** in Cursor (bare **`npx.cmd`** in global `~/.cursor/mcp.json`).

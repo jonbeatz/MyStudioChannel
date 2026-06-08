@@ -86,3 +86,4 @@ This is the single source of truth for ALL custom commands and scripts wired int
 | `npm run msc:backup:quick` | Non-interactive daily standard backup |
 | `npm run msc:backup:quick:full` | Non-interactive weekly full backup |
 | `npm run msc:backup:clean` | Purge backups older than 10 most recent |
+| `npm run backup:clean-zips` | Keep 3 newest deploy zips in `zips/` |

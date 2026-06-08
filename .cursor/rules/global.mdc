@@ -13,8 +13,9 @@ alwaysApply: true
 | **`backup quick`**, **`backup project quick`** | **Non-interactive:** run `npm run msc:backup:quick` from repo root — no questions, no note prompt |
 | **`backup full`**, **`backup project full`** | **Non-interactive:** run `npm run msc:backup:quick:full` from repo root — no questions, no note prompt |
 | **`clean backups`**, **`purge old backups`** | Run `npm run backup:clean` (deletes backups older than the 10 most recent) |
+| **`clean zips`**, **`purge deploy zips`** | Run `npm run backup:clean-zips` (keeps 3 newest in `zips/`) |
 
-Quick commands use default backup root (`G:\Cursor_Project_BackUpz\MyStudioChannel`), auto-suggest next `msc-website-v1-*` folder, and `--yes`.
+Quick commands use default backup root (`G:\Cursor_Project_BackUpz\MyStudioChannel`), auto-suggest next `msc-website-v2-*` folder, and `--yes`.
 
 After quick backup completes, report destination path and `.cursor/BackUp-Notez.md`.
 

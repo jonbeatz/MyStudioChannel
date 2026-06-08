@@ -54,7 +54,7 @@ if (Test-Path $dest) {
 Write-Host ""
 Write-Host "Installation complete." -ForegroundColor Green
 Write-Host "Default backup root: G:\Cursor_Project_BackUpz\MyStudioChannel (override MSC_BACKUP_ROOT in .env.local)"
-Write-Host "Standard skips: node_modules, .next, logs, test-results"
+Write-Host "Standard skips: node_modules, .next, logs, test-results, zips"
 Write-Host "BackUp-Notez.md per backup; agent ritual: CURSOR.md (8 steps, --note on run)"
 Write-Host "Merge global.mdc.fragment for backup project shortcuts (optional)"
 Write-Host ""

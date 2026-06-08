@@ -103,6 +103,8 @@
     "msc:backup:quick": "npm run msc:backup -- --standard --yes",
     "msc:backup:quick:full": "npm run msc:backup -- --full --yes",
     "msc:backup:clean": "powershell -ExecutionPolicy Bypass -File scripts/clean-old-backups.ps1",
+    "msc:backup:clean-zips": "powershell -ExecutionPolicy Bypass -File scripts/clean-zips.ps1 -Force",
+    "backup:clean-zips": "npm run msc:backup:clean-zips",
     "msc:docs:audit": "node scripts/msc-audit-docs.mjs",
     "msc:docs:sync": "npm run msc:docs:audit",
     "msc:log:fix": "node scripts/msc-logger.mjs --fix",
