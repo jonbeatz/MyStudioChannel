@@ -67,7 +67,7 @@ Portable workflow skills pack for reuse in other projects:
 
 **Think layer (Obsidian):** `I:\Vader_Vault` — personal notes; ship layer = this repo's `.cursor/docs/` + TRUTH. Weekly distill to ReCall (operator calendar).
 
-**MCP:** Project **6 servers** — `MCP-SETUP.md`. Refresh: **cursor-mcp-refresh** extension (status bar `MCP (X/Y)`).
+**MCP:** Global **12** + project **6** — `MCP-SETUP.md`. **`HOSTINGER_API_TOKEN`** in `.env.local` → **`npm run msc:sync:mcp-env`**. Refresh: **cursor-mcp-refresh** (status bar `MCP (X/Y)`).
 
 Project rules layout:
 - Core rule file: `.cursorrules`

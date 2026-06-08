@@ -102,6 +102,14 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ## Recent changes (latest first)
 
+### 2026-06-08 — Hostinger MCP fix + MCP-SETUP sync (global 12)
+
+- **Error fixed:** Hostinger MCPs failed with **`spawn EINVAL`** in Cursor (bare **`npx.cmd`** in global `~/.cursor/mcp.json`).
+- **Fix:** All four `hostinger-*` servers now use **`cmd /c npx -y hostinger-api-mcp@latest …`** (matches working global MCPs).
+- **Secrets:** **`HOSTINGER_API_TOKEN`** added to **`.env.local`**; **`msc-sync-mcp-env.mjs`** syncs token to all four Hostinger servers.
+- **Verified:** `hosting_listWebsitesV1` returns **mystudiochannel.com**; GitHub + Tavily API tests PASS.
+- **Docs:** **MCP-SETUP.md** rewritten (12 global servers, secrets checklist, health check); **Site-Plans.md**, **`.env.example`** updated.
+
 ### 2026-06-08 — MSC Tooling Upgrade + Obsidian pilot + MCP consolidation
 
 - **Skills:** **`.cursor/skills/MSC-UI-Taste/SKILL.md`** — merged taste-skill + impeccable + emilkowalski under NovaMira Gold. Extended **NovaMira-Design** + **Premium-UI** anti-slop cross-links.

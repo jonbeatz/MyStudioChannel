@@ -1,3 +1,15 @@
+## [2026-06-08] - Session closeout — MCP docs + Hostinger MCP fix
+- **Branch:** MSC-Website-v6 @ `667eb20`
+- **Changes:** Updated **MCP-SETUP.md** (global 12 servers, secrets checklist). Fixed Hostinger MCP **`spawn EINVAL`** — global `~/.cursor/mcp.json` now uses `cmd /c npx -y hostinger-api-mcp@latest`. Added **`HOSTINGER_API_TOKEN`** to `.env.local`; extended **`msc-sync-mcp-env.mjs`** to sync all four `hostinger-*` servers. Verified API (`mystudiochannel.com` listed). **Start Project** ritual run; ports stopped.
+- **Status:** completed — committed in follow-up (docs + sync script)
+- **Next:** Feature work on v6; project MCP secrets (WordPress, 21st, Browserbase) when needed
+
+## [2026-06-07 19:15] - Session closeout — backup + port shutdown
+- **Branch:** MSC-Website-v6 @ `667eb20`
+- **Changes:** Interactive **backup project** → `G:\Cursor_Project_BackUpz\MyStudioChannel\msc-website-v2-a` (Standard). Note: Hostinger upload workflow + new MCPs. Prior session work already committed/pushed (`27adb12`, `667eb20`). Working tree: only `payload.sqlite` (local dev, not committed).
+- **Status:** completed — session stopped; ports cleared
+- **Next:** Say **Start Project**; reload MCP (cursor-mcp-refresh); Obsidian kepano skills Week 1
+
 ## [2026-06-08] - MSC Tooling Upgrade + Obsidian pilot + MCP consolidation
 - **Branch:** MSC-Website-v6
 - **Changes:** Added **MSC-UI-Taste** skill; Gilfoyle **harsh-review** prompt + global rule; archived **browsermcp** + **antigravity** from project MCP (6 servers); **CURATED-INDEX** for imported playbooks; **cursor-mcp-refresh** VSIX; **codeburn** + **`msc:codeburn`**; Obsidian vault structure at **`I:\Vader_Vault`**; fixed **`msc-sync-mcp-env.mjs`** for Node 24 ESM. Synced AGENTS, MCP-SETUP, TOOL-CHEST, Jedi-List, ReCall, Checkpoint, Prompt-Cheat-Sheet, START-HERE.

@@ -6,6 +6,7 @@
  *   ~/.cursor/mcp.json          → github (GITHUB_PERSONAL_ACCESS_TOKEN)
  *                                 resend (RESEND_API_KEY, if server exists)
  *                                 tavily (TAVILY_API_KEY, if server exists)
+ *                                 hostinger-* (HOSTINGER_API_TOKEN, if servers exist)
  *   .cursor/mcp.json (project)  → mcp-wordpress (WORDPRESS_*)
  *
  * Run after editing .env.local, then reload MCP in Cursor.
@@ -177,6 +178,28 @@ function main() {
     );
   } else if (tavilyKey && !globalConfig.mcpServers?.tavily) {
     console.warn('WARN: TAVILY_API_KEY in .env.local but mcpServers.tavily missing in global mcp.json');
+  }
+
+  const hostingerToken = env.HOSTINGER_API_TOKEN;
+  const hostingerServers = Object.keys(globalConfig.mcpServers || {}).filter((name) =>
+    name.startsWith('hostinger-'),
+  );
+  if (hostingerToken && hostingerServers.length > 0) {
+    if (isPlaceholder(hostingerToken)) {
+      console.warn('WARN: HOSTINGER_API_TOKEN looks like a placeholder');
+    }
+    let anyChanged = false;
+    for (const serverName of hostingerServers) {
+      const changed = setNestedEnv(globalConfig, serverName, {
+        HOSTINGER_API_TOKEN: hostingerToken,
+      });
+      if (changed) anyChanged = true;
+    }
+    console.log(
+      `${anyChanged ? 'PASS' : 'OK'}: hostinger token → global (${hostingerServers.length} server(s), ${maskSecret(hostingerToken)})`,
+    );
+  } else if (hostingerServers.length > 0) {
+    console.warn('WARN: hostinger-* MCP present but HOSTINGER_API_TOKEN not in .env.local');
   }
 
   writeJson(GLOBAL_MCP, globalConfig);

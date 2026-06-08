@@ -1,6 +1,6 @@
 # MyStudioChannel - Master Command Reference
 
-**Last Updated:** 2026-06-08 (MSC tooling upgrade — MSC-UI-Taste, MCP consolidation, codeburn, cursor-mcp-refresh)
+**Last Updated:** 2026-06-08 (Hostinger MCP fix, MCP-SETUP global 12, msc:sync:mcp-env Hostinger sync)
 **Branch:** `MSC-Website-v6`
 **Version:** `6.0.0`
 
@@ -210,6 +210,18 @@ npm run test:hostinger-ftp
 | Footer version | MyStudioChannel v6.0.0 |
 | `/admin` login | Works |
 | Demos section | Loads with images |
+
+---
+
+## 🔌 MCP & Cursor
+
+| Command | What it does | When to use |
+|---------|--------------|-------------|
+| `npm run msc:sync:mcp-env` | Sync `.env.local` → global + project `mcp.json` (GitHub, Tavily, Hostinger ×4, WordPress) | After editing MCP secrets in `.env.local` |
+| `npm run msc:test:github-api` | Verify GitHub token | MCP troubleshooting |
+| `npm run msc:test:tavily-api` | Verify Tavily token | MCP troubleshooting |
+
+**Docs:** [MCP-SETUP.md](./MCP-SETUP.md) · Refresh: **cursor-mcp-refresh** status bar `MCP (X/Y)`
 
 ---
 

@@ -17,6 +17,13 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-08] Hostinger MCP spawn EINVAL on Windows (Cursor)
+- **Error:** `hostinger-hosting`, `hostinger-vps`, `hostinger-domains`, `hostinger-dns` failed to start — **`Error: spawn EINVAL`**; MCP panel showed duplicate `?` rows.
+- **Cause:** Global `~/.cursor/mcp.json` used **`"command": "npx.cmd"`** with `--package=…` args. Cursor's MCP runner on Windows does not spawn that reliably (unlike **`cmd /c npx -y …`** used by github/tavily).
+- **Solution:** Changed all four Hostinger blocks to `cmd` + `/c` + `npx` + `-y` + `hostinger-api-mcp@latest` + service binary. Added **`HOSTINGER_API_TOKEN`** to `.env.local`; extended **`msc-sync-mcp-env.mjs`** to sync all `hostinger-*` servers. Documented in **MCP-SETUP.md**.
+- **Files Changed:** `~/.cursor/mcp.json` (global, outside repo), `scripts/msc-sync-mcp-env.mjs`, `.env.example`, `.cursor/docs/MCP-SETUP.md`, `.cursor/docs/Site-Plans.md`
+- **Prevention:** On Windows, never use bare `npx.cmd` for MCP; mirror **`cmd /c npx -y`** pattern. After token edits: **`npm run msc:sync:mcp-env`** + **`MCP (X/Y)`** refresh. Restart Cursor if duplicate stale rows persist.
+
 ## [2026-06-08] msc:sync:mcp-env fails on Node 24 (require in ESM)
 - **Error:** `npm run msc:sync:mcp-env` → `ReferenceError: require is not defined in ES module scope`
 - **Cause:** `scripts/msc-sync-mcp-env.mjs` used CommonJS `require()` while Node treats `.mjs` as ESM.
