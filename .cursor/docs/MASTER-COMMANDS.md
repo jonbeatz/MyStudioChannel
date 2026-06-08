@@ -50,7 +50,12 @@
 | `npm run msc:hostinger:npm-install` | SSH: repair `node_modules` on app root (fixes missing webpack) | N/A | ~1–2 min |
 | `npm run msc:hostinger:recover` | SSH: diagnose `stderr.log`, preload, WAL, trim logs | N/A | ~30 sec |
 | `npm run msc:hostinger:stop-node` | SSH: stop Node + clear WAL/SHM before DB upload | N/A | ~15 sec |
-| `npm run pushit:live` | Full FTPS: build + upload + **`sync-db`** + **`sync-app`** | ✅ Yes | ~45–60 min |
+| `npm run msc:hostinger:unzip-deploy-next` | SSH: unzip `deploy-next.zip` on staging, verify **BUILD_ID**, remove zip | N/A | ~30 sec |
+| `npm run pushit:live:fast` | **Fast FTPS:** build → zip `.next` → single FTPS file → SSH unzip → **`sync-app`** (no DB/media by default) | ❌ No (use `-WithDb` / `-WithMedia`) | ~10–15 min |
+| `npm run pushit:live:fast -- -SkipBuild` | Admin-ui + **`sync-app`** only (no build/zip) | ❌ No | ~3–5 min |
+| `npm run msc:pushit:live:fast:dry` | Print steps only — no remote mutations | N/A | ~10 sec |
+| `npm run pushit:live:fast -- -DryRun` | Same (pass flag after `--`) | N/A | ~10 sec |
+| `npm run pushit:live` | Full FTPS: build + upload + **`sync-db`** + **`sync-app`** + media | ✅ Yes | ~45–60 min |
 
 ### After ANY deploy:
 1. Restart Node in hPanel: [https://hpanel.hostinger.com/websites/mystudiochannel.com](https://hpanel.hostinger.com/websites/mystudiochannel.com)
@@ -131,7 +136,7 @@ Every time you perform a `git commit` command, Husky automatically intercepts th
 |-------|----------------|
 | Port 3000 in use | `node scripts/kill-dev-port.mjs` or `npm run kill-port` |
 | 503 error | `npm run msc:hostinger:recover` (preload) or `msc:hostinger:npm-install` (webpack in `stderr.log`) |
-| Wrong footer/nav on live | `npm run msc:hostinger:sync-app` or full `pushit:live` |
+| Wrong footer/nav on live | `npm run msc:hostinger:sync-app` or `pushit:live:fast -WithDb` or full `pushit:live` |
 | hPanel "Build failed" (MCP) | Ignore if `verify:live` passes — use `pushit:live`, not MCP |
 | Database 4KB (not 528KB) | Upload correct database via FTPS or File Manager |
 | WAL files causing lock | Delete `payload.sqlite-wal` and `payload.sqlite-shm` on server |

@@ -158,8 +158,10 @@ Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.nex
 | I want to… | Command |
 |------------|---------|
 | CMS/API broken, site loads (stub DB) | **`npm run msc:push:db:live`** (~1–2 min) → [restart in hPanel](https://hpanel.hostinger.com/websites/mystudiochannel.com) |
+| Push **code/UI** fast (~10–15 min) | **`npm run pushit:live:fast`** (zip `.next` + **`sync-app`**) → restart in hPanel |
+| Push **code + DB + media** (full parity) | **`pushit:live`** (includes **`sync-db`** + **`sync-app`**) → restart in hPanel |
+| Preflight fast deploy (no upload) | **`npm run msc:pushit:live:fast:dry`** |
 | Push **code** only (MCP zip) | Say **push it live** → choose MCP → verify DB size after |
-| Push **code + DB + media** (reliable) | **`pushit:live`** (includes **`sync-db`** + **`sync-app`**) → restart in hPanel |
 | Repair live `node_modules` (503 webpack) | **`npm run msc:hostinger:npm-install`** → restart in hPanel |
 | Diagnose live 503 | **`npm run msc:hostinger:recover`** → follow stderr hint → restart |
 | Stream server error logs live | **`npm run logs:live`** (SSH `tail -f stderr.log`) |

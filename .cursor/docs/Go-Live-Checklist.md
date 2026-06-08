@@ -83,6 +83,7 @@ Wait until build completes successfully.
 | Tier | Name | Command (Local / repo root) | What it ships | When to use |
 |------|------|----------------------------|---------------|-------------|
 | **1** | **Branding — Fast FTP** | `npm run pushitup:admin-branding` | **Only:** `components/msc-payload-graphics.tsx`, `components/msc-payload-admin-enhancements.tsx`, `collections/Users.ts`, `payload.config.ts`, `app/(payload)/custom.scss` | Quick look-and-feel / config / SCSS tweaks; **no** `build` or `.next` in this step. |
+| **2b** | **Fast code/UI — zip `.next` + sync-app** | `npm run pushit:live:fast` | **`build`** → **`msc:pushitup:admin-ui`** → zip **`deploy-next.zip`** → FTPS → SSH unzip + BUILD_ID → **`msc:hostinger:sync-app`**. Flags: **`-SkipBuild`**, **`-WithDb`**, **`-WithMedia`**, **`-DryRun`**. Fallback: **`pushitup -- .next`**. | Daily code/UI when DB/media unchanged (~10–15 min). |
 | **2** | **Admin logic / pages — Full build + UI + `.next` + DB + media** | `npm run pushit:live` | **`build`** → **`msc:pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`msc:hostinger:sync-db`** → **`msc:hostinger:sync-app`** (staging → app root + **`npm install --ignore-scripts`**) → **`pushitup -- public/media`** | **Master** deploy. FTPS lands in **`public_html/nodejs/`**; SSH sync copies to live app root. |
 | **3** | **Hosting — server / package config** | `npm run pushitup:server-config` | **`server.js`**, **`package.json`**, **`package-lock.json`**, **`.env.example`** | Deps, lockfile, startup file, or documented env template changed; follow **§5** for **`npm install`** on the host. |
 
@@ -90,7 +91,15 @@ Wait until build completes successfully.
 
 **Tier 1** does **not** run `build` — use **Tier 2** when the admin bundle or site needs to reflect new compiled code.
 
-### Standard one-command deploy (Tier 2)
+### Standard one-command deploy
+
+**Daily code/UI (Tier 2b):**
+
+```bash
+npm run pushit:live:fast
+```
+
+**Full parity — DB + media (Tier 2):**
 
 ```bash
 npm run pushit:live
@@ -193,7 +202,7 @@ If **`/media/`** images are wrong or 404 after deploy, sync **`public/media`** t
 ## Ground rules
 
 - Run `pushitup` on PC terminal, not Hostinger Terminal.
-- For app/admin code changes, prefer **Tier 2** (`pushit:live`): full build + FTPS + **`sync-db`** + **`sync-app`**.
+- For daily code/UI, prefer **Tier 2b** (`pushit:live:fast`). For DB + media parity, use **Tier 2** (`pushit:live`).
 - Do not partially upload random files in `.next` unless recovering failed chunk uploads.
 
 ---

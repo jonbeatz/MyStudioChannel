@@ -1,3 +1,9 @@
+## [2026-06-08] - pushit:live:fast (Tier 2b) + full docs sync
+- **Branch:** MSC-Website-v6
+- **Changes:** Added **`pushit:live:fast`** (~10–15 min): zip **`.next`** → single FTPS → SSH unzip (BUILD_ID) → **`sync-app`**. Scripts: **`pushit-live-fast.ps1`**, **`msc-hostinger-unzip-deploy-next`**. Fixed zip upload path (repo-root **`deploy-next.zip`** for FTPS, not **`zips/`** on remote). Flags **`-SkipBuild`**, **`-WithDb`**, **`-WithMedia`**, **`-DryRun`**. Updated MASTER-COMMANDS, HOSTINGER-DEPLOY, Go-Live-Checklist, Push-Website-Live, Checkpoint, ReCall, Restore-Points, Jedi-List, START-HERE, README, AGENTS, rules.
+- **Status:** completed — live **`verify:live`** passing after deploy test
+- **Next:** Routine code/UI via **`pushit:live:fast`**; full parity via **`pushit:live`**
+
 ## [2026-06-08] - Live 503 recovery, sync-app hardening, full docs sync
 - **Branch:** MSC-Website-v6 @ `b368d3e`
 - **Changes:** Diagnosed live **503** — `node_modules` missing Next webpack after lockfile sync; fixed via SSH **`npm install --ignore-scripts`**. Added **`msc:hostinger:sync-app`**, **`msc:hostinger:npm-install`**, **`msc:hostinger:recover`**. Wired **`sync-app`** into **`pushit:live`** and **`msc:push:db:live`**. Documented two **`nodejs`** folders (FTPS staging vs live app root), MCP **Build failed** note, prevention checklist across HOSTINGER-DEPLOY, DEPLOYMENT-TROUBLESHOOTING, MASTER-COMMANDS, Jedi-List, Checkpoint, ReCall, Restore-Points, AGENTS, rules.

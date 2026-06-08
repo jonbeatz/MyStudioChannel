@@ -15,8 +15,9 @@ When Jon says **push it live** / **push website live**, present **one** `AskQues
 | Option | Label for Jon | Time | When to use |
 |--------|---------------|------|-------------|
 | **A** | **Quick DB sync** (~1–2 min) | ~1–2 min | `/` + `/admin` OK, `/api/globals/*` **500**, or live `payload.sqlite` is ~4 KB stub |
-| **B** | **Full FTPS deploy** (~45–60 min) | Long | Code/UI/admin changed; need local `.next` + DB + media on server |
-| **C** | **MCP zip — code only** (~5–10 min) | Medium | **Avoid on this host** — `better-sqlite3` build fails; leaves stale **Build failed** in hPanel. Use **B** instead. |
+| **B** | **Fast FTPS — code/UI** (~10–15 min) | Medium | Code/UI/admin changed; DB + media unchanged — **`pushit:live:fast`** (zip `.next` + sync-app) |
+| **B2** | **Full FTPS deploy** (~45–60 min) | Long | Need DB + media parity, new packages, or first deploy — **`pushit:live`** |
+| **C** | **MCP zip — code only** (~5–10 min) | Medium | **Avoid on this host** — `better-sqlite3` build fails; leaves stale **Build failed** in hPanel. Use **B** or **B2** instead. |
 
 **Agent rule:** Wait for Jon’s choice before running build/upload commands.
 
@@ -29,7 +30,14 @@ Then **Live (hPanel):** **Restart** Node → `npm run msc:verify:live`
 
 Steps inside script: `msc:hostinger:stop-node` → FTPS `payload.sqlite` → `msc:hostinger:sync-db` → **`msc:hostinger:sync-app`** (FTPS lands under `public_html/nodejs/`; SSH copies DB + code into live app root).
 
-### Mode B — Full FTPS
+### Mode B — Fast FTPS (default for daily code/UI)
+**Local:**
+```powershell
+npm run pushit:live:fast
+```
+Pipeline: stop-node → build → admin-ui → zip **`deploy-next.zip`** → FTPS → SSH unzip (BUILD_ID) → **`sync-app`**. Optional: **`-WithDb`**, **`-WithMedia`**, **`-SkipBuild`** (admin-only), **`-DryRun`**. Falls back to **`pushitup -- .next`** if zip path fails. **Live (hPanel):** **Restart** when done.
+
+### Mode B2 — Full FTPS
 **Local:**
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/push-website-live.ps1 -Ftps

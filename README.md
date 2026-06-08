@@ -143,9 +143,10 @@ The `MSC-Website-v6` line continues comprehensive safety and developer experienc
 
 Optimized for **Hostinger (hPanel)** with **automated validation and recovery**:
 
-- **Say "push it live"** in Cursor — agent asks mode: **Quick DB** (`msc:push:db:live`) · **Full FTPS** · **MCP code-only** (verify DB after — MCP/Git ≠ DB deploy)
+- **Say "push it live"** in Cursor — agent asks mode: **Quick DB** · **Fast FTPS** (`pushit:live:fast`) · **Full FTPS** · **MCP** (avoid on this host)
 - **Tier 1 (Branding):** `npm run pushitup:admin-branding` (CSS + Graphics fast ship)
-- **Tier 2 (App):** `npm run pushit:live` (build + `.next` + DB + media; SSH **`sync-db`** + **`sync-app`** — FTPS staging → live app root)
+- **Tier 2b (Fast):** `npm run pushit:live:fast` (zip `.next` + admin-ui + **`sync-app`** — ~10–15 min)
+- **Tier 2 (Full):** `npm run pushit:live` (build + `.next` + DB + media; SSH **`sync-db`** + **`sync-app`**)
 - **Tier 3 (Config):** `npm run pushitup:server-config` (Package/Server files contract)
 
 ---

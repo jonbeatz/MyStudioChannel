@@ -17,6 +17,20 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-08] pushit:live:fast — zip landed under zips/ on FTPS staging
+- **Error:** First **`pushit:live:fast`** test: SSH unzip failed (`missing deploy-next.zip on staging`); zip path fallback did not run; staging had **`zips/deploy-next.zip`** instead of **`deploy-next.zip`** at FTPS root.
+- **Cause:** **`PushItUP`** preserves relative paths — uploading **`zips/deploy-next.zip`** lands at **`public_html/nodejs/zips/deploy-next.zip`**, while **`msc:hostinger:unzip-deploy-next`** expected **`public_html/nodejs/deploy-next.zip`**.
+- **Solution:** **`pushit-live-fast.ps1`** copies zip to repo-root **`deploy-next.zip`** before FTPS (remote staging root). Unzip script checks **`zips/`** as legacy fallback. Added **`msc:pushit:live:fast:dry`** for preflight. Live verified after manual unzip + **`sync-app`**; **`verify:live`** pass.
+- **Files Changed:** `scripts/pushit-live-fast.ps1`, `scripts/msc-hostinger-unzip-deploy-next-ssh.mjs`, `package.json`, deploy docs
+- **Prevention:** Always upload **`deploy-next.zip`** at FTPS **`/nodejs`** root (not under **`zips/`**). Preflight with **`npm run msc:pushit:live:fast:dry`**.
+
+## [2026-06-08] pushit:live:fast — Tier 2b fast deploy (~10–15 min)
+- **Error:** Daily **`pushit:live`** took ~45–60 min (thousands of FTPS files for **`.next`**).
+- **Cause:** Full FTPS uploads every **`.next`** chunk individually; reliable but slow.
+- **Solution:** Added **`npm run pushit:live:fast`**: local build → zip **`.next`** → single FTPS file → SSH unzip + **BUILD_ID** verify → **`sync-app`**. Flags: **`-SkipBuild`**, **`-WithDb`**, **`-WithMedia`**, **`-DryRun`**. Fallback to **`pushitup -- .next`** if zip path fails. **`pushit:live`** unchanged for full DB + media parity.
+- **Files Changed:** `scripts/pushit-live-fast.ps1`, `scripts/msc-hostinger-unzip-deploy-next-ssh.mjs`, `package.json`, `MASTER-COMMANDS.md`, `HOSTINGER-DEPLOY.md`, `Go-Live-Checklist.md`, `Push-Website-Live.md`
+- **Prevention:** Use **`pushit:live:fast`** for daily code/UI; **`pushit:live`** when DB/media must ship or new npm packages added.
+
 ## [2026-06-08] Live 503 after deploy — broken node_modules (missing Next webpack) + two-folder confusion
 - **Error:** `https://mystudiochannel.com` returned **503** after FTPS deploy. hPanel showed **Build failed** (MCP). Operator saw **`public_html/nodejs`** and top-level **`nodejs`** and assumed misplacement.
 - **Cause:** (1) FTPS lands under **`public_html/nodejs/`** while Node runs from **`domains/.../nodejs/`** — without **`sync-app`**, code/`.next`/lockfile never reached the app root. (2) Syncing **`package-lock.json`** without **`npm install`** left **`node_modules/next`** incomplete → `stderr.log`: `Cannot find module 'next/dist/compiled/webpack/webpack'`. (3) Plain **`npm install`** on host fails on **`better-sqlite3`** (`node-gyp` / GLIBC). (4) hPanel **Build failed** was a **stale MCP** attempt, not the healthy FTPS path.

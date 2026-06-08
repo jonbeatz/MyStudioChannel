@@ -22,7 +22,8 @@ npm run verify:local
 | Path | Command / action |
 |------|------------------|
 | **Zip (first deploy / refresh)** | Create **`D:\Cursor_Projectz\MyStudioChannel-deploy.zip`** (exclude `node_modules`, `.next`, `.git`) → hPanel drag-and-drop → Deploy |
-| **FTPS (updates)** | **`npm run pushit:live`** or **`npm run pushit:live:safe`** |
+| **FTPS fast (daily code/UI)** | **`npm run pushit:live:fast`** or **`msc:pushit:live:fast:dry`** (preflight) |
+| **FTPS full (DB + media)** | **`npm run pushit:live`** or **`npm run pushit:live:safe`** |
 | **MCP** | **`hosting_deployJsApplication`** (Hostinger Connector signed in) |
 
 ### hPanel env vars (required)
@@ -41,8 +42,10 @@ hPanel → **Restart** Node.js app. Incognito: **`/`** + **`/admin`** → footer
 
 | Command | Purpose |
 |---------|---------|
-| **`npm run pushit:live`** | FTPS upload (fast daily updates — build + admin-ui + `.next` + DB + media) |
-| **`npm run pushit:live:safe`** | Same as above, after **`verify:local`** preflight |
+| **`npm run pushit:live:fast`** | Fast FTPS — zip `.next`, SSH unzip, **`sync-app`** (~10–15 min; flags **`-WithDb`**, **`-WithMedia`**, **`-SkipBuild`**) |
+| **`npm run msc:pushit:live:fast:dry`** | Print fast-deploy steps only — no remote changes |
+| **`npm run pushit:live`** | Full FTPS — build + admin-ui + `.next` + DB + media + **`sync-db`** + **`sync-app`** |
+| **`npm run pushit:live:safe`** | Full FTPS after **`verify:local`** preflight |
 | **`npm run verify:live`** | Smoke test live endpoints |
 | **`npm run build`** | Local production build |
 | **`npm ls --omit=dev --depth=0`** | Audit production dependencies |

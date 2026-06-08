@@ -66,7 +66,7 @@ Create a new restore branch from the current clean state:
 
 ## Deployment docs ↔ `package.json` (keep in sync)
 
-**Source of truth for npm deploy aliases:** root **`package.json`** (`pushitup`, **`pushitup:admin-ui`**, **`pushitup:admin-branding`**, **`pushit:live`**, **`pushit:live:safe`**, etc.).
+**Source of truth for npm deploy aliases:** root **`package.json`** (`pushitup`, **`pushitup:admin-ui`**, **`pushitup:admin-branding`**, **`pushit:live:fast`**, **`pushit:live`**, **`pushit:live:safe`**, etc.).
 
 These operator docs should match those scripts whenever deploy behavior changes:
 
@@ -91,15 +91,21 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Public URLs:** **`lib/public-origin.ts`** + **`lib/site-origin-defaults.ts`** — **`PAYLOAD_PUBLIC_SERVER_URL`** / **`NEXT_PUBLIC_SERVER_URL`** / **`MSC_CANONICAL_SITE_ORIGIN`**; **`getPublicOriginClient()`** for admin Client Components; **`payload.config.ts`** **`serverURL`** + env-built **CSRF**.
 - **Marketing site:** Header/footer in-page hash scroll (mobile drawer defer); **`HomeHashScroll`**; **`middleware`** pathname-only rewrites (host-agnostic).
 - **Version:** **`v6.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v6.0.0`**, admin **`MyStudioChannel Admin v6.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
-- **Live:** **`https://mystudiochannel.com`** — healthy; may still show **v5.0.0** until next deploy. **`msc:verify:live`** passed (2026-06-07).
-- **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (deploy modes), **`DEPLOYMENT-TROUBLESHOOTING.md`**. Say **push it live** → agent asks mode (Quick DB · Full FTPS · MCP code-only). **MCP/Git ≠ DB deploy**.
-- **Branches:** **`MSC-Website-v6`** @ **`17b3da8`** (active dev); **`main`** @ **`17b3da8`**; **`MSC-Website-v5`** frozen at v5.0.0; **`MSC-Website-v4`** frozen at v4.0.0.
+- **Live:** **`https://mystudiochannel.com`** — **v6.0.0** healthy. **`msc:verify:live`** passing (2026-06-08).
+- **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (deploy modes), **`DEPLOYMENT-TROUBLESHOOTING.md`**. Say **push it live** → agent asks mode (Quick DB · Fast FTPS · Full FTPS · MCP avoid). **MCP/Git ≠ DB deploy**.
+- **Branches:** **`MSC-Website-v6`** (active dev); **`main`** synced with v6; **`MSC-Website-v5`** frozen at v5.0.0.
 - **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v6.0.0`**; **Latest = `v6.0.0`**.
 - **Next ideas:** Feature work on v6; deploy when ready to update live version labels.
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-08 — pushit:live:fast (Tier 2b) + docs sync
+
+- **Feature:** **`npm run pushit:live:fast`** — zip **`.next`** → single FTPS → SSH unzip (BUILD_ID) → **`sync-app`**. Flags **`-SkipBuild`**, **`-WithDb`**, **`-WithMedia`**, **`-DryRun`**. Preflight: **`msc:pushit:live:fast:dry`**.
+- **Fix:** FTPS zip must land at staging root **`deploy-next.zip`** (not **`zips/deploy-next.zip`** on remote).
+- **Live:** **`verify:live`** pass; **`pushit:live`** unchanged for full DB + media.
 
 ### 2026-06-08 — Live 503 fix, sync-app deploy pipeline, docs sync
 

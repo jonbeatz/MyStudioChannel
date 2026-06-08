@@ -11,7 +11,7 @@
 
 **Canonical rule:** [DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md) → *The Canonical Rule* — if it's imported in app code, it must be in **`dependencies`**, not **`devDependencies`**. Pre-deploy: **`npm ls --omit=dev --depth=0`**.
 
-**Recommended daily deploy:** **`npm run pushit:live`** (FTPS + **`sync-db`** + **`sync-app`** + host **`npm install --ignore-scripts`**). **Avoid MCP zip** on this host — `better-sqlite3` native compile fails and hPanel can show a stale **Build failed** while FTPS deploys are healthy.
+**Recommended daily deploy:** **`npm run pushit:live:fast`** (~10–15 min) for code/UI when DB and media are unchanged; **`npm run pushit:live`** (~45–60 min) when you need full DB + media parity. Both run **`sync-app`** + host **`npm install --ignore-scripts`**. **Avoid MCP zip** on this host — `better-sqlite3` native compile fails and hPanel can show a stale **Build failed** while FTPS deploys are healthy.
 
 ---
 
@@ -308,12 +308,36 @@ Once your site is live, use these methods for ongoing updates. **Quick card:** [
 | **Quick DB sync** | `npm run msc:push:db:live` | APIs **500**, stub **4 KB** DB | ~1–2 min | **Yes** |
 | **Push website live (ask mode)** | Say *push it live* — agent picks Quick / FTPS / MCP | Always start here | Varies | Depends on mode |
 | **MCP zip (code-only)** | `npm run push:website:live` → MCP | **Code** changes only; verify DB after | ~5–10 min | **No** |
-| **FTPS full** | `push-website-live.ps1 -Ftps` or `pushit:live` | Code + DB + media parity | ~45–60 min | **Yes** (+ `sync-db` + **`sync-app`**) |
+| **FTPS fast (Tier 2b)** | `npm run pushit:live:fast` | Code + `.next` + admin-ui; optional `-WithDb` / `-WithMedia` | ~10–15 min | **Only with `-WithDb`** |
+| **FTPS full (Tier 2)** | `push-website-live.ps1 -Ftps` or `pushit:live` | Code + DB + media parity | ~45–60 min | **Yes** (+ `sync-db` + **`sync-app`**) |
 | **Git push + rebuild** | `git push origin main` | Major updates, new packages | ~5–6 min | **No** — verify DB size |
 
 ---
 
-### Method 1: FTPS — `npm run pushit:live` (fastest for daily updates)
+### Method 1a: FTPS fast — `npm run pushit:live:fast` (default for daily code/UI)
+
+Zips **`.next`** to **`zips/deploy-next.zip`**, copies to repo-root **`deploy-next.zip`** for FTPS (remote: **`public_html/nodejs/deploy-next.zip`** — not under `zips/`), SSH-unzips on staging (BUILD_ID verify), then **`sync-app`**. Falls back to full **`pushitup -- .next`** if zip/unzip fails.
+
+```powershell
+# Default — code + admin-ui + sync-app (no DB/media)
+npm run pushit:live:fast
+
+# Admin-only (~3–5 min) — no build, no zip
+npm run pushit:live:fast -- -SkipBuild
+
+# Include DB and/or media when needed
+npm run pushit:live:fast -- -WithDb
+npm run pushit:live:fast -- -WithDb -WithMedia
+
+# Preflight — print steps only
+npm run pushit:live:fast -- -DryRun
+```
+
+**When not to use:** first deploy, new npm packages (use **`pushit:live`** or **`pushitup:server-config`** + **`msc:hostinger:npm-install`**), or when CMS/media must always ship with code (use full **`pushit:live`**).
+
+---
+
+### Method 1b: FTPS full — `npm run pushit:live` (full parity)
 
 **What it uploads (Local → Live via FTPS):**
 
