@@ -4,7 +4,7 @@
 When user says **"push website live"**, **"push it live"**, **"push site live"**, or **"deploy live"**.
 
 ## Goal
-Ship **`MSC-Website-v6`** to **https://mystudiochannel.com**. **Always ask Jon which deploy mode first** — do not auto-run the long full build.
+Ship **`MSC-Website-v7`** (or frozen **`MSC-Website-v6`** if restoring) to **https://mystudiochannel.com**. **Always ask Jon which deploy mode first** — do not auto-run the long full build.
 
 ---
 
@@ -85,7 +85,7 @@ npm run push:website:live -- --dry-run
 npm run msc:deploy:zip
 ```
 
-Confirm branch **`MSC-Website-v6`**, report `package.json` version, warn on uncommitted changes.
+Confirm branch **`MSC-Website-v7`**, report `package.json` version, warn on uncommitted changes.
 
 ### Step 2 — MCP deploy (default)
 Read MCP schema first: `hosting_deployJsApplication`, `hosting_listJsDeployments`, `hosting_showJsDeploymentLogs`.

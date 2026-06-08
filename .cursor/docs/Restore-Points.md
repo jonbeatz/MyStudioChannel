@@ -21,9 +21,9 @@ Human-named checkpoints so you can roll back mentally or on disk if a change goe
 
 | ID | Date | Summary |
 |----|------|---------|
+| **RP-2026-06-08-v7-start** | 2026-06-08 | **Fresh v7 development branch:** Branch `MSC-Website-v7`, version still **6.0.0** until release bump. Cut from `MSC-Website-v6` @ `c9e260e` (Hostinger MCP launcher fix; docs sync). Full backup **`msc-website-v2-f`**. **`MSC-Website-v6`** frozen @ `c9e260e` as clean restore. **Restore v6:** `git fetch origin && git checkout MSC-Website-v6 && git reset --hard c9e260e`. **Restore v7:** `git fetch origin && git checkout MSC-Website-v7 && git pull`. |
 | **RP-2026-06-08-pushit-live-fast** | 2026-06-08 | **Tier 2b fast deploy (`pushit:live:fast`):** Zip **`.next`** → single FTPS → SSH unzip + BUILD_ID → **`sync-app`**. Fixed FTPS path (upload **`deploy-next.zip`** at staging root, not **`zips/`**). Live **v6.0.0** healthy; **`msc:verify:live`** pass. **Branch:** `MSC-Website-v6`. **Restore:** `git fetch origin && git checkout MSC-Website-v6 && git pull`. |
 | **RP-2026-06-08-live-v6-sync-app** | 2026-06-08 | **Live v6.0.0 healthy + deploy pipeline hardened:** Fixed **503** (`node_modules` / missing Next webpack). Added SSH **`msc:hostinger:sync-app`**, **`msc:hostinger:npm-install`**, **`msc:hostinger:recover`**. **`pushit:live`** mirrors FTPS staging → live app root. Documented two **`nodejs`** folders; prefer FTPS over MCP. Live: Legal dropdown, footer **v6.0.0**, **`msc:verify:live`** pass. **Branch/commit:** `MSC-Website-v6` @ **`b368d3e`**. **Restore:** `git fetch origin && git checkout MSC-Website-v6 && git reset --hard b368d3e && git pull`. |
-| **RP-2026-06-07-github-releases-v6** | 2026-06-07 | **GitHub releases complete:** Tags `v4.0.0`–`v6.0.0` published; **Latest = `v6.0.0`**. Docs audit PERFECT SYNC. **Branch/commit:** `MSC-Website-v6` @ `17b3da8`. **Restore:** `git fetch --tags origin && git checkout MSC-Website-v6 && git reset --hard 17b3da8 && git pull`. |
 
 > **Archive:** Older checkpoints moved to [_archive/Restore-Points-historical.md](_archive/Restore-Points-historical.md) (Phase 4 trim — keeps 3 most recent).
 

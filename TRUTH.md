@@ -4,7 +4,7 @@
 - **Name:** MyStudioChannel
 - **Type:** Next.js (15.4) + Payload CMS (3.81) application
 - **OS/Shell:** Windows 10/11 + PowerShell (Core or Desktop)
-- **Primary Branch:** `MSC-Website-v6` (active dev); **`main`** synced with v6 line
+- **Primary Branch:** `MSC-Website-v7` (active dev); **`MSC-Website-v6`** frozen @ `c9e260e`; **`main`** at v6 line until v7 merges
 - **Repository:** [https://github.com/jonbeatz/MyStudioChannel](https://github.com/jonbeatz/MyStudioChannel)
 - **Primary Domain:** [https://mystudiochannel.com](https://mystudiochannel.com)
 
@@ -102,7 +102,7 @@ MyStudioChannel/
 
 ## Deployment (Hostinger)
 
-**Live:** [https://mystudiochannel.com](https://mystudiochannel.com) · **Dev branch:** `MSC-Website-v6` · **Production:** v6.0.0 on Hostinger Node.js (deploy to update live label)
+**Live:** [https://mystudiochannel.com](https://mystudiochannel.com) · **Dev branch:** `MSC-Website-v7` · **Production:** v6.0.0 on Hostinger Node.js (deploy to update live label)
 
 | Path | When | Local command |
 |------|------|----------------|
@@ -135,5 +135,5 @@ When booting up a session, you **must** execute the following sequence:
 
 ---
 
-*Last Updated: 2026-06-07 (v6.0.0 · branch `MSC-Website-v6` · confirm live label via `npm run msc:verify:live:version`)*  
+*Last Updated: 2026-06-08 (v6.0.0 · branch `MSC-Website-v7` · `MSC-Website-v6` frozen @ `c9e260e`)*  
 <sub>· Powered by the MyStudioChannel Media Engine</sub>

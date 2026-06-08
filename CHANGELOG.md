@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **`MSC-Website-v7` branch cut** — new active development line from frozen `MSC-Website-v6` @ `c9e260e`; full backup `msc-website-v2-f`
 - **`.cursor/ideaz.md`** — portable `custom-scriptz` / project-bootstrap roadmap (backlog)
 - **`.cursor/review.md`** — comprehensive audit follow-up queue and tomorrow work list
 - **Comprehensive audit (Phases 2–4)** — Payload UI patch regenerate; `/test` middleware fix; `sync-app --skip-db`; SSH preflight; bulk `msc:*` doc sync; rules dedup; Restore-Points trim; Sentry pin; MCP sync for 21st/browserbase

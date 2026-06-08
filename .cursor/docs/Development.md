@@ -287,8 +287,9 @@ When you want to "freeze" a working state before more changes:
 ### Naming conventions used in this project
 
 - Working feature branches:
-  - `MSC-Website-v6` (active dev)
-  - `main` (production — sync with v6 line on push)
+  - `MSC-Website-v7` (active dev)
+  - `main` (v6 line @ `c9e260e` until v7 merges)
+  - `MSC-Website-v6` (frozen @ `c9e260e` — clean restore)
   - `MSC-Website-v5` (frozen at v5.0.0 — backup branch)
 - Good commit style:
   - `Add dynamic pages builder, anchors, and branding wiring.`

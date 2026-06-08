@@ -93,7 +93,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Version:** **`v6.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v6.0.0`**, admin **`MyStudioChannel Admin v6.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
 - **Live:** **`https://mystudiochannel.com`** — **v6.0.0** healthy. **`msc:verify:live`** passing (2026-06-08).
 - **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (deploy modes), **`DEPLOYMENT-TROUBLESHOOTING.md`**. Say **push it live** → agent asks mode (Quick DB · Fast FTPS · Full FTPS · MCP avoid). **MCP/Git ≠ DB deploy**.
-- **Branches:** **`MSC-Website-v6`** (active dev); **`main`** synced with v6; **`MSC-Website-v5`** frozen at v5.0.0.
+- **Branches:** **`MSC-Website-v7`** (active dev); **`main`** @ v6 line (`c9e260e`); **`MSC-Website-v6`** frozen @ `c9e260e` (clean restore + backup **`msc-website-v2-f`**); **`MSC-Website-v5`** frozen at v5.0.0.
 - **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v6.0.0`**; **Latest = `v6.0.0`**.
 - **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); Hostinger quartet via **`msc-hostinger-mcp.mjs`** launcher (scoped bins, no tool-naming warnings); MCP reload via **Settings → MCP**; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
 - **Audit (2026-06-07):** Phases 1–4 complete @ **`9d9831f`** (pushed). Planning backlog: **`.cursor/review.md`** (tomorrow queue) · **`.cursor/ideaz.md`** (portable studio kit).
@@ -103,6 +103,12 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-08 — MSC-Website-v7 branch cut
+
+- **Branch:** Created **`MSC-Website-v7`** from **`MSC-Website-v6`** @ **`c9e260e`** (pushed to origin).
+- **Policy:** **`MSC-Website-v6`** frozen as clean restore line; all active development on **`MSC-Website-v7`**. Version still **6.0.0** until release bump.
+- **Backup:** Full **`msc-website-v2-f`** on `G:\` (MCP fixes note).
 
 ### 2026-06-08 — Hostinger MCP launcher + docs sync
 

@@ -27,10 +27,10 @@ git push -u origin HEAD   # first push on new branch
 git push                  # after upstream is set
 ```
 
-**Current workflow branch:** `MSC-Website-v6` (active dev) | `main` (sync with v6 on push) | `MSC-Website-v5` (frozen at v5.0.0).
+**Current workflow branch:** `MSC-Website-v7` (active dev) | `main` (v6 line @ `c9e260e`) | `MSC-Website-v6` (frozen @ `c9e260e`) | `MSC-Website-v5` (frozen at v5.0.0).
 
 ```bash
-git push origin MSC-Website-v6
+git push origin MSC-Website-v7
 ```
 
 ---
@@ -106,7 +106,7 @@ Avoid `git reset --hard` and `git push --force` on shared branches unless you me
 ## Merge main into your branch
 
 ```bash
-git checkout MSC-Website-v6
+git checkout MSC-Website-v7
 git fetch origin
 git merge origin/main
 # fix conflicts if any, then:
@@ -146,7 +146,7 @@ git fetch --tags
 git checkout v6.0.0    # read-only snapshot
 ```
 
-**Cut a new release** (after version bump on `MSC-Website-v6`):
+**Cut a new release** (after version bump on `MSC-Website-v7`):
 
 ```bash
 git tag -a vX.Y.Z <commit> -m "MyStudioChannel vX.Y.Z"

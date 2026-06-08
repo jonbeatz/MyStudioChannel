@@ -2,7 +2,7 @@
 
 **Live site:** [https://mystudiochannel.com](https://mystudiochannel.com)  
 **Project root (Local):** `D:\Cursor_Projectz\MyStudioChannel`  
-**Branch:** `MSC-Website-v6`  
+**Branch:** `MSC-Website-v7` (active dev)  
 **Stack:** Next.js 15 + Payload CMS 3 + SQLite · entry **`server.js`** (Hostinger may auto-detect **`next start`** for Next.js preset)
 
 **Related:** [DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md) (2026-06-01 learnings) · [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md) (503/500/504 root-cause guide) · [Go-Live-Checklist.md](./Go-Live-Checklist.md) · [`.env.example`](../../.env.example)

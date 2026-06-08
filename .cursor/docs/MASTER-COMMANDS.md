@@ -1,7 +1,7 @@
 # MyStudioChannel - Master Command Reference
 
 **Last Updated:** 2026-06-08 (Hostinger MCP fix, MCP-SETUP global 12, msc:sync:mcp-env Hostinger sync)
-**Branch:** `MSC-Website-v6`
+**Branch:** `MSC-Website-v7` (active) · `MSC-Website-v6` frozen @ `c9e260e`
 **Version:** `6.0.0`
 
 ---

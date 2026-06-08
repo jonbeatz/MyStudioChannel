@@ -48,7 +48,7 @@ Package the reusable 20% of MyStudioChannel (dev runtime, docs governance, backu
 - `README.md` references **`Create-New-Module.md`** — prompt does not exist yet
 - **`Prompt-Module.md`** only lists 2 modules; 6+ folders exist
 - No **`custom-scriptz/registry.json`** central module index
-- **`msc-audit-docs.mjs`** hardcodes branch (`MSC-Website-v6`) — should read git or env
+- **`msc-audit-docs.mjs`** hardcodes branch (`MSC-Website-v7`) — should read git or env
 
 ---
 

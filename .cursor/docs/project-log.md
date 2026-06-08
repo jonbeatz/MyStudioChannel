@@ -1,3 +1,10 @@
+## [2026-06-08] - MSC-Website-v7 branch cut
+- **Branch:** `MSC-Website-v7` created from `MSC-Website-v6` @ `c9e260e` and pushed; active dev branch
+- **Policy:** `MSC-Website-v6` frozen @ `c9e260e` as clean restore; full backup `msc-website-v2-f`
+- **Changes:** Restore-Points, Checkpoint, ReCall, TRUTH, ops docs synced to v7 active line
+- **Status:** completed — version still 6.0.0 until release
+- **Next:** Feature work on `MSC-Website-v7`
+
 ## [2026-06-08] - Hostinger MCP launcher + docs sync
 - **Branch:** MSC-Website-v6
 - **Changes:** **`scripts/msc-hostinger-mcp.mjs`** (scoped Hostinger bins + invalid tool-name filter). Extended **`msc-sync-mcp-env.mjs`** to copy launcher to `~/.cursor/scripts/`. Docs: **MCP-SETUP**, **ISSUES-RESOLVED**, **START-HERE**, **MASTER-COMMANDS**, **Prompt-Cheat-Sheet**, **ReCall** — MCP reload via **Settings → MCP** (cursor-mcp-refresh uninstalled). Verified 4 Hostinger servers: hosting 27, vps 62, domains 18, dns 8 tools; zero naming warnings.
