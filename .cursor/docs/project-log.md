@@ -1,7 +1,7 @@
 ## [2026-06-08] - Hostinger MCP launcher + docs sync
 - **Branch:** MSC-Website-v6
 - **Changes:** **`scripts/msc-hostinger-mcp.mjs`** (scoped Hostinger bins + invalid tool-name filter). Extended **`msc-sync-mcp-env.mjs`** to copy launcher to `~/.cursor/scripts/`. Docs: **MCP-SETUP**, **ISSUES-RESOLVED**, **START-HERE**, **MASTER-COMMANDS**, **Prompt-Cheat-Sheet**, **ReCall** — MCP reload via **Settings → MCP** (cursor-mcp-refresh uninstalled). Verified 4 Hostinger servers: hosting 27, vps 62, domains 18, dns 8 tools; zero naming warnings.
-- **Status:** completed — commit + push pending this entry
+- **Status:** completed — committed `57f3304` and pushed
 - **Next:** Feature work on v6; optional DeepSeek via LiteLLM `model_list`
 
 ## [2026-06-07 22:45] - Session closeout — audit complete, planning docs, backups
