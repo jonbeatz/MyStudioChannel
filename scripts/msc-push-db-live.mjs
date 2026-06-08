@@ -88,6 +88,7 @@ try {
 }
 
 run("SSH sync DB into app root", "npm", ["run", "msc:hostinger:sync-db"]);
+run("SSH sync app into app root", "npm", ["run", "msc:hostinger:sync-app"]);
 
 console.log("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 console.log("✅ DB-only live sync complete (~1–2 min path)");

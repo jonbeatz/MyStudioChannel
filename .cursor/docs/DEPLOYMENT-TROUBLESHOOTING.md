@@ -17,10 +17,14 @@ Is your site down?
 
 ```text
 Is your site down?
-    ├── 503 error -> Check stderr.log for missing .builds/ -> Recreate preload file -> Restart Node
-    ├── 500 API error -> Run msc:push:db:live (or Full FTPS + sync-db) -> Restart Node
-    ├── 504 timeout -> Stop dev server -> npm run db:copy -> Re-upload with auto WAL cleanup
-    └── Wrong content -> Upload local payload.sqlite with auto size verification -> Restart Node
+    ├── 503 error
+    │     ├── stderr: missing .builds/preload -> msc:hostinger:recover -> Restart Node
+    │     ├── stderr: missing next/dist/compiled/webpack -> msc:hostinger:npm-install -> Restart Node
+    │     └── else -> msc:hostinger:sync-app -> Restart Node
+    ├── 500 API error -> msc:push:db:live (includes sync-app) -> Restart Node
+    ├── 504 timeout -> Stop dev server -> db:copy -> Re-upload with WAL cleanup
+    ├── Wrong nav/footer version -> pushit:live or msc:push:db:live (sync-db + sync-app) -> Restart
+    └── Wrong content -> Full FTPS + sync-db + sync-app -> Restart Node
 ```
 
 ---
@@ -33,15 +37,19 @@ Is your site down?
 
 ### Root Causes We Found
 - Node.js app crashed (including missing DB tables)
+- Missing **`next/dist/compiled/webpack/webpack`** — `node_modules` out of sync after lockfile sync without **`npm install --ignore-scripts`**
+- Missing **`.builds/config/preload-timestamp.js`** under `public_html`
+- Code/DB uploaded to **`public_html/nodejs/`** but not copied to live app root (skipped **`sync-app`**)
 - Hostinger resource limits exceeded
 - `payload.sqlite` on server was `4 KB` instead of expected `~528 KB`
-- Wrong app root directory configured in hPanel
 
 ### Solutions
-1. **Live (hPanel):** Node.js -> Restart app
-2. Check resource usage; upgrade plan or request temporary boost if limits are hit
-3. Upload correct `payload.sqlite` (expected size around `528 KB`) to `/nodejs/`
-4. Confirm app root is `/nodejs` (not `/public_html`)
+1. Read **`/nodejs/stderr.log`** (app root) — match error to fix below
+2. Webpack missing → **`npm run msc:hostinger:npm-install`** → Restart
+3. Preload missing → **`npm run msc:hostinger:recover`** → Restart
+4. Stale code/version → **`npm run msc:hostinger:sync-app`** or **`pushit:live`** → Restart
+5. **Live (hPanel):** Node.js → Restart app
+6. Confirm checks run against **app root** `domains/.../nodejs/`, not **`public_html/nodejs/`** staging only
 
 ---
 
@@ -192,7 +200,72 @@ Never delete the `.builds/` directory. If you need to free space, delete other f
 
 ---
 
-## 10) SQLite WAL Journal Locks (Now Automated via FTPS)
+## 10) [RESOLVED] 503 — Missing Next.js webpack module after lockfile sync
+
+### Symptoms
+- Live site **503**; hPanel may still show **Running**
+- `stderr.log` contains:
+  `Error: Cannot find module 'next/dist/compiled/webpack/webpack'`
+
+### Root Cause
+**`package.json`** / **`package-lock.json`** were copied to the app root (via **`sync-app`** or manual upload) but **`node_modules`** was not refreshed. Next.js cannot start without `next/dist/compiled/webpack/`.
+
+Plain **`npm install`** on this host often **fails** on **`better-sqlite3`** native compile (`node-gyp`, GLIBC). Use **`--ignore-scripts`** to restore Next without rebuilding native addons.
+
+### Solutions
+**Local (preferred):**
+```bash
+npm run msc:hostinger:npm-install
+```
+Then **Restart** Node in hPanel → **`npm run msc:verify:live`**
+
+**Prevention:** **`msc:hostinger:sync-app`** (included in **`pushit:live`** and **`msc:push:db:live`**) runs **`npm install --legacy-peer-deps --ignore-scripts`** after mirroring files.
+
+---
+
+## 11) Two `nodejs` folders — staging vs live app root
+
+### Symptoms
+- Deploy “succeeded” but live shows old footer (v5), wrong Legal link, or **503**
+- File Manager shows full project under **`public_html/nodejs`** and a separate top-level **`nodejs`**
+
+### Root Cause
+| Path | Role |
+|------|------|
+| `public_html/nodejs/` | FTPS **staging** — where uploads land |
+| `domains/.../nodejs/` | **Live app root** — where Node runs |
+
+Uploading alone does not update the running app without **`msc:hostinger:sync-db`** (database) and **`msc:hostinger:sync-app`** (code, `.next`, lockfile, npm).
+
+### Solutions
+```bash
+npm run pushit:live
+# or repair only:
+npm run msc:hostinger:sync-app
+npm run msc:hostinger:sync-db
+```
+Then Restart Node → **`npm run msc:verify:live`**
+
+**Do not delete `public_html/nodejs/`** — it is required for the deploy pipeline.
+
+---
+
+## 12) hPanel "Build failed" (MCP) while FTPS site is healthy
+
+### Symptoms
+- Dashboard shows red **Build failed** on last deployment
+- Site works after **`pushit:live`** and **`verify:live`** passes
+
+### Root Cause
+**MCP zip** triggers server **`npm install` + `npm run build`**, which fails compiling **`better-sqlite3`** on this shared host. The failed record remains in hPanel; it does not reflect FTPS + pre-built **`.next`** deploys.
+
+### Solutions
+- **Ignore** stale MCP status when using **`pushit:live`**
+- Prefer **Mode B (Full FTPS)** in [Push-Website-Live.md](../prompts/Push-Website-Live.md) — avoid MCP for routine updates
+
+---
+
+## 13) SQLite WAL Journal Locks (Now Automated via FTPS)
 
 ### Symptoms
 - Database updates don't show up on live after a new deployment
@@ -217,7 +290,9 @@ This is now **100% automated** on our PC-side deployment scripts!
 
 | Symptom | Command / Action |
 |---|---|
-| Site down / 503 | Check `stderr.log` for missing `.builds/` preload file. Recreate with SSH, then restart in hPanel. |
+| Site down / 503 | `stderr.log`: preload → **`msc:hostinger:recover`**; webpack → **`msc:hostinger:npm-install`**; else **`msc:hostinger:sync-app`** → restart |
+| Wrong version/nav | **`pushit:live`** or **`msc:push:db:live`** (sync-db + sync-app) |
+| hPanel Build failed | Stale MCP — use FTPS; ignore if **`verify:live`** passes |
 | API 500 / stub DB | `npm run msc:push:db:live` → restart → `msc:verify:live` |
 | Database wrong size | `npm run db:copy` then Quick DB or Full FTPS + `msc:hostinger:sync-db` |
 | Wrong files deployed | Check `FTP_REMOTE_PATH=/nodejs`, run `npm run sync:sftp-env` |
@@ -231,13 +306,13 @@ This is now **100% automated** on our PC-side deployment scripts!
 
 1. Before DB operations, stop local dev server (`Ctrl+C`)
 2. After MCP or Git deploy, confirm DB is **~500 KB** (not **4 KB**) — MCP/Git ≠ DB deploy
-3. After FTPS DB upload, run **`npm run msc:hostinger:sync-db`** (lands under `public_html/nodejs/`)
+3. After FTPS upload, run **`sync-db`** + **`sync-app`** (both in **`pushit:live`**)
 4. Keep `.env.local` correct (`FTP_REMOTE_PATH=/nodejs`)
-5. Monitor Hostinger resources in hPanel regularly
+5. Never delete **`public_html/nodejs/`** or **`public_html/.builds/`**
 6. Choose deploy method intentionally:
+   - Routine code + DB + media → **`pushit:live`** (FTPS)
    - Stub DB / APIs 500 → **Quick DB** (`msc:push:db:live`)
-   - Code-only changes → MCP zip (verify DB after)
-   - DB/content parity required → Full FTPS + `sync-db`
+   - Avoid MCP zip on this host (`better-sqlite3` build fails)
 
 ---
 
@@ -245,7 +320,8 @@ This is now **100% automated** on our PC-side deployment scripts!
 
 | Symptom | First place to check |
 |---|---|
-| Site down (503) | `/nodejs/stderr.log` via SSH/File Manager (look for missing `.builds/preload` module error) |
+| Site down (503) | App root `/nodejs/stderr.log` — preload, webpack, or sync-app needed |
+| Staging vs live | Compare `public_html/nodejs/package.json` vs app root `nodejs/package.json` version |
 | API errors | `/nodejs/console.log` via File Manager |
 | Database issues | File Manager -> `/nodejs/payload.sqlite` size |
 | FTPS issues | `npm run test:hostinger-ftp` |

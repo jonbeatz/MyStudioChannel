@@ -1,6 +1,6 @@
 # MyStudioChannel - Master Command Reference
 
-**Last Updated:** 2026-06-06
+**Last Updated:** 2026-06-08
 **Branch:** `MSC-Website-v6`
 **Version:** `6.0.0`
 
@@ -45,8 +45,12 @@
 | `powershell -File scripts/push-website-live.ps1 -Ftps` | Full FTPS (code + DB + media) | ✅ Yes (+ `sync-db`) | ~45–60 min |
 | `npm run push:website:live -- --dry-run` | Preview deploy without uploading | N/A | ~30 sec |
 | `npm run deploy:zip` | Create deploy zip only | ✅ Yes (in /zips/) | ~10 sec |
-| `npm run msc:hostinger:sync-db` | SSH copy DB from `public_html/nodejs/` → app root | ✅ Yes | ~30 sec |
-| `npm run pushit:live` | Full FTPS Tier 2 (includes auto **`sync-db`** after DB upload) | ✅ Yes | ~45–60 min |
+| `npm run msc:hostinger:sync-db` | SSH: DB `public_html/nodejs/` → live app root | ✅ Yes | ~30 sec |
+| `npm run msc:hostinger:sync-app` | SSH: code + `.next` + lockfile → app root + `npm install --ignore-scripts` | ✅ Code parity | ~1–3 min |
+| `npm run msc:hostinger:npm-install` | SSH: repair `node_modules` on app root (fixes missing webpack) | N/A | ~1–2 min |
+| `npm run msc:hostinger:recover` | SSH: diagnose `stderr.log`, preload, WAL, trim logs | N/A | ~30 sec |
+| `npm run msc:hostinger:stop-node` | SSH: stop Node + clear WAL/SHM before DB upload | N/A | ~15 sec |
+| `npm run pushit:live` | Full FTPS: build + upload + **`sync-db`** + **`sync-app`** | ✅ Yes | ~45–60 min |
 
 ### After ANY deploy:
 1. Restart Node in hPanel: [https://hpanel.hostinger.com/websites/mystudiochannel.com](https://hpanel.hostinger.com/websites/mystudiochannel.com)
@@ -126,10 +130,12 @@ Every time you perform a `git commit` command, Husky automatically intercepts th
 | Issue | Command/Action |
 |-------|----------------|
 | Port 3000 in use | `node scripts/kill-dev-port.mjs` or `npm run kill-port` |
-| 503 error | Check `stderr.log` for missing `.builds/config/preload-timestamp.js`. Recreate if missing. |
+| 503 error | `npm run msc:hostinger:recover` (preload) or `msc:hostinger:npm-install` (webpack in `stderr.log`) |
+| Wrong footer/nav on live | `npm run msc:hostinger:sync-app` or full `pushit:live` |
+| hPanel "Build failed" (MCP) | Ignore if `verify:live` passes — use `pushit:live`, not MCP |
 | Database 4KB (not 528KB) | Upload correct database via FTPS or File Manager |
 | WAL files causing lock | Delete `payload.sqlite-wal` and `payload.sqlite-shm` on server |
-| Wrong files deployed | Verify `FTP_REMOTE_PATH=/nodejs` in `.env.local` |
+| Wrong files deployed | `FTP_REMOTE_PATH=/nodejs` + run `sync-db` + `sync-app` (FTPS lands in `public_html/nodejs/`) |
 | Node not running | Restart in hPanel → Node.js → Restart |
 
 ---

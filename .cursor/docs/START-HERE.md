@@ -144,14 +144,14 @@ That pattern almost always means **`.next` was deleted or overwritten while `nex
 From repo root on PC:
 
 0. **Before upload:** run **`npm ls --omit=dev --depth=0`** — any package imported in app/CSS must be in **`dependencies`** (Hostinger skips **`devDependencies`**). See **DEPLOYMENT-FIXES.md**.
-1. Run `npm run pushit:live` (ships **admin-ui sources**, **`.next`**, **`payload.sqlite`**, and **`public/media`** per **HOSTINGER-DEPLOY.md**; build step uses live public URL briefly). By default it **does not** auto-start local dev — run **`npm run dev`** or **`npm run dev:fresh`** afterward. To **auto-run** **`dev:fresh`** after upload, set **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** first (**HOSTINGER-DEPLOY.md**).
+1. Run `npm run pushit:live` (ships **admin-ui**, **`.next`**, **`payload.sqlite`**, **`public/media`**, then SSH **`sync-db`** + **`sync-app`** + host **`npm install --ignore-scripts`**). FTPS lands in **`public_html/nodejs/`**; sync copies into the **live app root**. By default it **does not** auto-start local dev — run **`npm run dev`** afterward. Optional: **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** (**HOSTINGER-DEPLOY.md**).
 2. Wait for build/upload completion. **One or two FTPS errors** on random `.next` chunks with **retry OK** at the end is normal.
 3. In hPanel, restart the Node app.
 4. Validate live in Incognito.
 
 Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.next`** with **FileZilla** instead if you follow **HOSTINGER-DEPLOY.md** and still deploy the rest of Tier 2 when needed.
 
-**FTPS target folder:** **`.env.local`** → **`FTP_REMOTE_PATH=/nodejs`** (Hostinger Node app root), sync with **`scripts/sync-sftp-from-env.ps1`**, then **`npm run verify:ftp-smoke`**. **Do not** upload to **`public_html`** only — Node runs from **`/nodejs`** per **HOSTINGER-DEPLOY.md**.
+**FTPS target:** **`FTP_REMOTE_PATH=/nodejs`** → uploads to **`public_html/nodejs/`** (staging). **`msc:hostinger:sync-db`** + **`msc:hostinger:sync-app`** copy DB and code into the **live app root** (`domains/.../nodejs/`). **Do not delete `public_html/nodejs/`** — see **HOSTINGER-DEPLOY.md** § *folder map*.
 
 ### Pushing updates live
 
@@ -159,7 +159,9 @@ Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.nex
 |------------|---------|
 | CMS/API broken, site loads (stub DB) | **`npm run msc:push:db:live`** (~1–2 min) → [restart in hPanel](https://hpanel.hostinger.com/websites/mystudiochannel.com) |
 | Push **code** only (MCP zip) | Say **push it live** → choose MCP → verify DB size after |
-| Push **code + DB + media** (reliable) | **`push-website-live.ps1 -Ftps`** or **`pushit:live`** + **`msc:hostinger:sync-db`** → restart in hPanel |
+| Push **code + DB + media** (reliable) | **`pushit:live`** (includes **`sync-db`** + **`sync-app`**) → restart in hPanel |
+| Repair live `node_modules` (503 webpack) | **`npm run msc:hostinger:npm-install`** → restart in hPanel |
+| Diagnose live 503 | **`npm run msc:hostinger:recover`** → follow stderr hint → restart |
 | Stream server error logs live | **`npm run logs:live`** (SSH `tail -f stderr.log`) |
 | Stream server console logs live | **`npm run logs:live:console`** (SSH `tail -f console.log`) |
 | Optimize local database | **`npm run db:optimize`** (`PRAGMA optimize` + `VACUUM`) |
@@ -195,7 +197,7 @@ Before considering your deployment complete, run through the:
 2. For app/admin code changes: full `npm run build` + full `.next` upload. Keep **`.vscode/sftp.json`** **`remotePath`** aligned with **HOSTINGER-DEPLOY.md** (FTPS **`/`** vs Hostinger path); run **`npm run verify:ftp-smoke`** if anything about the upload target folder is uncertain.
 3. Do not partially upload random files inside `.next`.
 4. If you delete server `.next`, immediately re-upload `.next` from PC.
-5. Only run server `npm install --legacy-peer-deps` when `package.json`, lockfile, or `patches/` changed.
+5. After deploy, **`sync-app`** runs **`npm install --ignore-scripts`** on the host when lockfile changes — prefer **`pushit:live`** over manual hPanel npm. Manual repair: **`msc:hostinger:npm-install`**.
 6. Keep `patches/` present on server if install relies on `patch-package`.
 7. After deploy, restart Node app and validate in Incognito.
 
@@ -206,7 +208,7 @@ Before considering your deployment complete, run through the:
 1. **Live (hPanel):** restart Node.js app
 2. Check `/nodejs/payload.sqlite` size (real DB vs `4 KB` stub)
 3. If DB was replaced, delete `payload.sqlite-wal` and `payload.sqlite-shm`
-4. **Quick 503 Fix (Hostinger-specific):** If site returns 503, check `/nodejs/stderr.log`. If it lists a missing `preload-timestamp.js` error, recreate the `.builds/` directory and file (see [HOSTINGER-DEPLOY.md](./HOSTINGER-DEPLOY.md) § *503 After Cleaning Up Files*).
+4. **503 quick path:** `npm run msc:hostinger:recover` or read `/nodejs/stderr.log` — missing **preload** → recover; missing **webpack** → `msc:hostinger:npm-install`; wrong version → `msc:hostinger:sync-app`. See [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md).
 5. Re-test `/`, `/admin`, and `/api/globals/projects-home?depth=1`
 6. Use full incident guide: [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md)
 

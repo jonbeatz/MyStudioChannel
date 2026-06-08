@@ -1,8 +1,9 @@
 ﻿# Tier 2 — Full build + FTPS "zero footprint" sync (code + local SQLite → live).
 # Run from repo root: npm run pushit:live
 #
-# Steps: build → admin-ui bundle → .next → payload.sqlite → SSH sync-db → public/media → optional local dev:fresh (opt-in).
-# FTPS lands payload.sqlite under public_html/nodejs/ — msc:hostinger:sync-db copies it to the live app root.
+# Steps: build → admin-ui → .next → payload.sqlite → SSH sync-db → SSH sync-app → public/media.
+# FTPS lands under public_html/nodejs/ (staging). sync-db + sync-app copy DB + code into live app root (domains/.../nodejs/).
+# sync-app also runs npm install --legacy-peer-deps --ignore-scripts (fixes missing next/webpack without rebuilding better-sqlite3).
 #
 # ── REQUIRED hPanel steps (run IN THIS ORDER) ───────────────────────────────
 #
@@ -122,6 +123,15 @@ if ($LASTEXITCODE -ne 0) {
   exit 1
 }
 Write-Host "  DB synced to live app root (domains/.../nodejs/payload.sqlite)" -ForegroundColor Green
+
+Write-Host ""
+Write-Host "pushit:live - 5b/7 npm run msc:hostinger:sync-app (code + .next -> live app root)" -ForegroundColor Yellow
+npm run msc:hostinger:sync-app
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "pushit:live — ABORT: SSH app sync failed (FTP landing -> app root)." -ForegroundColor Red
+  exit 1
+}
+Write-Host "  App root mirrored from public_html/nodejs (v6 code + .next)" -ForegroundColor Green
 
 Write-Host ""
 Write-Host "pushit:live - 6/7 npm run pushitup -- public/media" -ForegroundColor Yellow

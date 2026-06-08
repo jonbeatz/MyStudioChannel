@@ -11,6 +11,62 @@
 
 **Canonical rule:** [DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md) → *The Canonical Rule* — if it's imported in app code, it must be in **`dependencies`**, not **`devDependencies`**. Pre-deploy: **`npm ls --omit=dev --depth=0`**.
 
+**Recommended daily deploy:** **`npm run pushit:live`** (FTPS + **`sync-db`** + **`sync-app`** + host **`npm install --ignore-scripts`**). **Avoid MCP zip** on this host — `better-sqlite3` native compile fails and hPanel can show a stale **Build failed** while FTPS deploys are healthy.
+
+---
+
+## 📁 Hostinger folder map (two `nodejs` folders — not a mistake)
+
+FTPS with **`FTP_REMOTE_PATH=/nodejs`** lands files under **`public_html/nodejs/`**. The Node process **does not** run from there. It runs from the **app root** one level up from `public_html`.
+
+| Path on server | What it is | Node runs here? | Delete? |
+|----------------|------------|-------------------|---------|
+| `/home/u942711528/domains/mystudiochannel.com/public_html/nodejs/` | **FTPS landing / staging** — `.next`, `payload.sqlite`, `package.json`, source after upload | **No** | **No** — required for deploy pipeline |
+| `/home/u942711528/domains/mystudiochannel.com/nodejs/` | **Live app root** — what `server.js` and Payload read at runtime | **Yes** | Never delete while site is live |
+| `/home/u942711528/domains/mystudiochannel.com/public_html/.builds/` | Hostinger preload (`config/preload-timestamp.js`) | N/A | **Never** — missing file → **503** |
+| `/home/u942711528/domains/mystudiochannel.com/public_html/.htaccess` | Reverse proxy to Node | N/A | Keep |
+
+**File Manager breadcrumbs:** `public_html > nodejs` = staging. Top-level **`nodejs`** (sibling of `public_html`) = live app root.
+
+### After every FTPS upload (automated in `pushit:live`)
+
+| Step | Command | Copies what |
+|------|---------|-------------|
+| 1 | FTPS `pushitup` | Lands under **`public_html/nodejs/`** |
+| 2 | **`npm run msc:hostinger:sync-db`** | `payload.sqlite` → app root; clears WAL/SHM |
+| 3 | **`npm run msc:hostinger:sync-app`** | `.next`, `app/`, `lib/`, configs, `package.json`, lockfile → app root; runs **`npm install --legacy-peer-deps --ignore-scripts`** |
+| 4 | **hPanel Restart** | Node picks up app root |
+| 5 | **`npm run msc:verify:live`** | `/`, `/admin`, APIs **200** |
+
+**Skipping step 2** → DB/API wrong (stub or stale nav). **Skipping step 3** → old code/footer or **503** (`Cannot find module 'next/dist/compiled/webpack/webpack'`). **Skipping step 4** → changes not live.
+
+**Quick DB only:** `npm run msc:push:db:live` runs stop → FTPS DB → **`sync-db`** → **`sync-app`** (keeps code + `node_modules` aligned).
+
+### Database on live
+
+| Check | Good | Bad |
+|-------|------|-----|
+| `domains/.../nodejs/payload.sqlite` size | **~500–540 KB** | **4 KB** stub |
+| Legal nav row (SQLite) | `Legal \| pages-collection \| /` | `Pages` or link `/msc1` |
+| `package.json` version (app root) | Matches local (**`6.0.0`**) | Older (**`5.0.0`**) |
+
+Nav labels and Legal dropdown are **DB-driven** — code-only deploy without DB sync will show wrong nav even when `.next` is new.
+
+### `node_modules` on the host
+
+- FTPS **does not** upload `node_modules/` (by design).
+- When **`package.json`** / **`package-lock.json`** sync to app root, run **`npm install --legacy-peer-deps --ignore-scripts`** (automated inside **`sync-app`**).
+- **Do not** run plain `npm install` without `--ignore-scripts` on this host — **`better-sqlite3`** native rebuild fails (`node-gyp` / GLIBC). **`--ignore-scripts`** keeps the existing binary and still restores Next.js webpack.
+- Manual repair: **`npm run msc:hostinger:npm-install`** or **`npm run msc:hostinger:recover`** (diagnose + preload + log trim).
+
+### MCP zip / hPanel "Build failed"
+
+| Symptom | Meaning | Action |
+|---------|---------|--------|
+| hPanel **Build failed** (red X) | Often stale **MCP** record — `better-sqlite3` compile failed on server | Ignore if **`verify:live`** passes after **FTPS** |
+| Live **503** after FTPS | Usually broken **`node_modules`** (missing webpack) or missing **`.builds`** | **`msc:hostinger:npm-install`** or **`msc:hostinger:recover`** → Restart |
+| MCP deploy | Server runs `npm install` + `npm run build` | **Unreliable** on this account — use **`pushit:live`** instead |
+
 ---
 
 ## ✅ Final Configuration Audit (1-Minute Checklist)
@@ -30,10 +86,12 @@ Before considering your deployment complete, verify these in hPanel:
 - [ ] App is "Running" (green status)
 - [ ] Last deployment shows "Completed"
 
-### In File Manager → /nodejs/
-- [ ] payload.sqlite is ~528KB (not 4KB)
-- [ ] .next folder exists
-- [ ] server.js exists
+### In File Manager → app root `/nodejs/` (not `public_html/nodejs` only)
+- [ ] `payload.sqlite` is ~500–540 KB (not 4 KB)
+- [ ] `.next/BUILD_ID` exists
+- [ ] `server.js` exists
+- [ ] `package.json` version matches local (e.g. **6.0.0**)
+- [ ] `node_modules/next/dist/compiled/webpack/webpack.js` exists (or run **`msc:hostinger:npm-install`**)
 
 ### Run Verification
 
@@ -67,7 +125,7 @@ All green? Your site is live and configured correctly!
 |------|------|--------------|----------------|
 | **Quick DB** | APIs **500**, site/admin OK, stub DB | **Yes** | **Local:** `npm run msc:push:db:live` → **Live:** Restart Node |
 | **A — MCP zip (code-only default)** | **Code** changed; no CMS/DB trust needed | **No** — verify size after; use Quick DB if stub | **Local:** `push:website:live` → MCP → **Live:** restart |
-| **B — FTPS full (`pushit:live`)** | Code + **`.next`** + **DB** + **media** parity | **Yes** (`pushit:live` auto-runs `msc:hostinger:sync-db`) | **Local:** `push-website-live.ps1 -Ftps` or `pushit:live` → **Live:** restart |
+| **B — FTPS full (`pushit:live`)** | Code + **`.next`** + **DB** + **media** parity | **Yes** (`sync-db` + **`sync-app`** + host npm) | **Local:** `push-website-live.ps1 -Ftps` or `pushit:live` → **Live:** restart |
 | **C — Git push + hPanel rebuild** | Major updates from GitHub | **No** — same stub risk as MCP | **Local:** `git push` → Hostinger rebuild → verify DB |
 | **D — Daily operator phrase** | Say *push it live* in Cursor | Agent **asks first** (Quick / FTPS / MCP) | See [Push-Website-Live.md](../prompts/Push-Website-Live.md) |
 
@@ -193,9 +251,11 @@ For **ongoing updates** after first live deploy. **Local (PC repo root)** only.
 npm run pushit:live
 ```
 
-Pipeline: **`npm run build`** (briefly sets live `NEXT_PUBLIC_SERVER_URL`) → **`msc:pushitup:admin-ui`** → **`.next`** → **`payload.sqlite`** → **`msc:hostinger:sync-db`** (FTPS landing → live app root) → **`public/media`**.
+Pipeline: **`npm run build`** (live `NEXT_PUBLIC_SERVER_URL` for that step) → **`msc:pushitup:admin-ui`** → **`.next`** → **`payload.sqlite`** → **`msc:hostinger:sync-db`** → **`msc:hostinger:sync-app`** (mirror staging → app root + **`npm install --ignore-scripts`**) → **`public/media`**.
 
-Then **Live (hPanel):** Stop → wait → Start Node app.
+Then **Live (hPanel):** **Restart** Node app.
+
+**Why two SSH steps:** FTPS lands in **`public_html/nodejs/`**; Node runs from **`domains/.../nodejs/`**. Without **`sync-app`**, only the DB might update — live code/footer/nav can stay on v5.
 
 See [Go-Live-Checklist.md](./Go-Live-Checklist.md) for tier tables and recovery steps.
 
@@ -207,9 +267,9 @@ rm -rf .next
 rm -f payload.sqlite-wal payload.sqlite-shm
 ```
 
-**FTPS target:** set **`FTP_REMOTE_PATH=/nodejs`** in **`.env.local`**, then run **`powershell -File scripts/sync-sftp-from-env.ps1`**.  
-Hostinger Node.js runs from **`/nodejs`** (File Manager), **not** **`public_html`** (that folder may only hold `.builds` + `.htaccess`).  
-Wrong **`remotePath`** uploads to the wrong tree — live app never sees your `.next` or DB.
+**FTPS target:** **`FTP_REMOTE_PATH=/nodejs`** in **`.env.local`** → sync with **`scripts/sync-sftp-from-env.ps1`**.  
+Uploads land in **`public_html/nodejs/`** (staging). **`msc:hostinger:sync-db`** and **`msc:hostinger:sync-app`** copy into the live app root.  
+Wrong **`remotePath`** or skipping SSH sync → live app never sees your `.next` or DB.
 
 ---
 
@@ -248,7 +308,7 @@ Once your site is live, use these methods for ongoing updates. **Quick card:** [
 | **Quick DB sync** | `npm run msc:push:db:live` | APIs **500**, stub **4 KB** DB | ~1–2 min | **Yes** |
 | **Push website live (ask mode)** | Say *push it live* — agent picks Quick / FTPS / MCP | Always start here | Varies | Depends on mode |
 | **MCP zip (code-only)** | `npm run push:website:live` → MCP | **Code** changes only; verify DB after | ~5–10 min | **No** |
-| **FTPS full** | `push-website-live.ps1 -Ftps` or `pushit:live` | Code + DB + media parity | ~45–60 min | **Yes** (+ `sync-db`) |
+| **FTPS full** | `push-website-live.ps1 -Ftps` or `pushit:live` | Code + DB + media parity | ~45–60 min | **Yes** (+ `sync-db` + **`sync-app`**) |
 | **Git push + rebuild** | `git push origin main` | Major updates, new packages | ~5–6 min | **No** — verify DB size |
 
 ---
@@ -265,7 +325,7 @@ Once your site is live, use these methods for ongoing updates. **Quick card:** [
 **What it does NOT upload (manage separately):**
 
 - **`node_modules/`** — host keeps its own install
-- **`package.json` / `package-lock.json`** — use **`npm run pushitup:server-config`**, zip deploy, Git rebuild, or hPanel Terminal **`npm install --legacy-peer-deps`**
+- **`package.json` / `package-lock.json`** — shipped by **`pushit:live`** / **`sync-app`**; host **`npm install --ignore-scripts`** runs automatically. Manual: **`npm run msc:hostinger:npm-install`**.
 
 **Note:** `pushit:live` runs **`npm run build`** internally (live `NEXT_PUBLIC_SERVER_URL` for that step only). Running build first is still recommended for pre-flight.
 
@@ -284,7 +344,7 @@ npm run pushit:live
 
 Safer variant: **`npm run pushit:live:safe`** — runs **`verify:local`** first, then full **`pushit:live`**.
 
-**After adding new npm packages:** update **`package.json`** on the server (zip, Git rebuild, or **`pushitup:server-config`** + **`npm install --legacy-peer-deps`** on host). FTPS alone will **not** install new dependencies.
+**After adding new npm packages:** run **`pushit:live`** (includes lockfile + **`sync-app`** npm step) or **`pushitup:server-config`** + **`npm run msc:hostinger:npm-install`**. FTPS upload alone without **`sync-app`** will **not** update app root or `node_modules`.
 
 ---
 
@@ -372,7 +432,9 @@ npm run verify:live
 | API 500 errors | Env vars missing | Check hPanel environment variables |
 | Build fails on host | Missing package in **`dependencies`** | **`npm ls --omit=dev --depth=0`** to audit |
 | Old content showing | Browser cache | Hard refresh (Ctrl+Shift+R) or Incognito |
-| Vendor-chunk 500 | Stale **`.next`** on host | Remove **`.next`** on host; re-upload full **`.next`** after local build |
+| Vendor-chunk 500 | Stale **`.next`** on host | Re-upload **`.next`** after local build; run **`msc:hostinger:sync-app`** |
+| 503 after FTPS / wrong version | Code landed in **`public_html/nodejs`** only, or broken **`node_modules`** | **`msc:hostinger:sync-app`** or **`msc:hostinger:npm-install`** → Restart |
+| hPanel Build failed (MCP) | **`better-sqlite3`** compile on host | Use **`pushit:live`**; ignore stale MCP status if **`verify:live`** passes |
 
 ---
 
@@ -435,6 +497,8 @@ Zip path and **`package.json` dependency fixes** apply to MCP uploads the same w
 | Vendor-chunk 500 | `Cannot find module './vendor-chunks/…'` | Full **`.next`** re-upload after local **`npm run build`** ([Go-Live-Checklist.md](./Go-Live-Checklist.md) §6) |
 | Build timeout | Slow compile on shared host | Normal ~56s; retry deploy; avoid uploading pre-built `.next` in zip (let host build) |
 | 503 After Cleanup | Fatal crash on startup | Recreate missing `.builds/config/preload-timestamp.js` via SSH, then restart in hPanel. |
+| 503 missing webpack | `Cannot find module 'next/dist/compiled/webpack/webpack'` in `stderr.log` | **`npm run msc:hostinger:npm-install`** (uses **`--ignore-scripts`**) → Restart |
+| Nav/footer wrong on live | DB or code not synced to app root | **`pushit:live`** or **`msc:push:db:live`** (includes **`sync-app`**) |
 
 ### 503 After Cleaning Up Files (Hostinger-specific)
 
@@ -493,7 +557,8 @@ Running `npm run push:website:live -- --ftps` automatically:
 
 **Do not run on Hostinger Terminal:** `pushitup`, zip creation, or `git pull` from your PC workflow unless you explicitly maintain server-side git.
 
-**Run on Hostinger Terminal only when needed:** `npm install --legacy-peer-deps` (if `package.json` / lockfile / `patches/` changed), `rm -rf .next`, `rm -f payload.sqlite-wal payload.sqlite-shm`, SQLite maintenance.
+**Prefer Local SSH scripts over hPanel Terminal:** **`npm run msc:hostinger:sync-app`**, **`msc:hostinger:npm-install`**, **`msc:hostinger:recover`**.  
+**Hostinger Terminal (if needed):** `npm install --legacy-peer-deps --ignore-scripts` in app root, `rm -f payload.sqlite-wal payload.sqlite-shm`.
 
 ---
 
@@ -501,11 +566,13 @@ Running `npm run push:website:live -- --ftps` automatically:
 
 1. Secrets only in **hPanel env** and **`.env.local`** — never in git.
 2. **MCP zip and Git rebuild are not DB deploys** — treat `payload.sqlite` on live as unverified until File Manager or `msc:verify:live` confirms **~500 KB** and APIs **200**. Use **`msc:push:db:live`** when the stub appears.
-3. **`payload.sqlite`** in a zip/repo does not mean the live app uses it — FTPS needs **`msc:hostinger:sync-db`** (FTPS lands under `public_html/nodejs/`).
-3. **`PAYLOAD_DISABLE_SHARP=true`** on Hostinger.
-4. Production URLs must be **`https://mystudiochannel.com`** (both `NEXT_PUBLIC_*` and `PAYLOAD_PUBLIC_*`).
-5. After deploy, confirm version labels: **`MyStudioChannel v6.0.0`** / **`MyStudioChannel Admin v6.0.0`**.
+3. **FTPS lands under `public_html/nodejs/`** — always run **`msc:hostinger:sync-db`** + **`msc:hostinger:sync-app`** (both are in **`pushit:live`**).
+4. **`payload.sqlite`** in a zip/repo does not mean the live app uses it — verify app root size or use Quick DB.
+5. **`PAYLOAD_DISABLE_SHARP=true`** on Hostinger.
+6. Production URLs must be **`https://mystudiochannel.com`** (both `NEXT_PUBLIC_*` and `PAYLOAD_PUBLIC_*`).
+7. After deploy, confirm version labels: **`MyStudioChannel v6.0.0`** / **`MyStudioChannel Admin v6.0.0`**.
+8. **Do not delete `public_html/nodejs/`** — it is the FTPS staging folder, not a duplicate mistake.
 
 ---
 
-*Last updated: 2026-06-07 — v6.0.0 dev branch MSC-Website-v6 (deploy to update live version labels)*
+*Last updated: 2026-06-08 — v6.0.0: folder map, sync-app + npm-install hardening, MCP/build-failed notes*

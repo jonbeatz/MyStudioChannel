@@ -44,11 +44,12 @@ If anything still looks cached or broken, delete **`.next`** once, then restart 
 ### Production on Hostinger (shared-host memory limits)
 
 - **Observed issue:** host-side `npm run build` can fail with `RangeError: WebAssembly.instantiate(): Out of memory`.
-- **Recommended deployment path on low-memory hosts:**
-  1. Build locally (`npm run build`)
-  2. Upload prebuilt `.next` as a zip (`npm run pushitupzip -- .next`)
-  3. Upload runtime files (`npm run pushitup -- patches package.json package-lock.json server.js`)
-  4. On host, run `npm install --legacy-peer-deps` (skip host build), unpack `.next`, restart app
+- **Recommended deployment path (this project):**
+  1. **`npm run pushit:live`** — local build + FTPS + **`msc:hostinger:sync-db`** + **`msc:hostinger:sync-app`**
+  2. FTPS lands in **`public_html/nodejs/`**; SSH sync copies DB + code into **live app root**
+  3. **`sync-app`** runs **`npm install --legacy-peer-deps --ignore-scripts`** (do not use plain `npm install` — `better-sqlite3` rebuild fails on host)
+  4. Restart Node in hPanel → **`npm run msc:verify:live`**
+  5. **Avoid MCP zip** on this host — see **HOSTINGER-DEPLOY.md** § *folder map*
 - **Uploader commands:**
   - `PushItUP`: uploads file/folder paths directly
   - `PushItUPzip`: packs each target to a zip in `.pushitupzips/` and uploads the archive(s)

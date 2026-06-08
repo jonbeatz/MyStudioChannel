@@ -145,7 +145,7 @@ Optimized for **Hostinger (hPanel)** with **automated validation and recovery**:
 
 - **Say "push it live"** in Cursor — agent asks mode: **Quick DB** (`msc:push:db:live`) · **Full FTPS** · **MCP code-only** (verify DB after — MCP/Git ≠ DB deploy)
 - **Tier 1 (Branding):** `npm run pushitup:admin-branding` (CSS + Graphics fast ship)
-- **Tier 2 (App):** `npm run pushit:live` (Full build, `.next`, DB + media; auto **`msc:hostinger:sync-db`** after DB upload)
+- **Tier 2 (App):** `npm run pushit:live` (build + `.next` + DB + media; SSH **`sync-db`** + **`sync-app`** — FTPS staging → live app root)
 - **Tier 3 (Config):** `npm run pushitup:server-config` (Package/Server files contract)
 
 ---

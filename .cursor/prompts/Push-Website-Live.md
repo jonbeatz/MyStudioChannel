@@ -16,7 +16,7 @@ When Jon says **push it live** / **push website live**, present **one** `AskQues
 |--------|---------------|------|-------------|
 | **A** | **Quick DB sync** (~1–2 min) | ~1–2 min | `/` + `/admin` OK, `/api/globals/*` **500**, or live `payload.sqlite` is ~4 KB stub |
 | **B** | **Full FTPS deploy** (~45–60 min) | Long | Code/UI/admin changed; need local `.next` + DB + media on server |
-| **C** | **MCP zip — code only** (~5–10 min) | Medium | **Code** changed; **not** for CMS/DB trust — zip has DB but live may keep **4 KB stub** |
+| **C** | **MCP zip — code only** (~5–10 min) | Medium | **Avoid on this host** — `better-sqlite3` build fails; leaves stale **Build failed** in hPanel. Use **B** instead. |
 
 **Agent rule:** Wait for Jon’s choice before running build/upload commands.
 
@@ -27,19 +27,19 @@ npm run msc:push:db:live
 ```
 Then **Live (hPanel):** **Restart** Node → `npm run msc:verify:live`
 
-Steps inside script: `msc:hostinger:stop-node` → FTPS `payload.sqlite` → `msc:hostinger:sync-db` (FTPS lands under `public_html/nodejs/`; SSH copies into live app root).
+Steps inside script: `msc:hostinger:stop-node` → FTPS `payload.sqlite` → `msc:hostinger:sync-db` → **`msc:hostinger:sync-app`** (FTPS lands under `public_html/nodejs/`; SSH copies DB + code into live app root).
 
 ### Mode B — Full FTPS
 **Local:**
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/push-website-live.ps1 -Ftps
 ```
-Includes SSH stop + `pushit:live` + SSH DB sync. **Live (hPanel):** **Restart** when done.
+Includes SSH stop + `pushit:live` (**`sync-db`** + **`sync-app`** + host **`npm install --ignore-scripts`**). **Live (hPanel):** **Restart** when done.
 
 ### Mode C — MCP zip (code-only — not a DB deploy)
 See steps below.
 
-**Tell Jon explicitly:** MCP zip **includes** `payload.sqlite` in the archive, but **MCP/Git deploy ≠ DB deploy**. After deploy, verify `/nodejs/payload.sqlite` is **~500 KB** (not **4 KB**) or run `msc:verify:live`. If APIs **500** → run **Mode A** immediately.
+**Tell Jon explicitly:** MCP zip often **fails** on this host (`better-sqlite3` / `node-gyp`). MCP/Git **≠ DB deploy** even when zip includes `payload.sqlite`. Prefer **Mode B**. If Jon picks MCP anyway: verify app root DB **~500 KB**, run **`msc:verify:live`**, and if APIs **500** → **Mode A** immediately.
 
 ---
 

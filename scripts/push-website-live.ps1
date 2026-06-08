@@ -327,10 +327,10 @@ if ($useFtps) {
   }
 
   Write-Host ""
-  Write-Host "Stopping live Node via SSH (Option B — no hPanel Stop button required)..." -ForegroundColor Yellow
+  Write-Host "Stopping live Node via SSH (Option B - no hPanel Stop button required)..." -ForegroundColor Yellow
   npm run msc:hostinger:stop-node
   if ($LASTEXITCODE -ne 0) {
-    Write-Host "WARN: SSH stop-node failed — continue only if Node is not holding DB open." -ForegroundColor Yellow
+    Write-Host "WARN: SSH stop-node failed - continue only if Node is not holding DB open." -ForegroundColor Yellow
   }
 
   npm run pushit:live
@@ -369,7 +369,7 @@ if ($useFtps) {
   Write-Host "Syncing payload.sqlite from FTPS landing zone into live app root (SSH)..." -ForegroundColor Yellow
   npm run msc:hostinger:sync-db
   if ($LASTEXITCODE -ne 0) {
-    Write-Host "ABORT: SSH DB sync failed — FTPS may have landed under public_html/nodejs." -ForegroundColor Red
+    Write-Host "ABORT: SSH DB sync failed - FTPS may have landed under public_html/nodejs." -ForegroundColor Red
     exit 1
   }
 
@@ -390,7 +390,7 @@ if ($useFtps) {
   & powershell -ExecutionPolicy Bypass -File $restartScript -Status success
   Write-Host "Optional Terminal (media URLs):" -ForegroundColor Gray
   Write-Host "  cd $hostingerAppRoot" -ForegroundColor Gray
-  Write-Host '  sqlite3 ./payload.sqlite "UPDATE media SET url = ''/media/'' || filename;"' -ForegroundColor Gray
+  Write-Host "  sqlite3 ./payload.sqlite `"UPDATE media SET url = '/media/' || filename;`"" -ForegroundColor Gray
 
   $liveOk = Wait-ForLiveHealthy
   if ($liveOk) {

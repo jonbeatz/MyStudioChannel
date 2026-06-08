@@ -18,6 +18,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - **MSC1** excluded from header nav via `showInHeaderNav` + runtime slug filter
+- **Live 503** after deploy — `node_modules` missing Next webpack; repair via **`msc:hostinger:npm-install`** (`--ignore-scripts`)
+- **Wrong live code/footer** when FTPS landed in **`public_html/nodejs/`** only — **`msc:hostinger:sync-app`** mirrors staging → app root
+
+### Changed
+- **`pushit:live`** — step **5b** runs **`msc:hostinger:sync-app`** (code + `.next` + lockfile + host npm)
+- **`msc:hostinger:sync-app`** — auto **`npm install --legacy-peer-deps --ignore-scripts`** after mirror
+- Deploy docs — Hostinger **folder map** (two `nodejs` folders), MCP **Build failed** note, prevention checklist
+
+### Added
+- **`msc:hostinger:sync-app`**, **`msc:hostinger:npm-install`**, **`msc:hostinger:recover`** SSH scripts
 
 ## [6.0.0] - 2026-06-07
 
