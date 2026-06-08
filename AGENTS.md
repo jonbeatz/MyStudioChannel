@@ -30,10 +30,21 @@
 
 ## Skill Packs (New)
 Always check `.cursor/skills/` for project-specific and portable agent abilities.
-- **DesignMD**: Use `.cursor/skills/DesignMD/SKILL.md` for design system extraction/application.
-- **GitHub-Ops**: Use `.cursor/skills/GitHub-Ops/SKILL.md` for repo and library management.
+- **MSC-UI-Taste**: Use `.cursor/skills/MSC-UI-Taste/SKILL.md` for anti-slop UI, taste dials, and audit/polish workflow (merged taste-skill + impeccable + emilkowalski).
+- **NovaMira-Design**: Studio Gold `#F5B841`, glass, bento — read before any MSC UI work.
+- **DesignMD**: Use `.cursor/skills/DesignMD/SKILL.md` for design system extraction/application. **Required before greenfield UI.**
 - **Premium-UI**: Use `.cursor/skills/Premium-UI/SKILL.md` for pre-wired UI builders, Lenis smooth scroll integrations, 21st.dev Magic MCP, Uiverse.io, VibeUI, and MotionSites.ai.
+- **GitHub-Ops**: Use `.cursor/skills/GitHub-Ops/SKILL.md` for repo and library management.
 - **Workflow-Portable**: Standard ops (backups, deploys, session logs).
+- **Imported playbooks**: `.cursor/skills/imported/CURATED-INDEX.md` only — **do not** bulk-install antigravity skills.
+
+## UI taste rules
+1. Cite **NovaMira Gold** before generic Tailwind/shadcn defaults.
+2. Ban purple-gradient heroes, Inter-only centered layouts, cookie-cutter SaaS cards.
+3. Optional harsh review: `.cursor/prompts/harsh-review.md` — **never** for deploy, docs sync, or Hostinger ops.
+
+## Obsidian think layer
+Personal vault: `I:\Vader_Vault` (not in git). Ship layer: `.cursor/docs/` + TRUTH. Weekly distill to ReCall — manual, not auto-sync.
 - Say **push it live** — agent asks mode: Quick DB · **Fast FTPS** (`pushit:live:fast`) · **Full FTPS** · MCP (**avoid on this host**)
 - **Routine deploy:** `npm run pushit:live:fast` — zip `.next` + `sync-app` (~10–15 min). Full parity: `npm run pushit:live` (includes `sync-db` + media)
 - **503 repair:** `msc:hostinger:npm-install` (webpack) or `msc:hostinger:recover` (preload/logs)

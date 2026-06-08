@@ -35,3 +35,16 @@ After quick backup completes, report destination path and `.cursor/BackUp-Notez.
 | Operator says | Agent action |
 |---------------|--------------|
 | **`copy database`**, **`db copy`**, **`safe copy db`** | Run **`npm run db:copy`** from repo root, then explain upload/rename/WAL cleanup/restart steps. |
+
+## Gilfoyle Usage Restriction
+
+The Gilfoyle prompt ([`harsh-review.md`](../prompts/harsh-review.md)) is for **code review only**.
+
+**Never use Gilfoyle mode for:**
+
+- Deployment commands (`pushit:live`, `pushit:live:fast`, `push:website:live`, `msc:push:website:live`)
+- Documentation sync (`update docs`, `msc:docs:sync`, `sync`)
+- Hostinger operations (`msc:hostinger:*`, SSH sync scripts)
+- Production database changes (`db:copy` upload, `msc:push:db:live`)
+
+Use Gilfoyle only when the operator explicitly requests a harsh code or UI critique pass.

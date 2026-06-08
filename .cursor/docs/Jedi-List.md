@@ -356,4 +356,22 @@ You can say things like: *“On Hostinger, replace `.next` from the zip I upload
 
 ---
 
+## Agent skills (MSC tooling upgrade)
+
+| Skill / prompt | Path | When |
+|----------------|------|------|
+| **MSC-UI-Taste** | `.cursor/skills/MSC-UI-Taste/SKILL.md` | UI polish, anti-slop, greenfield gates |
+| **NovaMira-Design** | `.cursor/skills/NovaMira-Design/SKILL.md` | Tokens, glass, bento, Gold Standard |
+| **Premium-UI** | `.cursor/skills/Premium-UI/SKILL.md` | Registry components, motion/react |
+| **DesignMD** | `.cursor/skills/DesignMD/SKILL.md` | Extract brand before new UI |
+| **Gilfoyle** | `.cursor/prompts/harsh-review.md` | Harsh code review only — not deploy |
+| **Imported whitelist** | `.cursor/skills/imported/CURATED-INDEX.md` | Manual antigravity playbooks |
+| **Codeburn** | `npm run msc:codeburn` | Weekly token/cost review |
+
+**MCP (project):** 6 servers — see **MCP-SETUP.md**. Browser QA: `verify:live` + cursor-ide-browser.
+
+**Obsidian:** `I:\Vader_Vault` — Friday 15 min distill → **ReCall.md** (calendar, not agent).
+
+---
+
 **Tip:** Combine one “mode” line with one concrete task, e.g. *Continue from ReCall* + *Then: push the Leads fix with pushitup and tell me what to do in hPanel.*

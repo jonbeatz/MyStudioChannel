@@ -76,7 +76,18 @@ export const AnimatedThreeDScene = dynamic(() => import("./ThreeDComponent"), {
 - **MotionSites.ai**: Use their 65 pro-grade layout prompts and motion-rich design patterns during UI modeling tasks.
 - **Pencil.dev (Design Automation MCP)**: Pre-wired in `.cursor/mcp.json`. Ensure the Pencil desktop application is running, then prompt your agent: *"Scan my active Pencil canvas page and translate the structure/colors into a Next.js/Tailwind landing section"* to automate code creation directly from live layouts.
 
+## Skill routing (MSC)
+
+| Task | Read first |
+|------|------------|
+| Tokens, glass, bento, Gold Standard | [NovaMira-Design](../NovaMira-Design/SKILL.md) |
+| Anti-slop, audit/polish, motion dials | [MSC-UI-Taste](../MSC-UI-Taste/SKILL.md) |
+| Brand extraction before greenfield UI | [DesignMD](../DesignMD/SKILL.md) |
+
+Agents: cite NovaMira Gold before adding registry components. Reject generic purple-gradient layouts per MSC-UI-Taste banned patterns.
+
 ## Guidelines
-- **Framer Motion Dependencies**: Ensure `framer-motion` (or `motion` package) is active when adding interactive elements.
+- **Motion package**: Use `motion/react` (not legacy `framer-motion`) per MSC-UI-Taste.
+- **Framer Motion Dependencies**: Ensure `motion` is active when adding interactive elements.
 - **Cinematic Harmony**: Style additions to match the **Gold Standard** (Accent gold) and deep dark layered bento layouts defined in `.cursor/skills/NovaMira-Design/SKILL.md`.
 - **Reference Catalog**: Check `.cursor/docs/PREMIUM-UI-CATALOG.md` for the single source of truth catalog indexing of these assets.

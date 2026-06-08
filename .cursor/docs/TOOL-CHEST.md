@@ -74,6 +74,30 @@ Welcome to the MyStudioChannel Developer Tool Chest. This authoritative manual i
 
 ---
 
+## 🎨 UI Skills & Agent Taste (MSC)
+
+| Skill | Path | Purpose |
+|-------|------|---------|
+| **MSC-UI-Taste** | `.cursor/skills/MSC-UI-Taste/SKILL.md` | Anti-slop dials, audit/polish workflow, motion philosophy |
+| **NovaMira-Design** | `.cursor/skills/NovaMira-Design/SKILL.md` | Studio Gold `#F5B841`, glass, bento, 8px rhythm |
+| **Premium-UI** | `.cursor/skills/Premium-UI/SKILL.md` | shadcn registries, 21st.dev, Lenis, motion/react |
+| **DesignMD** | `.cursor/skills/DesignMD/SKILL.md` | Brand extraction — required before greenfield UI |
+| **Gilfoyle review** | `.cursor/prompts/harsh-review.md` | Optional harsh code review — **never** for deploy |
+
+**Obsidian think layer:** `I:\Vader_Vault` — personal notes; ship layer stays in `.cursor/docs/`.
+
+---
+
+## 📊 Token Visibility
+
+### Codeburn
+*   **Purpose:** Local CLI to inspect Cursor/Claude token usage and estimated cost.
+*   **Install:** `npm install -g codeburn`
+*   **Run:** `codeburn` or `npm run msc:codeburn` from repo root
+*   **Repo:** [getagentseal/codeburn](https://github.com/getagentseal/codeburn)
+
+---
+
 ## 🚨 Guidelines for AI Agents
 When prompted to gather external web context, documentation, or search results, the agent MUST:
 1. Prefer using `fetch-mcp` or `user-fetch` pointed at Jina's prefixes (`https://r.jina.ai/` or `https://s.jina.ai/`) for lightning-fast, high-density Markdown text parsing.

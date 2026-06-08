@@ -95,11 +95,23 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (deploy modes), **`DEPLOYMENT-TROUBLESHOOTING.md`**. Say **push it live** → agent asks mode (Quick DB · Fast FTPS · Full FTPS · MCP avoid). **MCP/Git ≠ DB deploy**.
 - **Branches:** **`MSC-Website-v6`** (active dev); **`main`** synced with v6; **`MSC-Website-v5`** frozen at v5.0.0.
 - **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v6.0.0`**; **Latest = `v6.0.0`**.
-- **Next ideas:** Feature work on v6; deploy when ready to update live version labels.
+- **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); **cursor-mcp-refresh** extension; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
+- **Next ideas:** Feature work on v6; Obsidian weekly distill → ReCall (Fridays, manual); **`codeburn`** weekly token review.
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-08 — MSC Tooling Upgrade + Obsidian pilot + MCP consolidation
+
+- **Skills:** **`.cursor/skills/MSC-UI-Taste/SKILL.md`** — merged taste-skill + impeccable + emilkowalski under NovaMira Gold. Extended **NovaMira-Design** + **Premium-UI** anti-slop cross-links.
+- **MCP:** Project **`.cursor/mcp.json`** → **6 servers** (removed **`browsermcp`**, **`antigravity-awesome-skills`** → archive). Browser QA: **`verify:live`** + **cursor-ide-browser**. **cursor-mcp-refresh** v1.1.0 installed (`.cursor/tools/`).
+- **Prompts:** **`.cursor/prompts/harsh-review.md`** (Gilfoyle) — code review only; rule in **`.cursor/rules/global.mdc`**.
+- **Dev tools:** **`npm run msc:codeburn`**; global **`codeburn`** install documented in **MASTER-COMMANDS** + **TOOL-CHEST**.
+- **Antigravity:** Curated whitelist **`.cursor/skills/imported/CURATED-INDEX.md`** — no bulk auto-install.
+- **Obsidian:** **`I:\Vader_Vault`** PARA-lite folders + **Jon-Operator**, **Current-Focus**, **Repo-Watchlist** notes. Weekly distill to ReCall — operator calendar, not agent.
+- **Fix:** **`msc-sync-mcp-env.mjs`** → ESM imports (Node 24).
+- **Docs:** AGENTS, MCP-SETUP, Jedi-List, TOOL-CHEST, Site-Plans, Checkpoint, project-log synced.
 
 ### 2026-06-08 — pushit:live:fast (Tier 2b) + docs sync
 

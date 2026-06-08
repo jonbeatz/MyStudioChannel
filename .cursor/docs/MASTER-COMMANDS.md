@@ -1,6 +1,6 @@
 # MyStudioChannel - Master Command Reference
 
-**Last Updated:** 2026-06-08 (full docs sync — sync-app, 503 webpack, folder map)
+**Last Updated:** 2026-06-08 (MSC tooling upgrade — MSC-UI-Taste, MCP consolidation, codeburn, cursor-mcp-refresh)
 **Branch:** `MSC-Website-v6`
 **Version:** `6.0.0`
 
@@ -210,6 +210,21 @@ npm run test:hostinger-ftp
 | Footer version | MyStudioChannel v6.0.0 |
 | `/admin` login | Works |
 | Demos section | Loads with images |
+
+---
+
+## 🛠️ Dev Tools
+
+| Command | What it does | When to use |
+|---------|--------------|-------------|
+| `codeburn` | View token usage and cost for Cursor/Claude sessions | Optional — run from any terminal after global install |
+| `npm run msc:codeburn` | Wrapper: runs `codeburn` if installed | Weekly token spend review |
+
+Install once (Local):
+
+```bash
+npm install -g codeburn
+```
 
 ---
 

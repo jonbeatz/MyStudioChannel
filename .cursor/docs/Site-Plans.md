@@ -111,7 +111,7 @@ Remove Payload, restore **`output: 'export'`**, and use **headless WordPress** o
 | Layer | What |
 |-------|------|
 | **Global (8)** | GitHub, filesystem, Playwright, fetch, **tavily**, terminal-controller, sequential-thinking, desktop-commander — `~/.cursor/mcp.json` |
-| **Project (6)** | **`local-wp`**, **`mcp-wordpress`**, `browsermcp`, `browserbase`, `21st-dev-magic`, `markdownify` — **`.cursor/mcp.json`** in repo |
+| **Project (6)** | **`local-wp`**, **`mcp-wordpress`**, `browserbase`, `21st-dev-magic`, `pencil`, `markdownify` — **`.cursor/mcp.json`** in repo |
 | **Workspace** | **`user-payload`** (schema tools), Stripe/Vercel/Firebase plugins — **no JSON config** |
 
 **Payload:** Do **not** use **`@govcraft/payload-cms-mcp`** locally (Redis + SSE; broken stdio). Use **`user-payload`**, REST, or admin.

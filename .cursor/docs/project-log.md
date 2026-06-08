@@ -1,3 +1,9 @@
+## [2026-06-08] - MSC Tooling Upgrade + Obsidian pilot + MCP consolidation
+- **Branch:** MSC-Website-v6
+- **Changes:** Added **MSC-UI-Taste** skill; Gilfoyle **harsh-review** prompt + global rule; archived **browsermcp** + **antigravity** from project MCP (6 servers); **CURATED-INDEX** for imported playbooks; **cursor-mcp-refresh** VSIX; **codeburn** + **`msc:codeburn`**; Obsidian vault structure at **`I:\Vader_Vault`**; fixed **`msc-sync-mcp-env.mjs`** for Node 24 ESM. Synced AGENTS, MCP-SETUP, TOOL-CHEST, Jedi-List, ReCall, Checkpoint, Prompt-Cheat-Sheet, START-HERE.
+- **Status:** completed — `verify:next:safe` pass; no Hostinger/production changes
+- **Next:** Reload MCP after restart; Obsidian kepano skills Week 1; Friday ReCall distill ritual
+
 ## [2026-06-08] - pushit:live:fast (Tier 2b) + full docs sync
 - **Branch:** MSC-Website-v6
 - **Changes:** Added **`pushit:live:fast`** (~10–15 min): zip **`.next`** → single FTPS → SSH unzip (BUILD_ID) → **`sync-app`**. Scripts: **`pushit-live-fast.ps1`**, **`msc-hostinger-unzip-deploy-next`**. Fixed zip upload path (repo-root **`deploy-next.zip`** for FTPS, not **`zips/`** on remote). Flags **`-SkipBuild`**, **`-WithDb`**, **`-WithMedia`**, **`-DryRun`**. Updated MASTER-COMMANDS, HOSTINGER-DEPLOY, Go-Live-Checklist, Push-Website-Live, Checkpoint, ReCall, Restore-Points, Jedi-List, START-HERE, README, AGENTS, rules.

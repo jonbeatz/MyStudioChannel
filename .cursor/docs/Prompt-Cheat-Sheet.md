@@ -1,6 +1,6 @@
 # Prompt & Custom Commands Cheat Sheet
 
-**Last Updated:** 2026-06-06
+**Last Updated:** 2026-06-08
 
 ---
 
@@ -17,6 +17,7 @@
 | `npm run backup` | `npm run msc:backup:quick` | Quick backup |
 | `npm run deploy` | `npm run push:website:live` | Deploy code only |
 | `npm run deploy:full` | `npm run push:website:live -- --ftps` | Deploy code + database |
+| `npm run msc:codeburn` | `codeburn` | Token usage / cost review |
 
 ---
 
@@ -249,7 +250,21 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 - **Action:** Kill process on port 3000 manually.
 - **Script Command:** `npm run msc:kill-dev-port`
 
+### ➡️ `"Harsh code review"` / Gilfoyle mode
+- **Action:** Optional brutal code/UI critique pass.
+- **Prompt:** `.cursor/prompts/harsh-review.md`
+- **Never for:** deploy, docs sync, Hostinger ops (see `global.mdc`)
+
+### ➡️ `"Refresh MCP"`
+- **Action:** Restart stuck MCP servers without full Cursor restart.
+- **Tool:** **cursor-mcp-refresh** — status bar **`MCP (X/Y)`** or Command Palette → **Refresh Enabled MCP Servers**
+- **Docs:** `MCP-SETUP.md`
+
+### ➡️ UI polish with taste
+- **Action:** Anti-slop UI pass citing NovaMira Gold.
+- **Skill:** `.cursor/skills/MSC-UI-Taste/SKILL.md` (+ DesignMD before greenfield)
+
 ---
 
-*Last Updated: 2026-06-07 (v6.0.0 — MSC-Website-v6 branch cut)*  
+*Last Updated: 2026-06-08 (MSC tooling upgrade — v6.0.0)*  
 <sub>· Powered by the MSC Media Engine</sub>

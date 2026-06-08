@@ -29,9 +29,14 @@
       "args": ["/c", "npx", "-y", "@agentdeskai/browser-tools-mcp@latest"]
     },
     "browsermcp": {
-      "_comment": "Removed — duplicate browser MCP; keep global playwright only.",
+      "_comment": "Archived 2026-06-08 from project .cursor/mcp.json — duplicate browser MCP. Use global playwright + cursor-ide-browser for QA.",
       "command": "cmd",
       "args": ["/c", "npx", "-y", "@browsermcp/mcp@latest"]
+    },
+    "antigravity-awesome-skills": {
+      "_comment": "Archived 2026-06-08 — bulk auto-install of 1500+ skills causes drift. Use .cursor/skills/imported/CURATED-INDEX.md whitelist instead.",
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "antigravity-awesome-skills", "--cursor"]
     },
     "mcpterm": {
       "_comment": "Removed — duplicate terminal MCP; keep terminal-controller only.",

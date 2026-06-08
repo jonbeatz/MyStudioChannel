@@ -82,6 +82,7 @@
     "msc:migrate:sqlite:homepage-is-styles-visible": "python scripts/migrate-sqlite-homepage-is-styles-visible.py",
     "msc:fix:hero-slide-images": "python scripts/fix-homepage-hero-slide-images.py",
     "msc:test:github-api": "python scripts/test_github_api.py",
+    "msc:codeburn": "codeburn",
     "msc:sync:mcp-env": "node scripts/msc-sync-mcp-env.mjs",
     "msc:sync:mcp-all": "npm run msc:sync:mcp-env && echo All MCP configs synced",
     "msc:sync:github-mcp": "npm run msc:sync:mcp-env",

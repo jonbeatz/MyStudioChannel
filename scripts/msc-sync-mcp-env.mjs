@@ -14,12 +14,12 @@
  *   node scripts/sync-mcp-env.js
  *   node scripts/sync-mcp-env.js --enable-resend
  */
-'use strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
 const ENV_LOCAL = path.join(REPO_ROOT, '.env.local');
 const GLOBAL_MCP = path.join(os.homedir(), '.cursor', 'mcp.json');

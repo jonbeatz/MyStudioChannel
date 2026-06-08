@@ -1,7 +1,7 @@
 # Project Checkpoint
 
 ## Current Status
-- **Date:** 2026-06-08
+- **Date:** 2026-06-08 (tooling upgrade docs commit)
 - **Branch:** MSC-Website-v6 (active dev)
 - **Version:** 6.0.0 (`package.json` — sole release number)
 - **Build Status:** Passing (`npm run build` / `verify:next:safe`)
@@ -14,6 +14,7 @@
 ## Recent Milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
+| 2026-06-08 | **MSC Tooling Upgrade — UI taste skill, MCP consolidation, Obsidian pilot, cursor-mcp-refresh** | — |
 | 2026-06-08 | **pushit:live:fast — Tier 2b zip deploy + docs sync** | `8700e61` |
 | 2026-06-08 | **Live 503 fix — sync-app + npm-install; deploy docs sync** | `b368d3e` |
 | 2026-06-07 | **Header nav — submenuSource + Legal dropdown** | `6a21ce4` |

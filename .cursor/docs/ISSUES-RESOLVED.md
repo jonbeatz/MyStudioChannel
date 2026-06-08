@@ -17,6 +17,13 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-08] msc:sync:mcp-env fails on Node 24 (require in ESM)
+- **Error:** `npm run msc:sync:mcp-env` → `ReferenceError: require is not defined in ES module scope`
+- **Cause:** `scripts/msc-sync-mcp-env.mjs` used CommonJS `require()` while Node treats `.mjs` as ESM.
+- **Solution:** Converted to `import fs from 'node:fs'` + `import.meta.url` for `__dirname`.
+- **Files Changed:** `scripts/msc-sync-mcp-env.mjs`
+- **Prevention:** Use ESM `import` in all `.mjs` scripts; run **`npm run msc:sync:mcp-env`** after `.env.local` MCP secret edits, then refresh MCP (cursor-mcp-refresh or restart Cursor).
+
 ## [2026-06-08] pushit:live:fast — zip landed under zips/ on FTPS staging
 - **Error:** First **`pushit:live:fast`** test: SSH unzip failed (`missing deploy-next.zip on staging`); zip path fallback did not run; staging had **`zips/deploy-next.zip`** instead of **`deploy-next.zip`** at FTPS root.
 - **Cause:** **`PushItUP`** preserves relative paths — uploading **`zips/deploy-next.zip`** lands at **`public_html/nodejs/zips/deploy-next.zip`**, while **`msc:hostinger:unzip-deploy-next`** expected **`public_html/nodejs/deploy-next.zip`**.

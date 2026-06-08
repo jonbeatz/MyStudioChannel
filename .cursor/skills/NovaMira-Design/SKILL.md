@@ -119,10 +119,28 @@ These stay **non-negotiable** for NovaMira public UI unless the user overrides:
 
 ---
 
+## 9. Anti-slop checklist (MSC-UI-Taste)
+
+Before shipping UI polish, verify with **[MSC-UI-Taste](../MSC-UI-Taste/SKILL.md)**:
+
+| Check | Pass criteria |
+|-------|---------------|
+| Accent | Studio Gold `#F5B841` — not purple gradients or random accent |
+| Layout | Bento or intentional asymmetry — not three equal generic cards |
+| Typography | Project font stack — not Inter-only default |
+| Motion | Feedback-only; `prefers-reduced-motion` honored |
+| Brand | DesignMD extraction read for greenfield — no invented palette |
+| Density | 8px rhythm; borders over muddy shadows |
+
+**Banned:** cookie-cutter hero, centered-everything SaaS template, neon glow spam, stock AI illustration heroes.
+
+---
+
 ## Related files
 
 | Doc | Purpose | Path |
 |-----|---------|------|
+| **UI Taste** | Anti-slop dials + polish workflow | .cursor/skills/MSC-UI-Taste/SKILL.md |
 | **Logic Skill** | Code + Divi integration | .cursor/skills/Nova/SKILL.md |
 | **Next bundle map** | Sections, hooks, changelog | .cursor/docs/Development.md |
 | **Design tokens (Next)** | Gold, surfaces, glass | `app/globals.css` |

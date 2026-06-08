@@ -58,6 +58,17 @@ Other docs are reference/history and optional unless a task specifically needs t
 Portable workflow skills pack for reuse in other projects:
 - `.cursor/skills/Workflow-Portable/README.md`
 
+**UI & agent skills (MSC — read before UI work):**
+- **MSC-UI-Taste** — `.cursor/skills/MSC-UI-Taste/SKILL.md` (anti-slop, polish workflow)
+- **NovaMira-Design** — Studio Gold `#F5B841`, glass, bento
+- **Premium-UI** — registries, motion/react, 21st.dev
+- **DesignMD** — brand extraction (required before greenfield UI)
+- **Gilfoyle review** — `.cursor/prompts/harsh-review.md` (code only — never deploy)
+
+**Think layer (Obsidian):** `I:\Vader_Vault` — personal notes; ship layer = this repo's `.cursor/docs/` + TRUTH. Weekly distill to ReCall (operator calendar).
+
+**MCP:** Project **6 servers** — `MCP-SETUP.md`. Refresh: **cursor-mcp-refresh** extension (status bar `MCP (X/Y)`).
+
 Project rules layout:
 - Core rule file: `.cursorrules`
 - Scoped rules folder: `.cursor/rules/` (topic-specific `.mdc` files)

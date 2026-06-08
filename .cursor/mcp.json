@@ -19,11 +19,6 @@
       },
       "_comment": "WordPress REST MCP — credentials synced from .env.local via npm run sync:mcp-env"
     },
-    "browsermcp": {
-      "command": "cmd",
-      "args": ["/c", "npx", "-y", "@browsermcp/mcp@latest"],
-      "_comment": "Allows Cursor/Claude to control your actual open Chrome/Edge browser window locally."
-    },
     "browserbase": {
       "command": "cmd",
       "args": ["/c", "npx", "-y", "@browserbasehq/mcp"],
@@ -41,11 +36,6 @@
         "API_KEY": "REPLACE_WITH_21ST_DEV_MAGIC_API_KEY"
       },
       "_comment": "Allows building beautiful frontend components directly into the codebase with 21st.dev Magic MCP."
-    },
-    "antigravity-awesome-skills": {
-      "command": "cmd",
-      "args": ["/c", "npx", "-y", "antigravity-awesome-skills", "--cursor"],
-      "_comment": "Access and auto-install over 1,500+ agentic skills/playbooks for Cursor (.cursor/skills/)."
     },
     "pencil": {
       "command": "cmd",

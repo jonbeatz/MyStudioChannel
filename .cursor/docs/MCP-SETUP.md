@@ -4,6 +4,8 @@ How Model Context Protocol servers are configured for **MyStudioChannel** and Jo
 
 **Related:** [Development.md](./Development.md) (env vars), [ReCall.md](./ReCall.md) (Payload MCP finding §2026-04-08).
 
+**Last updated:** 2026-06-08 (browsermcp + antigravity archived; project MCP = 6; cursor-mcp-refresh installed)
+
 ---
 
 ## Three MCP channels
@@ -13,10 +15,23 @@ Cursor can expose MCP tools from **three separate places**. Only the first two u
 | Channel | Config | This project |
 |---------|--------|--------------|
 | **Global manual MCPs** | `C:\Users\JONBEATZ\.cursor\mcp.json` | 8 servers (GitHub, filesystem, Playwright, fetch, **tavily**, terminal, sequential-thinking, desktop-commander) |
-| **Project manual MCPs** | `.cursor/mcp.json` in repo | 6 servers (`local-wp`, `mcp-wordpress`, `browsermcp`, `browserbase`, `21st-dev-magic`, `markdownify`) |
-| **Workspace / plugin MCPs** | Cursor Settings → MCP, extensions, marketplace | **No JSON** — e.g. `user-payload`, Stripe, Vercel, Firebase, Browser DevTools |
+| **Project manual MCPs** | `.cursor/mcp.json` in repo | **6 servers** (see table below) |
+| **Workspace / plugin MCPs** | Cursor Settings → MCP, extensions, marketplace | **No JSON** — e.g. `user-payload`, Stripe, Vercel, Firebase, **cursor-ide-browser** |
 
 **Merge rule:** Cursor loads global + project configs. If the same server name exists in both, **project wins**.
+
+---
+
+## Browser QA playbook (single path)
+
+Do **not** re-enable duplicate browser MCPs (`browsermcp`, `browser-tools-mcp`, extra Playwright CDP).
+
+| Task | Tool |
+|------|------|
+| Local smoke `/` + `/admin` | `npm run verify:local` or **cursor-ide-browser** MCP |
+| Live smoke | `npm run verify:live` |
+| Scripted e2e | Global **playwright** MCP |
+| Cloud / Stagehand | Project **browserbase** (when API keys set) |
 
 ---
 
@@ -31,6 +46,16 @@ We **do not** configure `@govcraft/payload-cms-mcp` in any `mcp.json`.
 1. **`user-payload`** — workspace MCP (schema/codegen tools). Cursor registers it automatically; **not** in `mcp.json`. No setup in this repo.
 2. **Payload REST** — `http://localhost:3000/api/*` when dev is running.
 3. **Admin UI** — `http://localhost:3000/admin` in browser or agent fetch.
+
+---
+
+## Antigravity skills — curated only
+
+**`antigravity-awesome-skills`** was removed from project MCP (2026-06-08). It auto-installed 1,500+ playbooks and caused skill drift.
+
+**Use instead:** `.cursor/skills/imported/CURATED-INDEX.md` — 15 approved topic categories. Copy individual playbooks manually when needed.
+
+**MSC-first skills:** MSC-UI-Taste, NovaMira-Design, Premium-UI, DesignMD, Workflow-Portable.
 
 ---
 
@@ -61,14 +86,14 @@ Global `mcp.json` lives **outside the repo** and is never committed.
 
 ---
 
-## Enabled servers (after reorg)
+## Enabled servers (after 2026-06-08 consolidation)
 
 ### Global (8)
 
 | Server | Purpose |
 |--------|---------|
 | `github` | Repos, issues, PRs (`@modelcontextprotocol/server-github`) |
-| `filesystem` | File access scoped to `D:\Cursor_Projectz` |
+| `filesystem` | File access scoped to `D:\Cursor_Projectz` (optional: add `I:\Vader_Vault` read-only after Obsidian trial) |
 | `playwright` | Single browser MCP (Chrome + devtools) |
 | `fetch` | HTTP fetch via `uvx mcp-server-fetch` (known URL → markdown) |
 | `tavily` | Web **search**, extract, map, crawl via [tavily-mcp](https://github.com/tavily-ai/tavily-mcp) |
@@ -82,26 +107,26 @@ Global `mcp.json` lives **outside the repo** and is never committed.
 |--------|---------|
 | `local-wp` | Local WP / Flywheel site discovery |
 | `mcp-wordpress` | WordPress REST API for `mscclean.local` |
-| `browsermcp` | Control your actual open Chrome/Edge browser locally |
 | `browserbase` | Cloud browser automation with Browserbase and Stagehand |
 | `21st-dev-magic` | AI-driven UI component generation with 21st.dev |
+| `pencil` | Pencil.dev design canvas MCP |
 | `markdownify` | Convert web pages, PDFs, and files to Markdown |
 
 ### Workspace / plugins (examples — not in mcp.json)
 
 - `user-payload` — Payload schema tools
+- `cursor-ide-browser` — Cursor-owned browser automation (preferred for agent QA)
 - Stripe, Vercel, Firebase — Cursor marketplace plugins
-- Browser DevTools extension MCP
 
 ---
 
 ## Archived / disabled servers
 
-Removed from global config (avoids half-configured auth errors). Full recipes:
+Removed from active configs. Full recipes:
 
 **[`.cursor/mcp.servers.archived.json`](../mcp.servers.archived.json)**
 
-Includes: `payload`, duplicate browsers, `postgres`, `neon-postgres`, `postman`, `mcp-vercel`, `untitledui`, `resend`, `task-master-ai`, `console-ninja`, `cursor-rules-generator`, `mcpterm`. (**`tavily`** re-enabled in global config when `TAVILY_API_KEY` is set.)
+Includes: `payload`, **`browsermcp`** (project, 2026-06-08), **`antigravity-awesome-skills`** (project, 2026-06-08), duplicate browsers, `postgres`, `neon-postgres`, `postman`, `mcp-vercel`, `untitledui`, `resend`, `task-master-ai`, `console-ninja`, `cursor-rules-generator`, `mcpterm`. (**`tavily`** re-enabled in global config when `TAVILY_API_KEY` is set.)
 
 **Re-enable Resend MCP:**
 
@@ -112,7 +137,7 @@ npm run sync:mcp-env
 
 Then reload MCP in Cursor.
 
-**Re-enable any other archived server:** Copy its block from `mcp.servers.archived.json` into `~/.cursor/mcp.json`, add secrets via `.env.local` + sync if applicable, reload MCP.
+**Re-enable any other archived server:** Copy its block from `mcp.servers.archived.json` into the appropriate `mcp.json`, add secrets via `.env.local` + sync if applicable, reload MCP.
 
 ---
 
@@ -122,6 +147,18 @@ Then reload MCP in Cursor.
 2. Toggle in **Cursor Settings → MCP** (when supported for that server).
 
 Prefer **remove + archive** over `"disabled": true` — Cursor may still connect disabled entries.
+
+### MCP refresh extension (installed)
+
+**[cursor-mcp-refresh](https://github.com/tankmurdock/cursor-mcp-refresh)** v1.1.0 — VSIX at `.cursor/tools/cursor-mcp-refresh-1.1.0.vsix` (reinstall: `cursor --install-extension` that path).
+
+After **restart Cursor**:
+
+1. Status bar → click **`MCP (X/Y)`** to refresh selected servers
+2. Explorer → **MCP Servers** panel → gear → select servers to manage
+3. Command Palette: **Refresh Enabled MCP Servers**
+
+Use after editing `mcp.json` or when a server is stuck — faster than a full IDE restart for day-to-day use.
 
 ---
 
