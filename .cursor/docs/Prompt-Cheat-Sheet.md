@@ -257,7 +257,7 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 
 ### ➡️ `"Refresh MCP"`
 - **Action:** Restart stuck MCP servers without full Cursor restart.
-- **Tool:** **cursor-mcp-refresh** — status bar **`MCP (X/Y)`** or Command Palette → **Refresh Enabled MCP Servers**
+- **Tool:** **Cursor Settings → MCP** — refresh the affected server; restart Cursor if stuck or duplicate `?` rows
 - **Docs:** `MCP-SETUP.md`
 
 ### ➡️ UI polish with taste

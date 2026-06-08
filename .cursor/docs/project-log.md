@@ -1,3 +1,15 @@
+## [2026-06-08] - Hostinger MCP launcher + docs sync
+- **Branch:** MSC-Website-v6
+- **Changes:** **`scripts/msc-hostinger-mcp.mjs`** (scoped Hostinger bins + invalid tool-name filter). Extended **`msc-sync-mcp-env.mjs`** to copy launcher to `~/.cursor/scripts/`. Docs: **MCP-SETUP**, **ISSUES-RESOLVED**, **START-HERE**, **MASTER-COMMANDS**, **Prompt-Cheat-Sheet**, **ReCall** — MCP reload via **Settings → MCP** (cursor-mcp-refresh uninstalled). Verified 4 Hostinger servers: hosting 27, vps 62, domains 18, dns 8 tools; zero naming warnings.
+- **Status:** completed — commit + push pending this entry
+- **Next:** Feature work on v6; optional DeepSeek via LiteLLM `model_list`
+
+## [2026-06-07 22:45] - Session closeout — audit complete, planning docs, backups
+- **Branch:** MSC-Website-v6 @ `e06627e` (pushed)
+- **Changes:** Comprehensive audit Phases 2–4 (`9d9831f`); project analysis (86/100); **`.cursor/ideaz.md`** + **`.cursor/review.md`**; docs sync (`2c2e94d`, `e06627e`). Quick backups **`msc-website-v2-d`** @ `9d9831f`, **`msc-website-v2-e`** @ `e06627e`.
+- **Status:** completed — all code/docs committed and pushed; only **`payload.sqlite`** unstaged (local dev)
+- **Next:** See **`.cursor/review.md`** — live v6 deploy + `msc:verify:live:version`; hygiene (`NODE_ENV`, sqlite git policy); portable kit from **ideaz.md** when ready
+
 ## [2026-06-07] - Docs sync — ideaz + review planning files
 - **Branch:** MSC-Website-v6 @ `9d9831f` (audit already pushed)
 - **Changes:** Added **`.cursor/ideaz.md`** (portable studio kit / `custom-scriptz` roadmap) and **`.cursor/review.md`** (audit follow-up, score 86/100, tomorrow queue). Ran **`msc:docs:sync`** (PERFECT SYNC). Updated TRUTH, START-HERE, Checkpoint, CHANGELOG, ReCall.

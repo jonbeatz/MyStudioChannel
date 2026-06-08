@@ -222,7 +222,7 @@ npm run msc:test:hostinger-ftp
 | `npm run msc:test:github-api` | Verify GitHub token | MCP troubleshooting |
 | `npm run msc:test:tavily-api` | Verify Tavily token | MCP troubleshooting |
 
-**Docs:** [MCP-SETUP.md](./MCP-SETUP.md) · Refresh: **cursor-mcp-refresh** status bar `MCP (X/Y)`
+**Docs:** [MCP-SETUP.md](./MCP-SETUP.md) · Reload: **Settings → MCP** (refresh server) or restart Cursor
 
 ---
 

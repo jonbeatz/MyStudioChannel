@@ -72,7 +72,7 @@ Portable workflow skills pack for reuse in other projects:
 
 **Think layer (Obsidian):** `I:\Vader_Vault` — personal notes; ship layer = this repo's `.cursor/docs/` + TRUTH. Weekly distill to ReCall (operator calendar).
 
-**MCP:** Global **12** + project **6** — `MCP-SETUP.md`. **`HOSTINGER_API_TOKEN`** in `.env.local` → **`npm run msc:sync:mcp-env`**. Refresh: **cursor-mcp-refresh** (status bar `MCP (X/Y)`).
+**MCP:** Global **12** + project **6** — `MCP-SETUP.md`. **`HOSTINGER_API_TOKEN`** in `.env.local` → **`npm run msc:sync:mcp-env`**. Reload: **Settings → MCP** (refresh server) or restart Cursor.
 
 Project rules layout:
 - Core rule file: `.cursorrules`
@@ -132,7 +132,8 @@ If local breaks with missing vendor chunks (`date-fns`, etc.), after **`pushit:l
 
 For Vertex AI model testing/dev workflows:
 - Run **`npm run msc:google-api:start`** to fire up LiteLLM on port **4000** and mount an active ngrok HTTPS tunnel.
-- Check connections and display Cursor settings via **`npm run msc:litellm:test:ngrok`**.
+- Check connections and display Cursor settings via **`npm run msc:litellm:test:ngrok`** (prints **Override OpenAI Base URL** + API key — use **`MSC_LITELLM_MASTER_KEY`** from **`.env.local`**, not a committed placeholder).
+- **Cursor Models:** **Auto** and **Tab** use Cursor’s servers; custom **`vader-*`** models use the ngrok **`/v1`** URL above. LiteLLM/ngrok survive a Cursor restart; **End Project** runs **`msc:session:stop`** (ports **3000**, **4000**, **4040**).
 - Keep credentials safe; never commit Service Account JSON or raw authtokens. Reference: **`config/Ngrok-SETUP.md`**.
 
 ### Why the browser shows a white page + `/_next/static/chunks/fallback/*` (500)

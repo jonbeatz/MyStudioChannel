@@ -95,13 +95,21 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (deploy modes), **`DEPLOYMENT-TROUBLESHOOTING.md`**. Say **push it live** → agent asks mode (Quick DB · Fast FTPS · Full FTPS · MCP avoid). **MCP/Git ≠ DB deploy**.
 - **Branches:** **`MSC-Website-v6`** (active dev); **`main`** synced with v6; **`MSC-Website-v5`** frozen at v5.0.0.
 - **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v6.0.0`**; **Latest = `v6.0.0`**.
-- **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); **cursor-mcp-refresh** extension; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
+- **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); Hostinger quartet via **`msc-hostinger-mcp.mjs`** launcher (scoped bins, no tool-naming warnings); MCP reload via **Settings → MCP**; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
 - **Audit (2026-06-07):** Phases 1–4 complete @ **`9d9831f`** (pushed). Planning backlog: **`.cursor/review.md`** (tomorrow queue) · **`.cursor/ideaz.md`** (portable studio kit).
 - **Next ideas:** Deploy v6 live + `msc:verify:live:version`; hygiene from **review.md**; portable kit from **ideaz.md** when starting new repos.
+- **Session closeout (2026-06-07):** Branch @ **`e06627e`** pushed; backups **`msc-website-v2-e`**; ports stopped (3000 cleared).
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-08 — Hostinger MCP launcher + docs sync
+
+- **Fix:** **`scripts/msc-hostinger-mcp.mjs`** — scoped `hostinger-*` bins (not default 129-tool server); filters upstream `Node.js` tool names Cursor rejects.
+- **Sync:** **`msc-sync-mcp-env.mjs`** copies launcher to `~/.cursor/scripts/` and rewrites global Hostinger entries.
+- **Docs:** **MCP-SETUP**, **ISSUES-RESOLVED**, **START-HERE** — reload via **Settings → MCP** (optional **cursor-mcp-refresh** VSIX archived/uninstalled).
+- **LiteLLM:** **`npm run msc:litellm:test:ngrok`** prints Cursor **Override OpenAI Base URL** + API key (`MSC_LITELLM_MASTER_KEY`); ngrok URL survives Cursor restart; stopped by **End Project** / **`msc:session:stop`**.
 
 ### 2026-06-07 — Planning docs + docs sync
 

@@ -4,7 +4,7 @@ How Model Context Protocol servers are configured for **MyStudioChannel** and Jo
 
 **Related:** [Development.md](./Development.md) (env vars), [ReCall.md](./ReCall.md) (Payload MCP finding §2026-04-08).
 
-**Last updated:** 2026-06-08 (Hostinger spawn EINVAL fix; global **12**; project **6**; `HOSTINGER_API_TOKEN` sync; cursor-mcp-refresh)
+**Last updated:** 2026-06-08 (Hostinger launcher + tool-naming fix; global **12**; project **6**; `HOSTINGER_API_TOKEN` sync)
 
 ---
 
@@ -20,7 +20,7 @@ Cursor can expose MCP tools from **three separate places**. Only the first two u
 
 **Merge rule:** Cursor loads global + project configs. If the same server name exists in both, **project wins**.
 
-**Registered vs configured:** A server in `mcp.json` only works when **enabled** in **Cursor Settings → MCP** and successfully started. After edits, refresh via **cursor-mcp-refresh** (`MCP (X/Y)` status bar) or restart Cursor.
+**Registered vs configured:** A server in `mcp.json` only works when **enabled** in **Cursor Settings → MCP** and successfully started. After edits, use **Settings → MCP** → refresh/restart the affected server, or restart Cursor.
 
 ---
 
@@ -94,7 +94,7 @@ We **do not** configure `@govcraft/payload-cms-mcp` in any `mcp.json`.
 
    Alias: `npm run msc:sync:mcp-env` · `npm run msc:sync:mcp-all` (same + confirmation echo).
 
-3. **Reload MCP** — **cursor-mcp-refresh** status bar **`MCP (X/Y)`**, or restart Cursor.
+3. **Reload MCP** — **Cursor Settings → MCP** → refresh the server (or restart Cursor).
 
 ### What `msc:sync:mcp-env` syncs automatically
 
@@ -123,10 +123,21 @@ These project servers still use **placeholders** in committed `.cursor/mcp.json`
 
 | Server | Secret | Notes |
 |--------|--------|--------|
-| `hostinger-hosting` | `HOSTINGER_API_TOKEN` | **`npm run msc:sync:mcp-env`** copies to all four |
-| `hostinger-vps` | same | Windows: use `cmd /c npx -y hostinger-api-mcp@latest …` (not bare `npx.cmd` — causes `spawn EINVAL`) |
+| `hostinger-hosting` | `HOSTINGER_API_TOKEN` | **`npm run msc:sync:mcp-env`** copies token + fixes launcher args |
+| `hostinger-vps` | same | Scoped bin via **`scripts/msc-hostinger-mcp.mjs`** (not the default all-tools server) |
 | `hostinger-domains` | same | |
 | `hostinger-dns` | same | |
+
+**Launcher (2026-06-08):** Do **not** use `npx hostinger-api-mcp@latest hostinger-hosting-mcp` — that runs the **default** `hostinger-api-mcp` binary (129 tools) and ignores the scoped bin name. **`npm run msc:sync:mcp-env`** copies `scripts/msc-hostinger-mcp.mjs` to `~/.cursor/scripts/` and points all four servers at it:
+
+```json
+"command": "node",
+"args": ["C:/Users/<you>/.cursor/scripts/msc-hostinger-mcp.mjs", "hostinger-hosting-mcp"]
+```
+
+The launcher uses **newline JSON-RPC** (current MCP SDK) and drops three upstream tools whose names contain `Node.js` (invalid in Cursor). Use **`hosting_listJsDeployments`**, **`hosting_deployJsApplication`**, **`hosting_showJsDeploymentLogs`** instead.
+
+**Hostinger Connector extension:** If installed, it may also register MCP servers and rewrite `~/.cursor/mcp.json` on connect. After using the extension sidebar, run **`npm run msc:sync:mcp-env`** again so the filtered launcher wins.
 
 Add `HOSTINGER_API_TOKEN` to **`.env.local`** (see **`.env.example`**). Obtain from [hPanel](https://hpanel.hostinger.com/) → API / Hostinger MCP connector. **Never commit** the token to the repo.
 
@@ -206,17 +217,12 @@ Then reload MCP in Cursor.
 
 Prefer **remove + archive** over `"disabled": true` — Cursor may still connect disabled entries.
 
-### MCP refresh extension (installed)
+### Reload MCP after config edits
 
-**[cursor-mcp-refresh](https://github.com/tankmurdock/cursor-mcp-refresh)** v1.1.0 — VSIX at `.cursor/tools/cursor-mcp-refresh-1.1.0.vsix` (reinstall: `cursor --install-extension` that path).
+1. **Cursor Settings → MCP** — toggle off/on or use the refresh control for the affected server
+2. **Restart Cursor** — when servers show duplicate `?` rows or stay stuck after a refresh
 
-After **restart Cursor**:
-
-1. Status bar → click **`MCP (X/Y)`** to refresh selected servers
-2. Explorer → **MCP Servers** panel → gear → select servers to manage
-3. Command Palette: **Refresh Enabled MCP Servers**
-
-Use after editing `mcp.json` or when a server is stuck — faster than a full IDE restart for day-to-day use.
+**Optional:** VSIX at `.cursor/tools/cursor-mcp-refresh-1.1.0.vsix` ([cursor-mcp-refresh](https://github.com/tankmurdock/cursor-mcp-refresh)) adds status bar **`MCP (X/Y)`** — **not required**; Jon uninstalled it (2026-06-08) after it spawned orphan MCP processes alongside Cursor’s built-in runner.
 
 ---
 
@@ -228,7 +234,7 @@ Use after editing `mcp.json` or when a server is stuck — faster than a full ID
 4. Run `npm run msc:sync:mcp-env`.
 5. Manually set **browserbase**, **21st-dev-magic**, and **Hostinger** secrets per checklist above.
 6. Enable all needed servers in **Cursor Settings → MCP**.
-7. Refresh MCP (extension or restart).
+7. Refresh MCP in **Settings → MCP** (or restart Cursor).
 
 ---
 

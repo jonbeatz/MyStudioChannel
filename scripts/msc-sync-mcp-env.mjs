@@ -83,6 +83,54 @@ function writeJson(filePath, data) {
   fs.writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, 'utf8');
 }
 
+const HOSTINGER_BIN_BY_SERVER = {
+  'hostinger-hosting': 'hostinger-hosting-mcp',
+  'hostinger-vps': 'hostinger-vps-mcp',
+  'hostinger-domains': 'hostinger-domains-mcp',
+  'hostinger-dns': 'hostinger-dns-mcp',
+};
+
+const HOSTINGER_LAUNCHER_SOURCE = path.join(REPO_ROOT, 'scripts', 'msc-hostinger-mcp.mjs');
+const HOSTINGER_LAUNCHER_GLOBAL = path.join(
+  os.homedir(),
+  '.cursor',
+  'scripts',
+  'msc-hostinger-mcp.mjs',
+);
+
+function installHostingerLauncher() {
+  fs.mkdirSync(path.dirname(HOSTINGER_LAUNCHER_GLOBAL), { recursive: true });
+  fs.copyFileSync(HOSTINGER_LAUNCHER_SOURCE, HOSTINGER_LAUNCHER_GLOBAL);
+  return HOSTINGER_LAUNCHER_GLOBAL.replace(/\\/g, '/');
+}
+
+function normalizeHostingerServers(config) {
+  const servers = config.mcpServers || {};
+  let changed = false;
+
+  const launcherPath = installHostingerLauncher();
+
+  for (const [serverName, binName] of Object.entries(HOSTINGER_BIN_BY_SERVER)) {
+    const server = servers[serverName];
+    if (!server) continue;
+
+    const expectedArgs = [launcherPath, binName];
+    const currentArgs = server.args || [];
+    const argsMatch =
+      server.command === 'node' &&
+      currentArgs.length === expectedArgs.length &&
+      currentArgs.every((value, index) => value === expectedArgs[index]);
+
+    if (!argsMatch) {
+      server.command = 'node';
+      server.args = expectedArgs;
+      changed = true;
+    }
+  }
+
+  return changed;
+}
+
 function setNestedEnv(config, serverName, envUpdates) {
   const servers = config.mcpServers || {};
   const server = servers[serverName];
@@ -200,6 +248,13 @@ function main() {
     );
   } else if (hostingerServers.length > 0) {
     console.warn('WARN: hostinger-* MCP present but HOSTINGER_API_TOKEN not in .env.local');
+  }
+
+  const hostingerArgsChanged = normalizeHostingerServers(globalConfig);
+  if (hostingerArgsChanged) {
+    console.log(
+      'PASS: hostinger-* MCP args → scoped launcher (msc-hostinger-mcp.mjs + per-service bin)',
+    );
   }
 
   writeJson(GLOBAL_MCP, globalConfig);

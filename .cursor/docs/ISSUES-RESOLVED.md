@@ -45,19 +45,26 @@ Each entry follows this structure:
 - **Files Changed:** `scripts/msc-backup.mjs`, `scripts/clean-zips.ps1`, `package.json`, `.cursor/custom-scriptz/backup-system/*`, `.cursor/rules/global.mdc`, docs
 - **Prevention:** Run **`npm run backup:clean-zips`** after deploys. Standard backup never copies `zips/`.
 
+## [2026-06-08] Hostinger MCP tool naming warnings (Cursor Settings)
+- **Error:** MCP panel showed **“Some tools have naming issues and may be filtered out”** on all four `hostinger-*` servers — tools like `hosting_listNode.jsBuildsV1` (dot in `Node.js`).
+- **Cause:** (1) `npx hostinger-api-mcp@latest hostinger-hosting-mcp` runs the **default** all-tools binary and passes the scoped name as a ignored CLI arg — every server exposed the same hosting tools. (2) Upstream `hostinger-api-mcp@0.2.6` ships three OpenAPI tool names with `.` which Cursor rejects (`[a-zA-Z0-9_]` only).
+- **Solution:** Added **`scripts/msc-hostinger-mcp.mjs`** — spawns `npx -y --package=hostinger-api-mcp <scoped-bin>` and filters invalid tool names from `tools/list`. First proxy draft used obsolete Content-Length framing (MCP SDK now uses newline JSON-RPC) — fixed 2026-06-08. **`msc-sync-mcp-env.mjs`** copies launcher to `~/.cursor/scripts/` and rewrites global `hostinger-*` entries. Documented safe alternatives for Node.js deploy status/logs.
+- **Files Changed:** `scripts/msc-hostinger-mcp.mjs`, `scripts/msc-sync-mcp-env.mjs`, `~/.cursor/mcp.json`, `.cursor/docs/MCP-SETUP.md`
+- **Prevention:** After Hostinger MCP edits run **`npm run msc:sync:mcp-env`** then reload in **Settings → MCP**. Do not revert to `hostinger-api-mcp@latest` + string arg pattern.
+
 ## [2026-06-08] Hostinger MCP spawn EINVAL on Windows (Cursor)
 - **Error:** `hostinger-hosting`, `hostinger-vps`, `hostinger-domains`, `hostinger-dns` failed to start — **`Error: spawn EINVAL`**; MCP panel showed duplicate `?` rows.
 - **Cause:** Global `~/.cursor/mcp.json` used **`"command": "npx.cmd"`** with `--package=…` args. Cursor's MCP runner on Windows does not spawn that reliably (unlike **`cmd /c npx -y …`** used by github/tavily).
-- **Solution:** Changed all four Hostinger blocks to `cmd` + `/c` + `npx` + `-y` + `hostinger-api-mcp@latest` + service binary. Added **`HOSTINGER_API_TOKEN`** to `.env.local`; extended **`msc-sync-mcp-env.mjs`** to sync all `hostinger-*` servers. Documented in **MCP-SETUP.md**.
+- **Solution:** Changed all four Hostinger blocks away from bare **`npx.cmd`**. Later superseded by **`msc-hostinger-mcp.mjs`** launcher (see tool-naming entry above). Added **`HOSTINGER_API_TOKEN`** to `.env.local`; extended **`msc-sync-mcp-env.mjs`** to sync all `hostinger-*` servers.
 - **Files Changed:** `~/.cursor/mcp.json` (global, outside repo), `scripts/msc-sync-mcp-env.mjs`, `.env.example`, `.cursor/docs/MCP-SETUP.md`, `.cursor/docs/Site-Plans.md`
-- **Prevention:** On Windows, never use bare `npx.cmd` for MCP; mirror **`cmd /c npx -y`** pattern. After token edits: **`npm run msc:sync:mcp-env`** + **`MCP (X/Y)`** refresh. Restart Cursor if duplicate stale rows persist.
+- **Prevention:** On Windows, never use bare `npx.cmd` for MCP. Use **`npm run msc:sync:mcp-env`** so launcher args stay correct. Reload in **Settings → MCP** after edits; restart Cursor if duplicate stale rows persist.
 
 ## [2026-06-08] msc:sync:mcp-env fails on Node 24 (require in ESM)
 - **Error:** `npm run msc:sync:mcp-env` → `ReferenceError: require is not defined in ES module scope`
 - **Cause:** `scripts/msc-sync-mcp-env.mjs` used CommonJS `require()` while Node treats `.mjs` as ESM.
 - **Solution:** Converted to `import fs from 'node:fs'` + `import.meta.url` for `__dirname`.
 - **Files Changed:** `scripts/msc-sync-mcp-env.mjs`
-- **Prevention:** Use ESM `import` in all `.mjs` scripts; run **`npm run msc:sync:mcp-env`** after `.env.local` MCP secret edits, then refresh MCP (cursor-mcp-refresh or restart Cursor).
+- **Prevention:** Use ESM `import` in all `.mjs` scripts; run **`npm run msc:sync:mcp-env`** after `.env.local` MCP secret edits, then reload in **Settings → MCP** (or restart Cursor).
 
 ## [2026-06-08] pushit:live:fast — zip landed under zips/ on FTPS staging
 - **Error:** First **`pushit:live:fast`** test: SSH unzip failed (`missing deploy-next.zip on staging`); zip path fallback did not run; staging had **`zips/deploy-next.zip`** instead of **`deploy-next.zip`** at FTPS root.
