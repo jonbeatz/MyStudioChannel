@@ -1,3 +1,9 @@
+## [2026-06-08] - Live 503 recovery, sync-app hardening, full docs sync
+- **Branch:** MSC-Website-v6 @ `b368d3e`
+- **Changes:** Diagnosed live **503** — `node_modules` missing Next webpack after lockfile sync; fixed via SSH **`npm install --ignore-scripts`**. Added **`msc:hostinger:sync-app`**, **`msc:hostinger:npm-install`**, **`msc:hostinger:recover`**. Wired **`sync-app`** into **`pushit:live`** and **`msc:push:db:live`**. Documented two **`nodejs`** folders (FTPS staging vs live app root), MCP **Build failed** note, prevention checklist across HOSTINGER-DEPLOY, DEPLOYMENT-TROUBLESHOOTING, MASTER-COMMANDS, Jedi-List, Checkpoint, ReCall, Restore-Points, AGENTS, rules.
+- **Status:** completed — live **v6.0.0**, **`verify:live`** passing
+- **Next:** Routine updates via **`pushit:live`** only; avoid MCP zip on this host
+
 ## [2026-06-08] - Header nav submenuSource, Legal label, docs sync
 - **Branch:** MSC-Website-v6
 - **Changes:** Replaced magic **Pages** nav label with explicit **`submenuSource`** (Manual | From Pages collection). Added **`showInHeaderNav`** on Pages; excluded MSC1. Renamed dropdown to **Legal**. SQLite migrations + seed update. Synced CHANGELOG, ISSUES-RESOLVED, Development, MASTER-COMMANDS, Checkpoint, DEPLOYMENT-TROUBLESHOOTING.

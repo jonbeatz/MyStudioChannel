@@ -18,6 +18,6 @@ Say explicitly: **Live (Hostinger hPanel)** — open this in the browser, log in
 Whenever you tell Jon to run a command, **prefix or tag** where it runs:
 
 - **Local (Cursor / PC repo root)** — `npm run build`, `npm run pushit:live`, `npm run dev`, `git`, PowerShell in the project folder on his machine. Never run these in hPanel unless you are explicitly describing a mistake to avoid. **Agents:** for local dev recovery (`dev:recover`, `dev:fresh`, `repair:dev`, `verify:next:safe`, smoke `curl`, etc.), **run these yourself** from the repo root; do not only instruct Jon — see **`.cursor/rules/local-runtime-recovery.mdc`**.
-- **Live (Hostinger hPanel → SSH/Terminal)** — `npm install --legacy-peer-deps`, `rm -rf .next`, `rm -f payload.sqlite-wal payload.sqlite-shm`, etc. Jon runs these in the host browser/terminal or via SSH; the agent cannot execute these host-side commands for him.
+- **Live (Hostinger hPanel → SSH/Terminal)** — prefer **Local** SSH scripts: **`msc:hostinger:npm-install`**, **`sync-app`**, **`recover`**. If manual: **`npm install --legacy-peer-deps --ignore-scripts`** only (not plain `npm install`). WAL cleanup: `rm -f payload.sqlite-wal payload.sqlite-shm`.
 
 If the hPanel link requires authentication, tell Jon to sign in at `https://hpanel.hostinger.com/` first and navigate to the Node.js or VPS control panel.

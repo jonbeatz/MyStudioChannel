@@ -34,7 +34,8 @@ Always check `.cursor/skills/` for project-specific and portable agent abilities
 - **GitHub-Ops**: Use `.cursor/skills/GitHub-Ops/SKILL.md` for repo and library management.
 - **Premium-UI**: Use `.cursor/skills/Premium-UI/SKILL.md` for pre-wired UI builders, Lenis smooth scroll integrations, 21st.dev Magic MCP, Uiverse.io, VibeUI, and MotionSites.ai.
 - **Workflow-Portable**: Standard ops (backups, deploys, session logs).
-- Say **push it live** — agent asks mode: Quick DB (`msc:push:db:live`) · Full FTPS · MCP code-only (verify DB after)
-- Code changes only: `npm run push:website:live` (MCP — not a DB deploy)
-- Full deploy (code + DB + media): `powershell -File scripts/push-website-live.ps1 -Ftps` or `npm run pushit:live` (auto sync-db)
-- Always restart Node in hPanel after deploy.
+- Say **push it live** — agent asks mode: Quick DB (`msc:push:db:live`) · **Full FTPS (preferred)** · MCP code-only (**avoid on this host**)
+- **Routine deploy:** `npm run pushit:live` — FTPS → `msc:hostinger:sync-db` + `msc:hostinger:sync-app` (staging `public_html/nodejs/` → live app root)
+- **503 repair:** `msc:hostinger:npm-install` (webpack) or `msc:hostinger:recover` (preload/logs)
+- MCP zip: `npm run push:website:live` — not a DB deploy; `better-sqlite3` compile often fails on host
+- Always restart Node in hPanel after deploy; run `msc:verify:live`

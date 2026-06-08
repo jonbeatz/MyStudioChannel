@@ -87,7 +87,7 @@ Fast triage pattern:
 |------|--------|--------|
 | 1 | **PC (repo root)** | Develop with **`npm run dev:payload`**. Before production upload, **`npm run build`** must succeed. |
 | 2 | **PC** | Upload: for **deps / startup / env template** use **`npm run pushitup:server-config`** (see table), or **`npm run pushitup -- package.json package-lock.json server.js patches middleware.ts`** (adjust if you changed more). For **Payload admin / MSC PRO ENGINE look and feel**, run **`npm run pushitup:admin-ui`** (full admin bundle; see **Deploy uploaders** table below). For **branding-only** FTPS (smaller list), **`npm run pushitup:admin-branding`**. Then **`npm run pushitup -- .next`** (full folder; no zip required). |
-| 3 | **Hostinger → Terminal** | Only if **`package.json` / lockfile / `patches`** changed: **`npm install --legacy-peer-deps`** (see **HOSTINGER-DEPLOY.md**). **Do not** run **`pushitup`** here. |
+| 3 | **Local (preferred)** | **`npm run msc:hostinger:npm-install`** or **`sync-app`** after lockfile upload — uses **`--ignore-scripts`**. Avoid plain **`npm install`** on host (`better-sqlite3` fails). **Do not** run **`pushitup`** in Hostinger Terminal. |
 | 4 | **Hostinger → hPanel** | **Restart** the app in the Node.js Application manager. |
 
 **Release version check:** After deploy, open **`/admin`** — sidebar (bottom-left) should show **`MyStudioChannel Admin v6.0.0`** (matches root **`package.json`** **`"version"`**). Bump **`package.json`** only when you cut a new release (e.g. `6.0.0` → `6.0.1`); UI labels read from **`lib/msc-app-version.ts`** at build time.
@@ -215,7 +215,10 @@ Secrets live in **`.env.local`** only. After changing GitHub, Resend, WordPress,
 | **`npm run msc:session:stop`** | **End Project closeout:** always stops Next dev (**3000**) + LiteLLM/ngrok (**4000**/**4040**) for a fresh cold start. |
 | **`npm run msc:hostinger:stop-node`** | **Option B deploy:** SSH stop live Node + clear SQLite WAL/SHM (when hPanel has no Stop button). |
 | **`npm run msc:hostinger:sync-db`** | **After FTPS:** SSH copy `payload.sqlite` from `public_html/nodejs/` into live app root. |
-| **`npm run msc:push:db:live`** | **Quick live DB sync (~1–2 min):** SSH stop → FTPS `payload.sqlite` → SSH sync → Restart in hPanel. |
+| **`npm run msc:hostinger:sync-app`** | **After FTPS:** SSH mirror code + `.next` + lockfile staging → app root; runs **`npm install --ignore-scripts`**. |
+| **`npm run msc:hostinger:npm-install`** | **503 repair:** restore `node_modules` on app root (missing Next webpack). |
+| **`npm run msc:hostinger:recover`** | **Live diagnose:** `stderr.log`, preload, WAL cleanup, log trim. |
+| **`npm run msc:push:db:live`** | **Quick live DB sync (~1–2 min):** SSH stop → FTPS `payload.sqlite` → **`sync-db`** + **`sync-app`** → Restart in hPanel. |
 | **`npm run fix:hero-slide-images`** | Reassigns homepage hero slide **Media** IDs in **`payload.sqlite`** (Python). |
 
 ---
@@ -248,11 +251,11 @@ Tool for extracting design systems from production websites.
 | **`npm run pushitup`** (or **`npm run PushItUP`**) | **`scripts/PushItUP.ps1`** — uploads listed **files or folders** directly over FTPS. **Hostinger default:** `npm run pushitup -- .next` after **`npm run build`** = full build folder, **no zip/unzip** (see **HOSTINGER-DEPLOY.md** cheat sheet). Example: `npm run pushitup -- server.js` |
 | **`npm run pushitup:admin-ui`** | **Primary MSC PRO ENGINE / Payload admin bundle:** uploads **`middleware.ts`**, **`lib/msc-app-version.ts`**, **`components/msc-payload-nav-dashboard.tsx`**, **`components/msc-payload-nav-logout.tsx`**, **`components/msc-payload-graphics.tsx`**, **`components/msc-payload-admin-enhancements.tsx`**, **`collections/Users.ts`**, **`payload.config.ts`**, **`app/(payload)/custom.scss`**. Matches **`package.json`** script; safe on Windows (no manual quoting for the SCSS path). |
 | **`npm run pushitup:admin-branding`** | **Branding-only subset:** **`components/msc-payload-graphics.tsx`**, **`components/msc-payload-admin-enhancements.tsx`**, **`collections/Users.ts`**, **`payload.config.ts`**, **`app/(payload)/custom.scss`**. Use when you only changed admin look-and-feel sources; you still need **`npm run build`** + **`pushitup -- .next`** if React/admin bundle output must change on the host. Shortcut: **Custom-Prompts.md** → **Push my branding** (item **37**). |
-| **`npm run pushitup:server-config`** | **Tier 3 / hosting:** uploads **`server.js`**, **`package.json`**, **`package-lock.json`**, **`.env.example`**. Then **Hostinger → Terminal** → **`npm install --legacy-peer-deps`** if lockfile changed. Shortcut: **Custom-Prompts.md** → **Push server config** (item **39**). Add **`patches/`** or extra paths with **`npm run pushitup -- …`** when needed. |
+| **`npm run pushitup:server-config`** | **Tier 3 / hosting:** uploads **`server.js`**, **`package.json`**, **`package-lock.json`**, **`.env.example`**. Then **`npm run msc:hostinger:sync-app`** or **`msc:hostinger:npm-install`** (uses **`--ignore-scripts`** — do not run plain `npm install` on host). Shortcut: **Custom-Prompts.md** → **Push server config** (item **39**). |
 | **`npm run push:website:live`** | Say *push it live* — agent **asks mode first**. **Quick DB:** **`msc:push:db:live`**. **Code-only (MCP zip):** build → **`msc:deploy:zip`** → MCP — **verify DB after** (MCP ≠ DB deploy). **Full FTPS:** **`push-website-live.ps1 -Ftps`**. Zips: **`zips/MyStudioChannel-deploy-*.zip`**. Restart: https://hpanel.hostinger.com/websites/mystudiochannel.com |
 | **`npm run deploy:zip`** | **`scripts/create-deploy-zip.ps1`** — robocopy staging (excludes **`node_modules`**, **`.next`**, **`.git`**, **`zips/`**) → timestamped zip in **`zips/`**. Writes **`zips/.last-deploy-zip.txt`**. |
 | **`npm run verify:live:version`** | Fetches live **`/`** + **`/admin`**; asserts footer and admin sidebar match **`package.json`** version. |
-| **`npm run pushit:live`** | **`npm run build`** (live **`NEXT_PUBLIC_SERVER_URL`** for that step only) → **`msc:pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`msc:hostinger:sync-db`** → **`pushitup -- public/media`**. Step **7/7** **`dev:fresh`** runs only if **`PUSHIT_LIVE_RUN_DEV_FRESH=1`** (default: skip). Auto-syncs DB from FTPS landing to live app root. |
+| **`npm run pushit:live`** | **`build`** → **`msc:pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`msc:hostinger:sync-db`** → **`msc:hostinger:sync-app`** → **`pushitup -- public/media`**. FTPS → **`public_html/nodejs/`**; SSH sync → live app root. Step **7/7** **`dev:fresh`** only if **`PUSHIT_LIVE_RUN_DEV_FRESH=1`**. |
 | **`npm run pushit:live:safe`** | Runs **`verify:local`** preflight first; if all checks pass, runs full **`pushit:live`** flow. Use when you want extra guardrails. |
 | **`npm run pushitupzip`** (or **`npm run PushItUPzip`**) | **`scripts/PushItUPzip.ps1`** — zips each target under **`.pushitupzips/`**, then uploads. For **`.next`**, the file is **`next-build.zip`** (not **`.next.zip`**, so hPanel shows it). Remote path: **`.pushitupzips/next-build.zip`** under your FTPS root. Example: `npm run pushitupzip -- .next` |
 | **`npm run test:hostinger-ftp`** | **`scripts/Test-HostingerFtp.ps1`** — read-only FTPS check using **`.vscode/sftp.json`** (login + LIST). Does not upload. **PushItUP** uses configured **`remotePath`** even when LIST on that path fails; see **HOSTINGER-DEPLOY.md**. |
@@ -324,11 +327,11 @@ Natural-language requests for Cursor. The agent runs real terminal commands unde
 
 | You say (examples) | What it usually triggers |
 |--------------------|---------------------------|
-| **Deploy to Hostinger** / **Push this to production.** | Follow **HOSTINGER-DEPLOY.md**: small change → **`npm run pushitup -- …`** + remind host restart; deps change → upload **`package.json`** / lockfile + **`npm install --legacy-peer-deps`** on host; full refresh → local **`npm run build`** + **`pushitupzip -- .next`** (or your zip name) + host unzip + restart. |
+| **Deploy to Hostinger** / **Push this to production.** | **`npm run pushit:live`** (FTPS + **`sync-db`** + **`sync-app`**) → hPanel restart → **`verify:live`**. Quick DB only: **`msc:push:db:live`**. See **HOSTINGER-DEPLOY.md** § *folder map*. |
 | **Run PushIt** / **PushItUP** / **pushitup** for [files]. | Runs **`npm run pushitup -- <paths>`** (direct FTPS upload). |
 | **Zip and upload .next** / **Use pushitupzip.** | **`npm run build`** (if needed), then **`npm run pushitupzip -- .next`**; archives land in **`.pushitupzips/`** then upload. |
 | **Connect me to Hostinger** / **How do I FTP to the host?** | Points to **HOSTINGER-DEPLOY.md**: server profile, that credentials live in **`.vscode/sftp.json`**, hPanel links, **no secrets in git**. |
-| **Fix the deploy** / **503 on the live site** / **Production app won’t start.** | **HOSTINGER-DEPLOY.md** troubleshooting: restart Node app in hPanel, **`npm install --legacy-peer-deps`**, **`node server.js`** on host for errors, env vars (**`NEXT_PUBLIC_SERVER_URL`**, **`PAYLOAD_SECRET`**, etc.). |
+| **Fix the deploy** / **503 on the live site** / **Production app won’t start.** | Read **`/nodejs/stderr.log`**: missing **preload** → **`msc:hostinger:recover`**; missing **webpack** → **`msc:hostinger:npm-install`**; wrong version → **`msc:hostinger:sync-app`**. Restart Node in hPanel. See **DEPLOYMENT-TROUBLESHOOTING.md**. |
 | **Verify email still goes to localhost or 0.0.0.0.** | Check **`NEXT_PUBLIC_SERVER_URL`**, latest **`collections/Leads.ts`** deployed, relative redirects—per **HOSTINGER-DEPLOY.md**. |
 
 ---

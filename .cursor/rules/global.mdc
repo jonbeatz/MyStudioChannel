@@ -22,7 +22,7 @@ After quick backup completes, report destination path and `.cursor/BackUp-Notez.
 
 | Operator says | Agent action |
 |---------------|--------------|
-| **`push website live`**, **`push it live`**, **`push site live`**, **`deploy live`** | Run **Push Website Live** ([`.cursor/prompts/Push-Website-Live.md`](../prompts/Push-Website-Live.md)) — **`AskQuestion` first:** Quick DB (~1–2 min) · Full FTPS (~45–60 min) · MCP code-only (~5–10 min). **MCP/Git ≠ DB deploy** — verify live DB after code deploys. Do **not** auto-run full build without Jon’s choice. |
+| **`push website live`**, **`push it live`**, **`push site live`**, **`deploy live`** | Run **Push Website Live** ([`.cursor/prompts/Push-Website-Live.md`](../prompts/Push-Website-Live.md)) — **`AskQuestion` first:** Quick DB · **Full FTPS (preferred)** · MCP (avoid on this host). **`pushit:live`** runs **`sync-db`** + **`sync-app`**. Do **not** auto-run full build without Jon’s choice. |
 
 **Local commands:** `npm run msc:push:db:live` (Quick DB) · `npm run push:website:live` (MCP code-only) · `powershell -File scripts/push-website-live.ps1 -Ftps` (full) · dry-run: `-- --dry-run`
 

@@ -172,12 +172,11 @@ Or: `npm run push:website:live -- --ftps` (pass `-Ftps` to PowerShell if npm eat
 
 The FTPS path automatically:
 1. **`npm run msc:hostinger:stop-node`** — SSH `pkill` + clear WAL/SHM on live app root
-2. **`npm run pushit:live`** — build + FTPS upload
-3. **`npm run msc:hostinger:sync-db`** — copy `public_html/nodejs/payload.sqlite` → `domains/.../nodejs/` (Hostinger FTPS chroot quirk)
+2. **`npm run pushit:live`** — build + FTPS upload + **`sync-db`** + **`sync-app`** (inside script)
 
 **Live (hPanel):** click **Restart** after upload completes.
 
-**Why sync-db?** FTPS `remotePath: /nodejs` lands files under `public_html/nodejs/` while the Node app runs from `domains/mystudiochannel.com/nodejs/`. Without the SSH copy, live keeps a 4 KB stub DB and `/api/globals/*` returns 500.
+**Why SSH sync?** FTPS `remotePath: /nodejs` lands under **`public_html/nodejs/`** (staging). Node runs from **`domains/.../nodejs/`** (app root). Without **`sync-db`**, live keeps a 4 KB stub DB. Without **`sync-app`**, code/`.next`/lockfile stay in staging → wrong footer/nav or **503** (broken `node_modules`).
 
 ---
 
@@ -193,9 +192,9 @@ The FTPS path automatically:
 ## Cleanup “old stuff” on server (optional)
 | Path | Action |
 |------|--------|
-| `public_html/.builds/` | Old Hostinger zip cache — safe to delete |
-| `nodejs/payload.sqlite-wal` / `.shm` | Delete before restart after DB deploy |
-| Do **not** delete | `nodejs/`, `payload.sqlite`, `.next` (after good deploy), `node_modules` |
+| `domains/.../nodejs/stderr.log` / `console.log` | Safe to trim when large (`msc:hostinger:recover` truncates `stderr.log`) |
+| `nodejs/payload.sqlite-wal` / `.shm` | Delete before restart after DB deploy (automated in deploy scripts) |
+| **Never delete** | `public_html/.builds/` (preload — **503** if missing), `public_html/nodejs/` (FTPS staging), live app root `nodejs/`, `payload.sqlite`, `.next`, `node_modules` |
 
 ---
 
@@ -208,4 +207,4 @@ The FTPS path automatically:
 - **DO** run zip + MCP from **Local (PC)**; agent calls MCP tools
 - **DO NOT** run `pushitup` on Hostinger Terminal
 - **DO** print restart link after every successful deploy
-- **DO** ask deploy mode first; use **MCP code-only** for code changes (verify DB after); **Quick DB** or **Full FTPS** when CMS/data must be trusted on live
+- **DO** ask deploy mode first; **prefer Full FTPS** for routine updates; **Quick DB** when only CMS/API broken; **avoid MCP** on this host (`better-sqlite3` build fails)

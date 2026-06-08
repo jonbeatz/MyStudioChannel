@@ -197,9 +197,10 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 *Alternative phrasings: `"push site live"`, `"deploy live"`*
 - **Action:** Agent **asks first** (clickable) — pick deploy mode before any upload:
   - **Quick DB sync** (~1–2 min) → `npm run msc:push:db:live` → hPanel **Restart** → `msc:verify:live`
-  - **Full FTPS** (~45–60 min) → `push-website-live.ps1 -Ftps` → Restart → verify
-  - **MCP zip — code only** (~5–10 min) → `push:website:live` → MCP → Restart → **verify DB** (not a DB deploy)
+  - **Full FTPS** (~45–60 min) → `pushit:live` / `push-website-live.ps1 -Ftps` → Restart → verify (includes **`sync-db`** + **`sync-app`**)
+  - **MCP zip** — **avoid on this host** (`better-sqlite3` fails); use FTPS instead
 - **Quick DB when:** `/` + `/admin` OK but `/api/globals/*` returns 500 (stub `payload.sqlite` on live).
+- **503 when:** `msc:hostinger:npm-install` (webpack) or `msc:hostinger:recover` (preload) → Restart → `verify:live`.
 
 ### ➡️ `"Push server config"`  
 - **Action:** **Tier 3 — Hosting / Node runtime contract.**

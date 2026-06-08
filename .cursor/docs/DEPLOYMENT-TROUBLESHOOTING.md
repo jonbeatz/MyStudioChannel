@@ -81,7 +81,7 @@ Is your site down?
 ### Root Causes
 - **MCP zip deploy ≠ DB deploy** — zip includes `payload.sqlite`, but server build may not apply it to the app root
 - **Git-connected hPanel rebuild ≠ DB deploy** — repo has ~500 KB DB; live app can still boot a **4 KB stub**
-- **FTPS** uploaded DB to **`public_html/nodejs/`** while Node reads **`domains/.../nodejs/`** (fix: `npm run msc:hostinger:sync-db`)
+- **FTPS** uploaded to **`public_html/nodejs/`** while Node reads **`domains/.../nodejs/`** (fix: **`msc:hostinger:sync-db`** + **`msc:hostinger:sync-app`**)
 - Local dev server was running while DB copy was made (locked/inconsistent file)
 
 ### Solutions (fastest first)

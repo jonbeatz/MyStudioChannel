@@ -101,6 +101,14 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ## Recent changes (latest first)
 
+### 2026-06-08 — Live 503 fix, sync-app deploy pipeline, docs sync
+
+- **Commit:** **`b368d3e`** on **`MSC-Website-v6`** (pushed).
+- **Incident:** Live **503** after deploy — `stderr.log`: `Cannot find module 'next/dist/compiled/webpack/webpack'`. FTPS had landed files in **`public_html/nodejs/`**; **`sync-app`** + **`npm install --ignore-scripts`** required on app root.
+- **Fix scripts:** **`msc:hostinger:sync-app`**, **`msc:hostinger:npm-install`**, **`msc:hostinger:recover`**. **`pushit:live`** = FTPS → **`sync-db`** → **`sync-app`**.
+- **Live:** **v6.0.0**, Legal **`pages-collection`**, **`verify:live`** + **`verify:live:version`** pass.
+- **Policy:** Prefer **`pushit:live`** over MCP zip (`better-sqlite3` compile fails; hPanel **Build failed** can be stale). **Do not delete** **`public_html/nodejs/`** or **`.builds/`**.
+
 ### 2026-06-07 — v6.0.0 development branch and MSC-Website-v6 branch cut
 
 - **Branch:** Created **`MSC-Website-v6`** from **`MSC-Website-v5`** @ **`92918b6`**.
@@ -110,7 +118,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 ### 2026-06-07 — Deploy hardening, live DB sync, Sentry org fix
 
 - **Commit:** **`06ec2be`** on **`MSC-Website-v5`** and **`main`** (pushed to origin).
-- **Live DB:** MCP/Git rebuild left **4 KB stub** in app root; FTPS landed DB under **`public_html/nodejs/`**. Fix: **`msc:hostinger:sync-db`** + **`msc:push:db:live`**; **`pushit:live`** now auto-syncs after DB upload.
+- **Live DB:** MCP/Git rebuild left **4 KB stub** in app root; FTPS landed under **`public_html/nodejs/`**. Fix: **`msc:hostinger:sync-db`** + **`msc:hostinger:sync-app`**; **`pushit:live`** runs both after upload.
 - **Deploy modes:** AskQuestion picker — Quick DB (~1–2 min) · Full FTPS (~45–60 min) · MCP code-only (~5–10 min, verify DB after).
 - **Sentry:** org slug **`mystudiochannel`**; client via **`instrumentation-client.ts`**; removed deprecated **`sentry.client.config.ts`**.
 

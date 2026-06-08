@@ -105,15 +105,17 @@ MyStudioChannel/
 | Path | When | Local command |
 |------|------|----------------|
 | **Zip upload** | First deploy, WordPress replacement, full refresh | Stop dev → **`npm run build`** → upload **`MyStudioChannel-deploy.zip`** via hPanel |
-| **FTPS** | Day-to-day updates | **`npm run pushit:live`** |
+| **FTPS** | Day-to-day updates (preferred) | **`npm run pushit:live`** → **`sync-db`** + **`sync-app`** → hPanel restart |
 
 **Critical rules:**
 
-1. **Dependencies:** Packages imported in app/CSS/PostCSS must be in **`dependencies`** — Hostinger skips **`devDependencies`**. Audit: **`npm ls --omit=dev --depth=0`**.
-2. **Package manager:** **npm** only — ship **`package-lock.json`**, not **`pnpm-lock.yaml`**.
-3. **Env vars (hPanel):** `NODE_ENV`, `PAYLOAD_SECRET`, `DATABASE_URL`, `NEXT_PUBLIC_SERVER_URL`, `PAYLOAD_PUBLIC_SERVER_URL`, `RESEND_API_KEY`, `PAYLOAD_DISABLE_SHARP=true`.
-4. **hPanel build:** Next.js preset, Node **22.x**, **`npm run build`**, output **`.next`**.
-5. **After deploy:** Restart Node in hPanel; verify with **`npm run verify:live`** and Incognito **`/`** + **`/admin`**.
+1. **Two folders:** FTPS lands in **`public_html/nodejs/`** (staging); Node runs from **`domains/.../nodejs/`** (app root). Never delete staging folder. See **HOSTINGER-DEPLOY.md** § *folder map*.
+2. **Dependencies:** Packages imported in app/CSS/PostCSS must be in **`dependencies`** — Hostinger skips **`devDependencies`**. Audit: **`npm ls --omit=dev --depth=0`**.
+3. **Package manager:** **npm** only — ship **`package-lock.json`**, not **`pnpm-lock.yaml`**. After lockfile sync on host use **`npm install --ignore-scripts`** (via **`sync-app`**).
+4. **Avoid MCP zip** for routine updates — `better-sqlite3` native compile fails on this host.
+5. **Env vars (hPanel):** `NODE_ENV`, `PAYLOAD_SECRET`, `DATABASE_URL`, `NEXT_PUBLIC_SERVER_URL`, `PAYLOAD_PUBLIC_SERVER_URL`, `RESEND_API_KEY`, `PAYLOAD_DISABLE_SHARP=true`.
+6. **After deploy:** Restart Node in hPanel; **`npm run verify:live`** + **`verify:live:version`**.
+7. **503 repair:** **`msc:hostinger:npm-install`** (webpack) or **`msc:hostinger:recover`** (preload).
 
 **Docs:** [HOSTINGER-DEPLOY.md](.cursor/docs/HOSTINGER-DEPLOY.md) · [DEPLOYMENT-FIXES.md](.cursor/docs/DEPLOYMENT-FIXES.md) · [Go-Live-Checklist.md](.cursor/docs/Go-Live-Checklist.md)
 

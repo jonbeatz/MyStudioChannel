@@ -14,9 +14,9 @@ This is the single source of truth for ALL custom commands and scripts wired int
 | `npm run backup` | `npm run msc:backup:quick` | Non-interactive standard backup |
 | `npm run sync` | `npm run msc:docs:sync` | Audit and sync all documentation |
 | `npm run docs` | `npm run docs:audit` | Audit internal documentation links |
-| `npm run deploy` | `npm run push:website:live` | MCP code-only (verify DB after) |
-| `npm run deploy:full` | `powershell -File scripts/push-website-live.ps1 -Ftps` | Full FTPS code + DB + media |
-| `npm run msc:push:db:live` | — | Quick DB sync (~1–2 min) |
+| `npm run deploy:full` | `npm run pushit:live` | **Preferred** — FTPS + sync-db + sync-app |
+| `npm run deploy` | `npm run push:website:live` | MCP code-only (**avoid on this host**) |
+| `npm run msc:push:db:live` | — | Quick DB + sync-app (~1–2 min) |
 | `[URL]/test` | `app/test/[[...slug]]/page.tsx` | Isolated design playground |
 
 ---
@@ -37,10 +37,16 @@ This is the single source of truth for ALL custom commands and scripts wired int
 
 ## 📦 Deployment & Remote Logs
 
+**Full reference:** [MASTER-COMMANDS.md](./MASTER-COMMANDS.md)
+
 | Command | Action |
 |---------|--------|
-| `npm run msc:push:website:live` | Main deployment orchestrator |
-| `npm run msc:deploy:zip` | Creates robocopy-staged deployment archive |
+| `npm run pushit:live` | Build + FTPS + **sync-db** + **sync-app** (staging → live app root) |
+| `npm run msc:hostinger:sync-db` | SSH copy DB from `public_html/nodejs/` → app root |
+| `npm run msc:hostinger:sync-app` | SSH mirror code/.next/lockfile + `npm install --ignore-scripts` |
+| `npm run msc:hostinger:npm-install` | Repair live `node_modules` (503 webpack fix) |
+| `npm run msc:hostinger:recover` | Diagnose live stderr/preload/WAL |
+| `npm run msc:push:website:live` | MCP zip orchestrator (avoid for routine updates) |
 | `npm run msc:verify:live` | Smoke tests all live endpoints |
 | `npm run msc:logs:live` | Stream remote stderr.log via SSH |
 | `npm run msc:logs:live:console` | Stream remote console.log via SSH |

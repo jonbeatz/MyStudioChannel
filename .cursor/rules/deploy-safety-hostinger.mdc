@@ -14,7 +14,7 @@ When discussing or running deploy operations:
 
 1. Distinguish responsibilities:
    - Local PC terminal: build + `pushitup` uploads
-   - Hostinger hPanel: Node.js application management, optional `npm install`, app restart
+   - Hostinger hPanel: Node.js application management, app restart (npm repair via `msc:hostinger:npm-install` from Local SSH scripts)
 2. Never tell users to run `pushitup` in Hostinger Terminal.
 3. For runtime/app changes, prefer full `.next` upload over partial artifact uploads.
 4. If upload reports failures, retry failed paths before restart.
@@ -23,7 +23,7 @@ When discussing or running deploy operations:
 ## Tier scripts (must match `package.json`)
 
 - **Tier 1:** `npm run pushitup:admin-branding` — **Custom-Prompts** item **37**.
-- **Tier 2:** `npm run pushit:live` (build → `msc:pushitup:admin-ui` → `pushitup -- .next` → `pushitup -- payload.sqlite` → `msc:hostinger:sync-db` → `pushitup -- public/media`; local `dev:fresh` only if `PUSHIT_LIVE_RUN_DEV_FRESH=1`) — items **3** / **38**.
+- **Tier 2:** `npm run pushit:live` (build → `msc:pushitup:admin-ui` → `pushitup -- .next` → `pushitup -- payload.sqlite` → `msc:hostinger:sync-db` → `msc:hostinger:sync-app` → `pushitup -- public/media`; local `dev:fresh` only if `PUSHIT_LIVE_RUN_DEV_FRESH=1`) — items **3** / **38**. FTPS lands in `public_html/nodejs/`; SSH sync copies to live app root. **Avoid MCP zip** on this host (`better-sqlite3` build fails).
 - **Tier 3:** `npm run pushitup:server-config` — item **39**.
 
 Full reference: **Jedi-List.md** (Deploy uploaders), **HOSTINGER-DEPLOY.md**, **Go-Live-Checklist.md**.

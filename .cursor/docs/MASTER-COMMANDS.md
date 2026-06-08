@@ -1,6 +1,6 @@
 # MyStudioChannel - Master Command Reference
 
-**Last Updated:** 2026-06-08
+**Last Updated:** 2026-06-08 (full docs sync — sync-app, 503 webpack, folder map)
 **Branch:** `MSC-Website-v6`
 **Version:** `6.0.0`
 

@@ -156,11 +156,7 @@ Custom prompt helper:
 - `Lets Push It Live (Safe)` (good before dependency-sensitive deploys)
 - **`Push server config`** (item **39**) to upload **`package.json`**, **`package-lock.json`**, **`server.js`**, **`.env.example`** before install
 
-Use Hostinger Terminal only if `package.json`, lockfile, or `patches/` changed.
-
-```bash
-npm install --legacy-peer-deps
-```
+Prefer **Local:** `npm run msc:hostinger:sync-app` or `npm run msc:hostinger:npm-install` (runs **`npm install --legacy-peer-deps --ignore-scripts`** on app root). Plain `npm install` without **`--ignore-scripts`** fails on **`better-sqlite3`** on this host.
 
 Then restart Node app again.
 
@@ -197,7 +193,7 @@ If **`/media/`** images are wrong or 404 after deploy, sync **`public/media`** t
 ## Ground rules
 
 - Run `pushitup` on PC terminal, not Hostinger Terminal.
-- For app/admin code changes, prefer **Tier 2** (`pushit:live`): full build + full `.next` upload.
+- For app/admin code changes, prefer **Tier 2** (`pushit:live`): full build + FTPS + **`sync-db`** + **`sync-app`**.
 - Do not partially upload random files in `.next` unless recovering failed chunk uploads.
 
 ---
@@ -210,7 +206,7 @@ Use this if you want to run go-live mostly by prompt commands:
 2. Choose tier:
    - **Branding-only FTP:** `Push my branding` (item **37**) → restart Node in hPanel.
    - **Full app + admin:** `Lets Push It Live` (items **3** / **38**) or `Lets Push It Live (Safe)` — then restart Node.
-   - **Deps / server files:** `Push server config` (item **39**) → Hostinger Terminal **`npm install --legacy-peer-deps`** → restart Node.
+   - **Deps / server files:** `Push server config` (item **39**) → **`msc:hostinger:sync-app`** or **`msc:hostinger:npm-install`** → restart Node.
 3. Restart Node app in hPanel when you uploaded anything that affects runtime (Stop -> wait -> Start)
 4. `Lets Verify Live`
 5. Optional: `Lets Checkpoint Docs` (docs only) or `Lets Checkpoint Docs + Commit`
