@@ -1,8 +1,14 @@
+## [2026-06-08] - v7.0.0 release — version bump, tag, GitHub release
+- **Branch:** `MSC-Website-v7`
+- **Changes:** `package.json` → **7.0.0**; `lib/msc-app-version.ts`; ops docs, README, TRUTH, CHANGELOG; GitHub tag **`v7.0.0`**
+- **Status:** completed — `d65c3e6` + tag `v7.0.0` + GitHub release
+- **Next:** `pushit:live:fast` + `msc:verify:live:version` for live v7 label
+
 ## [2026-06-08] - MSC-Website-v7 branch cut
 - **Branch:** `MSC-Website-v7` created from `MSC-Website-v6` @ `c9e260e` and pushed; active dev branch
 - **Policy:** `MSC-Website-v6` frozen @ `c9e260e` as clean restore; full backup `msc-website-v2-f`
 - **Changes:** Restore-Points, Checkpoint, ReCall, TRUTH, ops docs synced to v7 active line
-- **Status:** completed — version still 6.0.0 until release
+- **Status:** completed — superseded by v7.0.0 release entry below
 - **Next:** Feature work on `MSC-Website-v7`
 
 ## [2026-06-08] - Hostinger MCP launcher + docs sync

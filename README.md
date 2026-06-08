@@ -37,7 +37,7 @@ After setup, run `npm run dev` and visit [http://localhost:3000](http://localhos
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Cursor](https://img.shields.io/badge/Cursor-Agent_Ready-8E44AD?logo=cursor)](https://cursor.com/)
 [![Troubleshooting](https://img.shields.io/badge/Troubleshooting-Active_Guide-red?logo=github)](.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md)
-![Version](https://img.shields.io/badge/version-6.0.0-blue)
+![Version](https://img.shields.io/badge/version-7.0.0-blue)
 ![Deploy](https://img.shields.io/badge/deploy-ftps-success)
 
 ---
@@ -48,7 +48,7 @@ After setup, run `npm run dev` and visit [http://localhost:3000](http://localhos
 
 | Metric              | Value                                                                  |
 | ------------------- | ---------------------------------------------------------------------- |
-| **Version**         | v6.0.0 ([Latest release](https://github.com/jonbeatz/MyStudioChannel/releases/latest); live at [mystudiochannel.com](https://mystudiochannel.com) until next deploy) |
+| **Version**         | v7.0.0 ([Latest release](https://github.com/jonbeatz/MyStudioChannel/releases/latest); deploy to update live label at [mystudiochannel.com](https://mystudiochannel.com)) |
 | **Stack**           | Next.js 15 (React 19) + Payload CMS 3.81.0                             |
 | **CMS Engine**      | ✅ MSC PRO ENGINE Studio Mode — Gold Sidebar + Dashboard               |
 | **Deployment**      | ✅ Tiered FTPS (Hostinger/hPanel) via `msc:pushitup`                       |

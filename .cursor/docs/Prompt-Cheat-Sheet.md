@@ -266,5 +266,5 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 
 ---
 
-*Last Updated: 2026-06-08 (MSC tooling upgrade — v6.0.0)*  
+*Last Updated: 2026-06-08 (v7.0.0 release — MSC-Website-v7)*  
 <sub>· Powered by the MSC Media Engine</sub>

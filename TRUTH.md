@@ -102,7 +102,7 @@ MyStudioChannel/
 
 ## Deployment (Hostinger)
 
-**Live:** [https://mystudiochannel.com](https://mystudiochannel.com) · **Dev branch:** `MSC-Website-v7` · **Production:** v6.0.0 on Hostinger Node.js (deploy to update live label)
+**Live:** [https://mystudiochannel.com](https://mystudiochannel.com) · **Dev branch:** `MSC-Website-v7` · **Production:** v7.0.0 in repo (deploy to update live footer/admin label)
 
 | Path | When | Local command |
 |------|------|----------------|
@@ -135,5 +135,5 @@ When booting up a session, you **must** execute the following sequence:
 
 ---
 
-*Last Updated: 2026-06-08 (v6.0.0 · branch `MSC-Website-v7` · `MSC-Website-v6` frozen @ `c9e260e`)*  
+*Last Updated: 2026-06-08 (v7.0.0 · branch `MSC-Website-v7` · `MSC-Website-v6` frozen @ `c9e260e`)*  
 <sub>· Powered by the MyStudioChannel Media Engine</sub>

@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-06-08 (Hostinger MCP fix, MCP-SETUP global 12, msc:sync:mcp-env Hostinger sync)
 **Branch:** `MSC-Website-v7` (active) · `MSC-Website-v6` frozen @ `c9e260e`
-**Version:** `6.0.0`
+**Version:** `7.0.0`
 
 ---
 
@@ -208,7 +208,7 @@ npm run msc:test:hostinger-ftp
 | Check | Expected result |
 |-------|-----------------|
 | `npm run msc:verify:live` | 3/3 PASS (200 OK) |
-| Footer version | MyStudioChannel v6.0.0 |
+| Footer version | MyStudioChannel v7.0.0 |
 | `/admin` login | Works |
 | Demos section | Loads with images |
 

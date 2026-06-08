@@ -42,7 +42,7 @@ User deferred this until after backup + analysis. Do when ready:
 
 1. **Deploy v6 labels live** — `pushit:live:fast` (or full `pushit:live` if DB/media needed)
 2. **Live (hPanel):** restart Node → [hPanel mystudiochannel.com](https://hpanel.hostinger.com/websites/mystudiochannel.com)
-3. **Verify:** `npm run msc:verify:live` + `npm run msc:verify:live:version` (expect v6.0.0)
+3. **Verify:** `npm run msc:verify:live` + `npm run msc:verify:live:version` (expect v7.0.0 after deploy)
 4. **Git:** merge `MSC-Website-v6` → `main` after live matches (only when Jon approves)
 
 ### B. Quick hygiene (low risk, ~30 min)

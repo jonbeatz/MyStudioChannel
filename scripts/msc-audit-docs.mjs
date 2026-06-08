@@ -96,16 +96,22 @@ for (const filePath of targetFiles) {
 
   if (!isRecallOrChangelogOrCheck) {
     if (content.includes("MSC-Website-v4") && !content.includes("frozen")) {
-      fileWarnings.push("Refers to 'MSC-Website-v4' (historical — active branch is MSC-Website-v6)")
+      fileWarnings.push("Refers to 'MSC-Website-v4' (historical — active branch is MSC-Website-v7)")
     }
     if (content.includes("MSC-Website-v5") && !content.includes("frozen at") && !content.includes("frozen backup")) {
-      fileWarnings.push("Refers to 'MSC-Website-v5' (should likely be upgraded to 'MSC-Website-v6')")
+      fileWarnings.push("Refers to 'MSC-Website-v5' (should likely be upgraded to 'MSC-Website-v7')")
+    }
+    if (content.includes("MSC-Website-v6") && !content.includes("frozen")) {
+      fileWarnings.push("Refers to 'MSC-Website-v6' (historical — active branch is MSC-Website-v7 unless frozen restore context)")
     }
     if (content.includes("v4.0.0") && !content.includes("frozen at v4.0.0")) {
-      fileWarnings.push("Refers to 'v4.0.0' (historical — current version is v6.0.0)")
+      fileWarnings.push("Refers to 'v4.0.0' (historical — current version is v7.0.0)")
     }
     if (content.includes("v5.0.0") && !content.includes("frozen at v5.0.0")) {
-      fileWarnings.push("Refers to 'v5.0.0' (should likely be upgraded to 'v6.0.0')")
+      fileWarnings.push("Refers to 'v5.0.0' (should likely be upgraded to 'v7.0.0')")
+    }
+    if (content.includes("v6.0.0") && !content.includes("frozen") && !content.includes("v1.0.0")) {
+      fileWarnings.push("Refers to 'v6.0.0' (should likely be upgraded to 'v7.0.0' unless historical release context)")
     }
   }
 
