@@ -14,7 +14,7 @@
 ## Recent Milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
-| 2026-06-08 | **pushit:live:fast — Tier 2b zip deploy + docs sync** | (see git log) |
+| 2026-06-08 | **pushit:live:fast — Tier 2b zip deploy + docs sync** | `8700e61` |
 | 2026-06-08 | **Live 503 fix — sync-app + npm-install; deploy docs sync** | `b368d3e` |
 | 2026-06-07 | **Header nav — submenuSource + Legal dropdown** | `6a21ce4` |
 | 2026-06-07 | **GitHub releases/tags backfill v4–v6** | ops |
