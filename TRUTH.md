@@ -4,7 +4,7 @@
 - **Name:** MyStudioChannel
 - **Type:** Next.js (15.4) + Payload CMS (3.81) application
 - **OS/Shell:** Windows 10/11 + PowerShell (Core or Desktop)
-- **Primary Branch:** `MSC-Website-v7` (active dev); **`MSC-Website-v6`** frozen @ `c9e260e`; **`main`** at v6 line until v7 merges
+- **Primary Branch:** `MSC-Website-v7` (active dev @ `14ceb53`); **`main`** synced @ `14ceb53`; **`MSC-Website-v6`** frozen @ `c9e260e`
 - **Repository:** [https://github.com/jonbeatz/MyStudioChannel](https://github.com/jonbeatz/MyStudioChannel)
 - **Primary Domain:** [https://mystudiochannel.com](https://mystudiochannel.com)
 
@@ -74,6 +74,7 @@ This is the canonical Source of Truth reading order for all human developers and
 - **Pathing discipline:** Never write absolute local paths (like `D:\...`) inside code or scripts. Use relative path resolution or workspace variables.
 - **File Structure:** Marketing site resides under route group `app/(site)/`. Embedded Payload admin panel resides under `app/(payload)/` with custom graphics, custom logout, and suppression patches for hydration overlays.
 - **Assets Rule:** All images are served from `public/media/` addressing them as `/media/filename.ext`. Bulk uploads must be registered using `npm run msc:media:sync`.
+- **Database Rule:** **`payload.sqlite`** is tracked in git as the v7 CMS baseline for Hostinger deploy seed. After significant local CMS edits, commit with **`chore(db):`** or deploy with **`pushit:live:fast -- -WithDb`** so live matches local.
 
 ---
 
@@ -136,5 +137,5 @@ When booting up a session, you **must** execute the following sequence:
 
 ---
 
-*Last Updated: 2026-06-08 (v7.0.0 · branch `MSC-Website-v7` · `MSC-Website-v6` frozen @ `c9e260e`)*  
+*Last Updated: 2026-06-08 (v7.0.0 · `MSC-Website-v7` + `main` @ `14ceb53` · `MSC-Website-v6` frozen @ `c9e260e`)*  
 <sub>· Powered by the MyStudioChannel Media Engine</sub>

@@ -93,7 +93,8 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Version:** **`v7.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v7.0.0`**, admin **`MyStudioChannel Admin v7.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
 - **Live:** **`https://mystudiochannel.com`** — **v7.0.0** deployed (**`pushit:live:fast -- -WithDb`**); **`msc:verify:live`** + **`msc:verify:live:version`** pass (2026-06-08).
 - **Deploy docs:** **`HOSTINGER-DEPLOY.md`**, **`DEPLOYMENT-TROUBLESHOOTING.md`** (§ fast deploy mistakes). **`-WithDb`** required for **`payload.sqlite`** on fast path. Zip unzip bug fixed — expect **~10–15 min**, not **~45 min** fallback.
-- **Branches:** **`MSC-Website-v7`** (active dev); **`main`** @ v6 line (`c9e260e`); **`MSC-Website-v6`** frozen @ `c9e260e` (clean restore + backup **`msc-website-v2-f`**); **`MSC-Website-v5`** frozen at v5.0.0.
+- **Branches:** **`MSC-Website-v7`** (active dev @ **`14ceb53`**); **`main`** synced @ **`14ceb53`**; **`MSC-Website-v6`** frozen @ `c9e260e` (clean restore + backup **`msc-website-v2-f`**); **`MSC-Website-v5`** frozen at v5.0.0.
+- **Git:** Working tree clean; **`payload.sqlite`** tracked @ **`14ceb53`** (v7 CMS baseline for deploy seed).
 - **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v7.0.0`**; **Latest = `v7.0.0`**.
 - **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); Hostinger quartet via **`msc-hostinger-mcp.mjs`** launcher (scoped bins, no tool-naming warnings); MCP reload via **Settings → MCP**; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
 - **Audit (2026-06-07):** Phases 1–4 complete @ **`9d9831f`** (pushed). Planning backlog: **`.cursor/review.md`** (tomorrow queue) · **`.cursor/ideaz.md`** (portable studio kit).
@@ -104,10 +105,15 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ## Recent changes (latest first)
 
+### 2026-06-08 — Git parity: main synced + payload.sqlite baseline
+
+- **Commits:** **`2404cc0`** deploy zip fix + pitfalls docs; **`14ceb53`** **`payload.sqlite`** v7 CMS baseline.
+- **Git:** **`main`** fast-forwarded to **`14ceb53`**; active dev stays on **`MSC-Website-v7`**.
+
 ### 2026-06-08 — pushit:live:fast zip path fix + v7 live deploy
 
 - **Live:** **`pushit:live:fast -- -WithDb`** — v7 labels live; zip path failed once (bash quoting bug) → **~45 min** fallback; site healthy after.
-- **Fix:** `msc-hostinger-unzip-deploy-next-ssh.mjs` — expand zip paths in Node (not `'$STAGING/...'`). Step 4 uploads **`package.json`** + lockfile. **`msc:hostinger:deploy-diagnose`**, **`logs/pushit-unzip-last.log`**.
+- **Fix:** `msc-hostinger-unzip-deploy-next-ssh.mjs` — expand zip paths in Node (not `'$STAGING/...'`). Step 4 uploads **`package.json`** + lockfile. **`msc:hostinger:deploy-diagnose`**, **`logs/pushit-unzip-last.log`**. Shipped **`2404cc0`**.
 - **Docs:** **DEPLOYMENT-TROUBLESHOOTING** § mistakes table; **ISSUES-RESOLVED** entry.
 
 ### 2026-06-08 — v7.0.0 release + MSC-Website-v7

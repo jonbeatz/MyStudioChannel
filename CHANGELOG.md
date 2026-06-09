@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **`main`** fast-forwarded to **`MSC-Website-v7`** @ **`14ceb53`** — deploy fix + **`payload.sqlite`** v7 CMS baseline tracked for Hostinger seed
+
 ### Fixed
 - **`pushit:live:fast` zip path** — bash `'$STAGING/deploy-next.zip'` never expanded; every deploy fell back to slow `.next` FTPS (~45 min). Unzip on host is ~13s when path is correct.
 - **Fast deploy `package.json`** — staging kept stale version; step 4 now FTPS **`package.json`** + lockfile with admin-ui.

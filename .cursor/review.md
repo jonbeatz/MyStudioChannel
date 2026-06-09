@@ -1,7 +1,7 @@
 # REVIEW — Audit follow-up & tomorrow’s work queue
 
 **Saved:** 2026-06-07  
-**Branch:** `MSC-Website-v7` (active) · `MSC-Website-v6` frozen @ `c9e260e`  
+**Branch:** `MSC-Website-v7` (active @ `14ceb53`) · `main` synced · `MSC-Website-v6` frozen @ `c9e260e`  
 **Audit:** Phases 1–4 complete (committed + pushed)  
 **Project score (analysis):** **86 / 100**
 
@@ -36,21 +36,19 @@
 
 ## Tomorrow — recommended order
 
-### A. Close the v6 live loop (highest priority)
+### A. Close the v7 live loop — **done 2026-06-08**
 
-User deferred this until after backup + analysis. Do when ready:
-
-1. **Deploy v6 labels live** — `pushit:live:fast` (or full `pushit:live` if DB/media needed)
-2. **Live (hPanel):** restart Node → [hPanel mystudiochannel.com](https://hpanel.hostinger.com/websites/mystudiochannel.com)
-3. **Verify:** `npm run msc:verify:live` + `npm run msc:verify:live:version` (expect **v7.0.0** — done 2026-06-08)
-4. **Git:** merge `MSC-Website-v6` → `main` after live matches (only when Jon approves)
+1. ~~Deploy v7 labels live~~ — **`pushit:live:fast -- -WithDb`** completed
+2. ~~Verify live~~ — **`msc:verify:live:version`** **v7.0.0** pass
+3. ~~Deploy zip fix~~ — **`2404cc0`** (no more ~45 min fallback when zip path OK)
+4. ~~Git parity~~ — **`main`** @ **`14ceb53`**; dev on **`MSC-Website-v7`**
 
 ### B. Quick hygiene (low risk, ~30 min)
 
 | Task | Why |
 |------|-----|
 | Add `NODE_ENV=development` to `.env.local` | Doctor warning; clarifies local behavior |
-| Decide **`payload.sqlite` git policy** | Tracked for Hostinger seed; causes doctor/git noise — document in TRUTH or gitignore + deploy-only copy |
+| ~~Decide **`payload.sqlite` git policy**~~ | **Done** — tracked @ **`14ceb53`** as v7 CMS baseline for deploy seed; use **`-WithDb`** when live DB must match local |
 | Run **`msc:codeburn`** | Weekly token review (tooling already installed) |
 | Run **`depcheck`** | Flag unused deps (e.g. `motion` with no app imports) |
 

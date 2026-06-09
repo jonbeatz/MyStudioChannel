@@ -1,10 +1,22 @@
+## [2026-06-08] - Docs sync — git parity + session closeout
+- **Branch:** `MSC-Website-v7` @ `14ceb53`; **`main`** fast-forwarded to match
+- **Changes:** Checkpoint, ReCall, TRUTH, Development, GitHub-Cheat-Sheet, Restore-Points, review.md — `main` no longer on v6 line; deploy fix SHAs recorded; `payload.sqlite` git policy documented
+- **Status:** completed — docs commit this entry
+- **Next:** Feature work on `MSC-Website-v7`
+
+## [2026-06-08] - payload.sqlite v7 dev baseline + main sync
+- **Branch:** `MSC-Website-v7` → **`main`** @ `14ceb53`
+- **Changes:** Committed local **`payload.sqlite`** (post v7 live deploy CMS state); fast-forward **`main`** to match v7 line
+- **Status:** completed — pushed `origin/main` + `origin/MSC-Website-v7`
+- **Next:** Continue dev on `MSC-Website-v7`
+
 ## [2026-06-08] - pushit:live:fast zip fix + docs sync (deploy pitfalls)
 - **Branch:** MSC-Website-v7
 - **Problem:** Zip path always failed (`'$STAGING'` single-quote bug) → 45 min `.next` FTPS fallback; `package.json` not uploaded on fast path; `-WithDb` not obvious for DB
 - **Fix:** `msc-hostinger-unzip-deploy-next-ssh.mjs`, `pushit-live-fast.ps1` (+ package.json, unzip log), `msc-hostinger-deploy-diagnose-ssh.mjs`
 - **Docs:** DEPLOYMENT-TROUBLESHOOTING, ISSUES-RESOLVED, MASTER-COMMANDS, Go-Live, Push-Website-Live, deploy-safety rule, ReCall, Checkpoint
 - **Live:** v7.0.0 verified after deploy with `-WithDb`
-- **Status:** completed — commit pending
+- **Status:** completed — `2404cc0` pushed
 
 ## [2026-06-08] - v7.0.0 release — version bump, tag, GitHub release
 - **Branch:** `MSC-Website-v7`

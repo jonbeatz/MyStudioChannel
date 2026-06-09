@@ -17,6 +17,13 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-08] payload.sqlite git policy — tracked as v7 deploy seed
+- **Error:** Local **`payload.sqlite`** changes left unstaged after sessions; **`main`** lagged **`MSC-Website-v7`**; review queue listed undecided sqlite git policy.
+- **Cause:** Intentional caution about committing DB binaries; v7 live deploy updated CMS without a committed baseline; **`main`** not fast-forwarded after deploy-fix commits.
+- **Solution:** Committed **`payload.sqlite`** @ **`14ceb53`** on **`MSC-Website-v7`**; fast-forward **`main`** to match. Documented policy: tracked for Hostinger seed; ship CMS with **`pushit:live:fast -- -WithDb`** when live must match local.
+- **Files Changed:** `payload.sqlite`, `.cursor/docs/ReCall.md`, `TRUTH.md`, `review.md`, `Checkpoint.md`, `Restore-Points.md`
+- **Prevention:** After significant CMS edits, commit **`payload.sqlite`** with a clear **`chore(db):`** message or use **`-WithDb`** on deploy without committing. Keep **`main`** in sync when Jon approves.
+
 ## [2026-06-08] pushit:live:fast — zip path always fell back to slow .next FTPS
 - **Error:** Every **`pushit:live:fast`** run reported **“SSH unzip or BUILD_ID verify failed”** and fell back to **~45 min** full **`.next`** FTPS upload — despite valid **446 MB** zip on staging.
 - **Cause:** **`msc-hostinger-unzip-deploy-next-ssh.mjs`** set `ZIP='$STAGING/deploy-next.zip'` inside **single quotes** — bash never expanded `$STAGING`, so `test -f` always failed (`missing deploy-next.zip`). Not disk, timeout, or zip format (host unzip completes in ~13s; `unzip -t` OK).
