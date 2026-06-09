@@ -58,6 +58,7 @@ This is the canonical Source of Truth reading order for all human developers and
 | [`.cursor/docs/Prompt-Cheat-Sheet.md`](.cursor/docs/Prompt-Cheat-Sheet.md) | Comprehensive command and trigger reference | Whenever looking up commands |
 | [`.cursor/docs/HOSTINGER-DEPLOY.md`](.cursor/docs/HOSTINGER-DEPLOY.md) | Deploy tier processes and hPanel commands | Before pushing any code change to live |
 | [`.cursor/docs/DEPLOYMENT-FIXES.md`](.cursor/docs/DEPLOYMENT-FIXES.md) | Hostinger deploy fixes and learnings (2026-06-01) | When live build fails or first-time zip deploy |
+| [`.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md`](.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md) | Live deploy recovery + **`pushit:live:fast` pitfalls** | Wrong footer, 503, zip fallback ~45 min, **`-WithDb`** for DB |
 | [`.cursor/docs/ISSUES-RESOLVED.md`](.cursor/docs/ISSUES-RESOLVED.md) | Debugging logs and resolutions index | During troubleshooting or after resolving a bug |
 | [`.cursor/docs/Restore-Points.md`](.cursor/docs/Restore-Points.md) | Backup history and local git rollbacks | When freezing a milestone or rolling back |
 | [`.cursor/review.md`](.cursor/review.md) | Audit follow-up queue and tomorrow’s work | After comprehensive audit or before next deploy session |
@@ -107,7 +108,7 @@ MyStudioChannel/
 | Path | When | Local command |
 |------|------|----------------|
 | **Zip upload** | First deploy, WordPress replacement, full refresh | Stop dev → **`npm run build`** → upload **`MyStudioChannel-deploy.zip`** via hPanel |
-| **FTPS** | Day-to-day updates (preferred) | **`npm run pushit:live`** or **`npm run pushit:live:fast`** → **`msc:hostinger:sync-db`** + **`msc:hostinger:sync-app`** → hPanel restart |
+| **FTPS** | Day-to-day updates (preferred) | **`npm run pushit:live:fast`** (code; add **`-WithDb`** for DB) or **`pushit:live`** (full parity) → **`sync-app`** → hPanel restart when step 9 done |
 
 **Critical rules:**
 
@@ -119,7 +120,7 @@ MyStudioChannel/
 6. **After deploy:** Restart Node in hPanel; **`npm run msc:verify:live`** + **`msc:verify:live:version`**.
 7. **503 repair:** **`msc:hostinger:npm-install`** (webpack) or **`msc:hostinger:recover`** (preload).
 
-**Docs:** [HOSTINGER-DEPLOY.md](.cursor/docs/HOSTINGER-DEPLOY.md) · [DEPLOYMENT-FIXES.md](.cursor/docs/DEPLOYMENT-FIXES.md) · [Go-Live-Checklist.md](.cursor/docs/Go-Live-Checklist.md)
+**Docs:** [HOSTINGER-DEPLOY.md](.cursor/docs/HOSTINGER-DEPLOY.md) · [DEPLOYMENT-TROUBLESHOOTING.md](.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md) · [DEPLOYMENT-FIXES.md](.cursor/docs/DEPLOYMENT-FIXES.md) · [Go-Live-Checklist.md](.cursor/docs/Go-Live-Checklist.md)
 
 ---
 

@@ -50,8 +50,9 @@
 | `npm run msc:hostinger:npm-install` | SSH: repair `node_modules` on app root (fixes missing webpack) | N/A | ~1–2 min |
 | `npm run msc:hostinger:recover` | SSH: diagnose `stderr.log`, preload, WAL, trim logs | N/A | ~30 sec |
 | `npm run msc:hostinger:stop-node` | SSH: stop Node + clear WAL/SHM before DB upload | N/A | ~15 sec |
-| `npm run msc:hostinger:unzip-deploy-next` | SSH: unzip `deploy-next.zip` on staging, verify **BUILD_ID**, remove zip | N/A | ~30 sec |
-| `npm run pushit:live:fast` | **Fast FTPS:** build → zip `.next` → single FTPS file → SSH unzip → **`sync-app`** (no DB/media by default) | ❌ No (use `-WithDb` / `-WithMedia`) | ~10–15 min |
+| `npm run msc:hostinger:unzip-deploy-next` | SSH: unzip `deploy-next.zip` on staging, verify **BUILD_ID**, remove zip | N/A | ~15 sec |
+| `npm run msc:hostinger:deploy-diagnose` | SSH: read-only preflight (disk, zip, BUILD_ID, `package.json` version) | N/A | ~15 sec |
+| `npm run pushit:live:fast` | **Fast FTPS:** build → admin-ui + **`package.json`** → zip → FTPS → SSH unzip → **`sync-app`** (**no DB/media by default**) | ❌ No — use **`-WithDb`** / **`-WithMedia`** | ~10–15 min |
 | `npm run pushit:live:fast -- -SkipBuild` | Admin-ui + **`sync-app`** only (no build/zip) | ❌ No | ~3–5 min |
 | `npm run msc:pushit:live:fast:dry` | Print steps only — no remote mutations | N/A | ~10 sec |
 | `npm run pushit:live:fast -- -DryRun` | Same (pass flag after `--`) | N/A | ~10 sec |
@@ -137,7 +138,9 @@ Every time you perform a `git commit` command, Husky automatically intercepts th
 |-------|----------------|
 | Port 3000 in use | `node scripts/msc-kill-dev-port.mjs` or `npm run msc:kill-dev-port` |
 | 503 error | `npm run msc:hostinger:recover` (preload) or `msc:hostinger:npm-install` (webpack in `stderr.log`) |
-| Wrong footer/nav on live | `npm run msc:hostinger:sync-app` or `pushit:live:fast -WithDb` or full `pushit:live` |
+| Wrong footer/nav on live | `npm run msc:hostinger:sync-app` or `pushit:live:fast -- -WithDb` or full `pushit:live` |
+| Fast deploy always ~45 min (zip fallback) | Read **`logs/pushit-unzip-last.log`**; run **`msc:hostinger:deploy-diagnose`** — see **DEPLOYMENT-TROUBLESHOOTING.md** § fast deploy mistakes |
+| Need CMS data on live with fast deploy | **`npm run pushit:live:fast -- -WithDb`** (not default) |
 | hPanel "Build failed" (MCP) | Ignore if `msc:verify:live` passes — use `pushit:live`, not MCP |
 | Database 4KB (not 528KB) | Upload correct database via FTPS or File Manager |
 | WAL files causing lock | Delete `payload.sqlite-wal` and `payload.sqlite-shm` on server |

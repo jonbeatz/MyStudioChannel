@@ -46,7 +46,7 @@ Always check `.cursor/skills/` for project-specific and portable agent abilities
 ## Obsidian think layer
 Personal vault: `I:\Vader_Vault` (not in git). Ship layer: `.cursor/docs/` + TRUTH. Weekly distill to ReCall — manual, not auto-sync.
 - Say **push it live** — agent asks mode: Quick DB · **Fast FTPS** (`pushit:live:fast`) · **Full FTPS** · MCP (**avoid on this host**)
-- **Routine deploy:** `npm run pushit:live:fast` — zip `.next` + `sync-app` (~10–15 min). Full parity: `npm run pushit:live` (includes `sync-db` + media)
+- **Routine deploy:** `npm run pushit:live:fast` — zip `.next` + `sync-app` (~10–15 min; **`-WithDb`** for `payload.sqlite`). Pitfalls: **DEPLOYMENT-TROUBLESHOOTING.md**. Full parity: `npm run pushit:live`
 - **503 repair:** `msc:hostinger:npm-install` (webpack) or `msc:hostinger:recover` (preload/logs)
 - MCP zip: `npm run push:website:live` — not a DB deploy; `better-sqlite3` compile often fails on host
 - Always restart Node in hPanel after deploy; run `msc:verify:live`

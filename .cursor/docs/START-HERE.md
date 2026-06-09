@@ -175,9 +175,12 @@ Important: `pushitup` runs on PC, not Hostinger Terminal. You may upload **`.nex
 | I want to… | Command |
 |------------|---------|
 | CMS/API broken, site loads (stub DB) | **`npm run msc:push:db:live`** (~1–2 min) → [restart in hPanel](https://hpanel.hostinger.com/websites/mystudiochannel.com) |
-| Push **code/UI** fast (~10–15 min) | **`npm run pushit:live:fast`** (zip `.next` + **`sync-app`**) → restart in hPanel |
+| Push **code/UI** fast (~10–15 min) | **`npm run pushit:live:fast`** (zip `.next` + **`sync-app`**; **no DB** unless **`-WithDb`**) |
+| Push **code + DB** fast | **`npm run pushit:live:fast -- -WithDb`** → restart in hPanel when step 9 done |
 | Push **code + DB + media** (full parity) | **`pushit:live`** (includes **`sync-db`** + **`sync-app`**) → restart in hPanel |
 | Preflight fast deploy (no upload) | **`npm run msc:pushit:live:fast:dry`** |
+| Diagnose staging before deploy | **`npm run msc:hostinger:deploy-diagnose`** |
+| Deploy took ~45 min (zip fallback) | Read **`logs/pushit-unzip-last.log`** · **DEPLOYMENT-TROUBLESHOOTING.md** § fast deploy mistakes |
 | Push **code** only (MCP zip) | Say **push it live** → choose MCP → verify DB size after |
 | Repair live `node_modules` (503 webpack) | **`npm run msc:hostinger:npm-install`** → restart in hPanel |
 | Diagnose live 503 | **`npm run msc:hostinger:recover`** → follow stderr hint → restart |

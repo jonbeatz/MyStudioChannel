@@ -91,25 +91,31 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Public URLs:** **`lib/public-origin.ts`** + **`lib/site-origin-defaults.ts`** — **`PAYLOAD_PUBLIC_SERVER_URL`** / **`NEXT_PUBLIC_SERVER_URL`** / **`MSC_CANONICAL_SITE_ORIGIN`**; **`getPublicOriginClient()`** for admin Client Components; **`payload.config.ts`** **`serverURL`** + env-built **CSRF**.
 - **Marketing site:** Header/footer in-page hash scroll (mobile drawer defer); **`HomeHashScroll`**; **`middleware`** pathname-only rewrites (host-agnostic).
 - **Version:** **`v7.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v7.0.0`**, admin **`MyStudioChannel Admin v7.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
-- **Live:** **`https://mystudiochannel.com`** — repo **v7.0.0**; deploy **`pushit:live:fast`** + hPanel restart to update live footer/admin label. **`msc:verify:live`** passing (2026-06-08).
-- **Deploy docs:** **`HOSTINGER-DEPLOY.md`** (deploy modes), **`DEPLOYMENT-TROUBLESHOOTING.md`**. Say **push it live** → agent asks mode (Quick DB · Fast FTPS · Full FTPS · MCP avoid). **MCP/Git ≠ DB deploy**.
+- **Live:** **`https://mystudiochannel.com`** — **v7.0.0** deployed (**`pushit:live:fast -- -WithDb`**); **`msc:verify:live`** + **`msc:verify:live:version`** pass (2026-06-08).
+- **Deploy docs:** **`HOSTINGER-DEPLOY.md`**, **`DEPLOYMENT-TROUBLESHOOTING.md`** (§ fast deploy mistakes). **`-WithDb`** required for **`payload.sqlite`** on fast path. Zip unzip bug fixed — expect **~10–15 min**, not **~45 min** fallback.
 - **Branches:** **`MSC-Website-v7`** (active dev); **`main`** @ v6 line (`c9e260e`); **`MSC-Website-v6`** frozen @ `c9e260e` (clean restore + backup **`msc-website-v2-f`**); **`MSC-Website-v5`** frozen at v5.0.0.
 - **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v7.0.0`**; **Latest = `v7.0.0`**.
 - **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); Hostinger quartet via **`msc-hostinger-mcp.mjs`** launcher (scoped bins, no tool-naming warnings); MCP reload via **Settings → MCP**; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
 - **Audit (2026-06-07):** Phases 1–4 complete @ **`9d9831f`** (pushed). Planning backlog: **`.cursor/review.md`** (tomorrow queue) · **`.cursor/ideaz.md`** (portable studio kit).
-- **Next ideas:** Deploy v6 live + `msc:verify:live:version`; hygiene from **review.md**; portable kit from **ideaz.md** when starting new repos.
+- **Next ideas:** Hygiene from **review.md**; portable kit from **ideaz.md**; next deploy use fixed zip path + **`msc:hostinger:deploy-diagnose`** preflight.
 - **Session closeout (2026-06-07):** Branch @ **`e06627e`** pushed; backups **`msc-website-v2-e`**; ports stopped (3000 cleared).
 
 ---
 
 ## Recent changes (latest first)
 
+### 2026-06-08 — pushit:live:fast zip path fix + v7 live deploy
+
+- **Live:** **`pushit:live:fast -- -WithDb`** — v7 labels live; zip path failed once (bash quoting bug) → **~45 min** fallback; site healthy after.
+- **Fix:** `msc-hostinger-unzip-deploy-next-ssh.mjs` — expand zip paths in Node (not `'$STAGING/...'`). Step 4 uploads **`package.json`** + lockfile. **`msc:hostinger:deploy-diagnose`**, **`logs/pushit-unzip-last.log`**.
+- **Docs:** **DEPLOYMENT-TROUBLESHOOTING** § mistakes table; **ISSUES-RESOLVED** entry.
+
 ### 2026-06-08 — v7.0.0 release + MSC-Website-v7
 
 - **Version:** **`package.json`** → **7.0.0**; UI via **`lib/msc-app-version.ts`**; GitHub tag **`v7.0.0`**.
 - **Branch:** **`MSC-Website-v7`** active; **`MSC-Website-v6`** frozen @ **`c9e260e`**.
 - **Backup:** Full **`msc-website-v2-f`** on `G:\` (MCP fixes note).
-- **Next:** Deploy v7 labels live — **`pushit:live:fast`** + **`msc:verify:live:version`**.
+- **Live deploy:** completed — **`msc:verify:live:version`** expects **v7.0.0**.
 
 ### 2026-06-08 — Hostinger MCP launcher + docs sync
 

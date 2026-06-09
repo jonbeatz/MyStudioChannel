@@ -316,7 +316,7 @@ Once your site is live, use these methods for ongoing updates. **Quick card:** [
 
 ### Method 1a: FTPS fast — `npm run pushit:live:fast` (default for daily code/UI)
 
-Zips **`.next`** to **`zips/deploy-next.zip`**, copies to repo-root **`deploy-next.zip`** for FTPS (remote: **`public_html/nodejs/deploy-next.zip`** — not under `zips/`), SSH-unzips on staging (BUILD_ID verify), then **`sync-app`**. Falls back to full **`pushitup -- .next`** if zip/unzip fails.
+Zips **`.next`** to **`zips/deploy-next.zip`**, copies to repo-root **`deploy-next.zip`** for FTPS (remote: **`public_html/nodejs/deploy-next.zip`** — not under `zips/`), SSH-unzips on staging (~15s, BUILD_ID verify), then **`sync-app`**. Step 4 also uploads **`package.json`** + lockfile. Falls back to full **`pushitup -- .next`** if zip/unzip fails (see **DEPLOYMENT-TROUBLESHOOTING.md** § mistakes).
 
 ```powershell
 # Default — code + admin-ui + sync-app (no DB/media)
@@ -332,6 +332,10 @@ npm run pushit:live:fast -- -WithDb -WithMedia
 # Preflight — print steps only
 npm run pushit:live:fast -- -DryRun
 ```
+
+**DB:** Default fast deploy does **not** upload **`payload.sqlite`**. Use **`-WithDb`** when CMS data must go live (asserts ~500 KB, FTPS + **`sync-db`**).
+
+**Troubleshooting:** If zip path fails, read **`logs/pushit-unzip-last.log`** or run **`npm run msc:hostinger:deploy-diagnose`**. Fallback **`.next`** FTPS still completes the deploy (slower). Step 4 uploads **`package.json`** + lockfile so **`sync-app`** mirrors the correct version label.
 
 **When not to use:** first deploy, new npm packages (use **`pushit:live`** or **`msc:pushitup:server-config`** + **`msc:hostinger:npm-install`**), or when CMS/media must always ship with code (use full **`pushit:live`**).
 

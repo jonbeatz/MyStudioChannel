@@ -33,6 +33,7 @@
     "msc:pushit:live:fast:dry": "powershell -ExecutionPolicy Bypass -File scripts/pushit-live-fast.ps1 -DryRun",
     "msc:pushit:live:safe": "powershell -ExecutionPolicy Bypass -File scripts/pushit-live-safe.ps1",
     "msc:hostinger:unzip-deploy-next": "node scripts/msc-hostinger-unzip-deploy-next-ssh.mjs",
+    "msc:hostinger:deploy-diagnose": "node scripts/msc-hostinger-deploy-diagnose-ssh.mjs",
     "msc:db:copy": "powershell -ExecutionPolicy Bypass -File scripts/copy-db-for-deploy.ps1",
     "msc:db:copy:force": "powershell -ExecutionPolicy Bypass -File scripts/copy-db-for-deploy.ps1 -Force",
     "msc:db:optimize": "node scripts/msc-db-optimize.mjs",

@@ -11,6 +11,23 @@ Use this guide when live deploys fail or production behavior diverges from local
 
 ---
 
+## ⚠️ `pushit:live:fast` — mistakes we fixed (read before deploy)
+
+| Mistake | Symptom | Fix / prevention |
+|---------|---------|------------------|
+| **Assuming fast deploy uploads DB** | Live CMS stale; APIs OK but content wrong | Default fast deploy is **code-only**. Use **`npm run pushit:live:fast -- -WithDb`** when **`payload.sqlite`** must ship. |
+| **Zip path “always failed” (2026-06-08)** | Log: *SSH unzip or BUILD_ID verify failed* → **~45 min** `.next` FTPS fallback every time | **Cause:** bash single-quoted `'$STAGING/...'` in unzip script — path never expanded. **Fixed** in `msc-hostinger-unzip-deploy-next-ssh.mjs`. Read **`logs/pushit-unzip-last.log`** if it regresses. |
+| **`package.json` not on staging** | Footer v7 from `.next` but **`sync-app`** verify shows **`6.0.0`** | Fast deploy now FTPS **`package.json`** + **`package-lock.json`** with admin-ui (step 4). |
+| **Zip under `zips/` on FTPS** | *missing deploy-next.zip on staging* | Upload repo-root **`deploy-next.zip`** only (script copies from `zips/` before FTPS). |
+| **Skipping `sync-app`** | New `.next` in staging; live footer/nav unchanged | Always run **`msc:hostinger:sync-app`** (included in fast + full pipelines). |
+| **Restarting Node too early** | 503 or half-updated site | Wait for **`[9/9] Done. Restart Node in hPanel.`** — step 1 already **`stop-node`** via SSH; lsnode often auto-starts on next request. |
+
+**Preflight:** `npm run msc:hostinger:deploy-diagnose` (disk, zip, BUILD_ID, version on staging/app root).
+
+**Log:** `logs/pushit-unzip-last.log` (gitignored) after each fast deploy unzip step.
+
+---
+
 ## 🚨 Quick Decision Tree
 
 Is your site down?
@@ -24,6 +41,7 @@ Is your site down?
     ├── 500 API error -> msc:push:db:live (includes sync-app) -> Restart Node
     ├── 504 timeout -> Stop dev server -> db:copy -> Re-upload with WAL cleanup
     ├── Wrong nav/footer version -> pushit:live or msc:push:db:live (sync-db + sync-app) -> Restart
+    ├── pushit:live:fast took ~45 min (zip fallback) -> read logs/pushit-unzip-last.log + msc:hostinger:deploy-diagnose
     └── Wrong content -> Full FTPS + sync-db + sync-app -> Restart Node
 ```
 

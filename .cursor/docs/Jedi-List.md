@@ -4,7 +4,7 @@ Quick reference for **npm scripts** and related tooling wired up in **`package.j
 
 ## Hostinger Deployment
 
-**Guides:** **`HOSTINGER-DEPLOY.md`** (full checklist) · **`DEPLOYMENT-FIXES.md`** (2026-06-01 fixes) · **`Go-Live-Checklist.md`**
+**Guides:** **`HOSTINGER-DEPLOY.md`** (full checklist) · **`DEPLOYMENT-TROUBLESHOOTING.md`** (pitfalls + recovery) · **`DEPLOYMENT-FIXES.md`** · **`Go-Live-Checklist.md`**
 
 ### Before every deploy (Local)
 
@@ -42,7 +42,9 @@ hPanel → **Restart** Node.js app. Incognito: **`/`** + **`/admin`** → footer
 
 | Command | Purpose |
 |---------|---------|
-| **`npm run pushit:live:fast`** | Fast FTPS — zip `.next`, SSH unzip, **`sync-app`** (~10–15 min; flags **`-WithDb`**, **`-WithMedia`**, **`-SkipBuild`**) |
+| **`npm run pushit:live:fast`** | Fast FTPS — zip `.next`, SSH unzip (~15s), **`sync-app`** (~10–15 min). **No DB by default** — add **`-- -WithDb`** for **`payload.sqlite`**. |
+| **`npm run pushit:live:fast -- -WithDb`** | Fast + DB upload + **`sync-db`** |
+| **`npm run msc:hostinger:deploy-diagnose`** | SSH preflight before deploy (disk, zip, BUILD_ID, versions) |
 | **`npm run msc:pushit:live:fast:dry`** | Print fast-deploy steps only — no remote changes |
 | **`npm run pushit:live`** | Full FTPS — build + admin-ui + `.next` + DB + media + **`sync-db`** + **`sync-app`** |
 | **`npm run msc:pushit:live:safe`** | Full FTPS after **`msc:verify:local`** preflight |
@@ -51,6 +53,16 @@ hPanel → **Restart** Node.js app. Incognito: **`/`** + **`/admin`** → footer
 | **`npm ls --omit=dev --depth=0`** | Audit production dependencies |
 
 See **HOSTINGER-DEPLOY.md** → *Path C — Daily updates*.
+
+### Fast deploy — do not repeat these mistakes
+
+1. **`-WithDb` is not automatic** — say **`pushit:live:fast -- -WithDb`** when CMS data must go live.
+2. **Zip path failed for weeks** — bash **`'$STAGING/...'`** never expanded; fixed 2026-06-08. If deploy takes **~45 min**, read **`logs/pushit-unzip-last.log`**.
+3. **`package.json` must reach staging** — fast deploy step 4 now uploads it (footer/admin version vs stale **6.0.0** on host).
+4. **Never skip `sync-app`** — FTPS lands in **`public_html/nodejs/`**; SSH copies to live app root.
+5. **Preflight:** **`npm run msc:hostinger:deploy-diagnose`** when unsure.
+
+Full table: **DEPLOYMENT-TROUBLESHOOTING.md** → § *pushit:live:fast — mistakes we fixed*.
 
 ---
 

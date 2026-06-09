@@ -21,9 +21,8 @@ Human-named checkpoints so you can roll back mentally or on disk if a change goe
 
 | ID | Date | Summary |
 |----|------|---------|
+| **RP-2026-06-08-v7-live** | 2026-06-08 | **v7.0.0 live + fast-deploy zip fix:** **`pushit:live:fast -- -WithDb`** deployed; zip unzip quoting bug fixed; **`msc:hostinger:deploy-diagnose`** added. Live **`msc:verify:live:version`** **v7.0.0**. **Restore:** `git checkout v7.0.0` or **`MSC-Website-v7`**. |
 | **RP-2026-06-08-v7-release** | 2026-06-08 | **v7.0.0 release on `MSC-Website-v7`:** Version **7.0.0** @ **`a295fc4`**; Hostinger MCP launcher; docs sync; GitHub tag **`v7.0.0`**. Cut from frozen `MSC-Website-v6` @ `c9e260e`. Backup **`msc-website-v2-f`**. **Restore:** `git fetch --tags origin && git checkout v7.0.0` or `MSC-Website-v7 && git reset --hard a295fc4`. **Restore v6 clean:** `git checkout MSC-Website-v6 && git reset --hard c9e260e`. |
-| **RP-2026-06-08-pushit-live-fast** | 2026-06-08 | **Tier 2b fast deploy (`pushit:live:fast`):** Zip **`.next`** → single FTPS → SSH unzip + BUILD_ID → **`sync-app`**. Fixed FTPS path (upload **`deploy-next.zip`** at staging root, not **`zips/`**). Live **v6.0.0** healthy; **`msc:verify:live`** pass. **Branch:** `MSC-Website-v6`. **Restore:** `git fetch origin && git checkout MSC-Website-v6 && git pull`. |
-| **RP-2026-06-08-live-v6-sync-app** | 2026-06-08 | **Live v6.0.0 healthy + deploy pipeline hardened:** Fixed **503** (`node_modules` / missing Next webpack). Added SSH **`msc:hostinger:sync-app`**, **`msc:hostinger:npm-install`**, **`msc:hostinger:recover`**. **`pushit:live`** mirrors FTPS staging → live app root. Documented two **`nodejs`** folders; prefer FTPS over MCP. Live: Legal dropdown, footer **v6.0.0**, **`msc:verify:live`** pass. **Branch/commit:** `MSC-Website-v6` @ **`b368d3e`**. **Restore:** `git fetch origin && git checkout MSC-Website-v6 && git reset --hard b368d3e && git pull`. |
 
 > **Archive:** Older checkpoints moved to [_archive/Restore-Points-historical.md](_archive/Restore-Points-historical.md) (Phase 4 trim — keeps 3 most recent).
 

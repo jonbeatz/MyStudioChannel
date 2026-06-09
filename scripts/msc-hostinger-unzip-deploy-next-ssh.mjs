@@ -13,20 +13,25 @@ const ZIP_NAME = "deploy-next.zip";
 const { host, port, username, password, appRoot } = requireHostingerSshEnv(BANNER);
 const staging = appRoot.replace(/\/nodejs$/, "/public_html/nodejs");
 
+const zipPrimary = `${staging}/${ZIP_NAME}`;
+const zipLegacy = `${staging}/zips/${ZIP_NAME}`;
+
 const cmd = [
   "set -e",
   `STAGING='${staging}'`,
-  `ZIP='$STAGING/${ZIP_NAME}'`,
+  `ZIP_PRIMARY='${zipPrimary}'`,
+  `ZIP_LEGACY='${zipLegacy}'`,
   'command -v unzip >/dev/null 2>&1 || { echo "missing unzip command on host"; exit 1; }',
-  'if [ ! -f "$ZIP" ] && [ -f "$STAGING/zips/deploy-next.zip" ]; then ZIP="$STAGING/zips/deploy-next.zip"; fi',
+  'ZIP="$ZIP_PRIMARY"',
+  'if [ ! -f "$ZIP" ] && [ -f "$ZIP_LEGACY" ]; then ZIP="$ZIP_LEGACY"; fi',
   'test -f "$ZIP" || { echo "missing deploy-next.zip on staging (checked root and zips/)"; exit 1; }',
   'echo "unzip: $ZIP"',
   'cd "$STAGING"',
   'rm -rf .next',
-  'unzip -o "$ZIP"',
+  'unzip -oq "$ZIP"',
   'test -s .next/BUILD_ID || { echo "BUILD_ID missing or empty after unzip"; exit 1; }',
   'echo "BUILD_ID=$(cat .next/BUILD_ID)"',
-  'rm -f "$ZIP" "$STAGING/zips/deploy-next.zip"',
+  'rm -f "$ZIP_PRIMARY" "$ZIP_LEGACY"',
   'echo "removed deploy-next.zip from staging"',
   'ls -la .next/BUILD_ID',
 ].join("\n");

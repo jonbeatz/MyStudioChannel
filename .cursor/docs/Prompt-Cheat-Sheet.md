@@ -198,7 +198,7 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 *Alternative phrasings: `"push site live"`, `"deploy live"`*
 - **Action:** Agent **asks first** (clickable) — pick deploy mode before any upload:
   - **Quick DB sync** (~1–2 min) → `npm run msc:push:db:live` → hPanel **Restart** → `msc:verify:live`
-  - **Fast FTPS** (~10–15 min) → `pushit:live:fast` → Restart → verify (zip `.next` + **`sync-app`**; optional **`-WithDb`** / **`-WithMedia`**)
+  - **Fast FTPS** (~10–15 min) → `pushit:live:fast` → step 9 → verify (**`-WithDb`** for **`payload.sqlite`**; not default). Pitfalls: **DEPLOYMENT-TROUBLESHOOTING.md**
   - **Full FTPS** (~45–60 min) → `pushit:live` / `push-website-live.ps1 -Ftps` → Restart → verify (includes **`sync-db`** + **`sync-app`** + media)
   - **MCP zip** — **avoid on this host** (`better-sqlite3` fails); use FTPS instead
 - **Quick DB when:** `/` + `/admin` OK but `/api/globals/*` returns 500 (stub `payload.sqlite` on live).
@@ -266,5 +266,5 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 
 ---
 
-*Last Updated: 2026-06-08 (v7.0.0 release — MSC-Website-v7)*  
+*Last Updated: 2026-06-08 (v7 live + pushit:live:fast zip fix + deploy pitfalls docs)*  
 <sub>· Powered by the MSC Media Engine</sub>

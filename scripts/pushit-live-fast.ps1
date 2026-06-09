@@ -116,9 +116,14 @@ function Invoke-DeployNextZipPath {
     }
   }
 
-  npm run msc:hostinger:unzip-deploy-next
+  $unzipLog = Join-Path $repoRoot "logs\pushit-unzip-last.log"
+  $logsDir = Split-Path -Parent $unzipLog
+  if (-not (Test-Path -LiteralPath $logsDir)) {
+    New-Item -ItemType Directory -Path $logsDir -Force | Out-Null
+  }
+  npm run msc:hostinger:unzip-deploy-next 2>&1 | Tee-Object -FilePath $unzipLog
   if ($LASTEXITCODE -ne 0) {
-    Write-Host "  SSH unzip or BUILD_ID verify failed" -ForegroundColor Yellow
+    Write-Host "  SSH unzip or BUILD_ID verify failed (see $unzipLog)" -ForegroundColor Yellow
     return $false
   }
 
@@ -214,9 +219,11 @@ if (-not $SkipBuild) {
   Write-Step 3 $totalSteps "Building Next.js... (skipped -SkipBuild)"
 }
 
-Write-Step 4 $totalSteps "Uploading admin-ui..."
-if (-not (Invoke-DryNote "npm run msc:pushitup:admin-ui")) {
+Write-Step 4 $totalSteps "Uploading admin-ui + package.json..."
+if (-not (Invoke-DryNote "npm run msc:pushitup:admin-ui + package.json + package-lock.json")) {
   npm run msc:pushitup:admin-ui
+  if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+  npm run pushitup -- package.json package-lock.json
   if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 

@@ -15,7 +15,7 @@ When Jon says **push it live** / **push website live**, present **one** `AskQues
 | Option | Label for Jon | Time | When to use |
 |--------|---------------|------|-------------|
 | **A** | **Quick DB sync** (~1–2 min) | ~1–2 min | `/` + `/admin` OK, `/api/globals/*` **500**, or live `payload.sqlite` is ~4 KB stub |
-| **B** | **Fast FTPS — code/UI** (~10–15 min) | Medium | Code/UI/admin changed; DB + media unchanged — **`pushit:live:fast`** (zip `.next` + sync-app) |
+| **B** | **Fast FTPS — code/UI** (~10–15 min) | Medium | Code/UI/admin changed — **`pushit:live:fast`** (zip `.next` + sync-app). **Add `-WithDb`** if Jon needs **`payload.sqlite`** live too. |
 | **B2** | **Full FTPS deploy** (~45–60 min) | Long | Need DB + media parity, new packages, or first deploy — **`pushit:live`** |
 | **C** | **MCP zip — code only** (~5–10 min) | Medium | **Avoid on this host** — `better-sqlite3` build fails; leaves stale **Build failed** in hPanel. Use **B** or **B2** instead. |
 
@@ -35,7 +35,7 @@ Steps inside script: `msc:hostinger:stop-node` → FTPS `payload.sqlite` → `ms
 ```powershell
 npm run pushit:live:fast
 ```
-Pipeline: stop-node → build → admin-ui → zip **`deploy-next.zip`** → FTPS → SSH unzip (BUILD_ID) → **`sync-app`**. Optional: **`-WithDb`**, **`-WithMedia`**, **`-SkipBuild`** (admin-only), **`-DryRun`**. Falls back to **`pushitup -- .next`** if zip path fails. **Live (hPanel):** **Restart** when done.
+Pipeline: stop-node → build → admin-ui + **`package.json`** → zip **`deploy-next.zip`** → FTPS → SSH unzip (BUILD_ID, ~15s) → **`sync-app`**. **`-WithDb`** = upload **`payload.sqlite`** + **`sync-db`** (not default). Also: **`-WithMedia`**, **`-SkipBuild`**, **`-DryRun`**. If zip fails: read **`logs/pushit-unzip-last.log`**, run **`msc:hostinger:deploy-diagnose`**; fallback **`pushitup -- .next`** still completes deploy (slower). **Live (hPanel):** **Restart** when script prints step 9 (often auto-starts after stop-node).
 
 ### Mode B2 — Full FTPS
 **Local:**

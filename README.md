@@ -145,7 +145,7 @@ Optimized for **Hostinger (hPanel)** with **automated validation and recovery**:
 
 - **Say "push it live"** in Cursor — agent asks mode: **Quick DB** · **Fast FTPS** (`pushit:live:fast`) · **Full FTPS** · **MCP** (avoid on this host)
 - **Tier 1 (Branding):** `npm run msc:pushitup:admin-branding` (CSS + Graphics fast ship)
-- **Tier 2b (Fast):** `npm run pushit:live:fast` (zip `.next` + admin-ui + **`sync-app`** — ~10–15 min)
+- **Tier 2b (Fast):** `npm run pushit:live:fast` (zip `.next` + admin-ui + **`sync-app`** — ~10–15 min; **`-- -WithDb`** for CMS DB). Pitfalls: **`.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md`**
 - **Tier 2 (Full):** `npm run pushit:live` (build + `.next` + DB + media; SSH **`sync-db`** + **`sync-app`**)
 - **Tier 3 (Config):** `npm run msc:pushitup:server-config` (Package/Server files contract)
 

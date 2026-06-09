@@ -1,3 +1,11 @@
+## [2026-06-08] - pushit:live:fast zip fix + docs sync (deploy pitfalls)
+- **Branch:** MSC-Website-v7
+- **Problem:** Zip path always failed (`'$STAGING'` single-quote bug) → 45 min `.next` FTPS fallback; `package.json` not uploaded on fast path; `-WithDb` not obvious for DB
+- **Fix:** `msc-hostinger-unzip-deploy-next-ssh.mjs`, `pushit-live-fast.ps1` (+ package.json, unzip log), `msc-hostinger-deploy-diagnose-ssh.mjs`
+- **Docs:** DEPLOYMENT-TROUBLESHOOTING, ISSUES-RESOLVED, MASTER-COMMANDS, Go-Live, Push-Website-Live, deploy-safety rule, ReCall, Checkpoint
+- **Live:** v7.0.0 verified after deploy with `-WithDb`
+- **Status:** completed — commit pending
+
 ## [2026-06-08] - v7.0.0 release — version bump, tag, GitHub release
 - **Branch:** `MSC-Website-v7`
 - **Changes:** `package.json` → **7.0.0**; `lib/msc-app-version.ts`; ops docs, README, TRUTH, CHANGELOG; GitHub tag **`v7.0.0`**

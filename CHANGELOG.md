@@ -7,8 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **`pushit:live:fast` zip path** — bash `'$STAGING/deploy-next.zip'` never expanded; every deploy fell back to slow `.next` FTPS (~45 min). Unzip on host is ~13s when path is correct.
+- **Fast deploy `package.json`** — staging kept stale version; step 4 now FTPS **`package.json`** + lockfile with admin-ui.
+
 ### Added
-- (none)
+- **`npm run msc:hostinger:deploy-diagnose`** — SSH preflight (disk, zip, BUILD_ID, versions)
+- **`logs/pushit-unzip-last.log`** — unzip step capture on fast deploy
+- **DEPLOYMENT-TROUBLESHOOTING.md** § *pushit:live:fast mistakes* — DB/zip/sync pitfalls table
 
 ## [7.0.0] - 2026-06-08
 

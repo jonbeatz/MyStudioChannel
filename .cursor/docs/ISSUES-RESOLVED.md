@@ -17,6 +17,13 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-08] pushit:live:fast — zip path always fell back to slow .next FTPS
+- **Error:** Every **`pushit:live:fast`** run reported **“SSH unzip or BUILD_ID verify failed”** and fell back to **~45 min** full **`.next`** FTPS upload — despite valid **446 MB** zip on staging.
+- **Cause:** **`msc-hostinger-unzip-deploy-next-ssh.mjs`** set `ZIP='$STAGING/deploy-next.zip'` inside **single quotes** — bash never expanded `$STAGING`, so `test -f` always failed (`missing deploy-next.zip`). Not disk, timeout, or zip format (host unzip completes in ~13s; `unzip -t` OK).
+- **Solution:** Build **`ZIP_PRIMARY`** / **`ZIP_LEGACY`** paths in Node (no broken shell quoting). Use **`unzip -oq`**. Log unzip output to **`logs/pushit-unzip-last.log`**. **`pushit-live-fast.ps1`** now FTPS **`package.json`** + **`package-lock.json`** with admin-ui (staging had **6.0.0** while **`.next`** was **7.0.0**). Added **`npm run msc:hostinger:deploy-diagnose`** for preflight.
+- **Files Changed:** `scripts/msc-hostinger-unzip-deploy-next-ssh.mjs`, `scripts/pushit-live-fast.ps1`, `scripts/msc-hostinger-deploy-diagnose-ssh.mjs`, `package.json`, `.cursor/docs/ISSUES-RESOLVED.md`
+- **Prevention:** After unzip failures, read **`logs/pushit-unzip-last.log`** or run **`msc:hostinger:deploy-diagnose`**. Keep **`-WithDb`** when CMS data must ship. Fallback **`.next`** FTPS remains if zip upload fails.
+
 ## [2026-06-07] Phase 4 audit — rules dedup, Restore-Points trim, bundle/MCP opts
 - **Error:** Overlapping deploy rules (`workflow.mdc` vs `global.mdc`); Restore-Points table had 47+ rows; `@sentry/nextjs` floated on `^`; SectionsRenderer ignored `rowInstanceUid`; project MCP secrets required manual paste.
 - **Cause:** Incremental doc/rule growth; no retention policy on restore points; caret range on Sentry; React keys used numeric id fallback; `msc-sync-mcp-env` only synced WordPress on project MCP.
