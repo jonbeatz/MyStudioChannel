@@ -1,3 +1,10 @@
+## [2026-06-11] - MSC-Website-v8 branch cut
+- **Branch:** `MSC-Website-v8` created @ `b4ab8ae` from frozen `MSC-Website-v7`
+- **Policy:** `MSC-Website-v7` frozen @ `b4ab8ae` as solid restore (backup **`msc-website-v2-k`**); version stays **7.0.0** until v8 release
+- **Changes:** TRUTH, Checkpoint, Restore-Points, CI workflow, docs audit script
+- **Status:** completed
+- **Next:** Feature work on `MSC-Website-v8`
+
 ## [2026-06-11] - Docs sync @ 5596b56
 - **Branch:** `MSC-Website-v7` @ `5596b56`; **`main`** synced @ `5596b56`
 - **Changes:** Checkpoint, TRUTH, ReCall, MASTER-COMMANDS, review.md, ISSUES-RESOLVED (Playwright CI entry); all SHAs aligned

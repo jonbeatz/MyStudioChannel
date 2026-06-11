@@ -27,10 +27,10 @@ git push -u origin HEAD   # first push on new branch
 git push                  # after upstream is set
 ```
 
-**Current workflow branch:** `MSC-Website-v7` (active dev @ `5596b56`) | `main` (synced @ `5596b56`) | `MSC-Website-v6` (frozen @ `c9e260e`) | `MSC-Website-v5` (frozen at v5.0.0).
+**Current workflow branch:** `MSC-Website-v8` (active dev @ `b4ab8ae`) | `MSC-Website-v7` (frozen @ `b4ab8ae`) | `main` (@ `b4ab8ae`) | `MSC-Website-v6` (frozen @ `c9e260e`) | `MSC-Website-v5` (frozen at v5.0.0).
 
 ```bash
-git push origin MSC-Website-v7
+git push origin MSC-Website-v8
 ```
 
 ---

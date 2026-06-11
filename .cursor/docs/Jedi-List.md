@@ -171,7 +171,7 @@ Fast triage pattern:
 
 ## Release version (visual check)
 
-**Single source of truth:** root **`package.json`** **`"version"`** (currently **`7.0.0`** on **`MSC-Website-v7`**). **`lib/msc-app-version.ts`** imports it for the marketing footer (**`MyStudioChannel v7.0.0`**) and Payload admin sidebar (**`MyStudioChannel Admin v7.0.0`**).
+**Single source of truth:** root **`package.json`** **`"version"`** (currently **`7.0.0`** on **`MSC-Website-v8`**). **`lib/msc-app-version.ts`** imports it for the marketing footer (**`MyStudioChannel v7.0.0`**) and Payload admin sidebar (**`MyStudioChannel Admin v7.0.0`**).
 
 When you ship a new release, bump **`package.json`** in the **same commit** as the code you deploy, then **`npm run build`** + full **`.next`** upload (or **`npm run pushit:live`**). After restart, confirm the new **`vX.Y.Z`** in **`/admin`** and on the site footer. For admin-only source changes (no version bump), still run **`npm run msc:pushitup:admin-ui`** + rebuild/upload **`.next`** as needed — see **Deploy uploaders** above.
 

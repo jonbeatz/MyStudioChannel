@@ -1,7 +1,7 @@
 # MyStudioChannel - Master Command Reference
 
-**Last Updated:** 2026-06-11 (hygiene complete @ `5596b56`)
-**Branch:** `MSC-Website-v7` (active @ `5596b56`) · `main` synced @ `5596b56` · `MSC-Website-v6` frozen @ `c9e260e`
+**Last Updated:** 2026-06-11 (`MSC-Website-v8` branch cut @ `b4ab8ae`)
+**Branch:** `MSC-Website-v8` (active @ `b4ab8ae`) · `MSC-Website-v7` frozen @ `b4ab8ae` · `main` @ `b4ab8ae` · `MSC-Website-v6` frozen @ `c9e260e`
 **Version:** `7.0.0`
 
 ---

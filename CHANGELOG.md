@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-- **`main`** + **`MSC-Website-v7`** @ **`5596b56`** — hygiene complete (CI Playwright fix, `@payloadcms/ui`, TRUTH build notes, audit queue closed)
+- **`MSC-Website-v8`** branch cut @ **`b4ab8ae`** — active dev; **`MSC-Website-v7`** frozen as restore line
 - **`main`** + **`MSC-Website-v7`** @ **`6cb8c5a`** — hygiene pass (CI, Playwright, deploy docs, bundle analyzer) + docs:sync PERFECT
 - **`main`** fast-forwarded to **`MSC-Website-v7`** @ **`14ceb53`** — deploy fix + **`payload.sqlite`** v7 CMS baseline tracked for Hostinger seed
 
