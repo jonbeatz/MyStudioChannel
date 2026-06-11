@@ -16,6 +16,8 @@
     "restart:dev": "powershell -ExecutionPolicy Bypass -File scripts/restart-dev.ps1",
     "repair:dev": "powershell -ExecutionPolicy Bypass -File scripts/restart-dev-hard.ps1",
     "build": "next build",
+    "analyze": "powershell -NoProfile -Command \"$env:ANALYZE='true'; next build\"",
+    "analyze:admin": "powershell -NoProfile -Command \"$env:ANALYZE='true'; next build\"",
     "verify:next": "npm run clean:next && node scripts/assert-homepage-global-config.mjs && npm run build",
     "verify:next:safe": "powershell -ExecutionPolicy Bypass -File scripts/verify-next-safe.ps1",
     "test:smoke": "npx playwright test tests/smoke.spec.ts",
@@ -209,6 +211,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
+    "@next/bundle-analyzer": "^16.2.9",
     "@playwright/test": "^1.60.0",
     "@types/node": "^22",
     "@types/react": "19.2.14",

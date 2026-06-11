@@ -1,5 +1,6 @@
 import { withPayload } from "@payloadcms/next/withPayload"
 import { withSentryConfig } from "@sentry/nextjs"
+import bundleAnalyzer from "@next/bundle-analyzer"
 
 // Windows / synced folders: the default watcher can miss rapid rewrites to `.next`, leaving
 // half-built `vendor-chunks/*` and 404s for `/_next/static/*`. Polling is slower but stable.
@@ -88,9 +89,13 @@ const nextConfig = {
 }
 // Avoid `webpack: (c) => { c.cache = false }` in dev — it can break Payload admin vendor-chunks on Windows.
 
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+})
+
 const payloadConfig = withPayload(nextConfig)
 
-export default withSentryConfig(payloadConfig, {
+export default withSentryConfig(withBundleAnalyzer(payloadConfig), {
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options
 
