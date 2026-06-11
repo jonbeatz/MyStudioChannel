@@ -35,8 +35,15 @@ jobs:
         run: npx playwright install
 
       - name: Run Playwright smoke tests
-        run: |
-          Start-Process -NoNewWindow -WorkingDirectory $PWD -FilePath "npx" -ArgumentList "next","dev","-p","3000"
-          npx wait-on http://localhost:3000 --timeout 120000
-          npm run test:smoke
         shell: pwsh
+        run: |
+          # Start dev server in background
+          npm run dev -- -p 3000 &
+          # Wait for server to be ready
+          npx wait-on http://localhost:3000 --timeout 120000
+          # Run smoke tests
+          npm run test:smoke
+          $exitCode = $LASTEXITCODE
+          # Kill dev server
+          npm run msc:kill-dev-port
+          exit $exitCode
