@@ -63,5 +63,14 @@ if ($failed.Count -gt 0) {
   exit 1
 }
 
+Write-Host ""
+Write-Host "Running Playwright smoke tests..." -ForegroundColor Yellow
+npx playwright test tests/smoke.spec.ts
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "verify:local failed (Playwright smoke tests)." -ForegroundColor Red
+  exit $LASTEXITCODE
+}
+
+Write-Host ""
 Write-Host "verify:local passed. Safe to proceed with deploy flow." -ForegroundColor Cyan
 exit 0

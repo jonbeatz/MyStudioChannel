@@ -8,7 +8,7 @@ on:
 
 jobs:
   verify:
-    name: verify:next:safe
+    name: verify:next:safe + smoke
     runs-on: windows-latest
 
     steps:
@@ -30,3 +30,13 @@ jobs:
 
       - name: Verify production build
         run: npm run verify:next:safe
+
+      - name: Install Playwright browsers
+        run: npx playwright install
+
+      - name: Run Playwright smoke tests
+        run: |
+          Start-Process -NoNewWindow -WorkingDirectory $PWD -FilePath "npx" -ArgumentList "next","dev","-p","3000"
+          npx wait-on http://localhost:3000 --timeout 120000
+          npm run test:smoke
+        shell: pwsh

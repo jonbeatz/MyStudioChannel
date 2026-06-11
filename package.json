@@ -18,6 +18,7 @@
     "build": "next build",
     "verify:next": "npm run clean:next && node scripts/assert-homepage-global-config.mjs && npm run build",
     "verify:next:safe": "powershell -ExecutionPolicy Bypass -File scripts/verify-next-safe.ps1",
+    "test:smoke": "npx playwright test tests/smoke.spec.ts",
     "dev:recover": "powershell -ExecutionPolicy Bypass -File scripts/restart-dev.ps1",
     "start": "next start",
     "msc:doctor": "node scripts/msc-doctor.mjs",
@@ -59,6 +60,7 @@
     "msc:parity:ftp": "powershell -ExecutionPolicy Bypass -File scripts/ftp-parity-check.ps1",
     "msc:verify:media:blank-alt": "node scripts/verify-media-blank-alt.mjs",
     "msc:verify:local": "powershell -ExecutionPolicy Bypass -File scripts/verify-local.ps1",
+    "verify:local": "powershell -ExecutionPolicy Bypass -File scripts/verify-local.ps1",
     "msc:verify:live": "powershell -ExecutionPolicy Bypass -File scripts/verify-live.ps1",
     "msc:seed:demo-page": "payload run scripts/seed-demo-page.ts",
     "msc:seed:legal-pages": "npx tsx scripts/seed-legal-pages.ts",
@@ -207,6 +209,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
+    "@playwright/test": "^1.60.0",
     "@types/node": "^22",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
