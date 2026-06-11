@@ -80,12 +80,9 @@ Wait until build completes successfully.
 
 ### Deploy tiers (pick one path)
 
-| Tier | Name | Command (Local / repo root) | What it ships | When to use |
-|------|------|----------------------------|---------------|-------------|
-| **1** | **Branding — Fast FTP** | `npm run msc:pushitup:admin-branding` | **Only:** `components/msc-payload-graphics.tsx`, `components/msc-payload-admin-enhancements.tsx`, `collections/Users.ts`, `payload.config.ts`, `app/(payload)/custom.scss` | Quick look-and-feel / config / SCSS tweaks; **no** `build` or `.next` in this step. |
-| **2b** | **Fast code/UI — zip `.next` + sync-app** | `npm run pushit:live:fast` | **`build`** → **`msc:pushitup:admin-ui`** + **`package.json`** + lockfile → zip **`deploy-next.zip`** → FTPS → SSH unzip (~15s) + BUILD_ID → **`msc:hostinger:sync-app`**. **DB only with `-WithDb`**. Flags: **`-SkipBuild`**, **`-WithDb`**, **`-WithMedia`**, **`-DryRun`**. Fallback: **`pushitup -- .next`**. Preflight: **`msc:hostinger:deploy-diagnose`**. | Daily code/UI when DB/media unchanged (~10–15 min). |
-| **2** | **Admin logic / pages — Full build + UI + `.next` + DB + media** | `npm run pushit:live` | **`build`** → **`msc:pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`msc:hostinger:sync-db`** → **`msc:hostinger:sync-app`** (staging → app root + **`npm install --ignore-scripts`**) → **`pushitup -- public/media`** | **Master** deploy. FTPS lands in **`public_html/nodejs/`**; SSH sync copies to live app root. |
-| **3** | **Hosting — server / package config** | `npm run msc:pushitup:server-config` | **`server.js`**, **`package.json`**, **`package-lock.json`**, **`.env.example`** | Deps, lockfile, startup file, or documented env template changed; follow **§5** for **`npm install`** on the host. |
+> **For deploy methods, see [HOSTINGER-DEPLOY.md#deploy-methods-quick-decision-tree](./HOSTINGER-DEPLOY.md#deploy-methods-quick-decision-tree)**
+
+**Tier 1 (branding-only FTP):** **`npm run msc:pushitup:admin-branding`** — SCSS/config/branding sources only; **no** `build` or `.next` in that step. **Tier 3 (hosting):** **`npm run msc:pushitup:server-config`** — **`server.js`**, lockfile, **`.env.example`**; follow **§5** for host **`npm install`**.
 
 **Tier 2** is the **full** pipeline: it uploads the **admin source bundle**, the **entire `.next`** output, **`payload.sqlite`**, and **`public/media`** so the live app, **`/admin`**, CMS data, and **`/media/...`** files stay consistent.
 

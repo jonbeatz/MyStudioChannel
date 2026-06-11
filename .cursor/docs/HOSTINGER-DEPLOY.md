@@ -121,13 +121,24 @@ All green? Your site is live and configured correctly!
 
 ## Deploy paths overview
 
-| Path | When | DB reliable? | Where it runs |
-|------|------|--------------|----------------|
-| **Quick DB** | APIs **500**, site/admin OK, stub DB | **Yes** | **Local:** `npm run msc:push:db:live` → **Live:** Restart Node |
-| **A — MCP zip (code-only default)** | **Code** changed; no CMS/DB trust needed | **No** — verify size after; use Quick DB if stub | **Local:** `push:website:live` → MCP → **Live:** restart |
-| **B — FTPS full (`pushit:live`)** | Code + **`.next`** + **DB** + **media** parity | **Yes** (`sync-db` + **`sync-app`** + host npm) | **Local:** `push-website-live.ps1 -Ftps` or `pushit:live` → **Live:** restart |
-| **C — Git push + hPanel rebuild** | Major updates from GitHub | **No** — same stub risk as MCP | **Local:** `git push` → Hostinger rebuild → verify DB |
-| **D — Daily operator phrase** | Say *push it live* in Cursor | Agent **asks first** (Quick / FTPS / MCP) | See [Push-Website-Live.md](../prompts/Push-Website-Live.md) |
+### Deploy Methods — Quick Decision Tree
+
+- **Only CMS/nav/API changed?** → **`npm run msc:push:db:live`** (1–2 min)
+- **Only code/UI changed?** → **`npm run pushit:live:fast`** (10–15 min)
+- **Code + CMS data changed?** → **`npm run pushit:live:fast -- -WithDb`** (12–17 min)
+- **Media files changed?** → **`npm run pushit:live`** (45–60 min)
+- **Not sure / first deploy?** → **`npm run pushit:live`** (full parity)
+
+**Operator phrase:** Say *push it live* in Cursor — agent **asks first** (Quick DB · FTPS · MCP). See [Push-Website-Live.md](../prompts/Push-Website-Live.md).
+
+| Method | Command | When to use | Time | DB safe? | Notes |
+|--------|---------|-------------|------|----------|-------|
+| **Quick DB** | `npm run msc:push:db:live` | CMS/nav/API only | 1–2 min | ✅ Yes | Stops Node, syncs DB only |
+| **Fast code** | `npm run pushit:live:fast` | Code/UI changes only | 10–15 min | ⚠️ No (use `-WithDb`) | Default fast path |
+| **Fast code + DB** | `npm run pushit:live:fast -- -WithDb` | Code + CMS data | 12–17 min | ✅ Yes | Adds DB sync |
+| **Full FTPS** | `npm run pushit:live` | Full parity (code + DB + media) | 45–60 min | ✅ Yes | Rare; use when media changed |
+| **MCP zip** | `npm run push:website:live` | Not recommended | ~5–10 min | ❌ No (stub risk) | Avoid on this host |
+| **Git push** | `git push origin main` | Major updates, new packages | ~5–6 min | ❌ No | Verify DB size after |
 
 Do **not** run `pushitup` or zip uploads in **Hostinger Terminal** — upload from **Local (PC repo root)** only.
 
@@ -299,18 +310,11 @@ npm run msc:deploy:zip
 
 **Deployment zip folder:** `zips/` at repo root — `MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip` (gitignored). Never save deploy zips to `D:\Cursor_Projectz\`.
 
-Once your site is live, use these methods for ongoing updates. **Quick card:** [START-HERE.md](./START-HERE.md) → *Pushing updates live*.
+Once your site is live, use these methods for ongoing updates. **Canonical deploy table:** [Deploy paths overview](#deploy-paths-overview) (decision tree + master table). **Quick card:** [START-HERE.md](./START-HERE.md) → *Pushing updates live*.
 
 ### Quick reference: update methods
 
-| Method | Command | When to use | Time | DB reliable? |
-|--------|---------|-------------|------|--------------|
-| **Quick DB sync** | `npm run msc:push:db:live` | APIs **500**, stub **4 KB** DB | ~1–2 min | **Yes** |
-| **Push website live (ask mode)** | Say *push it live* — agent picks Quick / FTPS / MCP | Always start here | Varies | Depends on mode |
-| **MCP zip (code-only)** | `npm run push:website:live` → MCP | **Code** changes only; verify DB after | ~5–10 min | **No** |
-| **FTPS fast (Tier 2b)** | `npm run pushit:live:fast` | Code + `.next` + admin-ui; optional `-WithDb` / `-WithMedia` | ~10–15 min | **Only with `-WithDb`** |
-| **FTPS full (Tier 2)** | `push-website-live.ps1 -Ftps` or `pushit:live` | Code + DB + media parity | ~45–60 min | **Yes** (+ `sync-db` + **`sync-app`**) |
-| **Git push + rebuild** | `git push origin main` | Major updates, new packages | ~5–6 min | **No** — verify DB size |
+See **[Deploy paths overview](#deploy-paths-overview)** — single source of truth for deploy methods (decision tree + master table).
 
 ---
 

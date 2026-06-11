@@ -37,26 +37,19 @@
 
 ## 📦 Deployment Commands
 
-| Command | What it does | Database handled? | Time |
-|---------|--------------|-------------------|------|
-| Say **push it live** | Agent asks mode (Quick · FTPS · MCP) | Depends on mode | Varies |
-| `npm run msc:push:db:live` | Quick DB sync to live app root | ✅ Yes | ~1–2 min |
-| `npm run push:website:live` | MCP zip (code only) — **verify DB after** | ❌ Not reliable | ~5–10 min |
-| `powershell -File scripts/push-website-live.ps1 -Ftps` | Full FTPS (code + DB + media) | ✅ Yes (+ `sync-db`) | ~45–60 min |
-| `npm run push:website:live -- --dry-run` | Preview deploy without uploading | N/A | ~30 sec |
-| `npm run msc:deploy:zip` | Create deploy zip only | ✅ Yes (in /zips/) | ~10 sec |
-| `npm run msc:hostinger:sync-db` | SSH: DB `public_html/nodejs/` → live app root | ✅ Yes | ~30 sec |
-| `npm run msc:hostinger:sync-app` | SSH: code + `.next` + lockfile → app root + `npm install --ignore-scripts` | ✅ Code parity | ~1–3 min |
-| `npm run msc:hostinger:npm-install` | SSH: repair `node_modules` on app root (fixes missing webpack) | N/A | ~1–2 min |
-| `npm run msc:hostinger:recover` | SSH: diagnose `stderr.log`, preload, WAL, trim logs | N/A | ~30 sec |
-| `npm run msc:hostinger:stop-node` | SSH: stop Node + clear WAL/SHM before DB upload | N/A | ~15 sec |
-| `npm run msc:hostinger:unzip-deploy-next` | SSH: unzip `deploy-next.zip` on staging, verify **BUILD_ID**, remove zip | N/A | ~15 sec |
-| `npm run msc:hostinger:deploy-diagnose` | SSH: read-only preflight (disk, zip, BUILD_ID, `package.json` version) | N/A | ~15 sec |
-| `npm run pushit:live:fast` | **Fast FTPS:** build → admin-ui + **`package.json`** → zip → FTPS → SSH unzip → **`sync-app`** (**no DB/media by default**) | ❌ No — use **`-WithDb`** / **`-WithMedia`** | ~10–15 min |
-| `npm run pushit:live:fast -- -SkipBuild` | Admin-ui + **`sync-app`** only (no build/zip) | ❌ No | ~3–5 min |
-| `npm run msc:pushit:live:fast:dry` | Print steps only — no remote mutations | N/A | ~10 sec |
-| `npm run pushit:live:fast -- -DryRun` | Same (pass flag after `--`) | N/A | ~10 sec |
-| `npm run pushit:live` | Full FTPS: build + upload + **`sync-db`** + **`sync-app`** + media | ✅ Yes | ~45–60 min |
+> **For deploy methods, see [HOSTINGER-DEPLOY.md#deploy-methods-quick-decision-tree](./HOSTINGER-DEPLOY.md#deploy-methods-quick-decision-tree)**
+
+### Hostinger SSH helpers
+
+| Command | What it does | Time |
+|---------|--------------|------|
+| `npm run msc:hostinger:sync-db` | SSH: DB `public_html/nodejs/` → live app root | ~30 sec |
+| `npm run msc:hostinger:sync-app` | SSH: code + `.next` + lockfile → app root + `npm install --ignore-scripts` | ~1–3 min |
+| `npm run msc:hostinger:npm-install` | SSH: repair `node_modules` on app root (fixes missing webpack) | ~1–2 min |
+| `npm run msc:hostinger:recover` | SSH: diagnose `stderr.log`, preload, WAL, trim logs | ~30 sec |
+| `npm run msc:hostinger:stop-node` | SSH: stop Node + clear WAL/SHM before DB upload | ~15 sec |
+| `npm run msc:hostinger:unzip-deploy-next` | SSH: unzip `deploy-next.zip` on staging, verify **BUILD_ID**, remove zip | ~15 sec |
+| `npm run msc:hostinger:deploy-diagnose` | SSH: read-only preflight (disk, zip, BUILD_ID, `package.json` version) | ~15 sec |
 
 ### After ANY deploy:
 1. Restart Node in hPanel: [https://hpanel.hostinger.com/websites/mystudiochannel.com](https://hpanel.hostinger.com/websites/mystudiochannel.com)

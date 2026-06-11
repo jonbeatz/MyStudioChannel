@@ -19,12 +19,9 @@ npm run msc:verify:local
 
 ### Deploy paths
 
-| Path | Command / action |
-|------|------------------|
-| **Zip (first deploy / refresh)** | Create **`zips/MyStudioChannel-deploy-YYYYMMDD-HHmmss.zip`** (exclude `node_modules`, `.next`, `.git`) → hPanel drag-and-drop → Deploy |
-| **FTPS fast (daily code/UI)** | **`npm run pushit:live:fast`** or **`msc:pushit:live:fast:dry`** (preflight) |
-| **FTPS full (DB + media)** | **`npm run pushit:live`** or **`npm run msc:pushit:live:safe`** |
-| **MCP** | **`hosting_deployJsApplication`** (Hostinger Connector signed in) |
+> **For deploy methods, see [HOSTINGER-DEPLOY.md#deploy-methods-quick-decision-tree](./HOSTINGER-DEPLOY.md#deploy-methods-quick-decision-tree)**
+
+**First deploy (zip):** see **HOSTINGER-DEPLOY.md** → *Path A — Zip deploy checklist*.
 
 ### hPanel env vars (required)
 
@@ -40,13 +37,12 @@ hPanel → **Restart** Node.js app. Incognito: **`/`** + **`/admin`** → footer
 
 ### Hostinger update commands
 
+> **For deploy methods, see [HOSTINGER-DEPLOY.md#deploy-methods-quick-decision-tree](./HOSTINGER-DEPLOY.md#deploy-methods-quick-decision-tree)**
+
 | Command | Purpose |
 |---------|---------|
-| **`npm run pushit:live:fast`** | Fast FTPS — zip `.next`, SSH unzip (~15s), **`sync-app`** (~10–15 min). **No DB by default** — add **`-- -WithDb`** for **`payload.sqlite`**. |
-| **`npm run pushit:live:fast -- -WithDb`** | Fast + DB upload + **`sync-db`** |
 | **`npm run msc:hostinger:deploy-diagnose`** | SSH preflight before deploy (disk, zip, BUILD_ID, versions) |
 | **`npm run msc:pushit:live:fast:dry`** | Print fast-deploy steps only — no remote changes |
-| **`npm run pushit:live`** | Full FTPS — build + admin-ui + `.next` + DB + media + **`sync-db`** + **`sync-app`** |
 | **`npm run msc:pushit:live:safe`** | Full FTPS after **`msc:verify:local`** preflight |
 | **`npm run msc:verify:live`** | Smoke test live endpoints |
 | **`npm run build`** | Local production build |
