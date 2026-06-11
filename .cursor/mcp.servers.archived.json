@@ -85,7 +85,7 @@
       "command": "cmd",
       "args": ["/c", "npx", "-y", "resend-mcp"],
       "env": {
-        "RESEND_API_KEY": "re_2UdQpWbX_E2KdESd6eGBaw9tFyMMTSnk9"
+        "RESEND_API_KEY": "YOUR_RESEND_API_KEY"
       }
     },
     "task-master-ai": {

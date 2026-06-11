@@ -1,5 +1,6 @@
 import fs from "node:fs"
 import path from "node:path"
+import { execSync } from "node:child_process"
 import { fileURLToPath } from "node:url"
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..")
@@ -12,7 +13,7 @@ console.log("╚═════════════════════�
 // Load package.json version
 const pkg = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"))
 const currentVersion = pkg.version
-const currentBranch = "MSC-Website-v6"
+const currentBranch = execSync('git branch --show-current', { encoding: 'utf8' }).trim();
 
 // List of files to scan
 const targetFiles = [
