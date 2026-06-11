@@ -4,7 +4,7 @@
 - **Name:** MyStudioChannel
 - **Type:** Next.js (15.4) + Payload CMS (3.81) application
 - **OS/Shell:** Windows 10/11 + PowerShell (Core or Desktop)
-- **Primary Branch:** `MSC-Website-v7` (active dev @ `6cb8c5a`); **`main`** synced @ `6cb8c5a`; **`MSC-Website-v6`** frozen @ `c9e260e`
+- **Primary Branch:** `MSC-Website-v7` (active dev @ `3d3cef7`); **`main`** synced @ `3d3cef7`; **`MSC-Website-v6`** frozen @ `c9e260e`
 - **Repository:** [https://github.com/jonbeatz/MyStudioChannel](https://github.com/jonbeatz/MyStudioChannel)
 - **Primary Domain:** [https://mystudiochannel.com](https://mystudiochannel.com)
 
@@ -76,6 +76,11 @@ This is the canonical Source of Truth reading order for all human developers and
 - **Assets Rule:** All images are served from `public/media/` addressing them as `/media/filename.ext`. Bulk uploads must be registered using `npm run msc:media:sync`.
 - **Database Rule:** **`payload.sqlite`** is tracked in git as the v7 CMS baseline for Hostinger deploy seed. After significant local CMS edits, commit with **`chore(db):`** or deploy with **`pushit:live:fast -- -WithDb`** so live matches local.
 
+## Build Notes
+
+- ESLint is skipped during production builds (`eslint.ignoreDuringBuilds: true` in `next.config.mjs`). This speeds up Hostinger deploys. Linting is still enforced locally via `npm run lint` and Husky pre-commit hooks.
+- **Homepage admin URL:** Canonical editor is **`/admin/msc-homepage`**. `next.config.mjs` redirects **`/admin/globals/homepage`** and **`/admin/homepage`** there — no further route consolidation needed.
+
 ---
 
 ## Essential File Structure
@@ -137,5 +142,5 @@ When booting up a session, you **must** execute the following sequence:
 
 ---
 
-*Last Updated: 2026-06-11 (v7.0.0 · `MSC-Website-v7` + `main` @ `6cb8c5a` · hygiene pass + docs:sync PERFECT)*  
+*Last Updated: 2026-06-11 (v7.0.0 · `MSC-Website-v7` + `main` @ `3d3cef7` · final hygiene: TRUTH build notes, Restore-Points CI RP)*  
 <sub>· Powered by the MyStudioChannel Media Engine</sub>

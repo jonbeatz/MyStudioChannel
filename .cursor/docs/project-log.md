@@ -1,3 +1,10 @@
+## [2026-06-11] - Final hygiene cleanup + codeburn snapshot
+- **Branch:** `MSC-Website-v7` @ `3d3cef7` (pre-commit)
+- **Changes:** TRUTH build notes (`eslint.ignoreDuringBuilds`, homepage admin redirect); Restore-Points **RP-2026-06-11-ci-playwright** @ `112acc5`
+- **Codeburn (7d):** **$2.58** · 1,481 calls · 0% cache hit · spike **06-07 ~$1.45**
+- **Homepage admin:** `/admin/globals/homepage` → `/admin/msc-homepage` redirect only — consolidated enough
+- **Status:** completed
+
 ## [2026-06-11] - Docs sync — hygiene pass closeout + v6 ISSUES-RESOLVED fix
 - **Branch:** `MSC-Website-v7` @ `6cb8c5a`; **`main`** synced @ `6cb8c5a`
 - **Changes:** GitHub CI + Playwright; deploy table consolidation; bundle analyzer; Checkpoint/TRUTH/MASTER-COMMANDS/ReCall synced; ISSUES-RESOLVED v6 historical annotation; **`msc:docs:sync`** PERFECT (0 warnings)

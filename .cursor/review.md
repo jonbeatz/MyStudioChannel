@@ -97,8 +97,8 @@
 These were identified in Phases 1–4 but intentionally deferred:
 
 - **Admin First Load JS (~816 kB)** — Payload/Lexical/Sentry; baselined @ `112acc5`; separate pass if slimming needed
-- **Consolidate homepage admin routes** (`/admin/globals/homepage` vs `msc-homepage`) — cosmetic/redirect already exists
-- **`eslint.ignoreDuringBuilds`** — keep; rely on Husky; document in TRUTH
+- **Consolidate homepage admin routes** — **done** — canonical **`/admin/msc-homepage`**; redirects in **`next.config.mjs`** (documented in TRUTH)
+- **`eslint.ignoreDuringBuilds`** — **done** — documented in TRUTH Build Notes
 - **`images.unoptimized`** — intentional for Hostinger; documented in `next.config.mjs`
 - **Extend MCP sync** for any new project MCPs as added — 21st + browserbase done in Phase 4
 - **Restore-Points:** append new row after next major milestone (keep 3 active rule)
