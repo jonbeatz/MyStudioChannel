@@ -1,7 +1,7 @@
 # REVIEW — Audit follow-up & tomorrow’s work queue
 
 **Saved:** 2026-06-11  
-**Branch:** `MSC-Website-v7` (active @ `6cb8c5a`) · `main` synced @ `6cb8c5a` · `MSC-Website-v6` frozen @ `c9e260e`  
+**Branch:** `MSC-Website-v7` (active @ `112acc5`) · `main` synced @ `112acc5` · `MSC-Website-v6` frozen @ `c9e260e`  
 **Audit:** Phases 1–4 complete (committed + pushed)  
 **Project score (analysis):** **86 / 100**
 
@@ -10,14 +10,17 @@
 ## Completed 2026-06-11
 
 - GitHub CI (`verify:next` + Playwright) on push to `MSC-Website-v7` / `main`
+- **Playwright CI fix** — wait for Payload admin login fields + `wait-for-dev-admin.mjs` @ `112acc5`
 - Admin bundle snapshot (`@next/bundle-analyzer`) — **816 kB** baselined
 - Parameterized `msc-audit-docs.mjs` (dynamic git branch)
 - Playwright smoke tests integrated into `verify:local` + CI
 - Deploy tables consolidated into canonical source (`HOSTINGER-DEPLOY.md`)
-- Removed `motion`, added missing deps (`file-type`, `image-size`, `node-fetch`)
+- Removed `motion`, added missing deps (`file-type`, `image-size`, `node-fetch`, **`@payloadcms/ui`**)
+- **depcheck** — `@payloadcms/ui` declared in `package.json` (no missing-deps warning)
 - Codeburn run (token usage reviewed)
-- ISSUES-RESOLVED v6.0.0 historical annotation — **`msc:docs:sync`** PERFECT (0 warnings) @ `6cb8c5a`
+- ISSUES-RESOLVED v6.0.0 historical annotation — **`msc:docs:sync`** PERFECT (0 warnings)
 - `NODE_ENV=development` in `.env.local`
+- Docs sync closeout @ `ac79160`; pushed to origin @ `112acc5`
 
 ---
 
@@ -55,26 +58,28 @@
 1. ~~Deploy v7 labels live~~ — **`pushit:live:fast -- -WithDb`** completed
 2. ~~Verify live~~ — **`msc:verify:live:version`** **v7.0.0** pass
 3. ~~Deploy zip fix~~ — **`2404cc0`** (no more ~45 min fallback when zip path OK)
-4. ~~Git parity~~ — **`main`** @ **`6cb8c5a`**; dev on **`MSC-Website-v7`**
+4. ~~Git parity~~ — **`main`** @ **`112acc5`**; dev on **`MSC-Website-v7`**
 
-### B. Quick hygiene (low risk, ~30 min)
+### B. Quick hygiene — **done 2026-06-11**
 
-| Task | Why |
-|------|-----|
-| Add `NODE_ENV=development` to `.env.local` | Doctor warning; clarifies local behavior |
-| ~~Decide **`payload.sqlite` git policy**~~ | **Done** — tracked @ **`14ceb53`** as v7 CMS baseline for deploy seed; use **`-WithDb`** when live DB must match local |
-| Run **`msc:codeburn`** | Weekly token review (tooling already installed) |
-| Run **`depcheck`** | Flag unused deps (e.g. `motion` with no app imports) |
+| Task | Status |
+|------|--------|
+| ~~Add `NODE_ENV=development` to `.env.local`~~ | **Done** |
+| ~~Decide **`payload.sqlite` git policy**~~ | **Done** — tracked @ **`14ceb53`**; use **`-WithDb`** when live DB must match local |
+| ~~Run **`msc:codeburn`**~~ | **Done** (2026-06-11); rerun weekly |
+| ~~Run **`depcheck`**~~ | **Done** — `motion` removed; missing deps added incl. **`@payloadcms/ui`** |
 
-### C. Medium-term improvements (pick 1–2 for tomorrow)
+### C. Medium-term improvements — **done 2026-06-11**
 
-| Task | Effort | Impact |
-|------|--------|--------|
-| **GitHub CI:** `verify:next` on push to `MSC-Website-v6` | ~1–2 h | Catches regressions before local discovery |
-| **Parameterize `msc-audit-docs.mjs`** | ~30 min | Branch from git, not hardcoded string |
-| **Admin bundle snapshot** | ~2 h | webpack-bundle-analyzer on `/admin` — understand 816 kB (Payload cost baseline) |
-| **Playwright smoke** | ~2–3 h | `/`, `/admin/login`, one global — MCP Playwright already global |
-| **Merge deploy tables** | ~1 h | Single canonical table in HOSTINGER-DEPLOY; Jedi-List/Go-Live link only |
+| Task | Status |
+|------|--------|
+| ~~**GitHub CI:** `verify:next` on push~~ | **Done** — **`MSC-Website-v7`** + **`main`** @ `112acc5` |
+| ~~**Parameterize `msc-audit-docs.mjs`**~~ | **Done** |
+| ~~**Admin bundle snapshot**~~ | **Done** — **816 kB** baselined via **`analyze`** |
+| ~~**Playwright smoke**~~ | **Done** — `verify:local` + CI; admin login wait fix @ `112acc5` |
+| ~~**Merge deploy tables**~~ | **Done** — canonical table in **HOSTINGER-DEPLOY.md** |
+
+> **Optional later:** CI on frozen **`MSC-Website-v6`** only if hotfixing v6 again.
 
 ### D. Strategic (not tomorrow unless blocked)
 
@@ -91,7 +96,7 @@
 
 These were identified in Phases 1–4 but intentionally deferred:
 
-- **Admin First Load JS (~816 kB)** — Payload/Lexical/Sentry; not a regression; separate pass if needed
+- **Admin First Load JS (~816 kB)** — Payload/Lexical/Sentry; baselined @ `112acc5`; separate pass if slimming needed
 - **Consolidate homepage admin routes** (`/admin/globals/homepage` vs `msc-homepage`) — cosmetic/redirect already exists
 - **`eslint.ignoreDuringBuilds`** — keep; rely on Husky; document in TRUTH
 - **`images.unoptimized`** — intentional for Hostinger; documented in `next.config.mjs`
@@ -114,7 +119,7 @@ These were identified in Phases 1–4 but intentionally deferred:
 
 ```
 ✅ Node v24.14.0
-⚠️ NODE_ENV missing in .env.local
+⚠️ NODE_ENV missing in .env.local  ← fixed 2026-06-11
 ⚠️ payload.sqlite small + WAL (dev server running)
 ⚠️ Port 3000 in use (expected)
 ⚠️ Uncommitted payload.sqlite
@@ -144,4 +149,4 @@ These were identified in Phases 1–4 but intentionally deferred:
 
 ---
 
-*Last updated: 2026-06-11 @ `6cb8c5a`.*
+*Last updated: 2026-06-11 @ `112acc5`.*
