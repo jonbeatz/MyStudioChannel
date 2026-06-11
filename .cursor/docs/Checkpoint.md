@@ -1,19 +1,24 @@
 # Project Checkpoint
 
 ## Current Status
-- **Date:** 2026-06-11 (hygiene pass + CI + bundle analyzer)
-- **Branch:** MSC-Website-v7 @ `6cb8c5a` (active dev)
+- **Date:** 2026-06-11 (hygiene complete — audit queue closed)
+- **Branch:** MSC-Website-v7 @ `5596b56` (active dev)
 - **Version:** 7.0.0 (`package.json` — sole release number)
 - **Build Status:** Passing (`verify:next:safe`); **GitHub Actions** verify + Playwright on push to `MSC-Website-v7` / `main`
 - **Deploy default:** **`npm run pushit:live:fast`** (~10–15 min) for daily code/UI; canonical table in **HOSTINGER-DEPLOY.md**. Say **push it live** → agent asks mode.
 - **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v7.0.0**; **`msc:verify:live`** + **`msc:verify:live:version`** passing
-- **Git:** `MSC-Website-v7` + **`main`** @ `6cb8c5a` (synced); `MSC-Website-v6` frozen @ `c9e260e`
+- **Git:** `MSC-Website-v7` + **`main`** @ `5596b56` (synced on origin); `MSC-Website-v6` frozen @ `c9e260e`
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright smoke); **`npm run analyze`** for admin bundle (~816 kB baselined)
+- **Backup:** quick backup **`msc-website-v2-j`** @ `ac79160`
 
 ## Recent Milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
-| 2026-06-11 | **Docs sync — ISSUES-RESOLVED v6 historical annotation; PERFECT `msc:docs:sync`** | `6cb8c5a` |
+| 2026-06-11 | **Final hygiene — TRUTH build notes, CI restore point, codeburn snapshot** | `5596b56` |
+| 2026-06-11 | **depcheck fix — `@payloadcms/ui` + review.md closeout** | `3d3cef7` |
+| 2026-06-11 | **Playwright CI fix — admin login wait + warmup script** | `112acc5` |
+| 2026-06-11 | **Docs sync — operational docs @ `6cb8c5a`** | `ac79160` |
+| 2026-06-11 | **Docs sync — ISSUES-RESOLVED v6 historical annotation** | `6cb8c5a` |
 | 2026-06-11 | **Hygiene pass — CI, Playwright, deploy tables, bundle analyzer, depcheck** | `0878b3b` |
 | 2026-06-07 | **Planning docs — `ideaz.md` (portable kit) + `review.md` (audit queue)** | `2c2e94d` |
 | 2026-06-07 | **Comprehensive audit Phases 2–4** | `9d9831f` |

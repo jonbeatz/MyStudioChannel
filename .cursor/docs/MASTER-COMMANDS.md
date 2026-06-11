@@ -1,7 +1,7 @@
 # MyStudioChannel - Master Command Reference
 
-**Last Updated:** 2026-06-11 (CI + Playwright + bundle analyzer + deploy table consolidation)
-**Branch:** `MSC-Website-v7` (active @ `6cb8c5a`) · `main` synced @ `6cb8c5a` · `MSC-Website-v6` frozen @ `c9e260e`
+**Last Updated:** 2026-06-11 (hygiene complete @ `5596b56`)
+**Branch:** `MSC-Website-v7` (active @ `5596b56`) · `main` synced @ `5596b56` · `MSC-Website-v6` frozen @ `c9e260e`
 **Version:** `7.0.0`
 
 ---

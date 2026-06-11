@@ -287,8 +287,8 @@ When you want to "freeze" a working state before more changes:
 ### Naming conventions used in this project
 
 - Working feature branches:
-  - `MSC-Website-v7` (active dev @ `6cb8c5a`)
-  - `main` (synced with v7 @ `6cb8c5a`)
+  - `MSC-Website-v7` (active dev @ `5596b56`)
+  - `main` (synced with v7 @ `5596b56`)
   - `MSC-Website-v6` (frozen @ `c9e260e` — clean restore)
   - `MSC-Website-v5` (frozen at v5.0.0 — backup branch)
 - Good commit style:

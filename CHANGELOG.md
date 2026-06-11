@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- **`main`** + **`MSC-Website-v7`** @ **`5596b56`** — hygiene complete (CI Playwright fix, `@payloadcms/ui`, TRUTH build notes, audit queue closed)
 - **`main`** + **`MSC-Website-v7`** @ **`6cb8c5a`** — hygiene pass (CI, Playwright, deploy docs, bundle analyzer) + docs:sync PERFECT
 - **`main`** fast-forwarded to **`MSC-Website-v7`** @ **`14ceb53`** — deploy fix + **`payload.sqlite`** v7 CMS baseline tracked for Hostinger seed
 
@@ -15,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`pushit:live:fast` zip path** — bash `'$STAGING/deploy-next.zip'` never expanded; every deploy fell back to slow `.next` FTPS (~45 min). Unzip on host is ~13s when path is correct.
 - **Fast deploy `package.json`** — staging kept stale version; step 4 now FTPS **`package.json`** + lockfile with admin-ui.
 - **GitHub Actions verify** — Node **22** for `file-type@22`; Playwright dev-server startup on Windows runner
+- **Playwright CI admin smoke** — wait for client-rendered login fields; **`wait-for-dev-admin.mjs`** warmup @ `112acc5`
 
 ### Added
 - **`.github/workflows/verify.yml`** — `verify:next:safe` + Playwright smoke on push to `MSC-Website-v7` / `main`
@@ -25,7 +27,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **DEPLOYMENT-TROUBLESHOOTING.md** § *pushit:live:fast mistakes* — DB/zip/sync pitfalls table
 - **Canonical deploy table** in **HOSTINGER-DEPLOY.md** (linked from Jedi-List, Go-Live-Checklist, MASTER-COMMANDS, START-HERE)
 - **`@next/bundle-analyzer`** — admin First Load JS **816 kB** baselined
-- **Dependencies:** `file-type`, `image-size`, `node-fetch` (depcheck); removed unused `motion`
+- **Dependencies:** `file-type`, `image-size`, `node-fetch`, **`@payloadcms/ui`** (depcheck); removed unused `motion`
+- **`scripts/wait-for-dev-admin.mjs`** — CI warmup until Payload admin login renders
 
 ## [7.0.0] - 2026-06-08
 

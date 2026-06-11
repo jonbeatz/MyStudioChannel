@@ -2,6 +2,13 @@
 
 This file tracks problems encountered during development and how they were resolved.
 
+## [2026-06-11] GitHub Actions Playwright smoke — empty admin body on CI
+- **Error:** CI job **`verify:next:safe + smoke`** failed on **`admin login page loads`** — `expect(body).toContainText(/Email|Password/i)` timed out; body was empty.
+- **Cause:** Payload **`/admin`** login UI is client-rendered; first dev compile on Windows CI takes minutes. `wait-on` only checked `/`; Playwright used a 5s default expect timeout.
+- **Solution:** Wait for `input[type='email']` / `input[type='password']` with 180s timeout; **`scripts/wait-for-dev-admin.mjs`** warmup; CI retries in **`playwright.config.ts`**.
+- **Files Changed:** `tests/smoke.spec.ts`, `playwright.config.ts`, `scripts/wait-for-dev-admin.mjs`, `.github/workflows/verify.yml`
+- **Prevention:** Smoke tests must target rendered form fields, not SSR body text, for Payload admin routes.
+
 ## [2026-06-11] GitHub Actions verify workflow failed on npm install (Node 20)
 - **Error:** CI job failed at **Install dependencies** — `EBADENGINE` for `file-type@22` (requires Node **>=22**).
 - **Cause:** `.github/workflows/verify.yml` used **Node 20** after adding `file-type@22` to dependencies.

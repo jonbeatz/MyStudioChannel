@@ -93,19 +93,26 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Version:** **`v7.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v7.0.0`**, admin **`MyStudioChannel Admin v7.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
 - **Live:** **`https://mystudiochannel.com`** — **v7.0.0** deployed (**`pushit:live:fast -- -WithDb`**); **`msc:verify:live`** + **`msc:verify:live:version`** pass (2026-06-08).
 - **Deploy docs:** **`HOSTINGER-DEPLOY.md`**, **`DEPLOYMENT-TROUBLESHOOTING.md`** (§ fast deploy mistakes). **`-WithDb`** required for **`payload.sqlite`** on fast path. Zip unzip bug fixed — expect **~10–15 min**, not **~45 min** fallback.
-- **Branches:** **`MSC-Website-v7`** (active dev @ **`6cb8c5a`**); **`main`** synced @ **`6cb8c5a`**; **`MSC-Website-v6`** frozen @ `c9e260e` (clean restore + backup **`msc-website-v2-f`**); **`MSC-Website-v5`** frozen at v5.0.0.
-- **Git:** **`payload.sqlite`** tracked @ **`14ceb53`** (v7 CMS baseline for deploy seed); tip @ **`6cb8c5a`** (hygiene + docs:sync).
+- **Branches:** **`MSC-Website-v7`** (active dev @ **`5596b56`**); **`main`** synced @ **`5596b56`**; **`MSC-Website-v6`** frozen @ `c9e260e` (clean restore + backup **`msc-website-v2-f`**); **`MSC-Website-v5`** frozen at v5.0.0.
+- **Git:** **`payload.sqlite`** tracked @ **`14ceb53`** (v7 CMS baseline for deploy seed); tip @ **`5596b56`** (hygiene complete, pushed).
 - **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v7.0.0`**; **Latest = `v7.0.0`**.
-- **CI:** **`.github/workflows/verify.yml`** — build + Playwright smoke on push to **`MSC-Website-v7`** / **`main`** (Node **22**).
+- **CI:** **`.github/workflows/verify.yml`** — build + Playwright smoke on push (Node **22**); admin login wait fix @ **`112acc5`**.
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright); **`npm run analyze`** for admin bundle (~**816 kB**).
 - **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); Hostinger quartet via **`msc-hostinger-mcp.mjs`** launcher (scoped bins, no tool-naming warnings); MCP reload via **Settings → MCP**; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
-- **Audit (2026-06-07):** Phases 1–4 complete @ **`9d9831f`** (pushed). Planning backlog: **`.cursor/review.md`** (tomorrow queue) · **`.cursor/ideaz.md`** (portable studio kit).
-- **Hygiene (2026-06-11):** depcheck cleanup; deploy tables consolidated; **`msc:docs:sync`** PERFECT @ **`6cb8c5a`**.
-- **Next ideas:** depcheck follow-up (`@payloadcms/ui`); portable kit from **ideaz.md**; next deploy use fixed zip path + **`msc:hostinger:deploy-diagnose`** preflight.
+- **Audit (2026-06-07):** Phases 1–4 complete @ **`9d9831f`** (pushed). **`.cursor/review.md`** audit queue closed 2026-06-11.
+- **Hygiene (2026-06-11):** CI, Playwright, depcheck, docs:sync PERFECT, TRUTH build notes @ **`5596b56`**.
+- **Next ideas:** Feature work on **`MSC-Website-v7`**; portable kit from **ideaz.md** when starting new projects.
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-11 — Hygiene complete (audit queue closed)
+
+- **CI fix @ `112acc5`:** Playwright waits for admin login fields; **`wait-for-dev-admin.mjs`**.
+- **Deps @ `3d3cef7`:** **`@payloadcms/ui`** declared; review.md Sections B/C closed.
+- **Final docs @ `5596b56`:** TRUTH build notes (eslint, homepage admin redirect); Restore-Points CI RP; codeburn **$2.58**/7d.
+- **Tip:** **`MSC-Website-v7`** + **`main`** @ **`5596b56`** on origin.
 
 ### 2026-06-11 — Hygiene pass + docs:sync PERFECT
 
