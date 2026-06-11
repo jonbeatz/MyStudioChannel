@@ -132,7 +132,7 @@ gh pr create --title "Title" --body "Summary"
 
 | Tag | Branch-cut commit | Notes |
 |-----|-------------------|-------|
-| `v8.0.0` | `7d23c45` | **`MSC-Website-v8`** — **Latest** |
+| `v8.0.0` | `40b200e` | **`MSC-Website-v8`** — **Latest** |
 | `v7.0.0` | `a295fc4` | **`MSC-Website-v7`** frozen @ `b4ab8ae` |
 | `v6.0.0` | `17b3da8` | MSC-Website-v6 (frozen @ `c9e260e`) |
 | `v5.0.0` | `d14a4b2` | MSC-Website-v5 production hardening (frozen at v5.0.0) |

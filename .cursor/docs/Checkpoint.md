@@ -14,7 +14,7 @@
 ## Recent Milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
-| 2026-06-11 | **v8.0.0 release — version bump on `MSC-Website-v8`** | `7d23c45` |
+| 2026-06-11 | **v8.0.0 release — version bump on `MSC-Website-v8`** | `40b200e` |
 | 2026-06-11 | **MSC-Website-v8 branch cut — v7 frozen @ `b4ab8ae`** | `b4ab8ae` |
 | 2026-06-11 | **depcheck fix — `@payloadcms/ui` + review.md closeout** | `3d3cef7` |
 | 2026-06-11 | **Playwright CI fix — admin login wait + warmup script** | `112acc5` |

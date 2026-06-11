@@ -2,7 +2,7 @@
 - **Branch:** `MSC-Website-v8`; **`MSC-Website-v7`** frozen @ `b4ab8ae`
 - **Changes:** `package.json` → **8.0.0**; ops docs, README, TRUTH, CHANGELOG; GitHub tag **`v8.0.0`**
 - **Live:** mystudiochannel.com still **v7.0.0** until **`pushit:live:fast`**
-- **Status:** completed
+- **Status:** completed — `40b200e` + tag `v8.0.0` + GitHub release
 - **Next:** Deploy v8 labels live when ready
 
 ## [2026-06-11] - MSC-Website-v8 branch cut
