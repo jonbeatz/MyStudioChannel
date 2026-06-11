@@ -1,0 +1,32 @@
+name: Verify Next.js Build
+
+on:
+  push:
+    branches:
+      - MSC-Website-v7
+      - main
+
+jobs:
+  verify:
+    name: verify:next:safe
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Prepare build env
+        run: Copy-Item .env.example .env.local
+        shell: pwsh
+
+      - name: Verify production build
+        run: npm run verify:next:safe
