@@ -1,19 +1,20 @@
 # Project Checkpoint
 
 ## Current Status
-- **Date:** 2026-06-08 (v7.0.0 live + zip deploy fix)
-- **Branch:** MSC-Website-v7 @ `14ceb53` (active dev)
+- **Date:** 2026-06-11 (hygiene pass + CI + bundle analyzer)
+- **Branch:** MSC-Website-v7 @ `6cb8c5a` (active dev)
 - **Version:** 7.0.0 (`package.json` — sole release number)
-- **Build Status:** Passing (`npm run build` / `verify:next:safe`)
-- **Deploy default:** **`npm run pushit:live:fast`** (~10–15 min) for daily code/UI; **`pushit:live`** for full DB + media. Say **push it live** → agent asks mode (Quick DB · Fast FTPS · Full FTPS · MCP avoid). [hPanel restart](https://hpanel.hostinger.com/websites/mystudiochannel.com).
-- **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v7.0.0** on live; **`msc:verify:live`** + **`msc:verify:live:version`** passing
-- **Git:** `MSC-Website-v7` + **`main`** @ `14ceb53` (synced); `MSC-Website-v6` frozen @ `c9e260e`; `MSC-Website-v5` frozen @ `92918b6`
-- **Nav:** Header **Legal** dropdown via **`submenuSource: pages-collection`**; MSC1 excluded (**`showInHeaderNav`**)
-- **GitHub releases:** [v7.0.0 Latest](https://github.com/jonbeatz/MyStudioChannel/releases/latest) · tags `v1.0.0`–`v7.0.0` on [tags](https://github.com/jonbeatz/MyStudioChannel/tags)
+- **Build Status:** Passing (`verify:next:safe`); **GitHub Actions** verify + Playwright on push to `MSC-Website-v7` / `main`
+- **Deploy default:** **`npm run pushit:live:fast`** (~10–15 min) for daily code/UI; canonical table in **HOSTINGER-DEPLOY.md**. Say **push it live** → agent asks mode.
+- **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v7.0.0**; **`msc:verify:live`** + **`msc:verify:live:version`** passing
+- **Git:** `MSC-Website-v7` + **`main`** @ `6cb8c5a` (synced); `MSC-Website-v6` frozen @ `c9e260e`
+- **Local preflight:** **`npm run verify:local`** (HTTP + Playwright smoke); **`npm run analyze`** for admin bundle (~816 kB baselined)
 
 ## Recent Milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
+| 2026-06-11 | **Docs sync — ISSUES-RESOLVED v6 historical annotation; PERFECT `msc:docs:sync`** | `6cb8c5a` |
+| 2026-06-11 | **Hygiene pass — CI, Playwright, deploy tables, bundle analyzer, depcheck** | `0878b3b` |
 | 2026-06-07 | **Planning docs — `ideaz.md` (portable kit) + `review.md` (audit queue)** | `2c2e94d` |
 | 2026-06-07 | **Comprehensive audit Phases 2–4** | `9d9831f` |
 | 2026-06-07 | **Backup bloat fix — exclude `zips/`, `backup:clean-zips`** | `273d03d` |

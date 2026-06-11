@@ -4,7 +4,7 @@
 - **Name:** MyStudioChannel
 - **Type:** Next.js (15.4) + Payload CMS (3.81) application
 - **OS/Shell:** Windows 10/11 + PowerShell (Core or Desktop)
-- **Primary Branch:** `MSC-Website-v7` (active dev @ `14ceb53`); **`main`** synced @ `14ceb53`; **`MSC-Website-v6`** frozen @ `c9e260e`
+- **Primary Branch:** `MSC-Website-v7` (active dev @ `6cb8c5a`); **`main`** synced @ `6cb8c5a`; **`MSC-Website-v6`** frozen @ `c9e260e`
 - **Repository:** [https://github.com/jonbeatz/MyStudioChannel](https://github.com/jonbeatz/MyStudioChannel)
 - **Primary Domain:** [https://mystudiochannel.com](https://mystudiochannel.com)
 
@@ -137,5 +137,5 @@ When booting up a session, you **must** execute the following sequence:
 
 ---
 
-*Last Updated: 2026-06-08 (v7.0.0 · `MSC-Website-v7` + `main` @ `14ceb53` · `MSC-Website-v6` frozen @ `c9e260e`)*  
+*Last Updated: 2026-06-11 (v7.0.0 · `MSC-Website-v7` + `main` @ `6cb8c5a` · hygiene pass + docs:sync PERFECT)*  
 <sub>· Powered by the MyStudioChannel Media Engine</sub>

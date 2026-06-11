@@ -21,6 +21,7 @@ Human-named checkpoints so you can roll back mentally or on disk if a change goe
 
 | ID | Date | Summary |
 |----|------|---------|
+| **RP-2026-06-11-hygiene** | 2026-06-11 | **CI + Playwright + deploy docs + bundle analyzer + docs:sync:** GitHub Actions **`verify.yml`**; **`verify:local`** + smoke tests; canonical deploy table; **`@next/bundle-analyzer`** (admin **816 kB** baselined); depcheck cleanup; ISSUES-RESOLVED v6 historical fix. **`main`** + **`MSC-Website-v7`** @ **`6cb8c5a`**. **Restore:** `git fetch origin && git checkout MSC-Website-v7 && git reset --hard 6cb8c5a`. |
 | **RP-2026-06-08-v7-live** | 2026-06-08 | **v7.0.0 live + deploy fix + git parity:** **`pushit:live:fast -- -WithDb`**; zip fix **`2404cc0`**; **`payload.sqlite`** baseline **`14ceb53`**; **`main`** synced. Live **`msc:verify:live:version`** **v7.0.0**. **Restore:** `git fetch origin && git checkout MSC-Website-v7 && git reset --hard 14ceb53`. |
 | **RP-2026-06-08-v7-release** | 2026-06-08 | **v7.0.0 release on `MSC-Website-v7`:** Version **7.0.0** @ **`a295fc4`**; Hostinger MCP launcher; docs sync; GitHub tag **`v7.0.0`**. Cut from frozen `MSC-Website-v6` @ `c9e260e`. Backup **`msc-website-v2-f`**. **Restore:** `git fetch --tags origin && git checkout v7.0.0` or `MSC-Website-v7 && git reset --hard a295fc4`. **Restore v6 clean:** `git checkout MSC-Website-v6 && git reset --hard c9e260e`. |
 

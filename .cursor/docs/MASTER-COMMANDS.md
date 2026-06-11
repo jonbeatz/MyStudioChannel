@@ -1,7 +1,7 @@
 # MyStudioChannel - Master Command Reference
 
-**Last Updated:** 2026-06-08 (Hostinger MCP fix, MCP-SETUP global 12, msc:sync:mcp-env Hostinger sync)
-**Branch:** `MSC-Website-v7` (active @ `14ceb53`) · `main` synced · `MSC-Website-v6` frozen @ `c9e260e`
+**Last Updated:** 2026-06-11 (CI + Playwright + bundle analyzer + deploy table consolidation)
+**Branch:** `MSC-Website-v7` (active @ `6cb8c5a`) · `main` synced @ `6cb8c5a` · `MSC-Website-v6` frozen @ `c9e260e`
 **Version:** `7.0.0`
 
 ---
@@ -31,7 +31,12 @@
 | `npm run dev` | Start local dev server on port 3000 | Every coding session |
 | `npm run build` | Create production build locally | Before deploying |
 | `npm run lint` | Check code quality | Before committing |
-| `npm run msc:verify:local` | Test all local endpoints (/, /admin, /api) | Before pushing live |
+| `npm run msc:verify:local` / `verify:local` | HTTP smoke + Playwright (`/`, `/admin`, APIs) | Before pushing live |
+| `npm run test:smoke` | Playwright smoke only (dev server on **3000**) | After local changes |
+| `npm run verify:next:safe` | Production build gate (frees port **3000** first) | After runtime code edits |
+| `npm run analyze` | `@next/bundle-analyzer` — writes `.next/analyze/client.html` | Admin bundle inspection |
+
+**GitHub CI:** push to **`MSC-Website-v7`** or **`main`** runs `.github/workflows/verify.yml` (`verify:next:safe` + Playwright).
 
 ---
 

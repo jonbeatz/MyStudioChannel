@@ -2,6 +2,13 @@
 
 This file tracks problems encountered during development and how they were resolved.
 
+## [2026-06-11] GitHub Actions verify workflow failed on npm install (Node 20)
+- **Error:** CI job failed at **Install dependencies** — `EBADENGINE` for `file-type@22` (requires Node **>=22**).
+- **Cause:** `.github/workflows/verify.yml` used **Node 20** after adding `file-type@22` to dependencies.
+- **Solution:** Bumped workflow to **`node-version: "22"`**; fixed Playwright dev-server startup on Windows runner.
+- **Files Changed:** `.github/workflows/verify.yml`
+- **Prevention:** Keep CI Node major aligned with engine requirements in `package.json` / lockfile.
+
 ## [2026-06-11] 21st-dev-magic and Browserbase MCP Setup Typos
 - **Error:** Project MCP sync was skipping 21st-dev-magic and Browserbase session creation returned HTTP 401.
 - **Cause:** Leading space before `21ST_DEV_MAGIC_API_KEY` in `.env.local` and a typo in `BROWSERBASE_PROJECT_ID` (`713eb670` instead of `713e6b70`).

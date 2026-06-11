@@ -117,7 +117,9 @@ Fast triage pattern:
 | **`npm run dev:fresh`** | **`msc:kill-dev-port`** → **`clean:next`** → **`next dev -p 3000`** — use after **`npm run build`**, **`pushit:live`**, vendor-chunk **500s**, or when **`dev`** looks corrupted. |
 | **`npm run build`** | Production build (`next build`). Use before `next start` or before zipping `.next` for low-memory hosts. Requires env (see **Run-Next-JS.md**). |
 | **`npm run start`** | Serves the **last build** (`next start`). Use for a local smoke test after `build`. |
-| **`npm run msc:verify:local`** | Local pre-deploy smoke checks for `/`, `/admin`, and `api/globals/projects-home`; exits non-zero if any check fails. |
+| **`npm run msc:verify:local`** / **`verify:local`** | Local pre-deploy: HTTP smoke (`/`, `/admin`, APIs) + Playwright smoke tests |
+| **`npm run test:smoke`** | Playwright only — **`tests/smoke.spec.ts`** (dev on **3000**) |
+| **`npm run analyze`** | Production build + **`@next/bundle-analyzer`** → `.next/analyze/client.html` |
 | **`npm run msc:verify:live`** | Live smoke checks for `https://mystudiochannel.com/`, `/admin`, and `api/globals/projects-home`; exits non-zero if any check fails. (Verified for Hostinger). |
 | **`npm run verify:next`** | **`clean:next`** + **`next build`** — production build gate after app/config edits (see **`.cursor/rules/local-runtime-recovery.mdc`**). **Never** run while **`next dev`** is on port **3000** (deletes **`.next`** → **500** + broken **`/_next/static/chunks/fallback/*`**). |
 | **`npm run verify:next:safe`** | Frees port **3000** (stops stray **`next dev`**), then **`verify:next`**. Use whenever you need a build check and are not sure nothing is listening on **3000**. |

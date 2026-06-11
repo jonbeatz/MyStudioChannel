@@ -1,3 +1,9 @@
+## [2026-06-11] - Docs sync — hygiene pass closeout + v6 ISSUES-RESOLVED fix
+- **Branch:** `MSC-Website-v7` @ `6cb8c5a`; **`main`** synced @ `6cb8c5a`
+- **Changes:** GitHub CI + Playwright; deploy table consolidation; bundle analyzer; Checkpoint/TRUTH/MASTER-COMMANDS/ReCall synced; ISSUES-RESOLVED v6 historical annotation; **`msc:docs:sync`** PERFECT (0 warnings)
+- **Status:** completed
+- **Next:** Feature work on `MSC-Website-v7`; optional depcheck follow-ups (`@payloadcms/ui`)
+
 ## [2026-06-11 11:10] - Session Work — Portable Modules & MCP Setup
 - **Branch:** `MSC-Website-v7` @ `3235157`
 - **Session:** Created portable `hostinger-setup` module; fixed 21st-dev-magic & Browserbase project ID typos; removed Gilfoyle and redundant example files; verified local Vertex model and APIs.

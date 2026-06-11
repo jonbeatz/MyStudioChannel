@@ -1,7 +1,7 @@
 # REVIEW — Audit follow-up & tomorrow’s work queue
 
 **Saved:** 2026-06-11  
-**Branch:** `MSC-Website-v7` (active @ `b126e85`) · `main` synced @ `b126e85` · `MSC-Website-v6` frozen @ `c9e260e`  
+**Branch:** `MSC-Website-v7` (active @ `6cb8c5a`) · `main` synced @ `6cb8c5a` · `MSC-Website-v6` frozen @ `c9e260e`  
 **Audit:** Phases 1–4 complete (committed + pushed)  
 **Project score (analysis):** **86 / 100**
 
@@ -16,6 +16,7 @@
 - Deploy tables consolidated into canonical source (`HOSTINGER-DEPLOY.md`)
 - Removed `motion`, added missing deps (`file-type`, `image-size`, `node-fetch`)
 - Codeburn run (token usage reviewed)
+- ISSUES-RESOLVED v6.0.0 historical annotation — **`msc:docs:sync`** PERFECT (0 warnings) @ `6cb8c5a`
 - `NODE_ENV=development` in `.env.local`
 
 ---
@@ -54,7 +55,7 @@
 1. ~~Deploy v7 labels live~~ — **`pushit:live:fast -- -WithDb`** completed
 2. ~~Verify live~~ — **`msc:verify:live:version`** **v7.0.0** pass
 3. ~~Deploy zip fix~~ — **`2404cc0`** (no more ~45 min fallback when zip path OK)
-4. ~~Git parity~~ — **`main`** @ **`14ceb53`**; dev on **`MSC-Website-v7`**
+4. ~~Git parity~~ — **`main`** @ **`6cb8c5a`**; dev on **`MSC-Website-v7`**
 
 ### B. Quick hygiene (low risk, ~30 min)
 
@@ -143,4 +144,4 @@ These were identified in Phases 1–4 but intentionally deferred:
 
 ---
 
-*Last updated: 2026-06-11 @ `b126e85`.*
+*Last updated: 2026-06-11 @ `6cb8c5a`.*
