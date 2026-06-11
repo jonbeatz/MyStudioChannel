@@ -39,8 +39,9 @@ jobs:
         run: |
           # Start dev server in background
           npm run dev -- -p 3000 &
-          # Wait for server to be ready
-          npx wait-on http://localhost:3000 --timeout 120000
+          # Wait for homepage, then Payload admin login (client-rendered; slow first compile)
+          npx wait-on http://127.0.0.1:3000 --timeout 180000
+          node scripts/wait-for-dev-admin.mjs
           # Run smoke tests
           npm run test:smoke
           $exitCode = $LASTEXITCODE
