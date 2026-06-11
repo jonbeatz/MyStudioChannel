@@ -1,0 +1,7 @@
+<!-- Merge into .cursor/rules/global.mdc (Hostinger deploy shortcuts) -->
+
+| **`push website live`**, **`push it live`**, **`push site live`**, **`deploy live`** | Run `.cursor/prompts/Push-Website-Live.md` — **`AskQuestion` first:** Quick DB · **Fast FTPS (`pushit:live:fast`)** · **Full FTPS** · MCP (avoid on Hostinger shared Node). See `.cursor/docs/HOSTINGER-MODULE.md`. |
+
+| **`copy database`**, **`db copy`**, **`safe copy db`** | `npm run msc:db:copy` then upload/rename/WAL cleanup/restart steps |
+
+<!-- Full module: .cursor/custom-scriptz/hostinger-setup/ -->

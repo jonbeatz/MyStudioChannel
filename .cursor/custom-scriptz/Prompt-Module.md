@@ -11,6 +11,7 @@ To install a portable module in this project:
 
 - `google-api-proxy` — LiteLLM + ngrok for Cursor AI
 - `backup-system` — Backup project command
+- `hostinger-setup` — Hostinger FTPS/SSH deploy stack + pitfalls + rules
 
 ## List modules (PowerShell)
 
@@ -29,6 +30,7 @@ Get-ChildItem .cursor\custom-scriptz -Directory -ErrorAction SilentlyContinue |
 |--------------|--------|
 | `google-api-proxy`, `google-api module`, `google-api` | `google-api-proxy` |
 | `backup-system`, `backup module` | `backup-system` |
+| `hostinger-setup`, `hostinger module`, `install hostinger` | `hostinger-setup` |
 
 ## Installer flags (optional)
 

@@ -2,6 +2,12 @@
 
 This file tracks problems encountered during development and how they were resolved.
 
+## [2026-06-11] 21st-dev-magic and Browserbase MCP Setup Typos
+- **Error:** Project MCP sync was skipping 21st-dev-magic and Browserbase session creation returned HTTP 401.
+- **Cause:** Leading space before `21ST_DEV_MAGIC_API_KEY` in `.env.local` and a typo in `BROWSERBASE_PROJECT_ID` (`713eb670` instead of `713e6b70`).
+- **Solution:** Removed leading space, corrected the project ID, and updated the sync script to support cleaner SKIPS.
+- **Prevention:** Run verification scripts (`test-21st-api.mjs`, `test-browserbase-api.mjs`) immediately after editing keys.
+
 ## Format
 
 Each entry follows this structure:

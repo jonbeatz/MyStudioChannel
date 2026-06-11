@@ -1,3 +1,18 @@
+## [2026-06-11 11:10] - Session Work — Portable Modules & MCP Setup
+- **Branch:** `MSC-Website-v7` @ `3235157`
+- **Session:** Created portable `hostinger-setup` module; fixed 21st-dev-magic & Browserbase project ID typos; removed Gilfoyle and redundant example files; verified local Vertex model and APIs.
+- **Git:** Clean compile/build with zero errors.
+- **Live:** v7.0.0 on mystudiochannel.com; local env & MCP fully verified.
+- **Next:** Push changes to remote.
+
+## [2026-06-08 17:45] - Session closeout — End Project
+- **Branch:** `MSC-Website-v7` @ `3235157`; **`main`** synced @ `3235157`
+- **Session:** Deploy zip fix (`2404cc0`); `payload.sqlite` baseline (`14ceb53`); docs sync; git parity; quick backup **`msc-website-v2-g`**
+- **Git:** Clean working tree; all commits pushed to `origin/MSC-Website-v7` + `origin/main`
+- **Live:** **v7.0.0** on mystudiochannel.com; fast deploy zip path fixed for next push
+- **Status:** completed — ports stopped via `msc:session:stop`
+- **Next:** Say **Start Project**; feature work on `MSC-Website-v7`; optional hygiene from **review.md**
+
 ## [2026-06-08] - Docs sync — git parity + session closeout
 - **Branch:** `MSC-Website-v7` @ `14ceb53`; **`main`** fast-forwarded to match
 - **Changes:** Checkpoint, ReCall, TRUTH, Development, GitHub-Cheat-Sheet, Restore-Points, review.md — `main` no longer on v6 line; deploy fix SHAs recorded; `payload.sqlite` git policy documented

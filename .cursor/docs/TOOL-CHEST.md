@@ -82,7 +82,6 @@ Welcome to the MyStudioChannel Developer Tool Chest. This authoritative manual i
 | **NovaMira-Design** | `.cursor/skills/NovaMira-Design/SKILL.md` | Studio Gold `#F5B841`, glass, bento, 8px rhythm |
 | **Premium-UI** | `.cursor/skills/Premium-UI/SKILL.md` | shadcn registries, 21st.dev, Lenis, motion/react |
 | **DesignMD** | `.cursor/skills/DesignMD/SKILL.md` | Brand extraction — required before greenfield UI |
-| **Gilfoyle review** | `.cursor/prompts/harsh-review.md` | Optional harsh code review — **never** for deploy |
 
 **Obsidian think layer:** `I:\Vader_Vault` — personal notes; ship layer stays in `.cursor/docs/`.
 

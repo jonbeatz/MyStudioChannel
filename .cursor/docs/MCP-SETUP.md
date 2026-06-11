@@ -83,7 +83,7 @@ We **do not** configure `@govcraft/payload-cms-mcp` in any `mcp.json`.
 
 ## Secrets workflow
 
-**Never commit real API keys** in `.cursor/mcp.json` or `.cursor/mcp.json.example`.
+**Never commit real API keys** in `.cursor/mcp.json`.
 
 1. Put secrets in **`.env.local`** (gitignored). See **`.env.example`** and the checklist below.
 2. Sync what the script supports:
@@ -114,7 +114,7 @@ These project servers still use **placeholders** in committed `.cursor/mcp.json`
 |--------|------------------|------------------|
 | **`mcp-wordpress`** | `WORDPRESS_SITE_URL`, `WORDPRESS_USERNAME`, `WORDPRESS_APP_PASSWORD` | Add to `.env.local` → **`npm run msc:sync:mcp-env`** |
 | **`21st-dev-magic`** | `21ST_DEV_MAGIC_API_KEY` (maps to MCP `API_KEY`) | Add to `.env.local` → **`npm run msc:sync:mcp-env`** |
-| **`browserbase`** | `BROWSERBASE_API_KEY`, `BROWSERBASE_PROJECT_ID`, `GEMINI_API_KEY` | Add to `.env.local` → **`npm run msc:sync:mcp-env`** |
+| **`browserbase`** | `BROWSERBASE_API_KEY`, `BROWSERBASE_PROJECT_ID` | Add to `.env.local` → **`npm run msc:sync:mcp-env`**. Optional `GEMINI_API_KEY` only if self-hosted Stagehand `act`/`observe`/`extract` fail — or use hosted `https://mcp.browserbase.com/mcp` instead. |
 | **`local-wp`** | None | Enable in Settings → MCP; Local by Flywheel site running |
 | **`pencil`** | None | Enable in Settings → MCP; **Pencil desktop app** must be running |
 | **`markdownify`** | None | Enable in Settings → MCP |
@@ -229,7 +229,7 @@ Prefer **remove + archive** over `"disabled": true` — Cursor may still connect
 ## New clone checklist
 
 1. Copy `.env.example` → `.env.local` and fill values.
-2. Copy `.cursor/mcp.json.example` → `.cursor/mcp.json` if missing (repo should already include `.cursor/mcp.json` with placeholders).
+2. Repo already includes **`.cursor/mcp.json`** with placeholders — run sync after filling `.env.local`.
 3. Adjust `mcp-wordpress` `node` path if npm global install differs.
 4. Run `npm run msc:sync:mcp-env`.
 5. Manually set **browserbase**, **21st-dev-magic**, and **Hostinger** secrets per checklist above.

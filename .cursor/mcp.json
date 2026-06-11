@@ -2,7 +2,12 @@
   "mcpServers": {
     "local-wp": {
       "command": "cmd",
-      "args": ["/c", "npx", "-y", "@verygoodplugins/mcp-local-wp@latest"],
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@verygoodplugins/mcp-local-wp@latest"
+      ],
       "_comment": "Local by Flywheel / Local WP site discovery for mscclean.local"
     },
     "mcp-wordpress": {
@@ -21,30 +26,39 @@
     },
     "browserbase": {
       "command": "cmd",
-      "args": ["/c", "npx", "-y", "@browserbasehq/mcp"],
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@browserbasehq/mcp"
+      ],
       "env": {
-        "BROWSERBASE_API_KEY": "REPLACE_WITH_BROWSERBASE_API_KEY",
-        "BROWSERBASE_PROJECT_ID": "REPLACE_WITH_BROWSERBASE_PROJECT_ID",
-        "GEMINI_API_KEY": "REPLACE_WITH_GEMINI_API_KEY"
+        "BROWSERBASE_API_KEY": "bb_live_iwuF69yEwYCUx7l7cALivMpIAnU",
+        "BROWSERBASE_PROJECT_ID": "713e6b70-0afc-4fea-a824-75fc3e4c9f8e"
       },
       "_comment": "Cloud browser automation with Browserbase and Stagehand."
     },
     "21st-dev-magic": {
       "command": "cmd",
-      "args": ["/c", "npx", "-y", "@21st-dev/magic@latest"],
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@21st-dev/magic@latest"
+      ],
       "env": {
-        "API_KEY": "REPLACE_WITH_21ST_DEV_MAGIC_API_KEY"
+        "API_KEY": "bd5cc7d159e95e09b7a4ad5329d59e5f03d47182a0665aa62eccaf5f393f712e"
       },
       "_comment": "Allows building beautiful frontend components directly into the codebase with 21st.dev Magic MCP."
     },
-    "pencil": {
-      "command": "cmd",
-      "args": ["/c", "npx", "-y", "@pencil.dev/cli", "mcp-server"],
-      "_comment": "Allows Cursor/Claude agents to programmatically read, edit, and export design files (.pen) locally from the Pencil app canvas."
-    },
     "markdownify": {
       "command": "cmd",
-      "args": ["/c", "npx", "-y", "mcp-markdownify-server"],
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "mcp-markdownify-server"
+      ],
       "_comment": "Converts web content, PDFs, images (OCR), and document files directly to Markdown."
     }
   }

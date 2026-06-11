@@ -1,0 +1,35 @@
+{
+  "moduleId": "hostinger-setup",
+  "version": "1.0.0",
+  "description": "Portable Hostinger deploy stack — FTPS, SSH sync, tiered pushit pipelines, MCP token sync, pitfalls knowledge",
+  "install": {
+    "command": ".\\.cursor\\custom-scriptz\\hostinger-setup\\install.ps1"
+  },
+  "verifyCommands": [
+    "npm run msc:test:hostinger-ftp",
+    "npm run msc:hostinger:deploy-diagnose"
+  ],
+  "prerequisites": ["scripts/lib/msc-load-env.mjs"],
+  "envKeys": [
+    "FTP_HOST",
+    "FTP_USERNAME",
+    "FTP_PASSWORD",
+    "FTP_PORT",
+    "FTP_REMOTE_PATH",
+    "HOSTINGER_SSH_HOST",
+    "HOSTINGER_SSH_PORT",
+    "HOSTINGER_SSH_USER",
+    "HOSTINGER_SSH_PASSWORD",
+    "HOSTINGER_APP_ROOT",
+    "HOSTINGER_API_TOKEN"
+  ],
+  "neverCommit": [".env.local", "logs/pushit-unzip-last.log"],
+  "fragments": ["global.mdc.fragment", "rules/deploy-safety-hostinger.mdc"],
+  "agentDoc": "CURSOR.md",
+  "humanDoc": "README.md",
+  "sourceProject": "MyStudioChannel",
+  "sourceDocs": [
+    ".cursor/docs/HOSTINGER-DEPLOY.md",
+    ".cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md"
+  ]
+}

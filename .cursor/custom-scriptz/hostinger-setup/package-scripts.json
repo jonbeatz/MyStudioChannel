@@ -1,0 +1,29 @@
+{
+  "scripts": {
+    "msc:pushitup": "powershell -ExecutionPolicy Bypass -File scripts/PushItUP.ps1",
+    "msc:pushitup:admin-branding": "powershell -ExecutionPolicy Bypass -File scripts/PushItUP.ps1 components/msc-payload-graphics.tsx components/msc-payload-admin-enhancements.tsx collections/Users.ts payload.config.ts 'app/(payload)/custom.scss'",
+    "msc:pushitup:server-config": "powershell -ExecutionPolicy Bypass -File scripts/PushItUP.ps1 server.js package.json package-lock.json .env.example",
+    "msc:pushit:live": "powershell -ExecutionPolicy Bypass -File scripts/pushit-live.ps1",
+    "msc:pushit:live:fast": "powershell -ExecutionPolicy Bypass -File scripts/pushit-live-fast.ps1",
+    "msc:pushit:live:fast:dry": "powershell -ExecutionPolicy Bypass -File scripts/pushit-live-fast.ps1 -DryRun",
+    "msc:pushit:live:safe": "powershell -ExecutionPolicy Bypass -File scripts/pushit-live-safe.ps1",
+    "msc:hostinger:unzip-deploy-next": "node scripts/msc-hostinger-unzip-deploy-next-ssh.mjs",
+    "msc:hostinger:deploy-diagnose": "node scripts/msc-hostinger-deploy-diagnose-ssh.mjs",
+    "msc:hostinger:stop-node": "node scripts/msc-hostinger-stop-node-ssh.mjs",
+    "msc:hostinger:sync-db": "node scripts/msc-hostinger-sync-db-ssh.mjs",
+    "msc:hostinger:sync-app": "node scripts/msc-hostinger-sync-app-ssh.mjs",
+    "msc:hostinger:npm-install": "node scripts/msc-hostinger-npm-install-ssh.mjs",
+    "msc:hostinger:recover": "node scripts/msc-hostinger-live-recover-ssh.mjs",
+    "msc:push:db:live": "node scripts/msc-push-db-live.mjs",
+    "msc:push:website:live": "powershell -ExecutionPolicy Bypass -File scripts/push-website-live.ps1",
+    "msc:test:hostinger-ftp": "powershell -ExecutionPolicy Bypass -File scripts/Test-HostingerFtp.ps1",
+    "msc:verify:live": "powershell -ExecutionPolicy Bypass -File scripts/verify-live.ps1",
+    "msc:verify:live:version": "powershell -ExecutionPolicy Bypass -File scripts/verify-live-version.ps1",
+    "msc:db:copy": "powershell -ExecutionPolicy Bypass -File scripts/copy-db-for-deploy.ps1",
+    "pushitup": "npm run msc:pushitup",
+    "pushit:live": "npm run msc:pushit:live",
+    "pushit:live:fast": "npm run msc:pushit:live:fast",
+    "push:website:live": "npm run msc:push:website:live",
+    "deploy": "npm run pushit:live:fast"
+  }
+}

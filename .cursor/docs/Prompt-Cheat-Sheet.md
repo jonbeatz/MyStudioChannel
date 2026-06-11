@@ -250,11 +250,6 @@ Commands for deploying code changes to Hostinger from your PC terminal. Never ru
 - **Action:** Kill process on port 3000 manually.
 - **Script Command:** `npm run msc:kill-dev-port`
 
-### ➡️ `"Harsh code review"` / Gilfoyle mode
-- **Action:** Optional brutal code/UI critique pass.
-- **Prompt:** `.cursor/prompts/harsh-review.md`
-- **Never for:** deploy, docs sync, Hostinger ops (see `global.mdc`)
-
 ### ➡️ `"Refresh MCP"`
 - **Action:** Restart stuck MCP servers without full Cursor restart.
 - **Tool:** **Cursor Settings → MCP** — refresh the affected server; restart Cursor if stuck or duplicate `?` rows

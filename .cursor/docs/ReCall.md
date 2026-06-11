@@ -99,7 +99,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); Hostinger quartet via **`msc-hostinger-mcp.mjs`** launcher (scoped bins, no tool-naming warnings); MCP reload via **Settings → MCP**; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
 - **Audit (2026-06-07):** Phases 1–4 complete @ **`9d9831f`** (pushed). Planning backlog: **`.cursor/review.md`** (tomorrow queue) · **`.cursor/ideaz.md`** (portable studio kit).
 - **Next ideas:** Hygiene from **review.md**; portable kit from **ideaz.md**; next deploy use fixed zip path + **`msc:hostinger:deploy-diagnose`** preflight.
-- **Session closeout (2026-06-07):** Branch @ **`e06627e`** pushed; backups **`msc-website-v2-e`**; ports stopped (3000 cleared).
+- **Session closeout (2026-06-08):** Branch + **`main`** @ **`3235157`**; quick backup **`msc-website-v2-g`**; ports stopped; git clean.
 
 ---
 
@@ -166,6 +166,14 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Secrets:** **`HOSTINGER_API_TOKEN`** added to **`.env.local`**; **`msc-sync-mcp-env.mjs`** syncs token to all four Hostinger servers.
 - **Verified:** `hosting_listWebsitesV1` returns **mystudiochannel.com**; GitHub + Tavily API tests PASS.
 - **Docs:** **MCP-SETUP.md** rewritten (12 global servers, secrets checklist, health check); **Site-Plans.md**, **`.env.example`** updated.
+
+### 2026-06-11 — Portable Hostinger setup & project MCP verification
+
+- **Feature:** Extracted fully portable **`hostinger-setup`** module containing 26 deploy scripts, package JSON aliases, env fragment, Cursor rules, prompts, and pitfalls guides under `.cursor/custom-scriptz/hostinger-setup/`.
+- **Scripts:** Added **`msc:hostinger:module:sync`** (npm run alias) to refresh the portable module from repo script assets.
+- **MCP:** Added verified keys for **`21st-dev-magic`** and **`browserbase`**; resolved leading space and project ID typos; removed redundant `mcp.json.example` and `.sync-bak` files.
+- **Persona:** Removed Bertram Gilfoyle prompt and cleaned up references across doc files.
+- **Vertex:** Verified `vader-3-flash` and `vader-3.5-flash` local connections.
 
 ### 2026-06-08 — MSC Tooling Upgrade + Obsidian pilot + MCP consolidation
 

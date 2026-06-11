@@ -1,0 +1,30 @@
+---
+description: Hostinger deploy guardrails for Next/Payload production updates
+alwaysApply: false
+globs:
+  - scripts/**/*.ps1
+  - package.json
+  - .cursor/docs/HOSTINGER-DEPLOY.md
+  - .cursor/docs/Jedi-List.md
+---
+
+# Deploy safety (Hostinger)
+
+When discussing or running deploy operations:
+
+1. Distinguish responsibilities:
+   - Local PC terminal: build + `pushitup` uploads
+   - Hostinger hPanel: Node.js application management, app restart (npm repair via `msc:hostinger:npm-install` from Local SSH scripts)
+2. Never tell users to run `pushitup` in Hostinger Terminal.
+3. For runtime/app changes, prefer full `.next` upload over partial artifact uploads.
+4. If upload reports failures, retry failed paths before restart.
+5. If live shows `vendor-chunks` module errors, treat it as mixed/incomplete `.next` and perform clean server `.next` replace flow.
+
+## Tier scripts (must match `package.json`)
+
+- **Tier 1:** `npm run msc:pushitup:admin-branding` — **Custom-Prompts** item **37**.
+- **Tier 2b (fast):** `npm run pushit:live:fast` (build → `msc:pushitup:admin-ui` + **`package.json`** + lockfile → zip `deploy-next.zip` → FTPS → `msc:hostinger:unzip-deploy-next` (~13s on host) → `msc:hostinger:sync-app`; flags `-WithDb`, `-WithMedia`, `-SkipBuild`, `-DryRun`). **DB not included by default** — use `-WithDb`. Fallback: `pushitup -- .next`. Troubleshoot: `logs/pushit-unzip-last.log`, `msc:hostinger:deploy-diagnose`.
+- **Tier 2 (full):** `npm run pushit:live` (build → `msc:pushitup:admin-ui` → `pushitup -- .next` → `pushitup -- payload.sqlite` → `msc:hostinger:sync-db` → `msc:hostinger:sync-app` → `pushitup -- public/media`; local `dev:fresh` only if `PUSHIT_LIVE_RUN_DEV_FRESH=1`) — items **3** / **38**. FTPS lands in `public_html/nodejs/`; SSH sync copies to live app root. **Avoid MCP zip** on this host (`better-sqlite3` build fails).
+- **Tier 3:** `npm run msc:pushitup:server-config` — item **39**.
+
+Full reference: **Jedi-List.md** (Deploy uploaders), **HOSTINGER-DEPLOY.md**, **Go-Live-Checklist.md**.

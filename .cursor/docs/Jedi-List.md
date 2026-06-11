@@ -251,7 +251,7 @@ Tool for extracting design systems from production websites.
 
 **Canonical Storage:** Save extractions to **`.cursor/DesignMD/`** for project reuse and portable design references.
 
-**Project MCP files (committed, placeholders only):** **`.cursor/mcp.json`**, **`.cursor/mcp.json.example`**, **`.cursor/mcp.servers.archived.json`**.
+**Project MCP files (committed, placeholders only):** **`.cursor/mcp.json`**, **`.cursor/mcp.servers.archived.json`**.
 
 **Payload CMS MCP:** Do **not** add **`@govcraft/payload-cms-mcp`** to **`mcp.json`**. Use workspace **`user-payload`**, REST **`/api/*`**, or **`/admin`** — see **MCP-SETUP.md**.
 
@@ -378,7 +378,6 @@ You can say things like: *“On Hostinger, replace `.next` from the zip I upload
 | **NovaMira-Design** | `.cursor/skills/NovaMira-Design/SKILL.md` | Tokens, glass, bento, Gold Standard |
 | **Premium-UI** | `.cursor/skills/Premium-UI/SKILL.md` | Registry components, motion/react |
 | **DesignMD** | `.cursor/skills/DesignMD/SKILL.md` | Extract brand before new UI |
-| **Gilfoyle** | `.cursor/prompts/harsh-review.md` | Harsh code review only — not deploy |
 | **Imported whitelist** | `.cursor/skills/imported/CURATED-INDEX.md` | Manual antigravity playbooks |
 | **Codeburn** | `npm run msc:codeburn` | Weekly token/cost review |
 

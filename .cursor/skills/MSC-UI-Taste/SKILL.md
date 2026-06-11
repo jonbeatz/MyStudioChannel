@@ -85,8 +85,6 @@ Use this sequence for UI tasks (not for deploy or Hostinger ops):
 - One paragraph: what still feels generic?
 - Propose **one** signature improvement (not ten tweaks)
 
-Optional harsh pass: `.cursor/prompts/harsh-review.md` (Gilfoyle) — **code review only**, never deploy.
-
 ---
 
 ## 4. Motion philosophy (from emilkowalski/skill)

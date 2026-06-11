@@ -56,26 +56,18 @@
       "url": "https://mcp.neon.tech/mcp",
       "transport": "streamableHttp"
     },
-    "postman": {
-      "_comment": "Removed — placeholder POSTMAN_API_KEY never configured.",
-      "command": "cmd",
-      "args": ["/c", "npx", "-y", "@postman/postman-mcp-server@latest", "--full"],
-      "env": {
-        "POSTMAN_API_KEY": "REPLACE_WITH_POSTMAN_API_KEY"
-      }
-    },
     "tavily": {
       "_comment": "Re-enable: add mcpServers.tavily to global mcp.json (see MCP-SETUP.md), then npm run sync:mcp-env",
       "command": "cmd",
       "args": ["/c", "npx", "-y", "tavily-mcp@latest"],
       "env": {
-        "TAVILY_API_KEY": "YOUR_TAVILY_API_KEY"
+        "TAVILY_API_KEY": "REPLACE_WITH_TAVILY_API_KEY"
       }
     },
     "mcp-vercel": {
       "_comment": "Removed — placeholder VERCEL_API_TOKEN never configured.",
       "command": "cmd",
-      "args": ["/c", "node", "C:\\Users\\JONBEATZ\\.cursor\\tools\\mcp-vercel\\build\\index.js"],
+      "args": ["/c", "node", "C:\\Users\\YOUR_USER\\.cursor\\tools\\mcp-vercel\\build\\index.js"],
       "env": {
         "VERCEL_API_TOKEN": "REPLACE_WITH_VERCEL_API_TOKEN"
       }
@@ -93,7 +85,7 @@
       "command": "cmd",
       "args": ["/c", "npx", "-y", "resend-mcp"],
       "env": {
-        "RESEND_API_KEY": "REPLACE_WITH_RESEND_API_KEY"
+        "RESEND_API_KEY": "re_2UdQpWbX_E2KdESd6eGBaw9tFyMMTSnk9"
       }
     },
     "task-master-ai": {

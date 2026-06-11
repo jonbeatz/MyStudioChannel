@@ -41,7 +41,6 @@ Always check `.cursor/skills/` for project-specific and portable agent abilities
 ## UI taste rules
 1. Cite **NovaMira Gold** before generic Tailwind/shadcn defaults.
 2. Ban purple-gradient heroes, Inter-only centered layouts, cookie-cutter SaaS cards.
-3. Optional harsh review: `.cursor/prompts/harsh-review.md` — **never** for deploy, docs sync, or Hostinger ops.
 
 ## Obsidian think layer
 Personal vault: `I:\Vader_Vault` (not in git). Ship layer: `.cursor/docs/` + TRUTH. Weekly distill to ReCall — manual, not auto-sync.

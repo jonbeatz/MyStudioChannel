@@ -295,12 +295,13 @@ function main() {
       console.log(
         `${changed ? 'PASS' : 'OK'}: 21st-dev-magic API_KEY → project (${maskSecret(magicKey)})`,
       );
+    } else if (projectConfig.mcpServers?.['21st-dev-magic']) {
+      console.log('SKIP: No 21ST_DEV_MAGIC_API_KEY in .env.local');
     }
 
     const browserbaseUpdates = {
       BROWSERBASE_API_KEY: env.BROWSERBASE_API_KEY,
       BROWSERBASE_PROJECT_ID: env.BROWSERBASE_PROJECT_ID,
-      GEMINI_API_KEY: env.GEMINI_API_KEY,
     };
     const hasBrowserbase = Object.values(browserbaseUpdates).some(Boolean);
     if (hasBrowserbase && projectConfig.mcpServers?.browserbase) {
@@ -310,8 +311,24 @@ function main() {
           console.warn(`WARN: ${k} looks like a placeholder`);
         }
       }
+      const bbEnv = projectConfig.mcpServers.browserbase.env;
+      if (bbEnv && ('GEMINI_API_KEY' in bbEnv || 'GOOGLE_API_KEY' in bbEnv)) {
+        delete bbEnv.GEMINI_API_KEY;
+        delete bbEnv.GOOGLE_API_KEY;
+        projectChanged = true;
+        console.log('PASS: removed optional GEMINI/GOOGLE keys from browserbase MCP env');
+      }
       if (changed) projectChanged = true;
       console.log(`${changed ? 'PASS' : 'OK'}: browserbase env → project mcp.json`);
+    } else if (projectConfig.mcpServers?.browserbase) {
+      console.log('SKIP: No BROWSERBASE_API_KEY / BROWSERBASE_PROJECT_ID in .env.local');
+    }
+
+    const projectNoSecrets = ['local-wp', 'pencil', 'markdownify'];
+    for (const name of projectNoSecrets) {
+      if (projectConfig.mcpServers?.[name]) {
+        console.log(`OK: ${name} — no secrets (enable in Cursor Settings → MCP)`);
+      }
     }
 
     if (projectChanged) {

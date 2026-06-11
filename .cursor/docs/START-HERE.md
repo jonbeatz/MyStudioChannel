@@ -68,7 +68,6 @@ Portable workflow skills pack for reuse in other projects:
 - **NovaMira-Design** — Studio Gold `#F5B841`, glass, bento
 - **Premium-UI** — registries, motion/react, 21st.dev
 - **DesignMD** — brand extraction (required before greenfield UI)
-- **Gilfoyle review** — `.cursor/prompts/harsh-review.md` (code only — never deploy)
 
 **Think layer (Obsidian):** `I:\Vader_Vault` — personal notes; ship layer = this repo's `.cursor/docs/` + TRUTH. Weekly distill to ReCall (operator calendar).
 
@@ -149,6 +148,7 @@ That pattern almost always means **`.next` was deleted or overwritten while `nex
 **Full guides:**
 
 - **[HOSTINGER-DEPLOY.md](./HOSTINGER-DEPLOY.md)** — env vars, hPanel build settings, zip vs FTPS, troubleshooting
+- **[HOSTINGER-MODULE.md](./HOSTINGER-MODULE.md)** — portable Hostinger kit (drop into new projects via `.cursor/custom-scriptz/hostinger-setup/`)
 - **[DEPLOYMENT-FIXES.md](./DEPLOYMENT-FIXES.md)** — 2026-06-01 successful deploy learnings (dependency rule, lockfile, zip flow)
 - **[Go-Live-Checklist.md](./Go-Live-Checklist.md)** — tiered FTPS checklist
 

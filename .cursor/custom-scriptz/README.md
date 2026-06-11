@@ -6,6 +6,7 @@ Personal dev packs — **fat on disk** (include `ngrok.exe` locally), **lean in 
 |--------|---------|----------|
 | [google-api-proxy](google-api-proxy/) | LiteLLM + Vertex + ngrok | [module.manifest.json](google-api-proxy/module.manifest.json) |
 | [backup-system](backup-system/) | Standard/Full robocopy + BackUp-Notez + note workflow | [module.manifest.json](backup-system/module.manifest.json) |
+| [hostinger-setup](hostinger-setup/) | Hostinger deploy tiers, SSH sync, pitfalls, Cursor rules | [module.manifest.json](hostinger-setup/module.manifest.json) |
 
 Shared installer helpers: [_lib/Msc-ModuleInstall.ps1](_lib/Msc-ModuleInstall.ps1)
 
@@ -14,6 +15,7 @@ Shared installer helpers: [_lib/Msc-ModuleInstall.ps1](_lib/Msc-ModuleInstall.ps
 ```powershell
 .\.cursor\custom-scriptz\google-api-proxy\install.ps1
 .\.cursor\custom-scriptz\backup-system\install.ps1
+.\.cursor\custom-scriptz\hostinger-setup\install.ps1
 ```
 
 ## Copy to another project
