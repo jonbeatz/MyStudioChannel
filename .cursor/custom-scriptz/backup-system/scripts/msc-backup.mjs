@@ -191,7 +191,6 @@ function formatIncluded(backupType) {
   return '.env.local';
 }
 
-// Note: relative path is relative to backup root, so the config we use works perfectly.
 function buildNoteEntry({ timestamp, backupType, userNotes, gitInfo, backupFolder, projectVersion, verification }) {
   const typeLabel = displayBackupType(backupType);
   let entry = `## [${timestamp}] - ${typeLabel} Backup\n\n`;
