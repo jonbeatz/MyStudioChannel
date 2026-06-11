@@ -1,6 +1,13 @@
+## [2026-06-11] - v8.0.0 release on MSC-Website-v8
+- **Branch:** `MSC-Website-v8`; **`MSC-Website-v7`** frozen @ `b4ab8ae`
+- **Changes:** `package.json` → **8.0.0**; ops docs, README, TRUTH, CHANGELOG; GitHub tag **`v8.0.0`**
+- **Live:** mystudiochannel.com still **v7.0.0** until **`pushit:live:fast`**
+- **Status:** completed
+- **Next:** Deploy v8 labels live when ready
+
 ## [2026-06-11] - MSC-Website-v8 branch cut
 - **Branch:** `MSC-Website-v8` created @ `b4ab8ae` from frozen `MSC-Website-v7`
-- **Policy:** `MSC-Website-v7` frozen @ `b4ab8ae` as solid restore (backup **`msc-website-v2-k`**); version stays **7.0.0** until v8 release
+- **Policy:** `MSC-Website-v7` frozen @ `b4ab8ae` as solid restore (backup **`msc-website-v2-k`**)
 - **Changes:** TRUTH, Checkpoint, Restore-Points, CI workflow, docs audit script
 - **Status:** completed
 - **Next:** Feature work on `MSC-Website-v8`

@@ -1,7 +1,7 @@
 # REVIEW — Audit follow-up & tomorrow’s work queue
 
 **Saved:** 2026-06-11  
-**Branch:** `MSC-Website-v8` (active @ `b4ab8ae`) · `MSC-Website-v7` frozen @ `b4ab8ae` · `main` @ `b4ab8ae` · `MSC-Website-v6` frozen @ `c9e260e`  
+**Branch:** `MSC-Website-v8` (active @ `3399384`) · `MSC-Website-v7` frozen @ `b4ab8ae` · **v8.0.0** in repo  
 **Audit:** Phases 1–4 complete (committed + pushed)  
 **Project score (analysis):** **86 / 100**
 

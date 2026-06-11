@@ -62,8 +62,8 @@ See **The Canonical Rule** above. In short: anything needed at build time must s
 | Output directory | `.next` |
 | Build time | ~56–90 seconds |
 | Static pages | 7 generated |
-| Live footer | `MyStudioChannel v7.0.0` |
-| Live admin label | `MyStudioChannel Admin v7.0.0` |
+| Live footer | `MyStudioChannel v8.0.0` |
+| Live admin label | `MyStudioChannel Admin v8.0.0` |
 
 ---
 

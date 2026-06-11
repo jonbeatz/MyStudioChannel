@@ -48,7 +48,7 @@ FTPS with **`FTP_REMOTE_PATH=/nodejs`** lands files under **`public_html/nodejs/
 |-------|------|-----|
 | `domains/.../nodejs/payload.sqlite` size | **~500–540 KB** | **4 KB** stub |
 | Legal nav row (SQLite) | `Legal \| pages-collection \| /` | `Pages` or link `/msc1` |
-| `package.json` version (app root) | Matches local (**`7.0.0`**) | Older (**`6.0.0`**) |
+| `package.json` version (app root) | Matches local (**`8.0.0`**) | Older (**`7.0.0`**) |
 
 Nav labels and Legal dropdown are **DB-driven** — code-only deploy without DB sync will show wrong nav even when `.next` is new.
 
@@ -90,7 +90,7 @@ Before considering your deployment complete, verify these in hPanel:
 - [ ] `payload.sqlite` is ~500–540 KB (not 4 KB)
 - [ ] `.next/BUILD_ID` exists
 - [ ] `server.js` exists
-- [ ] `package.json` version matches local (e.g. **7.0.0**)
+- [ ] `package.json` version matches local (e.g. **8.0.0**)
 - [ ] `node_modules/next/dist/compiled/webpack/webpack.js` exists (or run **`msc:hostinger:npm-install`**)
 
 ### Run Verification
@@ -155,7 +155,7 @@ npm run build
 npm run msc:verify:local
 ```
 
-Confirm footer shows **`MyStudioChannel v7.0.0`** on `http://localhost:3000/`.
+Confirm footer shows **`MyStudioChannel v8.0.0`** on `http://localhost:3000/`.
 
 ### 1) `package.json` — production dependency rule
 
@@ -242,9 +242,9 @@ Template copy: [`.env.example`](../../.env.example)
 **Incognito:**
 
 - `https://mystudiochannel.com/` — Next.js site (not WordPress / `wp-content`)
-- Footer: **`MyStudioChannel v7.0.0`**
+- Footer: **`MyStudioChannel v8.0.0`**
 - `https://mystudiochannel.com/admin` — Payload login
-- After login: sidebar **`MyStudioChannel Admin v7.0.0`**
+- After login: sidebar **`MyStudioChannel Admin v8.0.0`**
 
 **Local smoke script:**
 
@@ -451,7 +451,7 @@ npm run msc:verify:live
 
 - [https://mystudiochannel.com](https://mystudiochannel.com)
 - [https://mystudiochannel.com/admin](https://mystudiochannel.com/admin)
-- Footer shows correct version (**`MyStudioChannel v7.0.0`**)
+- Footer shows correct version (**`MyStudioChannel v8.0.0`**)
 
 ---
 
@@ -602,9 +602,9 @@ Running `npm run push:website:live -- --ftps` automatically:
 4. **`payload.sqlite`** in a zip/repo does not mean the live app uses it — verify app root size or use Quick DB.
 5. **`PAYLOAD_DISABLE_SHARP=true`** on Hostinger.
 6. Production URLs must be **`https://mystudiochannel.com`** (both `NEXT_PUBLIC_*` and `PAYLOAD_PUBLIC_*`).
-7. After deploy, confirm version labels: **`MyStudioChannel v7.0.0`** / **`MyStudioChannel Admin v7.0.0`**.
+7. After deploy, confirm version labels: **`MyStudioChannel v8.0.0`** / **`MyStudioChannel Admin v8.0.0`**.
 8. **Do not delete `public_html/nodejs/`** — it is the FTPS staging folder, not a duplicate mistake.
 
 ---
 
-*Last updated: 2026-06-08 — v7.0.0: folder map, sync-app + npm-install hardening, MCP/build-failed notes*
+*Last updated: 2026-06-11 — v8.0.0 on `MSC-Website-v8`; folder map, sync-app + npm-install hardening*

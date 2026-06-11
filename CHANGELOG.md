@@ -5,30 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-### Changed
-- **`MSC-Website-v8`** branch cut @ **`b4ab8ae`** — active dev; **`MSC-Website-v7`** frozen as restore line
-- **`main`** + **`MSC-Website-v7`** @ **`6cb8c5a`** — hygiene pass (CI, Playwright, deploy docs, bundle analyzer) + docs:sync PERFECT
-- **`main`** fast-forwarded to **`MSC-Website-v7`** @ **`14ceb53`** — deploy fix + **`payload.sqlite`** v7 CMS baseline tracked for Hostinger seed
-
-### Fixed
-- **`pushit:live:fast` zip path** — bash `'$STAGING/deploy-next.zip'` never expanded; every deploy fell back to slow `.next` FTPS (~45 min). Unzip on host is ~13s when path is correct.
-- **Fast deploy `package.json`** — staging kept stale version; step 4 now FTPS **`package.json`** + lockfile with admin-ui.
-- **GitHub Actions verify** — Node **22** for `file-type@22`; Playwright dev-server startup on Windows runner
-- **Playwright CI admin smoke** — wait for client-rendered login fields; **`wait-for-dev-admin.mjs`** warmup @ `112acc5`
+## [8.0.0] - 2026-06-11
 
 ### Added
-- **`.github/workflows/verify.yml`** — `verify:next:safe` + Playwright smoke on push to `MSC-Website-v7` / `main`
-- **`npm run verify:local`**, **`test:smoke`**, **`analyze`** / **`analyze:admin`** — local HTTP + Playwright + bundle analyzer
-- **`tests/smoke.spec.ts`**, **`playwright.config.ts`**
-- **`npm run msc:hostinger:deploy-diagnose`** — SSH preflight (disk, zip, BUILD_ID, versions)
-- **`logs/pushit-unzip-last.log`** — unzip step capture on fast deploy
-- **DEPLOYMENT-TROUBLESHOOTING.md** § *pushit:live:fast mistakes* — DB/zip/sync pitfalls table
-- **Canonical deploy table** in **HOSTINGER-DEPLOY.md** (linked from Jedi-List, Go-Live-Checklist, MASTER-COMMANDS, START-HERE)
-- **`@next/bundle-analyzer`** — admin First Load JS **816 kB** baselined
-- **Dependencies:** `file-type`, `image-size`, `node-fetch`, **`@payloadcms/ui`** (depcheck); removed unused `motion`
-- **`scripts/wait-for-dev-admin.mjs`** — CI warmup until Payload admin login renders
+- **`MSC-Website-v8`** branch — active development line; **`MSC-Website-v7`** frozen @ `b4ab8ae` as restore backup
+- **GitHub tag `v8.0.0`** on **`MSC-Website-v8`**
+
+### Changed
+- **Version bump** to **8.0.0** in `package.json`; UI labels via `lib/msc-app-version.ts` (footer + admin sidebar)
+- **CI** runs on **`MSC-Website-v8`**, **`MSC-Website-v7`**, and **`main`**
+- Ops docs synced to v8.0.0 (TRUTH, README, HOSTINGER-DEPLOY, Jedi-List, Checkpoint, ReCall)
+
+## [Unreleased]
+
+_Nothing yet — develop on **`MSC-Website-v8`**._
 
 ## [7.0.0] - 2026-06-08
 

@@ -90,12 +90,12 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Gallery hydration:** **`lib/cms/homepage-gallery-seed.ts`**, **`lib/cms/homepage-gallery-hydrate.ts`** (`afterRead` → full Media shape for admin + site).
 - **Public URLs:** **`lib/public-origin.ts`** + **`lib/site-origin-defaults.ts`** — **`PAYLOAD_PUBLIC_SERVER_URL`** / **`NEXT_PUBLIC_SERVER_URL`** / **`MSC_CANONICAL_SITE_ORIGIN`**; **`getPublicOriginClient()`** for admin Client Components; **`payload.config.ts`** **`serverURL`** + env-built **CSRF**.
 - **Marketing site:** Header/footer in-page hash scroll (mobile drawer defer); **`HomeHashScroll`**; **`middleware`** pathname-only rewrites (host-agnostic).
-- **Version:** **`v7.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v7.0.0`**, admin **`MyStudioChannel Admin v7.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
-- **Live:** **`https://mystudiochannel.com`** — **v7.0.0** deployed (**`pushit:live:fast -- -WithDb`**); **`msc:verify:live`** + **`msc:verify:live:version`** pass (2026-06-08).
+- **Version:** **`v8.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v8.0.0`**, admin **`MyStudioChannel Admin v8.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
+- **Live:** **`https://mystudiochannel.com`** — **v7.0.0** on host until next deploy; repo/local **v8.0.0**.
 - **Deploy docs:** **`HOSTINGER-DEPLOY.md`**, **`DEPLOYMENT-TROUBLESHOOTING.md`** (§ fast deploy mistakes). **`-WithDb`** required for **`payload.sqlite`** on fast path. Zip unzip bug fixed — expect **~10–15 min**, not **~45 min** fallback.
-- **Branches:** **`MSC-Website-v8`** (active dev @ **`b4ab8ae`**); **`MSC-Website-v7`** frozen @ **`b4ab8ae`** (backup **`msc-website-v2-k`**); **`main`** @ **`b4ab8ae`**; **`MSC-Website-v6`** frozen @ `c9e260e`; **`MSC-Website-v5`** frozen at v5.0.0.
-- **Git:** **`payload.sqlite`** tracked @ **`14ceb53`** (v7 CMS baseline for deploy seed); active line **`MSC-Website-v8`** from **`b4ab8ae`**.
-- **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v7.0.0`**; **Latest = `v7.0.0`**.
+- **Branches:** **`MSC-Website-v8`** (active dev); **`MSC-Website-v7`** frozen @ **`b4ab8ae`** (backup **`msc-website-v2-k`**); **`main`** tracks v8 line; **`MSC-Website-v6`** frozen @ `c9e260e`; **`MSC-Website-v5`** frozen at v5.0.0.
+- **Git:** **`payload.sqlite`** tracked @ **`14ceb53`** (v7 CMS baseline for deploy seed); **`MSC-Website-v8`** @ **8.0.0**.
+- **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v8.0.0`**; **Latest = `v8.0.0`**.
 - **CI:** **`.github/workflows/verify.yml`** — build + Playwright smoke on push (Node **22**); admin login wait fix @ **`112acc5`**.
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright); **`npm run analyze`** for admin bundle (~**816 kB**).
 - **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); Hostinger quartet via **`msc-hostinger-mcp.mjs`** launcher (scoped bins, no tool-naming warnings); MCP reload via **Settings → MCP**; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
@@ -107,10 +107,15 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ## Recent changes (latest first)
 
+### 2026-06-11 — v8.0.0 release on MSC-Website-v8
+
+- **`package.json`** → **8.0.0**; UI via **`lib/msc-app-version.ts`**; GitHub tag **`v8.0.0`**.
+- **`MSC-Website-v7`** remains frozen @ **`b4ab8ae`** (v7.0.0 restore line).
+
 ### 2026-06-11 — MSC-Website-v8 branch cut
 
 - **`MSC-Website-v8`** created from frozen **`MSC-Website-v7`** @ **`b4ab8ae`**.
-- **Policy:** v7 frozen as restore line; backup **`msc-website-v2-k`**; version still **7.0.0** until release bump.
+- **Policy:** v7 frozen as restore line; backup **`msc-website-v2-k`**; **v8.0.0** in repo on **`MSC-Website-v8`**.
 - **CI:** **`verify.yml`** runs on **`MSC-Website-v8`**, **`MSC-Website-v7`**, **`main`**.
 
 ### 2026-06-11 — Hygiene complete (audit queue closed)

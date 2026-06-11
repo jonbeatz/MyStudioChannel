@@ -104,7 +104,7 @@ npm run pushit:live
 
 This is exactly: **`build`** → **`msc:pushitup:admin-ui`** → **`pushitup -- .next`** → **`pushitup -- payload.sqlite`** → **`msc:hostinger:sync-db`** → **`msc:hostinger:sync-app`** → **`pushitup -- public/media`** (see `scripts/pushit-live.ps1`). **Never skip `sync-app`** — without it, code/`.next`/lockfile stay in staging only. **FTPS:** brief errors on 1–2 **`.next`** files are common; **PushItUP** retries once.
 
-**`msc:pushitup:admin-ui`** includes (among others): `middleware.ts`, `lib/msc-app-version.ts`, `components/msc-payload-nav-dashboard.tsx`, `components/msc-payload-nav-logout.tsx`, branding components, `collections/Users.ts`, `payload.config.ts`, `app/(payload)/custom.scss`. After deploy, confirm **`MyStudioChannel Admin v7.0.0`** in the sidebar (matches **`package.json`** **`version`**).
+**`msc:pushitup:admin-ui`** includes (among others): `middleware.ts`, `lib/msc-app-version.ts`, `components/msc-payload-nav-dashboard.tsx`, `components/msc-payload-nav-logout.tsx`, branding components, `collections/Users.ts`, `payload.config.ts`, `app/(payload)/custom.scss`. After deploy, confirm **`MyStudioChannel Admin v8.0.0`** in the sidebar (matches **`package.json`** **`version`**).
 
 A full **`.next`** upload is what fixes many **vendor-chunk** / missing-module errors on the host; if the browser shows **`Cannot find module './vendor-chunks/...'`** or similar after a deploy, re-run **`npm run pushitup -- .next`** (after a successful local **`npm run build`**) so chunk paths stay in sync.
 

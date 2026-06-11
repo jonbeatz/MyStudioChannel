@@ -37,7 +37,7 @@ After setup, run `npm run dev` and visit [http://localhost:3000](http://localhos
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Cursor](https://img.shields.io/badge/Cursor-Agent_Ready-8E44AD?logo=cursor)](https://cursor.com/)
 [![Troubleshooting](https://img.shields.io/badge/Troubleshooting-Active_Guide-red?logo=github)](.cursor/docs/DEPLOYMENT-TROUBLESHOOTING.md)
-![Version](https://img.shields.io/badge/version-7.0.0-blue)
+![Version](https://img.shields.io/badge/version-8.0.0-blue)
 ![Deploy](https://img.shields.io/badge/deploy-ftps-success)
 
 ---
@@ -48,7 +48,7 @@ After setup, run `npm run dev` and visit [http://localhost:3000](http://localhos
 
 | Metric              | Value                                                                  |
 | ------------------- | ---------------------------------------------------------------------- |
-| **Version**         | v7.0.0 ([Latest release](https://github.com/jonbeatz/MyStudioChannel/releases/latest); deploy to update live label at [mystudiochannel.com](https://mystudiochannel.com)) |
+| **Version**         | v8.0.0 ([Latest release](https://github.com/jonbeatz/MyStudioChannel/releases/latest); deploy to update live label at [mystudiochannel.com](https://mystudiochannel.com)) |
 | **Stack**           | Next.js 15 (React 19) + Payload CMS 3.81.0                             |
 | **CMS Engine**      | ✅ MSC PRO ENGINE Studio Mode — Gold Sidebar + Dashboard               |
 | **Deployment**      | ✅ Tiered FTPS (Hostinger/hPanel) via `msc:pushitup`                       |
@@ -131,7 +131,7 @@ My Studio Channel
 
 ## 🛡️ Production-Hardening & Reliability Features
 
-The `MSC-Website-v7` line (cut from frozen `MSC-Website-v6` @ `c9e260e`) continues comprehensive safety and developer experience features from v5/v6:
+The **`MSC-Website-v8`** line (cut from frozen **`MSC-Website-v7`** @ `b4ab8ae`) continues comprehensive safety and developer experience features from v5–v7:
 - **Database Optimization Utility:** Optimize database files with `npm run msc:db:optimize` (using `PRAGMA optimize` + `VACUUM`), automated to prevent bloat.
 - **Git Pre-commit Hook (Husky):** Enforces lint checks automatically on every `git commit`, preventing bad syntax or build errors from entering git.
 - **SSH Live Log Streaming:** Instantly tail remote host logs on your PC terminal via `npm run msc:logs:live` (stderr) and `npm run msc:logs:live:console`.

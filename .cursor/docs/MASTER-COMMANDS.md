@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-06-11 (`MSC-Website-v8` branch cut @ `b4ab8ae`)
 **Branch:** `MSC-Website-v8` (active @ `b4ab8ae`) · `MSC-Website-v7` frozen @ `b4ab8ae` · `main` @ `b4ab8ae` · `MSC-Website-v6` frozen @ `c9e260e`
-**Version:** `7.0.0`
+**Version:** `8.0.0`
 
 ---
 
@@ -209,7 +209,7 @@ npm run msc:test:hostinger-ftp
 | Check | Expected result |
 |-------|-----------------|
 | `npm run msc:verify:live` | 3/3 PASS (200 OK) |
-| Footer version | MyStudioChannel v7.0.0 |
+| Footer version | MyStudioChannel v8.0.0 |
 | `/admin` login | Works |
 | Demos section | Loads with images |
 

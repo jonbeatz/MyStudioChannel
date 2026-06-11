@@ -128,11 +128,12 @@ gh pr create --title "Title" --body "Summary"
 
 ## Releases & tags (MyStudioChannel)
 
-**Latest release:** [v7.0.0](https://github.com/jonbeatz/MyStudioChannel/releases/latest) · **All tags:** [tags](https://github.com/jonbeatz/MyStudioChannel/tags)
+**Latest release:** [v8.0.0](https://github.com/jonbeatz/MyStudioChannel/releases/latest) · **All tags:** [tags](https://github.com/jonbeatz/MyStudioChannel/tags)
 
 | Tag | Branch-cut commit | Notes |
 |-----|-------------------|-------|
-| `v7.0.0` | `a295fc4` | MSC-Website-v7 — **Latest** |
+| `v8.0.0` | `7d23c45` | **`MSC-Website-v8`** — **Latest** |
+| `v7.0.0` | `a295fc4` | **`MSC-Website-v7`** frozen @ `b4ab8ae` |
 | `v6.0.0` | `17b3da8` | MSC-Website-v6 (frozen @ `c9e260e`) |
 | `v5.0.0` | `d14a4b2` | MSC-Website-v5 production hardening (frozen at v5.0.0) |
 | `v4.0.0` | `87ec9de` | MSC-Website-v4 live on Hostinger (frozen at v4.0.0) |
@@ -142,9 +143,9 @@ gh pr create --title "Title" --body "Summary"
 
 ```bash
 gh release list --limit 10
-gh release view v7.0.0
+gh release view v8.0.0
 git fetch --tags
-git checkout v7.0.0    # read-only snapshot
+git checkout v8.0.0    # read-only snapshot
 ```
 
 **Cut a new release** (after version bump on `MSC-Website-v7`):

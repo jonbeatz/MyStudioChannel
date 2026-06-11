@@ -3,10 +3,10 @@
 ## Current Status
 - **Date:** 2026-06-11 (`MSC-Website-v8` branch cut)
 - **Branch:** MSC-Website-v8 @ `b4ab8ae` (active dev)
-- **Version:** 7.0.0 (`package.json` — sole release number until v8 release bump)
+- **Version:** 8.0.0 (`package.json` — sole release number)
 - **Build Status:** Passing (`verify:next:safe`); **GitHub Actions** verify + Playwright on push to `MSC-Website-v8` / `main`
 - **Deploy default:** **`npm run pushit:live:fast`** (~10–15 min) for daily code/UI; canonical table in **HOSTINGER-DEPLOY.md**. Say **push it live** → agent asks mode.
-- **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v7.0.0**; **`msc:verify:live`** + **`msc:verify:live:version`** passing
+- **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v7.0.0** on host until next deploy; repo/local **`MyStudioChannel v8.0.0`**
 - **Git:** `MSC-Website-v8` active; **`MSC-Website-v7`** frozen @ `b4ab8ae`; **`main`** @ `b4ab8ae`; `MSC-Website-v6` frozen @ `c9e260e`
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright smoke); **`npm run analyze`** for admin bundle (~816 kB baselined)
 - **Backup:** quick backup **`msc-website-v2-k`** @ `b4ab8ae` (v7 restore point)
@@ -14,6 +14,7 @@
 ## Recent Milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
+| 2026-06-11 | **v8.0.0 release — version bump on `MSC-Website-v8`** | `7d23c45` |
 | 2026-06-11 | **MSC-Website-v8 branch cut — v7 frozen @ `b4ab8ae`** | `b4ab8ae` |
 | 2026-06-11 | **depcheck fix — `@payloadcms/ui` + review.md closeout** | `3d3cef7` |
 | 2026-06-11 | **Playwright CI fix — admin login wait + warmup script** | `112acc5` |
