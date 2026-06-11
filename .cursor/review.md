@@ -1,9 +1,22 @@
 # REVIEW — Audit follow-up & tomorrow’s work queue
 
-**Saved:** 2026-06-07  
-**Branch:** `MSC-Website-v7` (active @ `14ceb53`) · `main` synced · `MSC-Website-v6` frozen @ `c9e260e`  
+**Saved:** 2026-06-11  
+**Branch:** `MSC-Website-v7` (active @ `b126e85`) · `main` synced @ `b126e85` · `MSC-Website-v6` frozen @ `c9e260e`  
 **Audit:** Phases 1–4 complete (committed + pushed)  
 **Project score (analysis):** **86 / 100**
+
+---
+
+## Completed 2026-06-11
+
+- GitHub CI (`verify:next` + Playwright) on push to `MSC-Website-v7` / `main`
+- Admin bundle snapshot (`@next/bundle-analyzer`) — **816 kB** baselined
+- Parameterized `msc-audit-docs.mjs` (dynamic git branch)
+- Playwright smoke tests integrated into `verify:local` + CI
+- Deploy tables consolidated into canonical source (`HOSTINGER-DEPLOY.md`)
+- Removed `motion`, added missing deps (`file-type`, `image-size`, `node-fetch`)
+- Codeburn run (token usage reviewed)
+- `NODE_ENV=development` in `.env.local`
 
 ---
 
@@ -130,4 +143,4 @@ These were identified in Phases 1–4 but intentionally deferred:
 
 ---
 
-*Update this file after tomorrow’s deploy or hygiene pass.*
+*Last updated: 2026-06-11 @ `b126e85`.*
