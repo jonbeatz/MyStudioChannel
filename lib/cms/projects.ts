@@ -1,4 +1,3 @@
-import { unstable_noStore as noStore } from "next/cache"
 import { getPayload } from "payload"
 import config from "@payload-config"
 
@@ -11,7 +10,6 @@ import {
 export type { DemoProject }
 
 export async function getDemoProjects(): Promise<DemoProject[]> {
-  noStore()
   try {
     const payload = await getPayload({ config })
     const doc = await payload.findGlobal({

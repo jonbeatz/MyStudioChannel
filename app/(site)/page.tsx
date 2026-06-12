@@ -1,4 +1,3 @@
-import { unstable_noStore as noStore } from "next/cache"
 import { Header } from "@/components/header"
 import { HeroSection } from "@/components/hero-section"
 import { getHomepageCmsData } from "@/lib/cms/homepage"
@@ -23,8 +22,9 @@ import { PoliciesSection } from "@/components/policies-section"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 
+export const revalidate = 3600
+
 export default async function HomePage() {
-  noStore()
   const {
     heroSlides,
     heroStats,

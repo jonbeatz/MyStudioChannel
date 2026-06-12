@@ -36,6 +36,7 @@ import { MscPayloadNavDashboard as MscPayloadNavDashboard_b08ba28865281da8ef8a82
 import { MscPayloadAdminEnhancements as MscPayloadAdminEnhancements_8697601b331d291bf1ec2168fa7b04d4 } from '@/components/msc-payload-admin-enhancements'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
+/** @type import('payload').ImportMap */
 export const importMap = {
   "@/components/payload/view-page-link-field#ViewPageLinkField": ViewPageLinkField_e5c47aba5e63c4c06d15edbc0f4bd208,
   "@/components/payload/view-page-link-field#ViewPageLinkCell": ViewPageLinkCell_e5c47aba5e63c4c06d15edbc0f4bd208,

@@ -25,9 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Dynamic CMS Project Hydration:** Permanently seeded 3 new test/mock projects directly into the SQLite `projects_home_project_items` database and registered new physical files (`test-project-alpha-alt.jpg`, `beta-studio-alt.jpg`, `gamma-network-alt.jpg`) inside the `media` collection.
 - **Scroll Anchor Migration:** Configured `DemosReimagined` to support the canonical scroll target `#msc-demos` with accurate sticky header offset margins (`scroll-mt-30`).
 - **Hermes Agent Windows 11 Integration:** Installed global `hermes-agent` CLI, performed configuration tuning with a custom named `vertex-proxy` routing model requests directly to Google Cloud Vertex AI via the local active LiteLLM proxy on port `4000`, and created `HERMES.md` in the project root to load the architecture and `TRUTH.md` constitution context into all future agent sessions.
+- **Automated Performance Test-Suite (`test-website.ps1`):** Created a PowerShell test runner that automates multi-stage build, link integrity, and layout performance audits using parallel Hermes Agent execution.
 
 ### Changed
 - **Hiding Legacy Demos:** Safely commented out and preserved the old `DemosSection` swapper layout in `app/(site)/page.tsx` for easy rollback if needed.
+- **Performance Optimization:** Migrated the homepage (`app/(site)/page.tsx`) and CMS projects fetch layer (`lib/cms/projects.ts`) from raw `noStore()` (force-dynamic) SSR to Incremental Static Regeneration (ISR) with a 3600-second revalidation window (`export const revalidate = 3600`), drastically reducing page latency and database load.
+- **Dependency Upgrades:** Upgraded Payload CMS core packages to `3.85.1`, React to `19.2.7`, and Tailwind to `4.3.0`, completely cleaning up and deleting outdated package-level patches (`@payloadcms+drizzle`, `@payloadcms+next`, `@payloadcms+ui`).
 
 ## [7.0.0] - 2026-06-08
 
