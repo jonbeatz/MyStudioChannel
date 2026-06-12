@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Option-Based Carousel Pagination:** Added center-aligned pagination footer (e.g. "1-6 of 8") with sliding page transitions (`AnimatePresence`) that handles item sets greater than 6 and automatically hides when unnecessary.
 - **Dynamic CMS Project Hydration:** Permanently seeded 3 new test/mock projects directly into the SQLite `projects_home_project_items` database and registered new physical files (`test-project-alpha-alt.jpg`, `beta-studio-alt.jpg`, `gamma-network-alt.jpg`) inside the `media` collection.
 - **Scroll Anchor Migration:** Configured `DemosReimagined` to support the canonical scroll target `#msc-demos` with accurate sticky header offset margins (`scroll-mt-30`).
+- **Hermes Agent Windows 11 Integration:** Installed global `hermes-agent` CLI, performed configuration tuning with a custom named `vertex-proxy` routing model requests directly to Google Cloud Vertex AI via the local active LiteLLM proxy on port `4000`, and created `HERMES.md` in the project root to load the architecture and `TRUTH.md` constitution context into all future agent sessions.
 
 ### Changed
 - **Hiding Legacy Demos:** Safely commented out and preserved the old `DemosSection` swapper layout in `app/(site)/page.tsx` for easy rollback if needed.

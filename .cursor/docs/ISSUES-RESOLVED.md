@@ -251,5 +251,31 @@ Each entry follows this structure:
 - **Files Changed:** `TRUTH.md`, `README.md`, `.cursorrules`, `.cursor/docs/START-HERE.md`, `.cursor/docs/Prompt-Cheat-Sheet.md`, `.cursor/docs/Go-Live-Checklist.md`, `.cursor/docs/Development.md`, `.cursor/docs/Run-Next-JS.md`, `.cursor/docs/Headless-WP-Backend-Plan.md`, `.cursor/docs/Site-Plans.md`, `.cursor/docs/Agent-Runbook.md`, `.cursor/docs/MCP-SETUP.md`, `.cursor/docs/GitHub-Cheat-Sheet.md`, `.cursor/rules/jon-operator-hpanel.mdc` (created), `.cursor/rules/jon-operator-cpanel.mdc` (deleted).
 - **Prevention:** Adhere strictly to the `TRUTH.md` identity map and run `msc:verify:local` to verify changes end-to-end.
 
+## [2026-06-11] Sentry ReferenceError: allProjects is not defined
+- **Error:** ReferenceError GET / allProjects is not defined
+- **Cause:** Occurred during a transient hot-reload state while refactoring `components/demos-reimagined.tsx` from temporary hardcoded arrays to the CMS-hydrated `projects` prop.
+- **Solution:** Performed a comprehensive codebase audit to ensure no lingering references to `allProjects` or `fakeProjects` remain. Confirmed that the `projects` prop is passed correctly and verified the section compiled cleanly.
+- **Files Changed:** `components/demos-reimagined.tsx`
+- **Prevention:** Always ensure that temporary variables are fully cleaned up and all references are checked before final verification.
+
+## [2026-06-11] Node.js SQLite Binding Failure (better-sqlite3) & Seeding Issues
+- **Error:** Node.js execution failed with `ERR_DLOPEN_FAILED` or path alias issues when running Payload CMS custom scripts.
+- **Cause:** Native Node.js bindings for `better-sqlite3` were compiled for a different Node.js version than the script runner, and path aliases like `@payload-config` failed to resolve outside the Next.js bundler context.
+- **Solution:** Switched to a custom Python seeding script `scripts/seed-fake-projects.py` that utilizes Python's built-in `sqlite3` module to manipulate `payload.sqlite` directly. This bypassed the native Node binding and path alias hurdles, cleanly inserting 3 new permanent, dynamic test projects with accurate UUID generation and media relationships. The script was deleted after execution.
+- **Files Changed:** `payload.sqlite`, `scripts/seed-fake-projects.py` (created/deleted)
+- **Prevention:** Prefer native, database-level Python utilities for low-level database operations and seeding when Node.js native bindings or path aliases are unstable.
+
+## [2026-06-11] Hermes Agent Windows 11 Installation & Vertex AI Integration
+- **Error:** Hermes Agent CLI was not installed, and configuring it with direct Vertex AI credentials struggled due to the absence of the native `vertex` provider in `v0.16.0`.
+- **Cause:** Hermes `v0.16.0` does not yet expose a native `vertex` provider key in its core registry, making direct service account auth difficult to configure out-of-the-box.
+- **Solution:** 
+  1. Ran the official PowerShell command to install the Hermes Agent globally on Windows 11 and health-checked it with `hermes doctor --fix`.
+  2. Leveraged the project's existing, active local **LiteLLM proxy** running on port `4000`, which already bridges OpenAI-compatible requests directly to Google Cloud Vertex AI using service account JSON credentials.
+  3. Configured Hermes with a custom named provider (`vertex-proxy`) pointing to `http://127.0.0.1:4000/v1` in `C:\Users\JONBEATZ\AppData\Local\hermes\config.yaml` and set the master key in `.env`.
+  4. Successfully verified end-to-end connectivity with a live test prompt.
+  5. Created a permanent, workspace-level `HERMES.md` instruction file in the project root to load the architecture and `TRUTH.md` context into future Hermes sessions.
+- **Files Changed:** `HERMES.md` (created), `C:\Users\JONBEATZ\AppData\Local\hermes\config.yaml`, `C:\Users\JONBEATZ\AppData\Local\hermes\.env` (modified)
+- **Prevention:** Use LiteLLM on port 4000 as a unified local router to bridge custom agents with GCP/Vertex AI credentials effortlessly.
+
 ## Pending / To Be Investigated
 None currently
