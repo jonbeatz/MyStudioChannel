@@ -275,3 +275,16 @@
 - **Branch:** y
 - **Changes:** y
 - **Status:** completed
+
+## [2026-06-11 21:30] - Session Summary
+- **Branch:** MSC-Website-v8
+- **Changes:** 
+  1. Built cinematic dynamic Bento-Grid Explorer (`DemosReimagined`) with spring modal details (`DemosModal`), category badges, and center-aligned pagination.
+  2. Permanently seeded 3 test projects inside the SQLite `payload.sqlite` database using direct Python scripting.
+  3. Installed global `hermes-agent` CLI on Windows 11 and integrated it with existing Google Cloud Vertex AI service account credentials via local LiteLLM proxy.
+  4. Formulated project-specific instruction context files (`HERMES.md` and `Hermes-Agent.md`) and a PowerShell `speak` on-demand voice command handler (`Hermes-Voice-Commands.md`).
+  5. Optimized homepage performance by transitioning from raw SSR (`noStore()`) to Incremental Static Regeneration (ISR) with a `revalidate = 3600` caching window.
+  6. Upgraded Payload CMS engine to version `3.85.1`, React to `19.2.7`, and cleanly removed legacy patches.
+  7. Ran automated performance test runner (`test-website.ps1`) and verified full success.
+- **Status:** Complete
+- **Next:** Launch standard development tasks and continue creating high-end studio-style layouts.
