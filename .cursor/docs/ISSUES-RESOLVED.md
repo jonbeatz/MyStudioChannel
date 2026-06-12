@@ -37,6 +37,20 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-11] Sentry Error: ReferenceError allProjects is not defined in components/demos-reimagined.tsx
+- **Error:** ReferenceError GET / — `allProjects is not defined` inside `components/demos-reimagined.tsx` at line 173.
+- **Cause:** Transient dev server hot-reload error. We added a temporary mock array `fakeProjects` and combined it into `allProjects` to test pagination. When we refactored the component to use the CMS `projects` prop directly, a request was processed during the transition, causing Next.js/React to hit a stale reference to `allProjects` before the clean file was fully written.
+- **Solution:** Fully updated the component to reference the official `projects` prop, removed all hardcoded arrays, successfully completed the SQLite database seeding, and validated with clean production builds.
+- **Files Changed:** `components/demos-reimagined.tsx`
+- **Prevention:** Complete refactoring tasks cleanly, run `npm run verify:next:safe` to ensure no compile-time errors exist, and ignore/resolve the transient hot-reload alert in Sentry.
+
+## [2026-06-11] Permanent Mock/Test Project Seeding to Payload SQLite CMS Global
+- **Error:** Carousel pagination required more than 6 items to test, but adding mock data to component files cluttered the React code and went against the dynamic headless CMS model.
+- **Cause:** Direct seeding via NodeJS CLI runner (`npx payload run`) failed due to TS config alias resolution errors (@/* and @payload-config) outside the Next.js bundler context.
+- **Solution:** Crafted a highly reliable Python SQLite script to inject the media assets and project records directly into `projects_home_project_items` under global ID `1`. Associated the entries with newly registered media entries (`beta-studio-alt.jpg`, `gamma-network-alt.jpg`, `test-project-alpha-alt.jpg`).
+- **Files Changed:** `payload.sqlite`, `public/media/beta-studio-alt.jpg`, `public/media/gamma-network-alt.jpg`, `public/media/test-project-alpha-alt.jpg`, `components/demos-reimagined.tsx`
+- **Prevention:** Use direct Python SQLite scripts for offline, non-server seeding on SQLite databases.
+
 ## [2026-06-08] payload.sqlite git policy — tracked as v7 deploy seed
 - **Error:** Local **`payload.sqlite`** changes left unstaged after sessions; **`main`** lagged **`MSC-Website-v7`**; review queue listed undecided sqlite git policy.
 - **Cause:** Intentional caution about committing DB binaries; v7 live deploy updated CMS without a committed baseline; **`main`** not fast-forwarded after deploy-fix commits.

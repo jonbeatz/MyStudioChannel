@@ -5,8 +5,9 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Menu, X, ChevronDown, ChevronRight } from "lucide-react"
+import { motion } from "motion/react"
 import { Button } from "@/components/ui/button"
-import { cn, handleScroll } from "@/lib/utils"
+import { cn, handleScroll, useReducedMotion } from "@/lib/utils"
 import {
   canonicalFragmentIdFromHref,
   resolveNavHashHref,
@@ -45,6 +46,7 @@ export function Header({
   /** Mobile accordion: which top-level row is expanded (tap to open). */
   const [mobileExpandedLabel, setMobileExpandedLabel] = useState<string | null>(null)
   const closeTimerRef = useRef<number | null>(null)
+  const shouldReduceMotion = useReducedMotion()
 
   useEffect(() => {
     if (process.env.NODE_ENV === "development") {
@@ -96,15 +98,18 @@ export function Header({
   }
 
   return (
-    <header
+    <motion.header
       id="msc-header"
       className={cn(
-        "left-0 right-0 msc-section border-b border-white/10",
+        "left-0 right-0 msc-section",
         /* z-[100] stays above hero carousel controls (z-[60]) and section layers */
         stickyHeader
-          ? "sticky top-0 z-100 bg-black/70 backdrop-blur-md"
-          : "relative z-50 bg-background",
+          ? "sticky top-0 z-100 glass-header"
+          : "relative z-50 bg-background border-b border-white/10",
       )}
+      initial={shouldReduceMotion ? {} : { y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       data-divi-section="header"
       data-divi-modules="global-header"
     >
@@ -113,7 +118,7 @@ export function Header({
           {/* Logo - Always show full branding */}
           <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
             <div className="relative h-8 w-8 sm:h-10 sm:w-10 shrink-0">
-              <Image src={logoSrc || "/media/msc-icon.png"} alt={`${siteName} logo`} fill className="object-contain group-hover:drop-shadow-lg transition-all duration-300" />
+              <Image src={logoSrc || "/media/msc-icon.png"} alt={`${siteName} logo`} fill priority sizes="40px" className="object-contain group-hover:drop-shadow-lg transition-all duration-300" />
             </div>
             <div>
               <span className="text-sm sm:text-base font-semibold tracking-tight text-foreground block">
@@ -318,6 +323,6 @@ export function Header({
           </nav>
         </div>
       )}
-    </header>
+    </motion.header>
   )
 }

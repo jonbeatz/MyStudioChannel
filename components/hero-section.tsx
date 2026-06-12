@@ -3,8 +3,9 @@
 import { useState, useCallback, useMemo, useEffect } from "react"
 import Image from "next/image"
 import { ArrowRight, Play, ChevronLeft, ChevronRight } from "lucide-react"
+import { motion, AnimatePresence } from "motion/react"
 import { Button } from "@/components/ui/button"
-import { cn, onHashAnchorClick } from "@/lib/utils"
+import { cn, onHashAnchorClick, useReducedMotion } from "@/lib/utils"
 import type { HeroSlideContent, HeroStatContent } from "@/lib/cms/content-types"
 
 /** Primary CTA opens the contact modal when the slide targets `#msc-contact` (or default empty). */
@@ -73,6 +74,7 @@ export function HeroSection({
   cmsStats,
   stickyHeaderEnabled = true,
 }: HeroSectionProps) {
+  const shouldReduceMotion = useReducedMotion()
   const slides = useMemo(() => {
     if (!cmsSlides || cmsSlides.length === 0) return defaultSlides
     const active = cmsSlides.filter((s) => s.isActive)
@@ -131,25 +133,40 @@ export function HeroSection({
       data-divi-module="fullwidth-header"
     >
       {/* Slides - never capture clicks (opacity-0 layers still hit-test by default) */}
-      {slides.map((s, i) => (
-        <div
-          key={i}
-          className={cn(
-            "absolute inset-0 z-0 pointer-events-none transition-opacity duration-700",
-            i === current ? "opacity-100" : "opacity-0"
-          )}
-          aria-hidden={i !== current}
-        >
-          <Image
-            src={s.image}
-            alt={s.alt}
-            fill
-            className="object-cover pointer-events-none select-none"
-            priority={i === 0}
-            draggable={false}
-          />
-        </div>
-      ))}
+      <AnimatePresence mode="wait">
+        {!shouldReduceMotion ? (
+          <motion.div
+            key={current}
+            initial={{ opacity: 0, scale: 1.02 }}
+            animate={{ opacity: 1, scale: 1.05 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="absolute inset-0 z-0 pointer-events-none"
+          >
+            <Image
+              src={slide.image}
+              alt={slide.alt}
+              fill
+              className="object-cover pointer-events-none select-none"
+              priority={current === 0}
+              draggable={false}
+              sizes="100vw"
+            />
+          </motion.div>
+        ) : (
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            <Image
+              src={slide.image}
+              alt={slide.alt}
+              fill
+              className="object-cover pointer-events-none select-none"
+              priority={current === 0}
+              draggable={false}
+              sizes="100vw"
+            />
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Overlays */}
       <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/75 via-black/80 to-black pointer-events-none" />
@@ -179,10 +196,31 @@ export function HeroSection({
             </span>
           </div>
 
-          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.07]">
-            <span className="block">{slide.headline[0]}</span>
-            <span className="block mt-1">{slide.headline[1]}</span>
-            <span className="block mt-1" style={{ color: "#F5B841" }}>{slide.headline[2]}</span>
+          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.07] overflow-hidden">
+            <span className={cn(
+              "block transition-all duration-700 ease-out delay-75",
+              isTransitioning ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"
+            )}>
+              {slide.headline[0]}
+            </span>
+            <span className={cn(
+              "block mt-1 transition-all duration-700 ease-out delay-150",
+              isTransitioning ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"
+            )}>
+              {slide.headline[1]}
+            </span>
+            <span 
+              className={cn(
+                "block mt-1 transition-all duration-700 ease-out delay-300",
+                isTransitioning ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"
+              )}
+              style={{ 
+                color: "#F5B841",
+                textShadow: "0 0 40px rgba(245, 184, 65, 0.45)" 
+              }}
+            >
+              {slide.headline[2]}
+            </span>
           </h1>
 
           <p className="mt-6 max-w-2xl mx-auto text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -243,7 +281,7 @@ export function HeroSection({
               onClick={() => goTo(i)}
               aria-label={`Go to slide ${i + 1}`}
               className={cn(
-                "rounded-full transition-all duration-500",
+                "rounded-full transition-all duration-500 hover:scale-125 cursor-pointer",
                 i === current
                   ? "w-8 h-2 bg-accent"
                   : "w-2 h-2 bg-white/30 hover:bg-white/60"

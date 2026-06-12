@@ -1,0 +1,9 @@
+feat(demos): implement cinematic bento-grid explorer and seed CMS projects
+
+- Created `DemosReimagined` and `DemosModal` for high-end portfolio grid
+- Integrated staggered load reveals, spring-loaded glass overlays, and cursor gestures
+- Implemented sliding carousel pagination for project lists exceeding 6 items
+- Commented out and preserved legacy swapper `DemosSection` for safety
+- Registered media files on disk and permanently seeded 3 new test projects into Payload CMS globals
+- Updated project log, changelog, issues resolved, and active restore points to v8.0.0
+- Validated clean Next.js build gates and automated Playwright smoke tests (100% green)

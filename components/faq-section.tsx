@@ -1,5 +1,7 @@
 "use client"
 
+import { motion } from "motion/react"
+import { useReducedMotion } from "@/lib/utils"
 import {
   Accordion,
   AccordionContent,
@@ -35,6 +37,8 @@ const faqs = [
 ]
 
 export function FAQSection() {
+  const shouldReduceMotion = useReducedMotion()
+
   return (
     <section 
       className="py-24 lg:py-32 relative bg-surface-0 msc-section msc-surface-0"
@@ -59,7 +63,13 @@ export function FAQSection() {
         </div>
 
         {/* FAQ Accordion */}
-        <div className="bento-card glass-card rounded-3xl border border-border/50 p-6 lg:p-8">
+        <motion.div
+          initial={shouldReduceMotion ? {} : { opacity: 0, y: 15 }}
+          whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="bento-card glass-card rounded-3xl border border-border/50 p-6 lg:p-8"
+        >
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
               <AccordionItem 
@@ -76,7 +86,7 @@ export function FAQSection() {
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

@@ -2,9 +2,10 @@
 
 import { useState } from "react"
 import NextImage from "next/image"
+import { motion } from "motion/react"
 import type { LucideIcon } from "lucide-react"
 import { Image, Film, Video, Globe, Server, CheckCircle2, ArrowRight, Sparkles } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn, useReducedMotion } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
 type RequirementCard = {
@@ -69,6 +70,7 @@ const requirements: RequirementCard[] = [
 
 export function RequirementsSection() {
   const [activeItem, setActiveItem] = useState<number | null>(null)
+  const shouldReduceMotion = useReducedMotion()
 
   return (
     <section 
@@ -99,8 +101,12 @@ export function RequirementsSection() {
         {/* Requirements Grid */}
         <div className="grid lg:grid-cols-2 gap-6 mb-12">
           {requirements.map((item) => (
-            <div
+            <motion.div
               key={item.id}
+              initial={shouldReduceMotion ? {} : { opacity: 0, y: 15 }}
+              whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: item.id * 0.1 }}
               className={cn(
                 "group relative glass-card rounded-2xl border transition-all duration-500 cursor-pointer",
                 activeItem === item.id
@@ -194,7 +200,7 @@ export function RequirementsSection() {
                   </div>
                 </div>
               )}
-            </div>
+            </motion.div>
           ))}
         </div>
 

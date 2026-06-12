@@ -21,9 +21,9 @@ Human-named checkpoints so you can roll back mentally or on disk if a change goe
 
 | ID | Date | Summary |
 |----|------|---------|
+| **RP-2026-06-11-demos-reimagined** | 2026-06-11 | **Cinematic Bento-Grid Demos & CMS Seeding:** Built `DemosReimagined` (grid, motion reveals, pagination, `#msc-demos` anchor) and `DemosModal` (spring overlay). Permanently seeded 3 test projects and registered media assets in SQLite `payload.sqlite`. Hid legacy `DemosSection` in `page.tsx`. Local production build and automated Playwright smoke tests pass 100%. |
 | **RP-2026-06-11-v8-start** | 2026-06-11 | **`MSC-Website-v8` branch cut + v8.0.0:** Active dev from frozen **`MSC-Website-v7`** @ **`b4ab8ae`** (hygiene complete, CI green, backup **`msc-website-v2-k`**). Version **8.0.0** in **`package.json`**. **Restore v7:** `git fetch origin && git checkout MSC-Website-v7 && git reset --hard b4ab8ae`. **Restore v8:** `git fetch --tags origin && git checkout MSC-Website-v8 && git pull`. |
 | **RP-2026-06-11-ci-playwright** | 2026-06-11 | **Playwright CI fix @ `112acc5`:** Wait for Payload admin login form fields; longer Playwright timeouts; **`scripts/wait-for-dev-admin.mjs`** warmup before smoke tests. All smoke tests pass on GitHub Actions. **Restore:** `git fetch origin && git checkout MSC-Website-v7 && git reset --hard 112acc5`. |
-| **RP-2026-06-11-hygiene** | 2026-06-11 | **CI + Playwright + deploy docs + bundle analyzer + docs:sync + deps + final hygiene:** GitHub Actions **`verify.yml`**; **`verify:local`** + smoke tests; canonical deploy table; **`@next/bundle-analyzer`** (admin **816 kB** baselined); **`@payloadcms/ui`**; TRUTH build notes; ISSUES-RESOLVED v6 historical fix. **`MSC-Website-v7`** frozen @ **`b4ab8ae`**. **Restore:** `git fetch origin && git checkout MSC-Website-v7 && git reset --hard b4ab8ae`. |
 
 > **Archive:** Older checkpoints moved to [_archive/Restore-Points-historical.md](_archive/Restore-Points-historical.md) (Phase 4 trim — keeps 3 most recent).
 

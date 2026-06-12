@@ -11,7 +11,8 @@ import { ServicesSection } from "@/components/services-section"
 import { OwnPlatformSection } from "@/components/own-platform-section"
 import { PackagesSection } from "@/components/packages-section"
 import { RequirementsSection } from "@/components/requirements-section"
-import { DemosSection } from "@/components/demos-section"
+// import { DemosSection } from "@/components/demos-section"
+import { DemosReimagined } from "@/components/demos-reimagined"
 import { TestimonialsSection } from "@/components/testimonials-section"
 import { BuiltForCreatorsSection } from "@/components/built-for-creators-section"
 import { WhatYouGetSection } from "@/components/what-you-get-section"
@@ -63,7 +64,10 @@ export default async function HomePage() {
         <OwnPlatformSection />
         <PackagesSection />
         <RequirementsSection />
-        <DemosSection demos={demoProjects} />
+        {/* Original Demos section - hidden but preserved */}
+        {/* <DemosSection demos={demoProjects} /> */}
+        {/* New Cinematic Bento Grid Explorer */}
+        <DemosReimagined projects={demoProjects} />
         <TestimonialsSection />
         <BuiltForCreatorsSection />
         <WhatYouGetSection />

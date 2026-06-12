@@ -1,7 +1,9 @@
 "use client"
 
 import { Check, Sparkles, ArrowRight } from "lucide-react"
+import { motion } from "motion/react"
 import { Button } from "@/components/ui/button"
+import { useReducedMotion } from "@/lib/utils"
 
 const packages: Array<{
   name: string
@@ -65,6 +67,7 @@ const packages: Array<{
 ]
 
 export function PackagesSection() {
+  const shouldReduceMotion = useReducedMotion()
 
   return (
     <section 
@@ -91,14 +94,19 @@ export function PackagesSection() {
         </div>
 
         {/* Packages Grid */}
-        <div className="grid lg:grid-cols-3 gap-4 lg:gap-6">
-          {packages.map((pkg) => (
-            <div
+        <div className="grid lg:grid-cols-3 gap-4 lg:gap-6 items-stretch">
+          {packages.map((pkg, idx) => (
+            <motion.div
               key={pkg.name}
-              className={`bento-card relative rounded-3xl border p-6 lg:p-8 flex flex-col ${
+              initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
+              whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              whileHover={shouldReduceMotion ? {} : { y: -8 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: idx * 0.15 }}
+              className={`bento-card relative rounded-3xl border p-6 lg:p-8 flex flex-col transition-all duration-300 ${
                 pkg.featured
-                  ? "glass-card border-accent/30 lg:scale-105 z-10"
-                  : "bg-card/30 border-border/50"
+                  ? "glass-card border-accent/30 lg:scale-105 z-10 hover:border-accent/65 hover:glow-accent-sm"
+                  : "bg-card/30 border-border/50 hover:border-accent/30 hover:glow-accent-xs"
               }`}
             >
               {pkg.featured && (
@@ -168,7 +176,7 @@ export function PackagesSection() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import type { MouseEvent } from "react"
+import { type MouseEvent, useState, useEffect } from "react"
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -111,3 +111,25 @@ export function onHashAnchorClick(
   e.preventDefault()
   handleScroll(t)
 }
+
+/**
+ * SSR-safe hook to check if the user has requested reduced motion.
+ */
+export function useReducedMotion(): boolean {
+  const [reduced, setReduced] = useState(false)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    setReduced(mediaQuery.matches)
+
+    const onChange = (event: MediaQueryListEvent) => {
+      setReduced(event.matches)
+    }
+
+    mediaQuery.addEventListener("change", onChange)
+    return () => mediaQuery.removeEventListener("change", onChange)
+  }, [])
+
+  return reduced
+}
+

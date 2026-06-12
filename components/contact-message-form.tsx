@@ -182,7 +182,7 @@ export function ContactMessageForm({
               value={contactFirstName}
               onChange={(e) => setContactFirstName(e.target.value)}
               placeholder="John"
-              className="bg-secondary/30 border-border/50 text-foreground placeholder:text-muted-foreground/50 h-10 sm:h-12 rounded-xl"
+              className="bg-secondary/30 border-border/50 text-foreground placeholder:text-muted-foreground/50 h-10 sm:h-12 rounded-xl focus:bg-black/60 focus:border-accent/40 focus:ring-1 focus:ring-accent/30 focus-visible:ring-offset-0 focus-visible:ring-accent/30 transition-all duration-300"
             />
           </div>
           <div>
@@ -199,7 +199,7 @@ export function ContactMessageForm({
               value={contactLastName}
               onChange={(e) => setContactLastName(e.target.value)}
               placeholder="Doe"
-              className="bg-secondary/30 border-border/50 text-foreground placeholder:text-muted-foreground/50 h-10 sm:h-12 rounded-xl"
+              className="bg-secondary/30 border-border/50 text-foreground placeholder:text-muted-foreground/50 h-10 sm:h-12 rounded-xl focus:bg-black/60 focus:border-accent/40 focus:ring-1 focus:ring-accent/30 focus-visible:ring-offset-0 focus-visible:ring-accent/30 transition-all duration-300"
             />
           </div>
         </div>
@@ -219,7 +219,7 @@ export function ContactMessageForm({
             value={contactEmail}
             onChange={(e) => setContactEmail(e.target.value)}
             placeholder="john@example.com"
-            className="bg-secondary/30 border-border/50 text-foreground placeholder:text-muted-foreground/50 h-10 sm:h-12 rounded-xl"
+            className="bg-secondary/30 border-border/50 text-foreground placeholder:text-muted-foreground/50 h-10 sm:h-12 rounded-xl focus:bg-black/60 focus:border-accent/40 focus:ring-1 focus:ring-accent/30 focus-visible:ring-offset-0 focus-visible:ring-accent/30 transition-all duration-300"
           />
         </div>
         <div>
@@ -235,7 +235,7 @@ export function ContactMessageForm({
             value={contactSubject}
             onChange={(e) => setContactSubject(e.target.value)}
             placeholder="What's this about?"
-            className="bg-secondary/30 border-border/50 text-foreground placeholder:text-muted-foreground/50 h-10 sm:h-12 rounded-xl"
+            className="bg-secondary/30 border-border/50 text-foreground placeholder:text-muted-foreground/50 h-10 sm:h-12 rounded-xl focus:bg-black/60 focus:border-accent/40 focus:ring-1 focus:ring-accent/30 focus-visible:ring-offset-0 focus-visible:ring-accent/30 transition-all duration-300"
           />
         </div>
         <div>
@@ -253,13 +253,13 @@ export function ContactMessageForm({
             onChange={(e) => setContactMessage(e.target.value)}
             placeholder="Tell us about your project..."
             rows={4}
-            className="bg-secondary/30 border-border/50 text-foreground placeholder:text-muted-foreground/50 resize-none rounded-xl"
+            className="bg-secondary/30 border-border/50 text-foreground placeholder:text-muted-foreground/50 resize-none rounded-xl focus:bg-black/60 focus:border-accent/40 focus:ring-1 focus:ring-accent/30 focus-visible:ring-offset-0 focus-visible:ring-accent/30 transition-all duration-300"
           />
         </div>
         <Button
           type="submit"
           disabled={isContactSubmitting}
-          className="w-full bg-secondary/50 text-foreground hover:bg-secondary/80 border border-border/50 h-12 sm:h-14 text-sm sm:text-base font-semibold disabled:opacity-60"
+          className="w-full bg-accent text-accent-foreground hover:bg-accent/90 border border-accent/20 h-12 sm:h-14 text-sm sm:text-base font-semibold disabled:opacity-60 hover:scale-[1.01] hover:glow-accent active:scale-[0.99] transition-all duration-300"
         >
           {isContactSubmitting ? "Sending…" : "Send Message"}
           <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />

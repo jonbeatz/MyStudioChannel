@@ -4,8 +4,48 @@ import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import { ArrowUpRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 import type { DemoProject } from "@/lib/cms/projects"
 import { cn, onHashAnchorClick } from "@/lib/utils"
+
+/** Robust, SSR-safe image component with shimmer skeleton overlay. */
+function ImageWithSkeleton({
+  src,
+  alt,
+  fill,
+  priority,
+  sizes,
+  className,
+}: {
+  src: string
+  alt: string
+  fill?: boolean
+  priority?: boolean
+  sizes?: string
+  className?: string
+}) {
+  const [loaded, setLoaded] = useState(false)
+  return (
+    <div className="relative w-full h-full bg-neutral-900 overflow-hidden">
+      {!loaded && (
+        <Skeleton className="absolute inset-0 z-10 w-full h-full bg-white/5 animate-pulse" />
+      )}
+      <Image
+        src={src}
+        alt={alt}
+        fill={fill}
+        priority={priority}
+        sizes={sizes}
+        className={cn(
+          className,
+          "transition-all duration-500 ease-out",
+          loaded ? "opacity-100 scale-100" : "opacity-0 scale-95"
+        )}
+        onLoad={() => setLoaded(true)}
+      />
+    </div>
+  )
+}
 
 /** Same-tab for hashes and internal paths; new tab only for off-site URLs. */
 function demoLinkProps(url: string): { target?: string; rel?: string } {
@@ -90,12 +130,11 @@ export function DemosSection({ demos }: DemosSectionProps) {
             >
               {/* Image Background */}
               <div className="absolute inset-0 pointer-events-none">
-                <Image
+                <ImageWithSkeleton
                   src={demo.image}
                   alt={demo.title}
                   fill
                   className="object-cover select-none"
-                  draggable={false}
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-black/20" />
               </div>
@@ -142,13 +181,12 @@ export function DemosSection({ demos }: DemosSectionProps) {
           <div className="lg:col-span-7 bento-card group rounded-3xl border border-border/50 overflow-hidden relative">
             <div className="aspect-video lg:aspect-auto lg:absolute lg:inset-0 relative">
               <div className="absolute inset-0 pointer-events-none">
-                <Image
+                <ImageWithSkeleton
                   src={featuredDemo.image}
                   alt={featuredDemo.title}
                   fill
                   className="object-cover select-none"
                   priority
-                  draggable={false}
                 />
               </div>
 
@@ -222,14 +260,13 @@ export function DemosSection({ demos }: DemosSectionProps) {
                 <div className="flex h-full">
                   {/* Thumbnail */}
                   <div className="w-1/3 relative min-h-[100px] pointer-events-none">
-                    <Image
+                    <ImageWithSkeleton
                       src={demo.image}
                       alt={demo.title}
                       fill
                       className="object-cover select-none"
-                      draggable={false}
                     />
-                    <div className="absolute inset-0 bg-linear-to-r from-transparent to-card/80" />
+                    <div className="absolute inset-0 bg-linear-to-r from-transparent to-card/80 z-20" />
                   </div>
 
                   {/* Text */}

@@ -3,6 +3,9 @@
 import { useState, useEffect, useCallback, useMemo } from "react"
 import Image from "next/image"
 import { Check, X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react"
+import { motion, AnimatePresence } from "motion/react"
+import { Skeleton } from "@/components/ui/skeleton"
+import { cn, useReducedMotion } from "@/lib/utils"
 import type { ServicesGalleryItem, ServicesGallerySlot } from "@/lib/cms/content-types"
 import {
   HOMEPAGE_PROGRAMMING_STYLES_SEED,
@@ -12,6 +15,45 @@ import {
 /** Root-relative URL for files in `public/media` (handles spaces in filenames). */
 function mediaPublicSrc(filename: string): string {
   return `/media/${encodeURIComponent(filename)}`
+}
+
+/** Robust, SSR-safe image component with shimmer skeleton overlay. */
+function ImageWithSkeleton({
+  src,
+  alt,
+  fill,
+  priority,
+  sizes,
+  className,
+}: {
+  src: string
+  alt: string
+  fill?: boolean
+  priority?: boolean
+  sizes?: string
+  className?: string
+}) {
+  const [loaded, setLoaded] = useState(false)
+  return (
+    <div className="relative w-full h-full bg-neutral-900 overflow-hidden">
+      {!loaded && (
+        <Skeleton className="absolute inset-0 z-10 w-full h-full bg-white/5 animate-pulse" />
+      )}
+      <Image
+        src={src}
+        alt={alt}
+        fill={fill}
+        priority={priority}
+        sizes={sizes}
+        className={cn(
+          className,
+          "transition-all duration-500 ease-out",
+          loaded ? "opacity-100 scale-100" : "opacity-0 scale-95"
+        )}
+        onLoad={() => setLoaded(true)}
+      />
+    </div>
+  )
 }
 
 const PROGRAMMING_STYLE_COUNT = 7
@@ -105,6 +147,7 @@ export function ServicesSection({
   cmsGallery,
   servicesGalleryPublicOrigin,
 }: ServicesSectionProps) {
+  const shouldReduceMotion = useReducedMotion()
   const programmingTiles = useMemo(
     () => mergeProgrammingStyles(cmsProgrammingStyles),
     [cmsProgrammingStyles],
@@ -186,7 +229,7 @@ export function ServicesSection({
                   className="flex w-[min(82vw,18rem)] shrink-0 snap-center flex-col overflow-hidden rounded-2xl border border-border/50 bg-card/30 md:w-auto"
                 >
                   <div className="relative aspect-[4/3] w-full">
-                    <Image
+                    <ImageWithSkeleton
                       src={tile.src}
                       alt={tile.alt}
                       fill
@@ -217,13 +260,13 @@ export function ServicesSection({
                   onClick={() => openLightbox(0)}
                   className="col-span-2 rounded-xl overflow-hidden relative border border-border/30 group/thumb cursor-zoom-in"
                 >
-                  <Image
+                  <ImageWithSkeleton
                     src={bento[0]!.src}
                     alt={bento[0]!.alt}
                     fill
                     className="object-cover object-top transition-transform duration-300 group-hover/thumb:scale-105"
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover/thumb:bg-black/30 transition-colors duration-300 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/0 group-hover/thumb:bg-black/30 transition-colors duration-300 flex items-center justify-center z-20">
                     <ZoomIn className="h-6 w-6 text-white opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300" />
                   </div>
                 </button>
@@ -237,13 +280,13 @@ export function ServicesSection({
                         onClick={() => openLightbox(i)}
                         className="flex-1 rounded-lg overflow-hidden relative border border-border/30 group/thumb cursor-zoom-in"
                       >
-                        <Image
+                        <ImageWithSkeleton
                           src={tile.src}
                           alt={tile.alt}
                           fill
                           className="object-cover object-top transition-transform duration-300 group-hover/thumb:scale-105"
                         />
-                        <div className="absolute inset-0 bg-black/0 group-hover/thumb:bg-black/30 transition-colors duration-300 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-black/0 group-hover/thumb:bg-black/30 transition-colors duration-300 flex items-center justify-center z-20">
                           <ZoomIn className="h-5 w-5 text-white opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300" />
                         </div>
                       </button>
@@ -262,13 +305,13 @@ export function ServicesSection({
                       onClick={() => openLightbox(i)}
                       className="h-[60px] sm:h-[90px] rounded-lg overflow-hidden relative border border-border/30 group/thumb cursor-zoom-in"
                     >
-                      <Image
+                      <ImageWithSkeleton
                         src={tile.src}
                         alt={tile.alt}
                         fill
                         className="object-cover object-top transition-transform duration-300 group-hover/thumb:scale-105"
                       />
-                      <div className="absolute inset-0 bg-black/0 group-hover/thumb:bg-black/30 transition-colors duration-300 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-black/0 group-hover/thumb:bg-black/30 transition-colors duration-300 flex items-center justify-center z-20">
                         <ZoomIn className="h-4 w-4 text-white opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300" />
                       </div>
                     </button>
@@ -304,74 +347,84 @@ export function ServicesSection({
       </div>
 
       {/* Lightbox */}
-      {lightboxIndex !== null && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
-          onClick={closeLightbox}
-        >
-          {/* Close */}
-          <button
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-100 flex items-center justify-center glass-modal"
             onClick={closeLightbox}
-            className="absolute top-4 right-4 h-10 w-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
-            aria-label="Close"
           >
-            <X className="h-5 w-5" />
-          </button>
+            {/* Close */}
+            <button
+              onClick={closeLightbox}
+              className="absolute top-4 right-4 h-10 w-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10 cursor-pointer"
+              aria-label="Close"
+            >
+              <X className="h-5 w-5" />
+            </button>
 
-          {/* Prev */}
-          <button
-            onClick={(e) => { e.stopPropagation(); prev() }}
-            className="absolute left-4 h-10 w-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
-            aria-label="Previous image"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
+            {/* Prev */}
+            <button
+              onClick={(e) => { e.stopPropagation(); prev() }}
+              className="absolute left-4 h-10 w-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10 cursor-pointer"
+              aria-label="Previous image"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
 
-          {/* Image */}
-          <div
-            className="relative w-full max-w-5xl max-h-[85vh] mx-16"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="relative w-full" style={{ paddingBottom: "62.5%" }}>
-              <Image
-                src={galleryImages[lightboxIndex].src}
-                alt={galleryImages[lightboxIndex].alt}
-                fill
-                className="object-contain rounded-xl"
-                priority
-              />
+            {/* Image */}
+            <motion.div
+              initial={shouldReduceMotion ? {} : { scale: 0.95, opacity: 0, y: 10 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={shouldReduceMotion ? {} : { scale: 0.95, opacity: 0, y: 10 }}
+              transition={{ type: "spring", damping: 25, stiffness: 350 }}
+              className="relative w-full max-w-5xl max-h-[85vh] mx-16"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative w-full" style={{ paddingBottom: "62.5%" }}>
+                <Image
+                  src={galleryImages[lightboxIndex].src}
+                  alt={galleryImages[lightboxIndex].alt}
+                  fill
+                  className="object-contain rounded-xl"
+                  priority
+                />
+              </div>
+              {/* Caption */}
+              <div className="mt-3 text-center">
+                <p className="text-sm text-white/70 font-medium">{galleryImages[lightboxIndex].label}</p>
+                <p className="text-xs text-white/40 mt-1">{lightboxIndex + 1} / {galleryImages.length}</p>
+              </div>
+            </motion.div>
+
+            {/* Next */}
+            <button
+              onClick={(e) => { e.stopPropagation(); next() }}
+              className="absolute right-4 h-10 w-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10 cursor-pointer"
+              aria-label="Next image"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+
+            {/* Dot indicators */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+              {galleryImages.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={(e) => { e.stopPropagation(); setLightboxIndex(i) }}
+                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                    i === lightboxIndex ? "w-6 bg-accent" : "w-1.5 bg-white/30 hover:bg-white/50"
+                  }`}
+                  aria-label={`View image ${i + 1}`}
+                />
+              ))}
             </div>
-            {/* Caption */}
-            <div className="mt-3 text-center">
-              <p className="text-sm text-white/70">{galleryImages[lightboxIndex].label}</p>
-              <p className="text-xs text-white/40 mt-1">{lightboxIndex + 1} / {galleryImages.length}</p>
-            </div>
-          </div>
-
-          {/* Next */}
-          <button
-            onClick={(e) => { e.stopPropagation(); next() }}
-            className="absolute right-4 h-10 w-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
-            aria-label="Next image"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
-
-          {/* Dot indicators */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
-            {galleryImages.map((_, i) => (
-              <button
-                key={i}
-                onClick={(e) => { e.stopPropagation(); setLightboxIndex(i) }}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === lightboxIndex ? "w-6 bg-accent" : "w-1.5 bg-white/30 hover:bg-white/50"
-                }`}
-                aria-label={`View image ${i + 1}`}
-              />
-            ))}
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

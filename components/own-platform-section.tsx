@@ -1,7 +1,9 @@
 "use client"
 
 import Image from "next/image"
+import { motion } from "motion/react"
 import { Shield, Users, Rocket, MessageSquare, BookOpen, Layers, Video, Mic, Layout, Lock, FolderKanban, GraduationCap } from "lucide-react"
+import { useReducedMotion } from "@/lib/utils"
 
 const features = [
   {
@@ -42,6 +44,8 @@ const ecosystemItems = [
 ]
 
 export function OwnPlatformSection() {
+  const shouldReduceMotion = useReducedMotion()
+
   return (
     <section 
       className="py-32 relative overflow-hidden bg-surface-2 msc-section msc-surface-2"
@@ -95,23 +99,33 @@ export function OwnPlatformSection() {
         {/* Main Features Grid */}
         <div className="grid md:grid-cols-3 gap-6 mb-16">
           {features.map((feature, index) => (
-            <div
+            <motion.div
               key={index}
-              className="group glass-card rounded-2xl p-8 border border-border/50 hover:border-accent/30 transition-all duration-500 hover:glow-accent-sm"
+              initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
+              whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: index * 0.15 }}
+              className="group glass-card rounded-2xl p-8 hover:border-accent/30 hover:glow-accent-sm cursor-default"
             >
               <div className="h-14 w-14 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors">
                 <feature.icon className="h-7 w-7 text-accent" />
               </div>
               <h3 className="text-xl font-semibold text-foreground mb-3">{feature.title}</h3>
               <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Bento Grid Layout */}
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Support Card */}
-          <div className="glass-card rounded-2xl p-8 border border-border/50 hover:border-accent/30 transition-all duration-500">
+          <motion.div
+            initial={shouldReduceMotion ? {} : { opacity: 0, y: 15 }}
+            whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="glass-card rounded-2xl p-8 hover:border-accent/30"
+          >
             <div className="flex items-center gap-3 mb-6">
               <div className="h-10 w-10 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center">
                 <MessageSquare className="h-5 w-5 text-accent" />
@@ -128,10 +142,16 @@ export function OwnPlatformSection() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Tutorials Card */}
-          <div className="glass-card rounded-2xl p-8 border border-border/50 hover:border-accent/30 transition-all duration-500">
+          <motion.div
+            initial={shouldReduceMotion ? {} : { opacity: 0, y: 15 }}
+            whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="glass-card rounded-2xl p-8 hover:border-accent/30"
+          >
             <div className="flex items-center gap-3 mb-6">
               <div className="h-10 w-10 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center">
                 <BookOpen className="h-5 w-5 text-accent" />
@@ -148,10 +168,16 @@ export function OwnPlatformSection() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Ecosystem Card */}
-          <div className="glass-card rounded-2xl p-8 border border-border/50 hover:border-accent/30 transition-all duration-500">
+          <motion.div
+            initial={shouldReduceMotion ? {} : { opacity: 0, y: 15 }}
+            whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+            className="glass-card rounded-2xl p-8 hover:border-accent/30"
+          >
             <div className="flex items-center gap-3 mb-6">
               <div className="h-10 w-10 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center">
                 <Layers className="h-5 w-5 text-accent" />
@@ -169,7 +195,7 @@ export function OwnPlatformSection() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Community Banner */}

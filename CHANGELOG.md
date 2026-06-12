@@ -18,7 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-_Nothing yet — develop on **`MSC-Website-v8`**._
+### Added
+- **Cinematic Bento-Grid Explorer (`DemosReimagined`)** — Modern, high-end, responsive `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` layout for showcasing creator platforms. Includes staggered load-in animations via `motion/react`, responsive image aspect-video framing, and top-left category pill badges.
+- **Spring-Loaded Glass Modal (`DemosModal`)** — Premium overlay modal featuring backdrop blurring (`backdrop-blur-lg`), spring mechanics (`type: "spring", damping: 30, stiffness: 250`), keyboard escape-key closes, backdrop click dismissal, and touch device friendly fallbacks.
+- **Option-Based Carousel Pagination:** Added center-aligned pagination footer (e.g. "1-6 of 8") with sliding page transitions (`AnimatePresence`) that handles item sets greater than 6 and automatically hides when unnecessary.
+- **Dynamic CMS Project Hydration:** Permanently seeded 3 new test/mock projects directly into the SQLite `projects_home_project_items` database and registered new physical files (`test-project-alpha-alt.jpg`, `beta-studio-alt.jpg`, `gamma-network-alt.jpg`) inside the `media` collection.
+- **Scroll Anchor Migration:** Configured `DemosReimagined` to support the canonical scroll target `#msc-demos` with accurate sticky header offset margins (`scroll-mt-30`).
+
+### Changed
+- **Hiding Legacy Demos:** Safely commented out and preserved the old `DemosSection` swapper layout in `app/(site)/page.tsx` for easy rollback if needed.
 
 ## [7.0.0] - 2026-06-08
 
