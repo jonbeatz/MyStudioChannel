@@ -32,3 +32,6 @@ model_list:
 
 general_settings:
   master_key: sk-vader-protocol-1234
+  # Database-less proxy (Vertex routing only). LiteLLM Prisma requires postgresql:// if you enable DB features.
+  disable_spend_logs: true
+  disable_error_logs: true

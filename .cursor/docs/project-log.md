@@ -1,3 +1,16 @@
+## [2026-06-13] - LiteLLM database-less proxy fix (Start Project Prisma errors)
+- **Branch:** `MSC-Website-v9`
+- **Changes:**
+  *   **Root cause:** LiteLLM inherited Payload `DATABASE_URL=file:./payload.sqlite` from `.env.local`; Prisma expects `postgresql://` or no DB.
+  *   **`config/litellm_config.yaml`:** `disable_spend_logs` + `disable_error_logs` for database-less Vertex proxy.
+  *   **`scripts/lib/msc-litellm-env.mjs`:** Strip Payload DB URL from LiteLLM child env; set `DISABLE_SCHEMA_UPDATE=true` when no `MSC_LITELLM_DATABASE_URL`; sync `LITELLM_MASTER_KEY`.
+  *   **`scripts/start-hermes-api.ps1`:** `Configure-LiteLLMLocalEnv`; WT launcher uses `node scripts/msc-litellm-start.mjs` (not raw `litellm` + leaky `DATABASE_URL`).
+  *   **`scripts/msc-litellm-preflight.mjs`:** Validate `MSC_LITELLM_DATABASE_URL` must be `postgresql://` if set.
+  *   **`.env.local`:** `LITELLM_MASTER_KEY`, `DISABLE_SCHEMA_UPDATE=true` (gitignored); Payload `DATABASE_URL` unchanged.
+  *   **`.env.example`:** Documented LiteLLM database-less defaults.
+- **Status:** completed — `msc:litellm:verify` PASS; no Prisma/DATABASE_URL startup noise.
+- **Next:** Optional commit; deploy v9 live when ready (`pushit:live:fast`).
+
 ## [2026-06-13] - Update Docs workflow split (Path A / Path B)
 - **Branch:** `MSC-Website-v9`
 - **Changes:**

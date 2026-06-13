@@ -55,6 +55,12 @@ if (litellmBin.status !== 0) {
 }
 
 if (process.env.MSC_LITELLM_DATABASE_URL?.trim()) {
+  const dbUrl = process.env.MSC_LITELLM_DATABASE_URL.trim();
+  if (!dbUrl.startsWith('postgresql://')) {
+    fail(
+      'MSC_LITELLM_DATABASE_URL must start with postgresql:// (LiteLLM proxy Prisma does not support SQLite)',
+    );
+  }
   const prismaCheck = spawnSync('prisma', ['version'], {
     encoding: 'utf8',
     shell: process.platform === 'win32',
@@ -62,7 +68,7 @@ if (process.env.MSC_LITELLM_DATABASE_URL?.trim()) {
   if (prismaCheck.status !== 0) {
     fail('MSC_LITELLM_DATABASE_URL set but prisma CLI missing — npm run msc:litellm:install-deps');
   } else {
-    ok('prisma CLI available (PostgreSQL mode)');
+    ok('prisma CLI available (PostgreSQL proxy DB mode)');
   }
 } else {
   ok('database-less proxy mode (Payload DATABASE_URL not passed to LiteLLM)');

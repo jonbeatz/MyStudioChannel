@@ -90,6 +90,7 @@ export function msc_stripPayloadDatabaseUrlFromLitellmEnv() {
   const litellmDb = process.env.MSC_LITELLM_DATABASE_URL?.trim();
   if (litellmDb) {
     process.env.DATABASE_URL = litellmDb;
+    delete process.env.DISABLE_SCHEMA_UPDATE;
     return;
   }
   delete process.env.DATABASE_URL;
@@ -98,6 +99,8 @@ export function msc_stripPayloadDatabaseUrlFromLitellmEnv() {
   delete process.env.DATABASE_PASSWORD;
   delete process.env.DATABASE_NAME;
   delete process.env.DATABASE_SCHEMA;
+  // Skip Prisma migrate/push when no Postgres URL (Payload uses file:./payload.sqlite)
+  process.env.DISABLE_SCHEMA_UPDATE = 'true';
 }
 
 /** Read master key from MSC_LITELLM_MASTER_KEY or config/litellm_config.yaml (no logging). */
@@ -121,6 +124,7 @@ export function msc_syncLitellmMasterKey() {
   const key = msc_readLitellmMasterKey();
   if (key) {
     process.env.MSC_LITELLM_MASTER_KEY = key;
+    process.env.LITELLM_MASTER_KEY = key;
   }
   return key;
 }
