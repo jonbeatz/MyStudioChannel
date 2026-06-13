@@ -80,13 +80,21 @@ When the user says "update docs", execute this workflow:
     - Outstanding issues (if any)
     - Recommended next actions
 
+## Phase 5b: Memory Synchronization (Mem0)
+
+11b. **Sync major milestones to Mem0:**
+    - If there are any new system-wide configurations, paths, directory shifts, or major troubleshooting resolutions:
+    - Record them as semantic memories in your local Mem0 vector database using:
+      `powershell -ExecutionPolicy Bypass -File scripts/mem0-chat.ps1 -Action "add" -Text "takeaway here"`
+    - Run these sequentially to avoid local Qdrant folder locking conflicts.
+
 ## Phase 6: Commit
 
 12. **Commit changes:**
     ```bash
     git add .cursor/docs/ .cursor/rules/ .cursor/prompts/ README.md CHANGELOG.md
     git commit -m "docs: update synchronization [YYYY-MM-DD HH:MM]"
-    git push origin MSC-Website-v7
+    git push origin MSC-Website-v9
     ```
 
 ## Output Format
