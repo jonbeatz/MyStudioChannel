@@ -87,3 +87,6 @@ ai-agent-skills/
 
 # Local VRAM Idle State Manager Tracking (local only)
 .vram-idle-state.json
+
+# Local Version Bump Safety Backups (local only)
+.version-backup/
