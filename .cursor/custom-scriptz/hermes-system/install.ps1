@@ -31,7 +31,10 @@ $scripts = @(
     "mem0_integration.py",
     "mem0-chat.ps1",
     "start-hermes-api.ps1",
-    "generate-payload-types.mjs"
+    "generate-payload-types.mjs",
+    "setup-hermes.ps1",
+    "profile-functions.template.ps1",
+    "config.yaml.template"
 )
 
 if (-not $WhatIf) {
@@ -79,9 +82,12 @@ if ($failed) {
 
 Write-Host ""
 Write-Host "✅ Installation complete!" -ForegroundColor Green
-Write-Host "Prerequisites:" -ForegroundColor Yellow
-Write-Host "  1. Add HF_TOKEN=hf_... to your new project .env.local file."
-Write-Host "  2. Run: pip install huggingface_hub pillow python-dotenv mem0ai"
-Write-Host "  3. Copy J.A.R.V.I.S. PowerShell profile commands to your system PowerShell Profile."
+Write-Host "Next Steps & Setup Automation:" -ForegroundColor Yellow
+Write-Host "  1. run scripts/setup-hermes.ps1 to fully automate:"
+Write-Host "     - Creating Hermes system directories"
+Write-Host "     - Restoring model and speech config.yaml presets"
+Write-Host "     - Auto-backing up and injecting J.A.R.V.I.S. PowerShell profile shortcuts"
+Write-Host "  2. Add HF_TOKEN=hf_... to your new project .env.local file."
+Write-Host "  3. Run: pip install huggingface_hub pillow python-dotenv mem0ai sentence-transformers"
 Write-Host "  4. Merge global.mdc.fragment into your project global.mdc file for Cursor Shortcuts."
 Write-Host ""
