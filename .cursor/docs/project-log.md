@@ -1,5 +1,5 @@
 ## [2026-06-13] - Session Work — Start Project ritual, JARVIS greeting, summary cards, ngrok restore
-- **Branch:** `MSC-Website-v8`
+- **Branch:** `MSC-Website-v9`
 - **Changes:**
   *   **Start Project workflow:** Refined `scripts/start-hermes-api.ps1` — LiteLLM via elevated Windows Terminal (`wt`), port 4000 poll, no TTS in launcher; voice moved to Step 7 (non-blocking `Start-Process`).
   *   **JARVIS voice:** Added `scripts/jarvis-speak.ps1` + `npm run msc:jarvis:speak`; greeting: *"Welcome back Jon, I am JARVIS your personal assistant, all systems are fully functional, let's begin."*

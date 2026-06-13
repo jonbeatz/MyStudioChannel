@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [8.0.0] - 2026-06-11
 
 ### Added
-- **`MSC-Website-v8`** branch — active development line; **`MSC-Website-v7`** frozen @ `b4ab8ae` as restore backup
+  *   **`MSC-Website-v9`** branch — active development line; **`MSC-Website-v8`** frozen @ `c0d834e` as restore backup
+  *   **`MSC-Website-v8`** branch — active development line; **`MSC-Website-v7`** frozen @ `b4ab8ae` as restore backup
 - **GitHub tag `v8.0.0`** on **`MSC-Website-v8`**
 
 ### Changed

@@ -31,7 +31,7 @@ When the user says "update docs", execute this workflow:
 4. **Update paths across all docs:**
    - Replace any `msc-new` references with `MyStudioChannel`
    - Update any hardcoded drive paths to relative or current workspace
-   - Update branch names to current workflow (`main`, `MSC-Website-v7`)
+   - Update branch names to current workflow (`main`, `MSC-Website-v9`)
 
 5. **Update version information:**
    - Check `package.json` version
