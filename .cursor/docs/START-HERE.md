@@ -8,7 +8,16 @@ Project root: `D:\Cursor_Projectz\MyStudioChannel`
 
 ## For new developers
 
-If you are joining the project for the first time, use our automated onboarding command:
+If you are joining the project for the first time, configure your local system prerequisites first:
+
+### Local System Prerequisites (Windows PowerShell)
+1. **PowerShell Execution Policy:** To allow background automation scripts (e.g., watcher, syncs, vocations) to run, open a PowerShell terminal and run:
+   ```powershell
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+   ```
+2. **Run Cursor as Administrator (Crucial):** To enable full background command execution (e.g., port clearances, killing/spawning background proxies, managing elevated processes), right-click your Cursor shortcut -> **Properties** -> **Compatibility** -> Check **"Run this program as an administrator"**.
+
+Once the prerequisites are set, use our automated onboarding command:
 
 ```bash
 npm run setup:dev

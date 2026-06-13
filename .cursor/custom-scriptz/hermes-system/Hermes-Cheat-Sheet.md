@@ -167,6 +167,10 @@ npm run dev:reset
 *   **The Issue:** Running `remember` or `recall` returns: *"I was unable to access local memory because LM Studio is offline."*
 *   **The Fix:** Make sure LM Studio is open on your PC and the local server port is active on `http://127.0.0.1:1234`.
 
+### 🛡️ Administrator Privileges (UAC / Process Management)
+*   **The Issue:** Attempting to query, restart, or kill background proxy servers (like `next dev`, LiteLLM wt, or ngrok) returns: *"Access is denied."*
+*   **The Fix:** Run your **Cursor Desktop IDE as Administrator**. This allows background commands to inherit elevated privileges, bypass Windows UAC prompts, and control running background jobs smoothly.
+
 ### 💾 WAL/SHM Database Locking
 *   **The Issue:** Your doctor check reports unusually large database sidecars or file locking errors on Hostinger.
 *   **The Fix:** Flush the temporary SQL WAL/SHM files:

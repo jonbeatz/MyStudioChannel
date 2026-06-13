@@ -47,4 +47,6 @@ To complete setup inside any new project, verify the following steps:
 1.  **Hugging Face Credentials:** Ensure `HF_TOKEN` exists inside `.env.local`.
 2.  **Required PIP Packages:** Run `pip install huggingface_hub pillow python-dotenv mem0ai sentence-transformers` (or pass `-InstallPythonDeps` to `setup-hermes.ps1`).
 3.  **Local Qdrant Server:** Ensure local Qdrant is running or configured under `~/.mem0/qdrant`.
-4.  **Automatic Profile Configuration:** Execute `powershell -ExecutionPolicy Bypass -File scripts/setup-hermes.ps1` from the project root to automatically configure system-wide profile functions and global model configuration templates!
+4.  **IDE Runas Administrator:** To allow full background orchestration (killing ports, launching proxies), right-click your Cursor shortcut -> Properties -> Compatibility -> Check **"Run this program as an administrator"**.
+5.  **PowerShell Execution Policy:** To execute custom background automation scripts cleanly, open an admin PowerShell and run: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force`.
+6.  **Automatic Profile Configuration:** Execute `powershell -ExecutionPolicy Bypass -File scripts/setup-hermes.ps1` from the project root to automatically configure system-wide profile functions and global model configuration templates!
