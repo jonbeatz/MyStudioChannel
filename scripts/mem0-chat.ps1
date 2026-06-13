@@ -70,12 +70,12 @@ if ($response -and $response.success) {
         $memories = $response.data.results
         if ($memories -and $memories.Count -gt 0) {
             $memText = ""
-            Write-Host "━━━━━━━━━━━━ J.A.R.V.I.S. RECALL ━━━━━━━━━━━━" -ForegroundColor Cyan
+            Write-Host "------------ J.A.R.V.I.S. RECALL ------------" -ForegroundColor Cyan
             foreach ($m in $memories) {
-                Write-Host "• $($m.memory)" -ForegroundColor White
+                Write-Host " - $($m.memory)" -ForegroundColor White
                 $memText += "$($m.memory). "
             }
-            Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Cyan
+            Write-Host "---------------------------------------------" -ForegroundColor Cyan
             
             $speakText = "Here is what I recall, Jon: $memText"
             if (Get-Command speak -ErrorAction SilentlyContinue) {
