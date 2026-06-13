@@ -1,14 +1,38 @@
-## [2026-06-13] - Session Work — Start Project ritual, JARVIS greeting, summary cards, ngrok restore
+## [2026-06-13] - Version 9.0.0 Release
+- **Branch:** $BranchName
+- **Changes:**
+  *   Automated version bump to $version from $oldVersion.
+  *   Synchronized dependencies and package references.
+  *   Initiated active development checkpoint for $BranchName release series.
+- **Status:** active â€” build and lint validated compile-safe.
+
+## [2026-06-13] - Version 9.0.0 Release
+- **Branch:** $BranchName
+- **Changes:**
+  *   Automated version bump to $version from $oldVersion.
+  *   Synchronized dependencies and package references.
+  *   Initiated active development checkpoint for $BranchName release series.
+- **Status:** active Ã¢â‚¬â€ build and lint validated compile-safe.
+
+## [2026-06-13] - Version 9.0.0 Release
+- **Branch:** $BranchName
+- **Changes:**
+  *   Automated version bump to $version from $oldVersion.
+  *   Synchronized dependencies and package references.
+  *   Initiated active development checkpoint for $BranchName release series.
+- **Status:** active Ã¢â‚¬â€ build and lint validated compile-safe.
+
+## [2026-06-13] - Session Work Ã¢â‚¬â€ Start Project ritual, JARVIS greeting, summary cards, ngrok restore
 - **Branch:** `MSC-Website-v9`
 - **Changes:**
-  *   **Start Project workflow:** Refined `scripts/start-hermes-api.ps1` — LiteLLM via elevated Windows Terminal (`wt`), port 4000 poll, no TTS in launcher; voice moved to Step 7 (non-blocking `Start-Process`).
+  *   **Start Project workflow:** Refined `scripts/start-hermes-api.ps1` Ã¢â‚¬â€ LiteLLM via elevated Windows Terminal (`wt`), port 4000 poll, no TTS in launcher; voice moved to Step 7 (non-blocking `Start-Process`).
   *   **JARVIS voice:** Added `scripts/jarvis-speak.ps1` + `npm run msc:jarvis:speak`; greeting: *"Welcome back Jon, I am JARVIS your personal assistant, all systems are fully functional, let's begin."*
   *   **Summary cards:** Polished Start / End / Update Project handshake blocks with SYSTEM STATUS (LiteLLM, Vertex, ngrok) and dot-leader layout; synced `Prompt-Cheat-Sheet.md`.
   *   **Detached starter:** `scripts/msc-litellm-start-detached.mjs` + `msc:google-api:start:detached` for background LiteLLM/ngrok.
   *   **ngrok Start Project Integration:** Restored automatic ngrok tunnel initialization in `scripts/start-hermes-api.ps1`. Launches ngrok as a minimized background process to avoid a second blocking UAC/runas prompt, polls the local `4040` tunnels API, verifies the remote `/v1/models` endpoint, generates `.cursor/session-google-api.json`, and outputs Cursor connection instructions.
-- **Status:** completed — Start Project E2E ~43s; LiteLLM + ngrok cold start verified online and remote completions returning 200.
+- **Status:** completed Ã¢â‚¬â€ Start Project E2E ~43s; LiteLLM + ngrok cold start verified online and remote completions returning 200.
 
-## [2026-06-12] - Session Work — J.A.R.V.I.S. VRAM Auto-Unload, Payload Types Sync & Mem0 Memory Layer
+## [2026-06-12] - Session Work Ã¢â‚¬â€ J.A.R.V.I.S. VRAM Auto-Unload, Payload Types Sync & Mem0 Memory Layer
 - **Branch:** `MSC-Website-v8`
 - **Changes:** 
   *   **Payload CMS Types Sync & Validation:** Created `scripts/payload-types-sync.ps1` supporting Watch, Validate, and PreCommit checks. Integrated with `.husky/pre-commit` to auto-compile and auto-stage schema updates, and added build gates (`npm run build`) to block out-of-sync types.
@@ -17,13 +41,13 @@
   *   **J.A.R.V.I.S. Vocal Welcome:** Created unified `scripts/start-hermes-api.ps1` launcher to start Google API proxy, poll port 4000, wait 2 seconds for system stabilization, and play high-quality welcome greeting. Added `msc:google-api:start-session` in `package.json` and integrated into `.cursor/prompts/Start-Project.md`. Refined the profile voice classifier to avoid false-positive AI queries.
   *   **Local Mem0 Memory Layer:** Installed global `@mem0/cli`, `mem0ai` library, and local CPU embedding dependency `sentence-transformers` for offline Qdrant vectors. Built `scripts/mem0_integration.py` and `scripts/mem0-chat.ps1` with auto Qwen-loading checks.
   *   **MCP Expansion:** Integrated **SQLite**, **Git**, and **Docker** MCP servers into Cursor `cline_mcp_settings.json`.
-- **Status:** completed — verified end-to-end memory recall, types watch, and auto-unload daemon checks!
+- **Status:** completed Ã¢â‚¬â€ verified end-to-end memory recall, types watch, and auto-unload daemon checks!
 
 ## [2026-06-11] - v8.0.0 release on MSC-Website-v8
 - **Branch:** `MSC-Website-v8`; **`MSC-Website-v7`** frozen @ `b4ab8ae`
-- **Changes:** `package.json` → **8.0.0**; ops docs, README, TRUTH, CHANGELOG; GitHub tag **`v8.0.0`**
+- **Changes:** `package.json` Ã¢â€ â€™ **8.0.0**; ops docs, README, TRUTH, CHANGELOG; GitHub tag **`v8.0.0`**
 - **Live:** mystudiochannel.com still **v7.0.0** until **`pushit:live:fast`**
-- **Status:** completed — `40b200e` + tag `v8.0.0` + GitHub release
+- **Status:** completed Ã¢â‚¬â€ `40b200e` + tag `v8.0.0` + GitHub release
 - **Next:** Deploy v8 labels live when ready
 
 ## [2026-06-11] - MSC-Website-v8 branch cut
@@ -36,116 +60,116 @@
 ## [2026-06-11] - Docs sync @ 5596b56
 - **Branch:** `MSC-Website-v7` @ `5596b56`; **`main`** synced @ `5596b56`
 - **Changes:** Checkpoint, TRUTH, ReCall, MASTER-COMMANDS, review.md, ISSUES-RESOLVED (Playwright CI entry); all SHAs aligned
-- **Status:** completed — `msc:docs:sync` PERFECT
+- **Status:** completed Ã¢â‚¬â€ `msc:docs:sync` PERFECT
 - **Next:** Feature work on `MSC-Website-v7`
 
 ## [2026-06-11] - Final hygiene cleanup + codeburn snapshot
 - **Branch:** `MSC-Website-v7` @ `5596b56`; **`main`** synced @ `5596b56`
 - **Changes:** TRUTH build notes (`eslint.ignoreDuringBuilds`, homepage admin redirect); Restore-Points **RP-2026-06-11-ci-playwright** @ `112acc5`
-- **Codeburn (7d):** **$2.58** · 1,481 calls · 0% cache hit · spike **06-07 ~$1.45**
-- **Homepage admin:** `/admin/globals/homepage` → `/admin/msc-homepage` redirect only — consolidated enough
-- **Status:** completed — pushed to origin
+- **Codeburn (7d):** **$2.58** Ã‚Â· 1,481 calls Ã‚Â· 0% cache hit Ã‚Â· spike **06-07 ~$1.45**
+- **Homepage admin:** `/admin/globals/homepage` Ã¢â€ â€™ `/admin/msc-homepage` redirect only Ã¢â‚¬â€ consolidated enough
+- **Status:** completed Ã¢â‚¬â€ pushed to origin
 
-## [2026-06-11] - Docs sync — hygiene pass closeout + v6 ISSUES-RESOLVED fix
+## [2026-06-11] - Docs sync Ã¢â‚¬â€ hygiene pass closeout + v6 ISSUES-RESOLVED fix
 - **Branch:** `MSC-Website-v7` @ `6cb8c5a`; **`main`** synced @ `6cb8c5a`
 - **Changes:** GitHub CI + Playwright; deploy table consolidation; bundle analyzer; Checkpoint/TRUTH/MASTER-COMMANDS/ReCall synced; ISSUES-RESOLVED v6 historical annotation; **`msc:docs:sync`** PERFECT (0 warnings)
 - **Status:** completed
 - **Next:** Feature work on `MSC-Website-v7`; optional depcheck follow-ups (`@payloadcms/ui`)
 
-## [2026-06-11 11:10] - Session Work — Portable Modules & MCP Setup
+## [2026-06-11 11:10] - Session Work Ã¢â‚¬â€ Portable Modules & MCP Setup
 - **Branch:** `MSC-Website-v7` @ `3235157`
 - **Session:** Created portable `hostinger-setup` module; fixed 21st-dev-magic & Browserbase project ID typos; removed Gilfoyle and redundant example files; verified local Vertex model and APIs.
 - **Git:** Clean compile/build with zero errors.
 - **Live:** v7.0.0 on mystudiochannel.com; local env & MCP fully verified.
 - **Next:** Push changes to remote.
 
-## [2026-06-08 17:45] - Session closeout — End Project
+## [2026-06-08 17:45] - Session closeout Ã¢â‚¬â€ End Project
 - **Branch:** `MSC-Website-v7` @ `3235157`; **`main`** synced @ `3235157`
 - **Session:** Deploy zip fix (`2404cc0`); `payload.sqlite` baseline (`14ceb53`); docs sync; git parity; quick backup **`msc-website-v2-g`**
 - **Git:** Clean working tree; all commits pushed to `origin/MSC-Website-v7` + `origin/main`
 - **Live:** **v7.0.0** on mystudiochannel.com; fast deploy zip path fixed for next push
-- **Status:** completed — ports stopped via `msc:session:stop`
+- **Status:** completed Ã¢â‚¬â€ ports stopped via `msc:session:stop`
 - **Next:** Say **Start Project**; feature work on `MSC-Website-v7`; optional hygiene from **review.md**
 
-## [2026-06-08] - Docs sync — git parity + session closeout
+## [2026-06-08] - Docs sync Ã¢â‚¬â€ git parity + session closeout
 - **Branch:** `MSC-Website-v7` @ `14ceb53`; **`main`** fast-forwarded to match
-- **Changes:** Checkpoint, ReCall, TRUTH, Development, GitHub-Cheat-Sheet, Restore-Points, review.md — `main` no longer on v6 line; deploy fix SHAs recorded; `payload.sqlite` git policy documented
-- **Status:** completed — docs commit this entry
+- **Changes:** Checkpoint, ReCall, TRUTH, Development, GitHub-Cheat-Sheet, Restore-Points, review.md Ã¢â‚¬â€ `main` no longer on v6 line; deploy fix SHAs recorded; `payload.sqlite` git policy documented
+- **Status:** completed Ã¢â‚¬â€ docs commit this entry
 - **Next:** Feature work on `MSC-Website-v7`
 
 ## [2026-06-08] - payload.sqlite v7 dev baseline + main sync
-- **Branch:** `MSC-Website-v7` → **`main`** @ `14ceb53`
+- **Branch:** `MSC-Website-v7` Ã¢â€ â€™ **`main`** @ `14ceb53`
 - **Changes:** Committed local **`payload.sqlite`** (post v7 live deploy CMS state); fast-forward **`main`** to match v7 line
-- **Status:** completed — pushed `origin/main` + `origin/MSC-Website-v7`
+- **Status:** completed Ã¢â‚¬â€ pushed `origin/main` + `origin/MSC-Website-v7`
 - **Next:** Continue dev on `MSC-Website-v7`
 
 ## [2026-06-08] - pushit:live:fast zip fix + docs sync (deploy pitfalls)
 - **Branch:** MSC-Website-v7
-- **Problem:** Zip path always failed (`'$STAGING'` single-quote bug) → 45 min `.next` FTPS fallback; `package.json` not uploaded on fast path; `-WithDb` not obvious for DB
+- **Problem:** Zip path always failed (`'$STAGING'` single-quote bug) Ã¢â€ â€™ 45 min `.next` FTPS fallback; `package.json` not uploaded on fast path; `-WithDb` not obvious for DB
 - **Fix:** `msc-hostinger-unzip-deploy-next-ssh.mjs`, `pushit-live-fast.ps1` (+ package.json, unzip log), `msc-hostinger-deploy-diagnose-ssh.mjs`
 - **Docs:** DEPLOYMENT-TROUBLESHOOTING, ISSUES-RESOLVED, MASTER-COMMANDS, Go-Live, Push-Website-Live, deploy-safety rule, ReCall, Checkpoint
 - **Live:** v7.0.0 verified after deploy with `-WithDb`
-- **Status:** completed — `2404cc0` pushed
+- **Status:** completed Ã¢â‚¬â€ `2404cc0` pushed
 
-## [2026-06-08] - v7.0.0 release — version bump, tag, GitHub release
+## [2026-06-08] - v7.0.0 release Ã¢â‚¬â€ version bump, tag, GitHub release
 - **Branch:** `MSC-Website-v7`
-- **Changes:** `package.json` → **7.0.0**; `lib/msc-app-version.ts`; ops docs, README, TRUTH, CHANGELOG; GitHub tag **`v7.0.0`**
-- **Status:** completed — `a295fc4` + tag `v7.0.0` + GitHub release
+- **Changes:** `package.json` Ã¢â€ â€™ **7.0.0**; `lib/msc-app-version.ts`; ops docs, README, TRUTH, CHANGELOG; GitHub tag **`v7.0.0`**
+- **Status:** completed Ã¢â‚¬â€ `a295fc4` + tag `v7.0.0` + GitHub release
 - **Next:** `pushit:live:fast` + `msc:verify:live:version` for live v7 label
 
 ## [2026-06-08] - MSC-Website-v7 branch cut
 - **Branch:** `MSC-Website-v7` created from `MSC-Website-v6` @ `c9e260e` and pushed; active dev branch
 - **Policy:** `MSC-Website-v6` frozen @ `c9e260e` as clean restore; full backup `msc-website-v2-f`
 - **Changes:** Restore-Points, Checkpoint, ReCall, TRUTH, ops docs synced to v7 active line
-- **Status:** completed — superseded by v7.0.0 release entry below
+- **Status:** completed Ã¢â‚¬â€ superseded by v7.0.0 release entry below
 - **Next:** Feature work on `MSC-Website-v7`
 
 ## [2026-06-08] - Hostinger MCP launcher + docs sync
 - **Branch:** MSC-Website-v6
-- **Changes:** **`scripts/msc-hostinger-mcp.mjs`** (scoped Hostinger bins + invalid tool-name filter). Extended **`msc-sync-mcp-env.mjs`** to copy launcher to `~/.cursor/scripts/`. Docs: **MCP-SETUP**, **ISSUES-RESOLVED**, **START-HERE**, **MASTER-COMMANDS**, **Prompt-Cheat-Sheet**, **ReCall** — MCP reload via **Settings → MCP** (cursor-mcp-refresh uninstalled). Verified 4 Hostinger servers: hosting 27, vps 62, domains 18, dns 8 tools; zero naming warnings.
-- **Status:** completed — committed `57f3304` and pushed
+- **Changes:** **`scripts/msc-hostinger-mcp.mjs`** (scoped Hostinger bins + invalid tool-name filter). Extended **`msc-sync-mcp-env.mjs`** to copy launcher to `~/.cursor/scripts/`. Docs: **MCP-SETUP**, **ISSUES-RESOLVED**, **START-HERE**, **MASTER-COMMANDS**, **Prompt-Cheat-Sheet**, **ReCall** Ã¢â‚¬â€ MCP reload via **Settings Ã¢â€ â€™ MCP** (cursor-mcp-refresh uninstalled). Verified 4 Hostinger servers: hosting 27, vps 62, domains 18, dns 8 tools; zero naming warnings.
+- **Status:** completed Ã¢â‚¬â€ committed `57f3304` and pushed
 - **Next:** Feature work on v6; optional DeepSeek via LiteLLM `model_list`
 
-## [2026-06-07 22:45] - Session closeout — audit complete, planning docs, backups
+## [2026-06-07 22:45] - Session closeout Ã¢â‚¬â€ audit complete, planning docs, backups
 - **Branch:** MSC-Website-v6 @ `e06627e` (pushed)
-- **Changes:** Comprehensive audit Phases 2–4 (`9d9831f`); project analysis (86/100); **`.cursor/ideaz.md`** + **`.cursor/review.md`**; docs sync (`2c2e94d`, `e06627e`). Quick backups **`msc-website-v2-d`** @ `9d9831f`, **`msc-website-v2-e`** @ `e06627e`.
-- **Status:** completed — all code/docs committed and pushed; only **`payload.sqlite`** unstaged (local dev)
-- **Next:** See **`.cursor/review.md`** — live v6 deploy + `msc:verify:live:version`; hygiene (`NODE_ENV`, sqlite git policy); portable kit from **ideaz.md** when ready
+- **Changes:** Comprehensive audit Phases 2Ã¢â‚¬â€œ4 (`9d9831f`); project analysis (86/100); **`.cursor/ideaz.md`** + **`.cursor/review.md`**; docs sync (`2c2e94d`, `e06627e`). Quick backups **`msc-website-v2-d`** @ `9d9831f`, **`msc-website-v2-e`** @ `e06627e`.
+- **Status:** completed Ã¢â‚¬â€ all code/docs committed and pushed; only **`payload.sqlite`** unstaged (local dev)
+- **Next:** See **`.cursor/review.md`** Ã¢â‚¬â€ live v6 deploy + `msc:verify:live:version`; hygiene (`NODE_ENV`, sqlite git policy); portable kit from **ideaz.md** when ready
 
-## [2026-06-07] - Docs sync — ideaz + review planning files
+## [2026-06-07] - Docs sync Ã¢â‚¬â€ ideaz + review planning files
 - **Branch:** MSC-Website-v6 @ `9d9831f` (audit already pushed)
 - **Changes:** Added **`.cursor/ideaz.md`** (portable studio kit / `custom-scriptz` roadmap) and **`.cursor/review.md`** (audit follow-up, score 86/100, tomorrow queue). Ran **`msc:docs:sync`** (PERFECT SYNC). Updated TRUTH, START-HERE, Checkpoint, CHANGELOG, ReCall.
-- **Status:** completed — docs commit pending this entry
-- **Next:** See **review.md** — live v6 deploy, `NODE_ENV` in `.env.local`, `payload.sqlite` policy
+- **Status:** completed Ã¢â‚¬â€ docs commit pending this entry
+- **Next:** See **review.md** Ã¢â‚¬â€ live v6 deploy, `NODE_ENV` in `.env.local`, `payload.sqlite` policy
 
-## [2026-06-08] - Session closeout — MCP docs + Hostinger MCP fix
+## [2026-06-08] - Session closeout Ã¢â‚¬â€ MCP docs + Hostinger MCP fix
 - **Branch:** MSC-Website-v6 @ `667eb20`
-- **Changes:** Updated **MCP-SETUP.md** (global 12 servers, secrets checklist). Fixed Hostinger MCP **`spawn EINVAL`** — global `~/.cursor/mcp.json` now uses `cmd /c npx -y hostinger-api-mcp@latest`. Added **`HOSTINGER_API_TOKEN`** to `.env.local`; extended **`msc-sync-mcp-env.mjs`** to sync all four `hostinger-*` servers. Verified API (`mystudiochannel.com` listed). **Start Project** ritual run; ports stopped.
-- **Status:** completed — committed in follow-up (docs + sync script)
+- **Changes:** Updated **MCP-SETUP.md** (global 12 servers, secrets checklist). Fixed Hostinger MCP **`spawn EINVAL`** Ã¢â‚¬â€ global `~/.cursor/mcp.json` now uses `cmd /c npx -y hostinger-api-mcp@latest`. Added **`HOSTINGER_API_TOKEN`** to `.env.local`; extended **`msc-sync-mcp-env.mjs`** to sync all four `hostinger-*` servers. Verified API (`mystudiochannel.com` listed). **Start Project** ritual run; ports stopped.
+- **Status:** completed Ã¢â‚¬â€ committed in follow-up (docs + sync script)
 - **Next:** Feature work on v6; project MCP secrets (WordPress, 21st, Browserbase) when needed
 
-## [2026-06-07 19:15] - Session closeout — backup + port shutdown
+## [2026-06-07 19:15] - Session closeout Ã¢â‚¬â€ backup + port shutdown
 - **Branch:** MSC-Website-v6 @ `667eb20`
-- **Changes:** Interactive **backup project** → `G:\Cursor_Project_BackUpz\MyStudioChannel\msc-website-v2-a` (Standard). Note: Hostinger upload workflow + new MCPs. Prior session work already committed/pushed (`27adb12`, `667eb20`). Working tree: only `payload.sqlite` (local dev, not committed).
-- **Status:** completed — session stopped; ports cleared
+- **Changes:** Interactive **backup project** Ã¢â€ â€™ `G:\Cursor_Project_BackUpz\MyStudioChannel\msc-website-v2-a` (Standard). Note: Hostinger upload workflow + new MCPs. Prior session work already committed/pushed (`27adb12`, `667eb20`). Working tree: only `payload.sqlite` (local dev, not committed).
+- **Status:** completed Ã¢â‚¬â€ session stopped; ports cleared
 - **Next:** Say **Start Project**; reload MCP (cursor-mcp-refresh); Obsidian kepano skills Week 1
 
 ## [2026-06-08] - MSC Tooling Upgrade + Obsidian pilot + MCP consolidation
 - **Branch:** MSC-Website-v6
 - **Changes:** Added **MSC-UI-Taste** skill; Gilfoyle **harsh-review** prompt + global rule; archived **browsermcp** + **antigravity** from project MCP (6 servers); **CURATED-INDEX** for imported playbooks; **cursor-mcp-refresh** VSIX; **codeburn** + **`msc:codeburn`**; Obsidian vault structure at **`I:\Vader_Vault`**; fixed **`msc-sync-mcp-env.mjs`** for Node 24 ESM. Synced AGENTS, MCP-SETUP, TOOL-CHEST, Jedi-List, ReCall, Checkpoint, Prompt-Cheat-Sheet, START-HERE.
-- **Status:** completed — `verify:next:safe` pass; no Hostinger/production changes
+- **Status:** completed Ã¢â‚¬â€ `verify:next:safe` pass; no Hostinger/production changes
 - **Next:** Reload MCP after restart; Obsidian kepano skills Week 1; Friday ReCall distill ritual
 
 ## [2026-06-08] - pushit:live:fast (Tier 2b) + full docs sync
 - **Branch:** MSC-Website-v6
-- **Changes:** Added **`pushit:live:fast`** (~10–15 min): zip **`.next`** → single FTPS → SSH unzip (BUILD_ID) → **`sync-app`**. Scripts: **`pushit-live-fast.ps1`**, **`msc-hostinger-unzip-deploy-next`**. Fixed zip upload path (repo-root **`deploy-next.zip`** for FTPS, not **`zips/`** on remote). Flags **`-SkipBuild`**, **`-WithDb`**, **`-WithMedia`**, **`-DryRun`**. Updated MASTER-COMMANDS, HOSTINGER-DEPLOY, Go-Live-Checklist, Push-Website-Live, Checkpoint, ReCall, Restore-Points, Jedi-List, START-HERE, README, AGENTS, rules.
-- **Status:** completed — live **`msc:verify:live`** passing after deploy test
+- **Changes:** Added **`pushit:live:fast`** (~10Ã¢â‚¬â€œ15 min): zip **`.next`** Ã¢â€ â€™ single FTPS Ã¢â€ â€™ SSH unzip (BUILD_ID) Ã¢â€ â€™ **`sync-app`**. Scripts: **`pushit-live-fast.ps1`**, **`msc-hostinger-unzip-deploy-next`**. Fixed zip upload path (repo-root **`deploy-next.zip`** for FTPS, not **`zips/`** on remote). Flags **`-SkipBuild`**, **`-WithDb`**, **`-WithMedia`**, **`-DryRun`**. Updated MASTER-COMMANDS, HOSTINGER-DEPLOY, Go-Live-Checklist, Push-Website-Live, Checkpoint, ReCall, Restore-Points, Jedi-List, START-HERE, README, AGENTS, rules.
+- **Status:** completed Ã¢â‚¬â€ live **`msc:verify:live`** passing after deploy test
 - **Next:** Routine code/UI via **`pushit:live:fast`**; full parity via **`pushit:live`**
 
 ## [2026-06-08] - Live 503 recovery, sync-app hardening, full docs sync
 - **Branch:** MSC-Website-v6 @ `b368d3e`
-- **Changes:** Diagnosed live **503** — `node_modules` missing Next webpack after lockfile sync; fixed via SSH **`npm install --ignore-scripts`**. Added **`msc:hostinger:sync-app`**, **`msc:hostinger:npm-install`**, **`msc:hostinger:recover`**. Wired **`sync-app`** into **`pushit:live`** and **`msc:push:db:live`**. Documented two **`nodejs`** folders (FTPS staging vs live app root), MCP **Build failed** note, prevention checklist across HOSTINGER-DEPLOY, DEPLOYMENT-TROUBLESHOOTING, MASTER-COMMANDS, Jedi-List, Checkpoint, ReCall, Restore-Points, AGENTS, rules.
-- **Status:** completed — live **v6.0.0**, **`msc:verify:live`** passing
+- **Changes:** Diagnosed live **503** Ã¢â‚¬â€ `node_modules` missing Next webpack after lockfile sync; fixed via SSH **`npm install --ignore-scripts`**. Added **`msc:hostinger:sync-app`**, **`msc:hostinger:npm-install`**, **`msc:hostinger:recover`**. Wired **`sync-app`** into **`pushit:live`** and **`msc:push:db:live`**. Documented two **`nodejs`** folders (FTPS staging vs live app root), MCP **Build failed** note, prevention checklist across HOSTINGER-DEPLOY, DEPLOYMENT-TROUBLESHOOTING, MASTER-COMMANDS, Jedi-List, Checkpoint, ReCall, Restore-Points, AGENTS, rules.
+- **Status:** completed Ã¢â‚¬â€ live **v6.0.0**, **`msc:verify:live`** passing
 - **Next:** Routine updates via **`pushit:live`** only; avoid MCP zip on this host
 
 ## [2026-06-08] - Header nav submenuSource, Legal label, docs sync
@@ -168,7 +192,7 @@
 
 ## [2026-06-07 18:00] - Deploy hardening, live DB sync, docs sync
 - **Branch:** MSC-Website-v5 @ `06ec2be`
-- **Changes:** Fixed Sentry org/project wiring (`mystudiochannel`); migrated to `instrumentation-client.ts` + `global-error.tsx`. Added SSH scripts (`msc:hostinger:stop-node`, `msc:hostinger:sync-db`), quick DB deploy (`msc:push:db:live`), and `msc:session:stop`. Wired auto `sync-db` into `pushit:live` (FTPS landing → live app root). Documented MCP/Git as code-only deploys with AskQuestion mode picker. Restored live site via Full FTPS + sync-db; `msc:verify:live` passed. Pushed `MSC-Website-v5` and fast-forwarded `main` on GitHub.
+- **Changes:** Fixed Sentry org/project wiring (`mystudiochannel`); migrated to `instrumentation-client.ts` + `global-error.tsx`. Added SSH scripts (`msc:hostinger:stop-node`, `msc:hostinger:sync-db`), quick DB deploy (`msc:push:db:live`), and `msc:session:stop`. Wired auto `sync-db` into `pushit:live` (FTPS landing Ã¢â€ â€™ live app root). Documented MCP/Git as code-only deploys with AskQuestion mode picker. Restored live site via Full FTPS + sync-db; `msc:verify:live` passed. Pushed `MSC-Website-v5` and fast-forwarded `main` on GitHub.
 - **Status:** completed
 - **Next:** Feature work on `MSC-Website-v5`; use Quick DB when APIs 500 with stub DB.
 
@@ -210,7 +234,7 @@
 
 ## [2026-06-03 16:33] - Session closeout (ops + Vertex AI verify)
 - **Branch:** MSC-Website-v5 @ `ac356d8`
-- **Changes:** Cold-start ritual (docs load, lint pass). Quick backup to `G:\Cursor_Project_BackUpz\MyStudioChannel\msc-website-v1-s` (standard, 6/6 verify). Started Google API proxy (`msc:google-api:start` — LiteLLM :4000 + ngrok). Verified Vertex via `msc:litellm:verify` and live chat smoke (`vader-3-flash` → capital of Massachusetts). Stopped LiteLLM/ngrok on closeout. No app/runtime code edits.
+- **Changes:** Cold-start ritual (docs load, lint pass). Quick backup to `G:\Cursor_Project_BackUpz\MyStudioChannel\msc-website-v1-s` (standard, 6/6 verify). Started Google API proxy (`msc:google-api:start` Ã¢â‚¬â€ LiteLLM :4000 + ngrok). Verified Vertex via `msc:litellm:verify` and live chat smoke (`vader-3-flash` Ã¢â€ â€™ capital of Massachusetts). Stopped LiteLLM/ngrok on closeout. No app/runtime code edits.
 - **Status:** completed
 - **Next:** Feature work on `MSC-Website-v5` (creators, media workflows, or WP dual-sourcing); say **Start Project** to resume.
 
@@ -322,3 +346,4 @@
   7. **Remote Sync & Cold Backup:** Audited, committed, and pushed all modifications to GitHub, and executed a complete non-interactive cold-backup of the workspace under `G:\Cursor_Project_BackUpz\MyStudioChannel\msc-website-v2-r\`.
 - **Status:** Complete
 - **Next:** Continue creating advanced design features and custom Payload schemas inside new projects using the portable J.A.R.V.I.S. module.
+
