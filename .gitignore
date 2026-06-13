@@ -80,3 +80,7 @@ next-env.d.ts
 
 # Playwright
 test-results/
+
+# Agent/Cursor skills local caches
+.agents/
+ai-agent-skills/

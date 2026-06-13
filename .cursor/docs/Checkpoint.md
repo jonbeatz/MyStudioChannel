@@ -1,8 +1,8 @@
 # Project Checkpoint
 
 ## Current Status
-- **Date:** 2026-06-11 (`MSC-Website-v8` branch cut)
-- **Branch:** MSC-Website-v8 @ `b4ab8ae` (active dev)
+- **Date:** 2026-06-12 (J.A.R.V.I.S. Welcome & Local Mem0 Memory Layer)
+- **Branch:** MSC-Website-v8 @ `0d0aff5` (active dev)
 - **Version:** 8.0.0 (`package.json` — sole release number)
 - **Build Status:** Passing (`verify:next:safe`); **GitHub Actions** verify + Playwright on push to `MSC-Website-v8` / `main`
 - **Deploy default:** **`npm run pushit:live:fast`** (~10–15 min) for daily code/UI; canonical table in **HOSTINGER-DEPLOY.md**. Say **push it live** → agent asks mode.
@@ -14,6 +14,9 @@
 ## Recent Milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
+| 2026-06-12 | **Local J.A.R.V.I.S. Memory Layer & LM Studio Switcher Integration** | ops |
+| 2026-06-12 | **J.A.R.V.I.S. Vocal Welcome Greeting & Unified System Startup** | ops |
+| 2026-06-12 | **Cursor Developer MCP Server Expansion (SQLite, Git, Docker)** | ops |
 | 2026-06-11 | **v8.0.0 release — version bump on `MSC-Website-v8`** | `40b200e` |
 | 2026-06-11 | **MSC-Website-v8 branch cut — v7 frozen @ `b4ab8ae`** | `b4ab8ae` |
 | 2026-06-11 | **depcheck fix — `@payloadcms/ui` + review.md closeout** | `3d3cef7` |

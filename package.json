@@ -99,6 +99,7 @@
     "msc:litellm:start": "node scripts/msc-litellm-start.mjs",
     "msc:litellm:start:ngrok": "node scripts/msc-litellm-start.mjs --ngrok",
     "msc:google-api:start": "npm run msc:litellm:stop && npm run msc:litellm:start:ngrok",
+    "msc:google-api:start-session": "powershell -ExecutionPolicy Bypass -File scripts/start-hermes-api.ps1",
     "msc:litellm:test:ngrok": "node scripts/msc-litellm-test-ngrok.mjs",
     "msc:litellm:stop": "node scripts/msc-litellm-stop.mjs",
     "msc:litellm:status": "node scripts/msc-litellm-status.mjs",

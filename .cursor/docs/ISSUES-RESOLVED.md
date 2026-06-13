@@ -37,6 +37,20 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-12] J.A.R.V.I.S. Welcome Greeting & Voice Classifier false positive read-back
+- **Error:** The `speak` command read back entire terminal blocks or LLM outputs instead of speaking the text literally.
+- **Cause:** The regex in `speak` matched question marks (`?`) anywhere in the string, incorrectly classifying statements with trailing question marks as AI queries.
+- **Solution:** Refined the regex in the PowerShell profile to `^\s*(how|what|why|who|where|when|can|could|should|would|will|is|are|do|does|did|tell|explain|write|create|analyze|review|suggest|check|run|test|get)\b` to ensure it only classifies input starting with query/action keywords as AI prompts.
+- **Files Changed:** `C:\Users\JONBEATZ\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`
+- **Prevention:** Use strict word boundaries and anchor matches (`^`) when classifying user inputs for TTS routing.
+
+## [2026-06-12] Mem0 V2 Search Filter Schema Mismatch & LM Studio 400 Bad Request
+- **Error:** Running memory recall returned `[J.A.R.V.I.S. Error] Top-level entity parameters frozenset({'user_id'}) are not supported` or `openai.BadRequestError: Error code: 400 - 'response_format.type' must be 'json_schema' or 'text'`.
+- **Cause:** Mem0 V2 changed its API (requires `filters={"user_id": "jon"}` and returns `results` under `data.results`). Separately, LM Studio requires `type: "json_schema"` instead of OpenAI's default `json_object` format.
+- **Solution:** Migrated Python search calls to `filters` and parsed `response.data.results`. Injected `"lmstudio_response_format": {"type": "json_schema", "json_schema": {"type": "object", "schema": {}}}` into the LLM config.
+- **Files Changed:** `D:\Cursor_Projectz\MyStudioChannel\scripts\mem0_integration.py`, `D:\Cursor_Projectz\MyStudioChannel\scripts\mem0-chat.ps1`
+- **Prevention:** Always check schema updates when upgrading AI orchestration libraries and align their response formats with local endpoints.
+
 ## [2026-06-11] Sentry Error: ReferenceError allProjects is not defined in components/demos-reimagined.tsx
 - **Error:** ReferenceError GET / — `allProjects is not defined` inside `components/demos-reimagined.tsx` at line 173.
 - **Cause:** Transient dev server hot-reload error. We added a temporary mock array `fakeProjects` and combined it into `allProjects` to test pagination. When we refactored the component to use the CMS `projects` prop directly, a request was processed during the transition, causing Next.js/React to hit a stale reference to `allProjects` before the clean file was fully written.

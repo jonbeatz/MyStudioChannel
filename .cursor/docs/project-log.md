@@ -1,3 +1,12 @@
+## [2026-06-12] - Session Work — Vocal J.A.R.V.I.S. Welcome & Local Mem0 Memory Layer
+- **Branch:** `MSC-Website-v8`
+- **Changes:** 
+  *   **J.A.R.V.I.S. Vocal Welcome:** Created unified `scripts/start-hermes-api.ps1` launcher to start Google API proxy, poll port 4000, wait 2 seconds for system stabilization, and play high-quality welcome greeting (via `en-GB-RyanNeural`). Added `msc:google-api:start-session` in `package.json` and integrated into `.cursor/prompts/Start-Project.md`.
+  *   **Local Mem0 Memory Layer:** Installed global `@mem0/cli`, `mem0ai` library, and local CPU embedding dependency `sentence-transformers` for offline Qdrant vectors. Built `scripts/mem0_integration.py` and `scripts/mem0-chat.ps1`.
+  *   **LM Studio CLI Model Switcher:** Added `load-qwen`, `load-deepseek`, `unload-model`, and `model-status` functions to PowerShell profile. Integrated auto-check in Mem0 backend to warn if models are unloaded.
+  *   **MCP Expansion:** Integrated **SQLite**, **Git**, and **Docker** MCP servers into Cursor `cline_mcp_settings.json`.
+- **Status:** completed — verified end-to-end memory recall and model switching!
+
 ## [2026-06-11] - v8.0.0 release on MSC-Website-v8
 - **Branch:** `MSC-Website-v8`; **`MSC-Website-v7`** frozen @ `b4ab8ae`
 - **Changes:** `package.json` → **8.0.0**; ops docs, README, TRUTH, CHANGELOG; GitHub tag **`v8.0.0`**

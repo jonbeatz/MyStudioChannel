@@ -22,18 +22,20 @@ Run these and report results:
 - `npm run lint` (if script exists) or skip
 - `npm run build` (quick check only if operator requests)
 
-### Step 4: LiteLLM / Vertex AI (Optional)
-If operator uses `vader-3-flash` in Cursor:
-- Ask: "Start Google API proxy? (y/n)"
-- If yes: `npm run msc:google-api:start` then `verify google-api`
+### Step 4: LiteLLM / Vertex AI & J.A.R.V.I.S. Vocal Greeting
+Launch the Google API proxy, wait for port 4000 to stabilize, and trigger J.A.R.V.I.S.'s vocal greeting by executing the unified session-start script:
+`powershell -ExecutionPolicy Bypass -File scripts/start-hermes-api.ps1`
+
+Wait for the script to finish and J.A.R.V.I.S. to speak before proceeding to the handshake.
 
 ### Step 5: Session Handshake
-Print:
+Print the beautiful session summary card in the chat:
 ✅ SESSION STARTED — [YYYY-MM-DD HH:MM]
 📁 Branch: [current branch]
 📝 Docs loaded: README, START-HERE, project-log
 🔧 Git: [clean/has changes]
 🖥️ Node: [version]
+🎙️ J.A.R.V.I.S. Status: Active on Port 4000 (Ryan Neural)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ Ready, Jon. What shall we build today?
 
