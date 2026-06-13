@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "msc:generate:types": "node scripts/generate-payload-types.mjs",
+    "msc:types:watch": "powershell -ExecutionPolicy Bypass -File scripts/payload-types-sync.ps1 -Watch",
+    "msc:types:validate": "powershell -ExecutionPolicy Bypass -File scripts/payload-types-sync.ps1 -Validate",
+    "msc:build:dev": "powershell -ExecutionPolicy Bypass -File scripts/msc-build-and-dev.ps1",
+    "build:dev": "npm run msc:build:dev"
+  },
+  "dependencies": {
+    "jiti": "^2.4.2"
+  }
+}

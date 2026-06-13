@@ -1,0 +1,26 @@
+{
+  "moduleId": "hermes-system",
+  "version": "1.0.0",
+  "description": "J.A.R.V.I.S. Core Suite: local vector memory (Mem0), VRAM auto-unload monitor, serverless image generation (FLUX), and schema type sync",
+  "install": {
+    "command": ".\\.cursor\\custom-scriptz\\hermes-system\\install.ps1"
+  },
+  "verifyCommands": [
+    "powershell -File scripts/vram-idle-manager.ps1",
+    "powershell -File scripts/payload-types-sync.ps1 -Validate"
+  ],
+  "prerequisites": [],
+  "envKeys": ["HF_TOKEN"],
+  "defaults": {
+    "HF_TOKEN": "hf_your_token_here"
+  },
+  "features": {
+    "mem0": true,
+    "vramMonitor": true,
+    "fluxGenerator": true,
+    "payloadTypesSync": true
+  },
+  "fragments": ["global.mdc.fragment"],
+  "agentDoc": "CURSOR.md",
+  "humanDoc": "README.md"
+}

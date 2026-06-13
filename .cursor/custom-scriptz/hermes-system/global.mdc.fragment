@@ -1,0 +1,15 @@
+
+## J.A.R.V.I.S. Core Shortcuts & Commands
+
+| Trigger Phrase | PowerShell Shortcut | J.A.R.V.I.S. Capability |
+|---|---|---|
+| **`remember <fact>`** | `remember "<fact>"` | Local vector memory layer storage |
+| **`recall <query>`** | `recall "<query>"` | Local memory search & speech output |
+| **`load-qwen`** | `load-qwen` | Loads local reasoning Qwen 4B into VRAM |
+| **`load-deepseek`**| `load-deepseek` | Loads local DeepSeek 33B into VRAM |
+| **`unload-model`** | `unload-model` | Unloads all loaded models from VRAM |
+| **`vram-status`** | `vram-status` | Inspects currently loaded models and idle durations |
+| **`keep-model-on`**| `keep-model-on` | Disables 15-minute VRAM auto-unload |
+| **`keep-model-off`**| `keep-model-off` | Re-enables the 15-minute auto-unload safety loop |
+| **`gen-image <prompt>`** | `gen-image "<prompt>"` | Generates a free FLUX.1 image locally (sub-3s) |
+| **`speak <conversational image prompt>`** | `speak "make me an HD background..."` | Converse naturally to trigger image downloads & opens |
