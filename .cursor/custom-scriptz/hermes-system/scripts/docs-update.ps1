@@ -95,6 +95,14 @@ foreach ($f in $filesToCheck) {
                 Write-Host "  Aligning Checkpoint milestone version -> $Version" -ForegroundColor Yellow
             }
         }
+        if ($content -match "- \*\*Version:\*\* \d+\.\d+\.\d+") {
+            $oldProp = $Matches[0]
+            if ($oldProp -ne "- **Version:** $Version") {
+                $content = $content -replace "- \*\*Version:\*\* \d+\.\d+\.\d+", "- **Version:** $Version"
+                $modified = $true
+                Write-Host "  Aligning Checkpoint version property -> $Version" -ForegroundColor Yellow
+            }
+        }
     }
 
     if ($modified) {

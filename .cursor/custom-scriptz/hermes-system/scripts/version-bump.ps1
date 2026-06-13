@@ -152,6 +152,8 @@ if (Test-Path $checkpointPath) {
         $content = $content -replace "MSC-Website-v\d+", $BranchName
         # Update version label in Milestone
         $content = $content -replace "MyStudioChannel v\d+\.\d+\.\d+", "MyStudioChannel v$version"
+        # Update version property
+        $content = $content -replace "- \*\*Version:\*\* \d+\.\d+\.\d+", "- **Version:** $version"
         [System.IO.File]::WriteAllText($checkpointPath, $content, (New-Object System.Text.UTF8Encoding($false)))
         Write-Host "  Updated Checkpoint.md references." -ForegroundColor Green
     }
