@@ -14,6 +14,8 @@
 ## Recent Milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
+| 2026-06-12 | **VRAM Idle Auto-Unloader & System Lifecycle Manager** | ops |
+| 2026-06-12 | **Payload Schema Types Sync Watcher & Validation Hook** | ops |
 | 2026-06-12 | **Local J.A.R.V.I.S. Memory Layer & LM Studio Switcher Integration** | ops |
 | 2026-06-12 | **J.A.R.V.I.S. Vocal Welcome Greeting & Unified System Startup** | ops |
 | 2026-06-12 | **Cursor Developer MCP Server Expansion (SQLite, Git, Docker)** | ops |

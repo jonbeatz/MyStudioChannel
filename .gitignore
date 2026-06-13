@@ -84,3 +84,6 @@ test-results/
 # Agent/Cursor skills local caches
 .agents/
 ai-agent-skills/
+
+# Local VRAM Idle State Manager Tracking (local only)
+.vram-idle-state.json

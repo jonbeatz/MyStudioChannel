@@ -1,11 +1,13 @@
-## [2026-06-12] - Session Work — Vocal J.A.R.V.I.S. Welcome & Local Mem0 Memory Layer
+## [2026-06-12] - Session Work — J.A.R.V.I.S. VRAM Auto-Unload, Payload Types Sync & Mem0 Memory Layer
 - **Branch:** `MSC-Website-v8`
 - **Changes:** 
-  *   **J.A.R.V.I.S. Vocal Welcome:** Created unified `scripts/start-hermes-api.ps1` launcher to start Google API proxy, poll port 4000, wait 2 seconds for system stabilization, and play high-quality welcome greeting (via `en-GB-RyanNeural`). Added `msc:google-api:start-session` in `package.json` and integrated into `.cursor/prompts/Start-Project.md`.
-  *   **Local Mem0 Memory Layer:** Installed global `@mem0/cli`, `mem0ai` library, and local CPU embedding dependency `sentence-transformers` for offline Qdrant vectors. Built `scripts/mem0_integration.py` and `scripts/mem0-chat.ps1`.
-  *   **LM Studio CLI Model Switcher:** Added `load-qwen`, `load-deepseek`, `unload-model`, and `model-status` functions to PowerShell profile. Integrated auto-check in Mem0 backend to warn if models are unloaded.
+  *   **Payload CMS Types Sync & Validation:** Created `scripts/payload-types-sync.ps1` supporting Watch, Validate, and PreCommit checks. Integrated with `.husky/pre-commit` to auto-compile and auto-stage schema updates, and added build gates (`npm run build`) to block out-of-sync types.
+  *   **VRAM Auto-Unload & Lifecycle Manager:** Designed `scripts/vram-idle-manager.ps1` background monitoring daemon. Auto-warns and unloads local LM Studio LLM models after 15 minutes of idle time. Added manual overrides (`keep-model-on`, `keep-model-off`) and native PowerShell Job triggers.
+  *   **Unified Build & Auto-Dev Pipeline:** Implemented `npm run build:dev` that validates types, compiles productionNext, and auto-spins the local `next dev` server on port 3000 in a detached background job so click-links are instantly active.
+  *   **J.A.R.V.I.S. Vocal Welcome:** Created unified `scripts/start-hermes-api.ps1` launcher to start Google API proxy, poll port 4000, wait 2 seconds for system stabilization, and play high-quality welcome greeting. Added `msc:google-api:start-session` in `package.json` and integrated into `.cursor/prompts/Start-Project.md`. Refined the profile voice classifier to avoid false-positive AI queries.
+  *   **Local Mem0 Memory Layer:** Installed global `@mem0/cli`, `mem0ai` library, and local CPU embedding dependency `sentence-transformers` for offline Qdrant vectors. Built `scripts/mem0_integration.py` and `scripts/mem0-chat.ps1` with auto Qwen-loading checks.
   *   **MCP Expansion:** Integrated **SQLite**, **Git**, and **Docker** MCP servers into Cursor `cline_mcp_settings.json`.
-- **Status:** completed — verified end-to-end memory recall and model switching!
+- **Status:** completed — verified end-to-end memory recall, types watch, and auto-unload daemon checks!
 
 ## [2026-06-11] - v8.0.0 release on MSC-Website-v8
 - **Branch:** `MSC-Website-v8`; **`MSC-Website-v7`** frozen @ `b4ab8ae`

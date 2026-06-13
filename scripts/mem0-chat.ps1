@@ -82,7 +82,7 @@ if ($response -and $response.success) {
                 speak $speakText 2>$null
             }
         } else {
-            $msg = "I'm sorry, Jon, but I found no memories matching your request."
+            $msg = 'I''m sorry, Jon, but I found no memories matching your request.'
             Write-Host "[J.A.R.V.I.S.] $msg" -ForegroundColor Yellow
             if (Get-Command speak -ErrorAction SilentlyContinue) {
                 speak $msg 2>$null

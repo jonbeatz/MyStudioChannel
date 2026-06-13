@@ -37,6 +37,20 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-12] Next.js Build Fails on External TypeScript Agent Skills Caches
+- **Error:** Next.js build (`next build`) fails with `Type error: Cannot find module '~/threads/thread-manager' or its corresponding type declarations` inside `ai-agent-skills/` subdirectories.
+- **Cause:** TSConfig default wildcard matches (`"include": ["**/*.ts"]`) match every TypeScript file in the workspace. Since `ai-agent-skills/` and `.agents/` contain local cache files for agent templates, the compiler tried to validate their type safety.
+- **Solution:** Excluded non-runtime directories (`ai-agent-skills`, `.agents`, `_archive`, `google-api`, `tests`, `test-results`) in `tsconfig.json`'s `exclude` block.
+- **Files Changed:** `tsconfig.json`
+- **Prevention:** Always exclude non-runtime and local cache folders from `exclude` array inside `tsconfig.json` to speed up and secure builds.
+
+## [2026-06-12] Windows PowerShell Console Emoji Parse Mismatch
+- **Error:** Parser error or scrambled display strings (`dYO?`) occurred when parsing or executing `vram-idle-manager.ps1` and dot-sourced profile functions.
+- **Cause:** Source files containing multi-byte Unicode emojis (like 🔴, 📌, ✅) parsed by PowerShell on Windows without UTF-8 BOM encoding cause syntax errors or character scrambling.
+- **Solution:** Removed all console-log emojis from `vram-idle-manager.ps1` and profile helper files, replacing them with clean standardized text brackets (e.g. `[OK]`, `[STOP]`).
+- **Files Changed:** `D:\Cursor_Projectz\MyStudioChannel\scripts\vram-idle-manager.ps1`, `C:\Users\JONBEATZ\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`
+- **Prevention:** Adhere strictly to the workspace guidelines to avoid multi-byte emoji characters inside Windows automation and helper scripts.
+
 ## [2026-06-12] J.A.R.V.I.S. Welcome Greeting & Voice Classifier false positive read-back
 - **Error:** The `speak` command read back entire terminal blocks or LLM outputs instead of speaking the text literally.
 - **Cause:** The regex in `speak` matched question marks (`?`) anywhere in the string, incorrectly classifying statements with trailing question marks as AI queries.

@@ -5,3 +5,10 @@ if [ $? -ne 0 ]; then
   echo "❌ Lint failed. Commit aborted. Fix lint errors first!"
   exit 1
 fi
+
+echo "🔍 Running Payload Schema Type sync & validation..."
+powershell -ExecutionPolicy Bypass -File scripts/payload-types-sync.ps1 -PreCommit
+if [ $? -ne 0 ]; then
+  echo "❌ Schema compilation/validation failed. Commit aborted!"
+  exit 1
+fi
