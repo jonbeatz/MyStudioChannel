@@ -131,7 +131,7 @@ My Studio Channel
 
 ## 🛡️ Production-Hardening & Reliability Features
 
-The **`MSC-Website-v8`** line (cut from frozen **`MSC-Website-v7`** @ `b4ab8ae`) continues comprehensive safety and developer experience features from v5–v7:
+The **`MSC-Website-v9`** line (cut from frozen **`MSC-Website-v8`** @ `c0d834e`) continues comprehensive safety and developer experience features from v5–v8:
 - **Database Optimization Utility:** Optimize database files with `npm run msc:db:optimize` (using `PRAGMA optimize` + `VACUUM`), automated to prevent bloat.
 - **Git Pre-commit Hook (Husky):** Enforces lint checks automatically on every `git commit`, preventing bad syntax or build errors from entering git.
 - **SSH Live Log Streaming:** Instantly tail remote host logs on your PC terminal via `npm run msc:logs:live` (stderr) and `npm run msc:logs:live:console`.

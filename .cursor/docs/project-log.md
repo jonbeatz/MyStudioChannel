@@ -1,3 +1,13 @@
+## [2026-06-13] - Docs sync — v9 checkpoint, LiteLLM ISSUES-RESOLVED, ReCall
+- **Branch:** `MSC-Website-v9` @ `a938232`
+- **Changes:**
+  *   **ISSUES-RESOLVED:** LiteLLM Prisma/DATABASE_URL database-less proxy entry.
+  *   **Checkpoint / Restore-Points:** `a938232` tip; RP-2026-06-13-litellm-databaseless.
+  *   **ReCall / review.md / README:** Active line **`MSC-Website-v9`** v9.0.0; frozen v8 @ `c0d834e`.
+  *   **CHANGELOG:** Fixed section for LiteLLM proxy under [9.0.0].
+  *   **`msc:docs:sync`:** PERFECT — v9.0.0 | MSC-Website-v9.
+- **Status:** completed — committed + pushed with operator request.
+
 ## [2026-06-13] - LiteLLM database-less proxy fix (Start Project Prisma errors)
 - **Branch:** `MSC-Website-v9`
 - **Changes:**

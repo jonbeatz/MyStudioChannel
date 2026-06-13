@@ -40,6 +40,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Automated Performance Test-Suite (`test-website.ps1`):** Created a PowerShell test runner that automates multi-stage build, link integrity, and layout performance audits using parallel Hermes Agent execution.
 - **`scripts/jarvis-speak.ps1` + `npm run msc:jarvis:speak`:** Profile-independent Edge TTS for Start Project Step 7 (non-blocking).
 
+### Fixed
+- **LiteLLM database-less proxy (2026-06-13):** Strips Payload SQLite `DATABASE_URL` from LiteLLM child env; disables spend/error logs in `litellm_config.yaml`; `msc:litellm:verify` PASS without Prisma startup errors.
+
 ### Changed
 - **Start Project ritual (2026-06-13):** Polished summary cards with LiteLLM/Vertex/ngrok status; voice greeting moved to Step 7 only (`Start-Process -WindowStyle Hidden`); launcher uses Windows Terminal (`wt`) without TTS.
 - **J.A.R.V.I.S. greeting copy:** *"Welcome back Jon, I am JARVIS your personal assistant, all systems are fully functional, let's begin."*

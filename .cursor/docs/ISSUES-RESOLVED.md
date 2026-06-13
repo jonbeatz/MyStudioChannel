@@ -2,6 +2,13 @@
 
 This file tracks problems encountered during development and how they were resolved.
 
+## [2026-06-13] LiteLLM Start Project — Prisma DATABASE_URL errors
+- **Error:** Start Project / LiteLLM proxy failed with Prisma errors expecting `postgresql://` while Payload uses SQLite (`file:./payload.sqlite`).
+- **Cause:** LiteLLM inherited `DATABASE_URL` from `.env.local` (Payload SQLite path); Prisma in LiteLLM requires PostgreSQL or no database.
+- **Solution:** Database-less proxy mode — `disable_spend_logs` + `disable_error_logs` in `config/litellm_config.yaml`; `scripts/lib/msc-litellm-env.mjs` strips Payload DB URL from LiteLLM child env; `DISABLE_SCHEMA_UPDATE=true` when no `MSC_LITELLM_DATABASE_URL`; `start-hermes-api.ps1` uses `node scripts/msc-litellm-start.mjs`; preflight validates `MSC_LITELLM_DATABASE_URL` must be `postgresql://` if set.
+- **Files Changed:** `config/litellm_config.yaml`, `scripts/lib/msc-litellm-env.mjs`, `scripts/msc-litellm-preflight.mjs`, `scripts/start-hermes-api.ps1`, `.env.example`
+- **Prevention:** Keep Payload `DATABASE_URL` for CMS only; LiteLLM env must not inherit SQLite paths. Use `msc:litellm:verify` after proxy changes.
+
 ## [2026-06-13] ngrok Start Project Connection Timeout
 - **Error:** Starting the full `Start Project` workflow resulted in LiteLLM coming online but ngrok timing out on its HTTPS URL check.
 - **Cause:** Attempting to spawn ngrok inside a secondary elevated Windows Terminal (`wt nt cmd /k ...` runas) triggered a second blocking UAC authorization window. If not approved instantly on the taskbar, the automated script hit its timeout.

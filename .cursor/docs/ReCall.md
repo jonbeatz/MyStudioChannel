@@ -90,22 +90,29 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Gallery hydration:** **`lib/cms/homepage-gallery-seed.ts`**, **`lib/cms/homepage-gallery-hydrate.ts`** (`afterRead` → full Media shape for admin + site).
 - **Public URLs:** **`lib/public-origin.ts`** + **`lib/site-origin-defaults.ts`** — **`PAYLOAD_PUBLIC_SERVER_URL`** / **`NEXT_PUBLIC_SERVER_URL`** / **`MSC_CANONICAL_SITE_ORIGIN`**; **`getPublicOriginClient()`** for admin Client Components; **`payload.config.ts`** **`serverURL`** + env-built **CSRF**.
 - **Marketing site:** Header/footer in-page hash scroll (mobile drawer defer); **`HomeHashScroll`**; **`middleware`** pathname-only rewrites (host-agnostic).
-- **Version:** **`v8.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v8.0.0`**, admin **`MyStudioChannel Admin v8.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
-- **Live:** **`https://mystudiochannel.com`** — **v7.0.0** on host until next deploy; repo/local **v8.0.0**.
+- **Version:** **`v9.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v9.0.0`**, admin **`MyStudioChannel Admin v9.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
+- **Live:** **`https://mystudiochannel.com`** — **v7.0.0** on host until next deploy; repo/local **v9.0.0**.
 - **Deploy docs:** **`HOSTINGER-DEPLOY.md`**, **`DEPLOYMENT-TROUBLESHOOTING.md`** (§ fast deploy mistakes). **`-WithDb`** required for **`payload.sqlite`** on fast path. Zip unzip bug fixed — expect **~10–15 min**, not **~45 min** fallback.
-- **Branches:** **`MSC-Website-v8`** (active dev); **`MSC-Website-v7`** frozen @ **`b4ab8ae`** (backup **`msc-website-v2-k`**); **`main`** tracks v8 line; **`MSC-Website-v6`** frozen @ `c9e260e`; **`MSC-Website-v5`** frozen at v5.0.0.
-- **Git:** **`payload.sqlite`** tracked @ **`14ceb53`** (v7 CMS baseline for deploy seed); **`MSC-Website-v8`** @ **8.0.0**.
-- **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v8.0.0`**; **Latest = `v8.0.0`**.
+- **Branches:** **`MSC-Website-v9`** (active dev @ **`a938232`**); **`MSC-Website-v8`** frozen @ **`c0d834e`**; **`MSC-Website-v7`** frozen @ **`b4ab8ae`**; **`main`** @ **`b4ab8ae`**.
+- **Git:** **`payload.sqlite`** tracked @ **`14ceb53`** (v7 CMS baseline for deploy seed); **`MSC-Website-v9`** @ **9.0.0**.
+- **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v9.0.0`**; **Latest = `v9.0.0`** (repo; live still v7 until deploy).
 - **CI:** **`.github/workflows/verify.yml`** — build + Playwright smoke on push (Node **22**); admin login wait fix @ **`112acc5`**.
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright); **`npm run analyze`** for admin bundle (~**816 kB**).
+- **J.A.R.V.I.S. / LiteLLM:** Start Project boots LiteLLM (**4000**) + ngrok; database-less proxy (no Prisma/SQLite leak); **`msc:litellm:verify`** PASS.
 - **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); Hostinger quartet via **`msc-hostinger-mcp.mjs`** launcher (scoped bins, no tool-naming warnings); MCP reload via **Settings → MCP**; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
 - **Audit (2026-06-07):** Phases 1–4 complete @ **`9d9831f`** (pushed). **`.cursor/review.md`** audit queue closed 2026-06-11.
-- **Hygiene (2026-06-11):** Complete on frozen **`MSC-Website-v7`** @ **`b4ab8ae`**; active dev on **`MSC-Website-v8`**.
-- **Next ideas:** Feature work on **`MSC-Website-v8`**; portable kit from **ideaz.md** when starting new projects.
+- **Next ideas:** Deploy v9 labels live (`pushit:live:fast`); feature work on **`MSC-Website-v9`**; portable kit from **ideaz.md** when starting new projects.
 
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-13 — LiteLLM database-less proxy + docs sync
+
+- **Fix @ `a938232`:** LiteLLM no longer inherits Payload SQLite `DATABASE_URL`; Prisma startup errors eliminated; **`msc:litellm:verify`** PASS.
+- **Start Project:** LiteLLM + ngrok cold start ~43s; JARVIS greeting Step 7 (non-blocking).
+- **Docs:** Checkpoint, ReCall, Restore-Points, ISSUES-RESOLVED, CHANGELOG synced to v9 / **`MSC-Website-v9`** @ **`a938232`**.
+- **Next:** Deploy v9 live (`pushit:live:fast`) when ready.
 
 ### 2026-06-11 — v8.0.0 release on MSC-Website-v8
 
