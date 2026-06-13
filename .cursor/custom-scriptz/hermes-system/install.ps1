@@ -34,7 +34,10 @@ $scripts = @(
     "generate-payload-types.mjs",
     "setup-hermes.ps1",
     "profile-functions.template.ps1",
-    "config.yaml.template"
+    "config.yaml.template",
+    "version-bump.ps1",
+    "github-release.ps1",
+    "docs-update.ps1"
 )
 
 if (-not $WhatIf) {

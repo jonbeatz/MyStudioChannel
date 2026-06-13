@@ -140,6 +140,17 @@ Completely automates database compilation and safety gates:
 *   `npm run msc:types:validate` — Validation check inside NextJS compilation. Fails the build if you modified a schema but forgot to commit `payload-types.ts`.
 *   **Husky Hooks (`.husky/pre-commit`):** Automatically intercepts commits. If schemas were changed, it compiles the types and **auto-stages `payload-types.ts`** into the current git commit safely!
 
+### 📈 Automated Version Bumping & Releases
+When transitioning to a new version branch (e.g. `MSC-Website-v9`, `MSC-Website-v10`, etc.), you can automate the entire version alignment, documentation synchronization, and GitHub release pipeline:
+*   `npm run version:bump` — Auto-detects active branch, parses version (`MSC-Website-v9` -> `9.0.0`), updates `package.json`, `README.md` badges, milestone configurations, prepend-logs `project-log.md`, and runs full verification builds/lints, then commits and pushes!
+*   `npm run version:release` — Bumps the version, runs the build gate, commits/tags, and triggers the `github:release` publisher automatically.
+*   `npm run github:release` — Auto-publishes a GitHub release using the active package version and compiles release notes.
+*   `npm run version:restore` — Safety switch: immediately restores all affected files from `.version-backup/` to safety.
+
+#### Flags:
+*   `-- --dry-run` — Show what version/files would change without writing anything (e.g., `npm run version:bump -- --dry-run`).
+*   `-- --force` — Bypass the user confirmation prompt.
+
 ---
 
 ## 🔧 6. Active Model Context Protocol (MCP) Servers
