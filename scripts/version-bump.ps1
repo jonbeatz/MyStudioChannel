@@ -109,7 +109,7 @@ if (-not $DryRun) {
 # --- 1. Update package.json ---
 $pkgPath = Join-Path $RepoRoot '..\package.json'
 Write-Host "$Tag Updating package.json..." -ForegroundColor Yellow
-$pkgJson = Get-Content $pkgPath -Raw | ConvertFrom-Json
+$pkgJson = [System.IO.File]::ReadAllText($pkgPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
 $oldVersion = $pkgJson.version
 if ($DryRun) {
     Write-Host "  [DryRun] package.json version: $oldVersion -> $version" -ForegroundColor DarkGray
@@ -125,7 +125,7 @@ if ($DryRun) {
 $readmePath = Join-Path $RepoRoot '..\README.md'
 if (Test-Path $readmePath) {
     Write-Host "$Tag Updating README.md version badges..." -ForegroundColor Yellow
-    $content = Get-Content $readmePath -Raw
+    $content = [System.IO.File]::ReadAllText($readmePath, [System.Text.Encoding]::UTF8)
     $badgePattern = "version-(\d+\.\d+\.\d+)-blue"
     if ($content -match $badgePattern) {
         $oldBadge = $Matches[0]
@@ -144,7 +144,7 @@ if (Test-Path $readmePath) {
 $checkpointPath = Join-Path $RepoRoot '..\.cursor\docs\Checkpoint.md'
 if (Test-Path $checkpointPath) {
     Write-Host "$Tag Updating Checkpoint.md active branch and milestone..." -ForegroundColor Yellow
-    $content = Get-Content $checkpointPath -Raw
+    $content = [System.IO.File]::ReadAllText($checkpointPath, [System.Text.Encoding]::UTF8)
     if ($DryRun) {
         Write-Host "  [DryRun] Checkpoint.md updates (active branch and milestone)" -ForegroundColor DarkGray
     } else {
@@ -161,7 +161,7 @@ if (Test-Path $checkpointPath) {
 $changelogPath = Join-Path $RepoRoot '..\CHANGELOG.md'
 if (Test-Path $changelogPath) {
     Write-Host "$Tag Updating CHANGELOG.md headers..." -ForegroundColor Yellow
-    $content = Get-Content $changelogPath -Raw
+    $content = [System.IO.File]::ReadAllText($changelogPath, [System.Text.Encoding]::UTF8)
     
     # We want to insert the release header under [Unreleased]
     $today = (Get-Date).ToString("yyyy-MM-dd")
@@ -199,7 +199,7 @@ if (Test-Path $logPath) {
     if ($DryRun) {
         Write-Host "  [DryRun] project-log.md: Will prepend new version log entry" -ForegroundColor DarkGray
     } else {
-        $content = Get-Content $logPath -Raw
+        $content = [System.IO.File]::ReadAllText($logPath, [System.Text.Encoding]::UTF8)
         $newContent = $logBody + "`n`n" + $content
         [System.IO.File]::WriteAllText($logPath, $newContent, (New-Object System.Text.UTF8Encoding($false)))
         Write-Host "  Updated project-log.md with release entry." -ForegroundColor Green

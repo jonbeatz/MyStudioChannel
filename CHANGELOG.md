@@ -8,8 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [8.0.0] - 2026-06-11
 
 ### Added
-  *   **`MSC-Website-v9`** branch Ã¢â‚¬â€ active development line; **`MSC-Website-v8`** frozen @ `c0d834e` as restore backup
-  *   **`MSC-Website-v8`** branch Ã¢â‚¬â€ active development line; **`MSC-Website-v7`** frozen @ `b4ab8ae` as restore backup
+  *   **`MSC-Website-v9`** branch — active development line; **`MSC-Website-v8`** frozen @ `c0d834e` as restore backup
+  *   **`MSC-Website-v8`** branch — active development line; **`MSC-Website-v7`** frozen @ `b4ab8ae` as restore backup
 - **GitHub tag `v8.0.0`** on **`MSC-Website-v8`**
 
 ### Changed
@@ -20,18 +20,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-
-## [9.0.0] - 2026-06-13
-
-### Added
-
-## [9.0.0] - 2026-06-13
-
-### Added
-
-## [9.0.0] - 2026-06-13
-
-### Added
 - **Payload CMS Types Sync & Validation Pipeline (`payload-types-sync.ps1`):** Robust PowerShell controller supporting `-Watch`, `-Validate`, and `-PreCommit` actions. Integrated with NextJS build gates (`npm run build`) and `.husky/pre-commit` to guarantee database schema types are always validated and auto-staged on change.
 - **VRAM Idle Manager & Auto-Unloader (`vram-idle-manager.ps1`):** Lightweight background monitoring daemon tracking LM Studio local LLM idle durations. Auto-warns and unloads loaded GGUF models after 15 minutes of inactivity to reclaim system memory. Features manual overrides (`keep-model-on`, `keep-model-off`) and native PowerShell Job integration (`vram-daemon-start`, `vram-daemon-stop`).
 - **Seamless Local Build & Auto-Dev Pipeline (`npm run build:dev`):** Spawns a production compilation gate, validates schemas, purges active ports, and starts NextJS dev in a detached background job so local click-links are instantly active on port 3000.
@@ -39,8 +27,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **LiteLLM + ngrok Start Project Integration:** Restored the `start-hermes-api.ps1` launcher to boot both LiteLLM (via elevated Windows Terminal) and ngrok (via minimized background process to prevent double-UAC prompts). Added automated inspection of the `4040` local ngrok API, validation of remote model accessibility via public `/v1/models`, dynamic `.cursor/session-google-api.json` generation, and Cursor settings logging.
 - **Mem0 Long-Term Memory Layer:** Native integration with local Qdrant vector store and LM Studio model embeddings. Added PowerShell shortcuts `remember` and `recall` that auto-load Qwen 4B reasoning models when empty.
 - **Cursor Workspace MCP Server Expansion:** Registered sqlite, git, and docker MCP servers inside `cline_mcp_settings.json` to expand local workspace capabilities.
-- **Cinematic Bento-Grid Explorer (`DemosReimagined`)** Ã¢â‚¬â€ Modern, high-end, responsive `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` layout for showcasing creator platforms. Includes staggered load-in animations via `motion/react`, responsive image aspect-video framing, and top-left category pill badges.
-- **Spring-Loaded Glass Modal (`DemosModal`)** Ã¢â‚¬â€ Premium overlay modal featuring backdrop blurring (`backdrop-blur-lg`), spring mechanics (`type: "spring", damping: 30, stiffness: 250`), keyboard escape-key closes, backdrop click dismissal, and touch device friendly fallbacks.
+- **Cinematic Bento-Grid Explorer (`DemosReimagined`)** — Modern, high-end, responsive `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` layout for showcasing creator platforms. Includes staggered load-in animations via `motion/react`, responsive image aspect-video framing, and top-left category pill badges.
+- **Spring-Loaded Glass Modal (`DemosModal`)** — Premium overlay modal featuring backdrop blurring (`backdrop-blur-lg`), spring mechanics (`type: "spring", damping: 30, stiffness: 250`), keyboard escape-key closes, backdrop click dismissal, and touch device friendly fallbacks.
 - **Option-Based Carousel Pagination:** Added center-aligned pagination footer (e.g. "1-6 of 8") with sliding page transitions (`AnimatePresence`) that handles item sets greater than 6 and automatically hides when unnecessary.
 - **Dynamic CMS Project Hydration:** Permanently seeded 3 new test/mock projects directly into the SQLite `projects_home_project_items` database and registered new physical files (`test-project-alpha-alt.jpg`, `beta-studio-alt.jpg`, `gamma-network-alt.jpg`) inside the `media` collection.
 - **Scroll Anchor Migration:** Configured `DemosReimagined` to support the canonical scroll target `#msc-demos` with accurate sticky header offset margins (`scroll-mt-30`).
@@ -59,58 +47,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **GitHub release/tag `v7.0.0`** on **`MSC-Website-v7`**
-- **`MSC-Website-v7` branch cut** Ã¢â‚¬â€ active development line from frozen `MSC-Website-v6` @ `c9e260e`; full backup `msc-website-v2-f`
-- **`scripts/msc-hostinger-mcp.mjs`** Ã¢â‚¬â€ scoped Hostinger MCP bins + invalid tool-name filter for Cursor
-- **`.cursor/ideaz.md`** Ã¢â‚¬â€ portable `custom-scriptz` / project-bootstrap roadmap (backlog)
-- **`.cursor/review.md`** Ã¢â‚¬â€ comprehensive audit follow-up queue and tomorrow work list
-- **Comprehensive audit (Phases 2Ã¢â‚¬â€œ4)** Ã¢â‚¬â€ Payload UI patch regenerate; `/test` middleware fix; `sync-app --skip-db`; SSH preflight; bulk `msc:*` doc sync; rules dedup; Restore-Points trim; Sentry pin; MCP sync for 21st/browserbase
-- **Header nav `submenuSource`** Ã¢â‚¬â€ per-row **Submenu source**: Manual | From Pages collection
-- **`showInHeaderNav`** on Pages collection Ã¢â‚¬â€ opt pages in/out of the **Legal** dropdown
+- **`MSC-Website-v7` branch cut** — active development line from frozen `MSC-Website-v6` @ `c9e260e`; full backup `msc-website-v2-f`
+- **`scripts/msc-hostinger-mcp.mjs`** — scoped Hostinger MCP bins + invalid tool-name filter for Cursor
+- **`.cursor/ideaz.md`** — portable `custom-scriptz` / project-bootstrap roadmap (backlog)
+- **`.cursor/review.md`** — comprehensive audit follow-up queue and tomorrow work list
+- **Comprehensive audit (Phases 2–4)** — Payload UI patch regenerate; `/test` middleware fix; `sync-app --skip-db`; SSH preflight; bulk `msc:*` doc sync; rules dedup; Restore-Points trim; Sentry pin; MCP sync for 21st/browserbase
+- **Header nav `submenuSource`** — per-row **Submenu source**: Manual | From Pages collection
+- **`showInHeaderNav`** on Pages collection — opt pages in/out of the **Legal** dropdown
 - **SQLite migrations:** `msc:migrate:sqlite:header-nav-submenu-source`, `msc:migrate:sqlite:pages-show-in-header-nav`
 - **`msc:hostinger:sync-app`**, **`msc:hostinger:npm-install`**, **`msc:hostinger:recover`** SSH scripts
 
 ### Changed
 - **Version bump** to **7.0.0** in `package.json`; UI labels via `lib/msc-app-version.ts` (footer + admin sidebar)
-- **MCP reload docs** Ã¢â‚¬â€ **Settings Ã¢â€ â€™ MCP** (cursor-mcp-refresh optional/archived)
-- **`msc-sync-mcp-env.mjs`** Ã¢â‚¬â€ copies Hostinger launcher to `~/.cursor/scripts/`
+- **MCP reload docs** — **Settings → MCP** (cursor-mcp-refresh optional/archived)
+- **`msc-sync-mcp-env.mjs`** — copies Hostinger launcher to `~/.cursor/scripts/`
 - **Legal** nav label (was **Pages**) for the collection-driven dropdown
-- **`pushit:live`** Ã¢â‚¬â€ step **5b** runs **`msc:hostinger:sync-app`**; auto **`npm install --legacy-peer-deps --ignore-scripts`**
-- Deploy docs Ã¢â‚¬â€ Hostinger folder map, MCP build-failed notes, prevention checklist
+- **`pushit:live`** — step **5b** runs **`msc:hostinger:sync-app`**; auto **`npm install --legacy-peer-deps --ignore-scripts`**
+- Deploy docs — Hostinger folder map, MCP build-failed notes, prevention checklist
 
 ### Fixed
-- **Hostinger MCP** Ã¢â‚¬â€ Windows spawn EINVAL; tool naming warnings (`Node.js` in tool names)
+- **Hostinger MCP** — Windows spawn EINVAL; tool naming warnings (`Node.js` in tool names)
 - **MSC1** excluded from header nav via `showInHeaderNav` + runtime slug filter
-- **Live 503** after deploy Ã¢â‚¬â€ `node_modules` missing Next webpack; **`msc:hostinger:npm-install`**
-- **Wrong live code/footer** when FTPS landed in **`public_html/nodejs/`** only Ã¢â‚¬â€ **`msc:hostinger:sync-app`**
-- **pushit:live:fast** Ã¢â‚¬â€ zip path (staging root, not `zips/`)
-- Live **4 KB stub DB** after MCP/Git deploy Ã¢â‚¬â€ FTPS + `sync-db` restores ~500 KB DB
+- **Live 503** after deploy — `node_modules` missing Next webpack; **`msc:hostinger:npm-install`**
+- **Wrong live code/footer** when FTPS landed in **`public_html/nodejs/`** only — **`msc:hostinger:sync-app`**
+- **pushit:live:fast** — zip path (staging root, not `zips/`)
+- Live **4 KB stub DB** after MCP/Git deploy — FTPS + `sync-db` restores ~500 KB DB
 
 ## [6.0.0] - 2026-06-07
 
 ### Added
-- **GitHub releases/tags** Ã¢â‚¬â€ `v4.0.0`, `v5.0.0`, `v6.0.0` published on [releases](https://github.com/jonbeatz/MyStudioChannel/releases) (`v6.0.0` superseded by `v7.0.0`)
-- **`MSC-Website-v6` branch cut** Ã¢â‚¬â€ new active development line from `MSC-Website-v5` @ `92918b6`
-- **`msc:push:db:live`** Ã¢â‚¬â€ quick (~1Ã¢â‚¬â€œ2 min) live database deploy path
-- **`msc:hostinger:stop-node`** and **`msc:hostinger:sync-db`** Ã¢â‚¬â€ SSH stop Node and copy FTPS DB into live app root
-- **`msc:session:stop`** Ã¢â‚¬â€ end-session cleanup (dev :3000 + LiteLLM/ngrok)
-- **`app/global-error.tsx`** and **`instrumentation-client.ts`** Ã¢â‚¬â€ Sentry client boundary (replaces deprecated `sentry.client.config.ts`)
+- **GitHub releases/tags** — `v4.0.0`, `v5.0.0`, `v6.0.0` published on [releases](https://github.com/jonbeatz/MyStudioChannel/releases) (`v6.0.0` superseded by `v7.0.0`)
+- **`MSC-Website-v6` branch cut** — new active development line from `MSC-Website-v5` @ `92918b6`
+- **`msc:push:db:live`** — quick (~1–2 min) live database deploy path
+- **`msc:hostinger:stop-node`** and **`msc:hostinger:sync-db`** — SSH stop Node and copy FTPS DB into live app root
+- **`msc:session:stop`** — end-session cleanup (dev :3000 + LiteLLM/ngrok)
+- **`app/global-error.tsx`** and **`instrumentation-client.ts`** — Sentry client boundary (replaces deprecated `sentry.client.config.ts`)
 
 ### Changed
 - **Version bump** to **6.0.0** in `package.json`; UI labels via `lib/msc-app-version.ts`
-- **Deploy workflow:** say **push it live** Ã¢â€ â€™ agent asks mode (Quick DB Ã‚Â· Full FTPS Ã‚Â· MCP code-only); **MCP/Git Ã¢â€°Â  DB deploy** documented across ops docs
-- **`pushit:live`** Ã¢â‚¬â€ auto-runs **`msc:hostinger:sync-db`** after `payload.sqlite` FTPS upload (7-step pipeline)
+- **Deploy workflow:** say **push it live** → agent asks mode (Quick DB · Full FTPS · MCP code-only); **MCP/Git ≠ DB deploy** documented across ops docs
+- **`pushit:live`** — auto-runs **`msc:hostinger:sync-db`** after `payload.sqlite` FTPS upload (7-step pipeline)
 - **Sentry:** correct org slug `mystudiochannel`; env-driven org/project in `next.config.mjs`
 - Updated operational docs for **`MSC-Website-v6`** and **v6.0.0**
 
 ### Fixed
-- Live **4 KB stub DB** after MCP/Git deploy Ã¢â‚¬â€ FTPS + `sync-db` restores ~500 KB DB to Node app root; `/api/globals/*` **200** after fix
+- Live **4 KB stub DB** after MCP/Git deploy — FTPS + `sync-db` restores ~500 KB DB to Node app root; `/api/globals/*` **200** after fix
 
 ## [5.0.0] - 2026-06-02
 
 ### Added
-- **`MSC-Website-v5` branch cut** Ã¢â‚¬â€ production hardening line from `MSC-Website-v4`
+- **`MSC-Website-v5` branch cut** — production hardening line from `MSC-Website-v4`
 - **`msc:db:optimize`**, Husky pre-commit lint, **`msc:logs:live`**, backup retention **`msc:backup:clean`**
-- **`MASTER-COMMANDS.md`** Ã¢â‚¬â€ single source of truth for npm scripts
+- **`MASTER-COMMANDS.md`** — single source of truth for npm scripts
 
 ### Changed
 - Version bump to **5.0.0**; **`MSC-Website-v4`** frozen
@@ -118,7 +106,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [4.0.0] - 2026-06-01
 
 ### Added
-- **`MSC-Website-v4` branch cut** Ã¢â‚¬â€ Hostinger Node.js production deploy path
+- **`MSC-Website-v4` branch cut** — Hostinger Node.js production deploy path
 - Unified **`.env.example`** template; deployment troubleshooting docs
 
 ### Changed
@@ -138,4 +126,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Initial MyStudioChannel Payload + Next.js release
-

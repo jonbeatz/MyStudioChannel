@@ -1,4 +1,4 @@
-# docs-update.ps1 — MyStudioChannel Version Alignment Auditor
+# docs-update.ps1 - MyStudioChannel Version Alignment Auditor
 param(
     [string]$Version,
     [string]$BranchName
@@ -12,7 +12,7 @@ $RepoRoot = $PSScriptRoot
 $pkgPath = Join-Path $RepoRoot '..\package.json'
 if (-not $Version) {
     if (Test-Path $pkgPath) {
-        $pkg = Get-Content $pkgPath -Raw | ConvertFrom-Json
+        $pkg = [System.IO.File]::ReadAllText($pkgPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
         $Version = $pkg.version
     } else {
         Write-Error "Could not resolve current version."
@@ -49,7 +49,7 @@ foreach ($f in $filesToCheck) {
         continue
     }
     
-    $content = Get-Content $f -Raw
+    $content = [System.IO.File]::ReadAllText($f, [System.Text.Encoding]::UTF8)
     $modified = $false
     $name = Split-Path $f -Leaf
 
@@ -91,7 +91,7 @@ foreach ($f in $filesToCheck) {
         [System.IO.File]::WriteAllText($f, $content, (New-Object System.Text.UTF8Encoding($false)))
         Write-Host "  Successfully synchronized $name" -ForegroundColor Green
     } else {
-        Write-Host "  OK — $name is aligned" -ForegroundColor Green
+        Write-Host "  OK - $name is aligned" -ForegroundColor Green
     }
 }
 
