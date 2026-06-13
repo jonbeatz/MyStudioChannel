@@ -34,17 +34,27 @@ Run unconditionally from repo root (safe when nothing is listening):
 This clears **Next dev (3000)**, **LiteLLM (4000)**, **ngrok**, and **ngrok inspector (4040)**. Report what each sub-step found (process killed vs already free).
 
 ### Step 5: Session Handoff Block
-Print:
+Print (replace `[…]` with live values):
+
+```
+-------------------------------------------------------------------------------
 ✅ SESSION CLOSEOUT — [YYYY-MM-DD HH:MM]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📁 Branch: [current branch]
-📝 Changes logged to project-log.md
-🔧 Git: [clean if committed, otherwise note pending]
-🛑 Local services stopped: Next dev (3000), LiteLLM + ngrok (4000, 4040)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+-------------------------------------------------------------------------------
+
+📦 SESSION WRAP-UP
+   📝 Changes logged……… project-log.md
+   🔧 Git………………… [clean | pending commit/push]
+   🛑 Services stopped…… Next dev (3000), LiteLLM + ngrok (4000, 4040)
+
+📁 PROJECT
+   🌿 Branch……………… [current branch]
+
+-------------------------------------------------------------------------------
 ✅ Goodbye, Jon. See you next session.
+-------------------------------------------------------------------------------
 
 Cold-start pointer: Say "Start Project" to begin next session.
+```
 
 ## Important Rules
 - NEVER commit without explicit operator approval

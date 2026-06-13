@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "LiteLLM Proxy",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoExit",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "Set-Location '${workspaceFolder}'; Write-Host '[LiteLLM] Starting proxy on port 4000...' -ForegroundColor Cyan; litellm --config ./config/litellm_config.yaml --port 4000"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "litellm",
+        "showReuseMessage": false,
+        "clear": false,
+        "focus": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

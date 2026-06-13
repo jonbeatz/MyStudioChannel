@@ -1,57 +1,91 @@
-# Jarvis Launcher — Start Google API, Wait, and Speak Greeting (Windows 11)
-$ErrorActionPreference = "Stop"
+# Jarvis Launcher - LiteLLM in elevated Windows Terminal, clean exit
+$ErrorActionPreference = 'Stop'
 
-# 1. Start the Google API Proxy (LiteLLM + ngrok) in the background
-Write-Host "[J.A.R.V.I.S.] Initializing Google API Proxy (LiteLLM + ngrok)..." -ForegroundColor Cyan
-npm run msc:google-api:start | Out-Null
+$Tag = '[J.A.R.V.I.S.]'
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ConfigRel = './config/litellm_config.yaml'
+$Port = 4000
+$ReadyTimeoutSeconds = 90
 
-# 2. Wait for LiteLLM to boot on port 4000
-Write-Host "[J.A.R.V.I.S.] Waiting for server connection on port 4000..." -ForegroundColor Yellow
-$timeoutSeconds = 15
-$elapsed = 0
-$ready = $false
+function Test-LiteLLMPortOpen {
+    $conn = Test-NetConnection -ComputerName '127.0.0.1' -Port $Port -WarningAction SilentlyContinue
+    return [bool]$conn.TcpTestSucceeded
+}
 
-while ($elapsed -lt $timeoutSeconds) {
-    $connection = Test-NetConnection -ComputerName "127.0.0.1" -Port 4000 -WarningAction SilentlyContinue
-    if ($connection.TcpTestSucceeded) {
-        $ready = $true
-        break
+function Test-LiteLLMOnline {
+    if (-not (Test-LiteLLMPortOpen)) {
+        return $false
     }
-    Start-Sleep -Seconds 1
-    $elapsed++
+    Push-Location $RepoRoot
+    try {
+        $status = (& npm run msc:litellm:status 2>&1 | Out-String)
+        return $status -match 'online'
+    } finally {
+        Pop-Location
+    }
 }
 
-# 3. Wait 2 seconds for system/tunnel stabilization
-if ($ready) {
-    Write-Host "[J.A.R.V.I.S.] Connection detected. Stabilizing system..." -ForegroundColor Yellow
-    Start-Sleep -Seconds 2
+function Wait-LiteLLMReady {
+    param([int]$TimeoutSeconds = $ReadyTimeoutSeconds)
+
+    $elapsed = 0
+    while ($elapsed -lt $TimeoutSeconds) {
+        if (Test-LiteLLMPortOpen) {
+            Start-Sleep -Seconds 2
+            if (Test-LiteLLMOnline) {
+                return $true
+            }
+        }
+        if ($elapsed -gt 0 -and ($elapsed % 10) -eq 0) {
+            Write-Host "$Tag Waiting for LiteLLM on port $Port (${elapsed}s)..." -ForegroundColor DarkGray
+        }
+        Start-Sleep -Seconds 1
+        $elapsed++
+    }
+    return $false
 }
 
-# 4. Trigger Vocal Greeting with error suppression
-if (Get-Command speak -ErrorAction SilentlyContinue) {
-    speak "Welcome back Jon, I am J.A.R.V.I.S. your personal assistant. All systems are fully functional. How may I assist you today?" 2>$null
+function Stop-LiteLLMProxy {
+    Push-Location $RepoRoot
+    try {
+        npm run msc:litellm:stop | Out-Null
+    } finally {
+        Pop-Location
+    }
+}
+
+function Start-LiteLLM-Window {
+    Write-Host "$Tag Launching LiteLLM in Windows Terminal..." -ForegroundColor Cyan
+
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = 'wt'
+    $psi.Arguments = 'nt --title "LiteLLM" cmd /k cd /d "' + $RepoRoot + '" && litellm --config "' + $ConfigRel + '" --port ' + $Port
+    $psi.Verb = 'runas'
+    $psi.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Minimized
+    [System.Diagnostics.Process]::Start($psi) | Out-Null
+}
+
+Write-Host ''
+Write-Host "$Tag Session startup - LiteLLM proxy" -ForegroundColor Cyan
+Write-Host ''
+
+if (Test-LiteLLMOnline) {
+    Write-Host "$Tag LiteLLM already running on port $Port" -ForegroundColor Green
+    $ready = $true
 } else {
-    # Bulletproof fallback to run Python synthesis directly if profile isn't loaded in the current scope
-    & "C:\Users\JONBEATZ\AppData\Local\hermes\hermes-agent\venv\Scripts\python.exe" -c "
-import sys, json, logging
-logging.getLogger('tools.tts_tool').setLevel(logging.ERROR)
-logging.getLogger('tools.voice_mode').setLevel(logging.ERROR)
-sys.path.append(r'C:\Users\JONBEATZ\AppData\Local\hermes\hermes-agent')
-from tools.tts_tool import text_to_speech_tool
-from tools.voice_mode import play_audio_file
-
-text = 'Welcome back Jon, I am J.A.R.V.I.S. your personal assistant. All systems are fully functional. How may I assist you today?'
-try:
-    res = json.loads(text_to_speech_tool(text))
-    if res.get('success'):
-        play_audio_file(res['file_path'])
-except Exception:
-    pass
-" 2>$null
+    Stop-LiteLLMProxy
+    Start-LiteLLM-Window
+    $ready = Wait-LiteLLMReady
 }
 
 if ($ready) {
-    Write-Host "[J.A.R.V.I.S.] Systems active and ready. API proxy is online on port 4000!" -ForegroundColor Green
-} else {
-    Write-Warning "[J.A.R.V.I.S.] Startup complete, but port 4000 did not respond in time."
+    Write-Host "$Tag LiteLLM online on port $Port" -ForegroundColor Green
+    Write-Host "$Tag Test: npm run msc:litellm:verify" -ForegroundColor DarkGray
+    Write-Host ''
+    exit 0
 }
+
+Write-Warning "$Tag LiteLLM did not come online within ${ReadyTimeoutSeconds}s."
+Write-Warning "$Tag Check the LiteLLM Windows Terminal tab for errors, or run: npm run msc:google-api:start"
+Write-Host ''
+exit 1

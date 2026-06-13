@@ -43,14 +43,25 @@ Update or create `.cursor/docs/Checkpoint.md`:
 ```
 
 ### Step 4: Summary Report
-Print:
-📊 PROJECT UPDATE SUMMARY
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📝 project-log.md: checkpoint added
-🏁 Checkpoint.md: [updated/created]
-📦 Recent commits: [count]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Print (replace `[…]` with live values):
+
+```
+-------------------------------------------------------------------------------
+📊 PROJECT UPDATE — [YYYY-MM-DD HH:MM]
+-------------------------------------------------------------------------------
+
+📝 TRACKING
+   📋 project-log.md……… checkpoint added
+   🏁 Checkpoint.md………. [updated | created]
+   📦 Recent commits……… [count from git log]
+
+📁 PROJECT
+   🌿 Branch……………… [current branch]
+
+-------------------------------------------------------------------------------
 ✅ Project tracking updated.
+-------------------------------------------------------------------------------
+```
 
 ## Important Rules
 - DO NOT commit changes automatically - just update local files

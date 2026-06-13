@@ -37,6 +37,13 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-13] Start Project — voice played before summary / LiteLLM launcher blocking
+- **Error:** Start Project hung in agent terminal; J.A.R.V.I.S. voice played before session summary card; LiteLLM minimize experiments caused 4+ minute stalls.
+- **Cause:** Blocking `jarvis-speak.ps1` in launcher; `cursor terminal` CLI unavailable; `wt` ignores `ProcessWindowStyle.Minimized`; Win32 minimize polling added latency.
+- **Solution:** Voice removed from `start-hermes-api.ps1`; Step 7 uses non-blocking `Start-Process -WindowStyle Hidden`; summary card Step 5 with live LiteLLM/Vertex/ngrok probes; reverted to stable `ProcessStartInfo` + `wt` launcher (~31s).
+- **Files Changed:** `scripts/start-hermes-api.ps1`, `scripts/jarvis-speak.ps1`, `.cursor/prompts/Start-Project.md`, `End-Project.md`, `Update-Project.md`, `Prompt-Cheat-Sheet.md`, `package.json`
+- **Prevention:** Never block Start Project on TTS; print summary card before Step 7; do not use keyboard automation or minimize polling on `wt` without testing exit time.
+
 ## [2026-06-12] Next.js Build Fails on External TypeScript Agent Skills Caches
 - **Error:** Next.js build (`next build`) fails with `Type error: Cannot find module '~/threads/thread-manager' or its corresponding type declarations` inside `ai-agent-skills/` subdirectories.
 - **Cause:** TSConfig default wildcard matches (`"include": ["**/*.ts"]`) match every TypeScript file in the workspace. Since `ai-agent-skills/` and `.agents/` contain local cache files for agent templates, the compiler tried to validate their type safety.

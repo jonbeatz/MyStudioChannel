@@ -33,18 +33,30 @@ These commands are bound to automated workflows inside `.cursor/prompts/` and ar
   1. Automatically reads critical files (`README.md`, `START-HERE.md`, `project-log.md`, `Checkpoint.md`, `TRUTH.md`).
   2. Runs lightweight preflight node/git environment checks.
   3. Optionally prompts to start the Google API / LiteLLM proxy.
-  4. Outputs a beautiful, green session start handshake.
-- **Handshake Response Formats:**
+  4. Outputs the session start summary card (see `.cursor/prompts/Start-Project.md` Step 5).
+- **Handshake Response Format:**
   ```text
+  -------------------------------------------------------------------------------
   ✅ SESSION STARTED — [YYYY-MM-DD HH:MM]
-  📁 Branch: [current branch]
-  📝 Docs loaded: README, START-HERE, TRUTH, project-log, Checkpoint
-  🔧 Git: [clean/has changes]
-  🖥️ Node: [version]
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ✅ Ready, Jon. What shall we build today?
+  -------------------------------------------------------------------------------
+
+  📦 SYSTEM STATUS
+     🎙️ J.A.R.V.I.S. Voice………. Ryan Neural (Edge TTS)
+     🔌 LiteLLM Proxy…………. Online (port 4000)
+     ☁️ Google Vertex AI………. Connected (vader-3.5-flash)
+     🌐 ngrok Tunnel………….. [Online (https://…) | Active | Not running]
+
+  📁 PROJECT
+     🌿 Branch……………… [branch]
+     📦 Node………………… [version]
+     📝 Docs………………… README, START-HERE, project-log, Checkpoint
+     🔧 Git………………… [clean | has changes]
+
+  -------------------------------------------------------------------------------
+  ✅ Ready, Jon. Let's begin...
+  -------------------------------------------------------------------------------
   ```
-  *(See .cursor/docs/Agent-Runbook.md §0 for the full-sync requirements)*
+  *(Full dynamic probes: `.cursor/prompts/Start-Project.md` Step 5)*
 
 ### ➡️ `"End Project"`  
 *Alternative phrasings: `"End Session"`, `"Close Session"`, `"Session Closeout"`, `"I'm done for now"`, `"Continue later"`*
@@ -58,14 +70,22 @@ These commands are bound to automated workflows inside `.cursor/prompts/` and ar
   5. Outputs goodbye handshake.
 - **Handoff Response Format:**
   ```text
+  -------------------------------------------------------------------------------
   ✅ SESSION CLOSEOUT — [YYYY-MM-DD HH:MM]
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  📁 Branch: [current branch]
-  📝 Changes logged to project-log.md
-  🔧 Git: [clean if committed, otherwise note pending]
-  🛑 Local services stopped: Next dev (3000), LiteLLM + ngrok (4000, 4040)
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  -------------------------------------------------------------------------------
+
+  📦 SESSION WRAP-UP
+     📝 Changes logged……… project-log.md
+     🔧 Git………………… [clean | pending]
+     🛑 Services stopped…… Next dev (3000), LiteLLM + ngrok (4000, 4040)
+
+  📁 PROJECT
+     🌿 Branch……………… [branch]
+
+  -------------------------------------------------------------------------------
   ✅ Goodbye, Jon. See you next session.
+  -------------------------------------------------------------------------------
+
   Cold-start pointer: Say "Start Project" to begin next session.
   ```
 
@@ -85,6 +105,24 @@ These commands are bound to automated workflows inside `.cursor/prompts/` and ar
 - **Expected Behavior:** 
   1. Reads git logs and diffs.
   2. Automatically syncs milestone dates, versions, and lists inside `project-log.md` and `Checkpoint.md`.
+- **Summary Card Format:**
+  ```text
+  -------------------------------------------------------------------------------
+  📊 PROJECT UPDATE — [YYYY-MM-DD HH:MM]
+  -------------------------------------------------------------------------------
+
+  📝 TRACKING
+     📋 project-log.md……… checkpoint added
+     🏁 Checkpoint.md………. [updated | created]
+     📦 Recent commits……… [count]
+
+  📁 PROJECT
+     🌿 Branch……………… [branch]
+
+  -------------------------------------------------------------------------------
+  ✅ Project tracking updated.
+  -------------------------------------------------------------------------------
+  ```
 
 ### ➡️ `"backup project"`  
 - **Action:** Interactive standard & full backups via **Composer buttons** (`AskQuestion`).
