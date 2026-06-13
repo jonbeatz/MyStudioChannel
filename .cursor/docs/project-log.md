@@ -299,3 +299,16 @@
   7. Ran automated performance test runner (`test-website.ps1`) and verified full success.
 - **Status:** Complete
 - **Next:** Launch standard development tasks and continue creating high-end studio-style layouts.
+
+## [2026-06-12 23:35] - Session Summary
+- **Branch:** MSC-Website-v8
+- **Changes:**
+  1. **Comprehensive Project Audit & Optimization Plan:** Performed a detailed tech-stack and code audit, and established an executable plan to optimize local development pipelines.
+  2. **Payload CMS Types Synchronization:** Implemented a real-time schema type watcher (`payload-types-sync.ps1`), Next.js build validation compile-gates, and a Git Husky Pre-Commit Hook to automatically compile and stage type definitions cleanly.
+  3. **VRAM Lifecycle Management:** Developed a silent background daemon (`vram-idle-manager.ps1`) monitoring local LM Studio model inactivity, issuing voice warnings at 14m, auto-unloading at 15m to conserve GPU VRAM, and providing manual state overrides.
+  4. **Free AI Image Generation Pipeline:** Crafted Python-driven cloud-accelerated FLUX.1 generation (`generate-image.py`) with 0% local VRAM load, and extended PowerShell `speak` function to intercept conversational cues and trigger custom HD/widescreen image creation.
+  5. **Portable J.A.R.V.I.S. / Hermes System Module:** Packaged all custom speech, memory (Mem0), VRAM switcher, and image features inside a 100% portable `.cursor/custom-scriptz/hermes-system/` module, featuring an automated setup utility (`setup-hermes.ps1`), configuration presets, and local GGUF model installation reference manuals (`LMSTUDIO-SETUP.md`).
+  6. **Local Service Restart Pipeline:** Created a unified `npm run build:dev` command that automatically validates types, compiles production builds, flushes port conflicts, and launches Next.js dev on 3000 in background to ensure click-links remain fully live.
+  7. **Remote Sync & Cold Backup:** Audited, committed, and pushed all modifications to GitHub, and executed a complete non-interactive cold-backup of the workspace under `G:\Cursor_Project_BackUpz\MyStudioChannel\msc-website-v2-r\`.
+- **Status:** Complete
+- **Next:** Continue creating advanced design features and custom Payload schemas inside new projects using the portable J.A.R.V.I.S. module.

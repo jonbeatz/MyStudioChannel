@@ -14,11 +14,13 @@
 ## Recent Milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
-| 2026-06-12 | **VRAM Idle Auto-Unloader & System Lifecycle Manager** | ops |
-| 2026-06-12 | **Payload Schema Types Sync Watcher & Validation Hook** | ops |
-| 2026-06-12 | **Local J.A.R.V.I.S. Memory Layer & LM Studio Switcher Integration** | ops |
-| 2026-06-12 | **J.A.R.V.I.S. Vocal Welcome Greeting & Unified System Startup** | ops |
-| 2026-06-12 | **Cursor Developer MCP Server Expansion (SQLite, Git, Docker)** | ops |
+| 2026-06-12 | **Portable J.A.R.V.I.S. Setup Script & LM Studio Guidebooks** | `4056295` |
+| 2026-06-12 | **Conversational FLUX.1 Image Generation Pipeline** | `4056295` |
+| 2026-06-12 | **LM Studio Idle Auto-Unload VRAM Daemon** | `4056295` |
+| 2026-06-12 | **Payload Schema Types Sync Watcher & Validation Hook** | `4056295` |
+| 2026-06-12 | **Local J.A.R.V.I.S. Memory Layer & LM Studio Switcher Integration** | `4056295` |
+| 2026-06-12 | **J.A.R.V.I.S. Vocal Welcome Greeting & Unified System Startup** | `4056295` |
+| 2026-06-12 | **Cursor Developer MCP Server Expansion (SQLite, Git, Docker)** | `4056295` |
 | 2026-06-11 | **v8.0.0 release — version bump on `MSC-Website-v8`** | `40b200e` |
 | 2026-06-11 | **MSC-Website-v8 branch cut — v7 frozen @ `b4ab8ae`** | `b4ab8ae` |
 | 2026-06-11 | **depcheck fix — `@payloadcms/ui` + review.md closeout** | `3d3cef7` |
