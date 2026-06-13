@@ -35,7 +35,7 @@ The **Payload Types Sync Pipeline** completely eliminates this risk by automatin
 
 ## 3. Configuration & CLI Reference
 
-All pipelines are driven by the unified controller script `[scripts/payload-types-sync.ps1](scripts/payload-types-sync.ps1)`.
+All pipelines are driven by the unified controller script `[scripts/payload-types-sync.ps1](../../scripts/payload-types-sync.ps1)`.
 
 ### A. Run interactive schema watcher (Dev Mode)
 To auto-generate types on the fly during development, run:
@@ -61,7 +61,7 @@ automatically triggers `npm run msc:types:validate` before beginning `next build
 ---
 
 ## 4. Husky Git Hook Integration
-The pre-commit hook file `[.husky/pre-commit](.husky/pre-commit)` has been reinforced. When you run `git commit`:
+The pre-commit hook file `[.husky/pre-commit](../../.husky/pre-commit)` has been reinforced. When you run `git commit`:
 1. It runs `npm run lint` first.
 2. It executes `powershell -ExecutionPolicy Bypass -File scripts/payload-types-sync.ps1 -PreCommit`.
 3. If changes inside `collections/`, `globals/`, or `payload.config.ts` are detected, it compiles the new schemas and **automatically runs `git add payload-types.ts`** to stage the file cleanly before completing the commit.

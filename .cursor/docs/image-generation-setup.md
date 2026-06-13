@@ -47,7 +47,7 @@ The image generation pipeline connects your local workspace to the **Hugging Fac
 1. Create a free account at [huggingface.co](https://huggingface.co) if you do not have one.
 2. Navigate to **Settings -> Access Tokens**.
 3. Create a new token with at least **Read** permissions.
-4. Add the key directly to your `[.env.local](.env.local)` file:
+4. Add the key directly to your `[.env.local](../../.env.local)` file:
    ```env
    HF_TOKEN=hf_your_actual_token_here
    ```

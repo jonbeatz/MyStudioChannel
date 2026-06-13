@@ -73,7 +73,7 @@ Your system features native CLI model switching and an autonomous VRAM backgroun
 *   `model-status` — Displays currently active loaded models and their allocations.
 
 ### ⏱️ VRAM Idle Auto-Unload Daemon
-To optimize local compilation and Next.js HMR speeds, the background daemon `[scripts/vram-idle-manager.ps1](scripts/vram-idle-manager.ps1)` monitors loaded models:
+To optimize local compilation and Next.js HMR speeds, the background daemon `[scripts/vram-idle-manager.ps1](../../scripts/vram-idle-manager.ps1)` monitors loaded models:
 *   **14 Minutes Idle:** Speaks a warning: *"Warning: Model has been idle for fourteen minutes and will be unloaded shortly to conserve VRAM."*
 *   **15 Minutes Idle:** Automatically unloads all models and speaks: *"Model auto unloaded to free up system VRAM."*
 
