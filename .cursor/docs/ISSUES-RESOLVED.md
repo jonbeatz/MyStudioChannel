@@ -2,6 +2,13 @@
 
 This file tracks problems encountered during development and how they were resolved.
 
+## [2026-06-13] ngrok Start Project Connection Timeout
+- **Error:** Starting the full `Start Project` workflow resulted in LiteLLM coming online but ngrok timing out on its HTTPS URL check.
+- **Cause:** Attempting to spawn ngrok inside a secondary elevated Windows Terminal (`wt nt cmd /k ...` runas) triggered a second blocking UAC authorization window. If not approved instantly on the taskbar, the automated script hit its timeout.
+- **Solution:** Modified `scripts/start-hermes-api.ps1` to launch ngrok as a minimized process using standard .NET `ProcessStartInfo` (without `runas` elevation). Since ngrok doesn't need admin rights to bind to local port 4000, this completely bypasses the secondary UAC prompt. Added multi-service WT orchestration (`Start-LiteLLMAndNgrok-Window`) for cold startups.
+- **Files Changed:** `scripts/start-hermes-api.ps1`, `package.json`, `.cursor/prompts/Start-Project.md`
+- **Prevention:** Standard port proxies/tunnels (ngrok, local tunnels) do not require administrative elevation. Avoid using `runas wt` for non-privileged developer utilities in automated scripts.
+
 ## [2026-06-11] GitHub Actions Playwright smoke — empty admin body on CI
 - **Error:** CI job **`verify:next:safe + smoke`** failed on **`admin login page loads`** — `expect(body).toContainText(/Email|Password/i)` timed out; body was empty.
 - **Cause:** Payload **`/admin`** login UI is client-rendered; first dev compile on Windows CI takes minutes. `wait-on` only checked `/`; Playwright used a 5s default expect timeout.

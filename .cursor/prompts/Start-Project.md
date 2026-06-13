@@ -5,15 +5,33 @@ When user says "Start Project", "Begin Project", "Start Session", or "Cold Start
 
 ## Execution Steps (strict order)
 
-### Step 1: LiteLLM / Vertex AI Proxy
-Launch LiteLLM automatically in a **minimized, elevated Windows Terminal** tab and wait for port 4000:
+### Step 1: LiteLLM + ngrok (Vertex AI Proxy)
+Launch **LiteLLM and ngrok** automatically in **minimized, elevated Windows Terminal** tabs and wait until both are online:
 `powershell -ExecutionPolicy Bypass -File scripts/start-hermes-api.ps1`
 
-Or: `npm run msc:google-api:start-session`
+Or: `npm run msc:google-api:start-session` · cold restart: `npm run msc:google-api:start`
 
-**Expected:** UAC prompt may appear (RunAs). A LiteLLM tab opens in Windows Terminal (ANSI colors; may pop up briefly — minimize manually on taskbar if needed). Script exits 0 when port 4000 is online (~30–90s). If port 4000 is already up, launcher skips relaunch.
+**Expected:** UAC prompt(s) may appear (RunAs). LiteLLM and ngrok tabs open in Windows Terminal (may pop up briefly — minimize on taskbar if needed). Script exits **0** only when:
+- LiteLLM responds on port **4000** (~30–90s)
+- ngrok inspector on **4040** reports an **HTTPS** tunnel URL
+- Remote `/v1/models` probe is attempted (200 = verified)
 
-**No voice in this step.** The launcher only starts LiteLLM — it must never call `jarvis-speak`, `speak`, or any TTS.
+If either service is already running, the launcher **reuses** it (no duplicate ngrok).
+
+**No voice in this step.** The launcher must never call `jarvis-speak`, `speak`, or any TTS.
+
+### Step 1b: ngrok URL + Cursor connection (after Step 1 exits 0)
+Read the active ngrok URL from launcher output, `.cursor/session-google-api.json`, or:
+`Invoke-RestMethod http://127.0.0.1:4040/api/tunnels` → first `https://` `public_url`
+
+**Print in chat** (use live URL — do not hardcode):
+```
+🔗 CURSOR CONNECTION
+   Override OpenAI Base URL: https://<ngrok-host>/v1
+   OpenAI API Key:           sk-vader-protocol-1234 (or MSC_LITELLM_MASTER_KEY from .env.local)
+   Custom model:             vader-3.5-flash
+```
+Jon sets **Cursor → Settings → Models → Override OpenAI Base URL** to the live ngrok `/v1` URL above. Re-run Step 1 if the tunnel URL changes.
 
 ### Step 2: Mandatory Document Reads (Read tool - do not skip)
 Read in this order:
@@ -54,7 +72,12 @@ Gather live status, then print the session summary card in chat **immediately** 
    🎙️ J.A.R.V.I.S. Voice………. Ryan Neural (Edge TTS)
    🔌 LiteLLM Proxy…………. [Online (port 4000) | Offline]
    ☁️ Google Vertex AI………. [Connected (vader-3.5-flash) | Reachable (models unverified) | Offline]
-   🌐 ngrok Tunnel………….. [Online (https://xxxx.ngrok-free.dev) | Active | Not running]
+   🌐 ngrok Tunnel………….. [Online (https://xxxx.ngrok-free.dev/v1) | Active | Not running]
+
+🔗 CURSOR
+   Base URL……………… [https://xxxx.ngrok-free.dev/v1 | set after Step 1b]
+   API Key……………… [sk-vader-protocol-1234 | MSC_LITELLM_MASTER_KEY]
+   Model………………… vader-3.5-flash
 
 📁 PROJECT
    🌿 Branch……………… [current branch]
@@ -72,6 +95,7 @@ Gather live status, then print the session summary card in chat **immediately** 
 ### Step 6: Pre-Voice Verification (required before any TTS)
 Confirm **all** of the following before dispatching voice:
 - [ ] LiteLLM is online on port 4000 (`npm run msc:litellm:status` reports `online`)
+- [ ] ngrok tunnel is online with HTTPS URL (`4040/api/tunnels` or Step 1b Cursor block printed)
 - [ ] All mandatory docs were read (README, START-HERE, project-log, Checkpoint)
 - [ ] Session summary card (Step 5) is **already printed in chat**
 

@@ -1,11 +1,12 @@
-## [2026-06-13] - Session Work — Start Project ritual, JARVIS greeting, summary cards
+## [2026-06-13] - Session Work — Start Project ritual, JARVIS greeting, summary cards, ngrok restore
 - **Branch:** `MSC-Website-v8`
 - **Changes:**
   *   **Start Project workflow:** Refined `scripts/start-hermes-api.ps1` — LiteLLM via elevated Windows Terminal (`wt`), port 4000 poll, no TTS in launcher; voice moved to Step 7 (non-blocking `Start-Process`).
   *   **JARVIS voice:** Added `scripts/jarvis-speak.ps1` + `npm run msc:jarvis:speak`; greeting: *"Welcome back Jon, I am JARVIS your personal assistant, all systems are fully functional, let's begin."*
   *   **Summary cards:** Polished Start / End / Update Project handshake blocks with SYSTEM STATUS (LiteLLM, Vertex, ngrok) and dot-leader layout; synced `Prompt-Cheat-Sheet.md`.
   *   **Detached starter:** `scripts/msc-litellm-start-detached.mjs` + `msc:google-api:start:detached` for background LiteLLM/ngrok.
-- **Status:** completed — Start Project E2E ~31s; voice after summary card verified.
+  *   **ngrok Start Project Integration:** Restored automatic ngrok tunnel initialization in `scripts/start-hermes-api.ps1`. Launches ngrok as a minimized background process to avoid a second blocking UAC/runas prompt, polls the local `4040` tunnels API, verifies the remote `/v1/models` endpoint, generates `.cursor/session-google-api.json`, and outputs Cursor connection instructions.
+- **Status:** completed — Start Project E2E ~43s; LiteLLM + ngrok cold start verified online and remote completions returning 200.
 
 ## [2026-06-12] - Session Work — J.A.R.V.I.S. VRAM Auto-Unload, Payload Types Sync & Mem0 Memory Layer
 - **Branch:** `MSC-Website-v8`

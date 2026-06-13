@@ -101,7 +101,7 @@
     "msc:litellm:install-deps": "node scripts/msc-litellm-install-deps.mjs",
     "msc:litellm:start": "node scripts/msc-litellm-start.mjs",
     "msc:litellm:start:ngrok": "node scripts/msc-litellm-start.mjs --ngrok",
-    "msc:google-api:start": "npm run msc:litellm:stop && npm run msc:litellm:start:ngrok",
+    "msc:google-api:start": "npm run msc:litellm:stop && powershell -ExecutionPolicy Bypass -File scripts/start-hermes-api.ps1",
     "msc:google-api:start:detached": "node scripts/msc-litellm-start-detached.mjs",
     "msc:google-api:start-session": "powershell -ExecutionPolicy Bypass -File scripts/start-hermes-api.ps1",
     "msc:jarvis:speak": "powershell -ExecutionPolicy Bypass -File scripts/jarvis-speak.ps1",
