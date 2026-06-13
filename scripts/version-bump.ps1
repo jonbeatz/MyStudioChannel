@@ -116,7 +116,8 @@ if ($DryRun) {
 } else {
     $pkgJson.version = $version
     # Preserve formatting using PowerShell JSON rendering
-    $pkgJson | ConvertTo-Json -Depth 100 | Set-Content $pkgPath -Encoding utf8
+    $jsonStr = $pkgJson | ConvertTo-Json -Depth 100
+    [System.IO.File]::WriteAllText($pkgPath, $jsonStr, (New-Object System.Text.UTF8Encoding($false)))
     Write-Host "  Updated package.json version to $version" -ForegroundColor Green
 }
 
@@ -133,7 +134,7 @@ if (Test-Path $readmePath) {
             Write-Host "  [DryRun] README.md badge: $oldBadge -> $newBadge" -ForegroundColor DarkGray
         } else {
             $content = $content -replace [regex]::Escape($oldBadge), $newBadge
-            $content | Set-Content $readmePath -Encoding utf8
+            [System.IO.File]::WriteAllText($readmePath, $content, (New-Object System.Text.UTF8Encoding($false)))
             Write-Host "  Updated README.md version badges." -ForegroundColor Green
         }
     }
@@ -151,7 +152,7 @@ if (Test-Path $checkpointPath) {
         $content = $content -replace "MSC-Website-v\d+", $BranchName
         # Update version label in Milestone
         $content = $content -replace "MyStudioChannel v\d+\.\d+\.\d+", "MyStudioChannel v$version"
-        $content | Set-Content $checkpointPath -Encoding utf8
+        [System.IO.File]::WriteAllText($checkpointPath, $content, (New-Object System.Text.UTF8Encoding($false)))
         Write-Host "  Updated Checkpoint.md references." -ForegroundColor Green
     }
 }
@@ -174,7 +175,7 @@ if (Test-Path $changelogPath) {
             # Find the position of [Unreleased] and insert the new release section right below it
             $insertText = "$unreleasedHeader`n`n### Added`n`n## [$version] - $today"
             $content = $content.Replace($unreleasedHeader, $insertText)
-            $content | Set-Content $changelogPath -Encoding utf8
+            [System.IO.File]::WriteAllText($changelogPath, $content, (New-Object System.Text.UTF8Encoding($false)))
             Write-Host "  Updated CHANGELOG.md release headers." -ForegroundColor Green
         }
     }
@@ -200,7 +201,7 @@ if (Test-Path $logPath) {
     } else {
         $content = Get-Content $logPath -Raw
         $newContent = $logBody + "`n`n" + $content
-        $newContent | Set-Content $logPath -Encoding utf8
+        [System.IO.File]::WriteAllText($logPath, $newContent, (New-Object System.Text.UTF8Encoding($false)))
         Write-Host "  Updated project-log.md with release entry." -ForegroundColor Green
     }
 }
@@ -225,7 +226,9 @@ $verifyScripts = @(
 foreach ($script in $verifyScripts) {
     Write-Host "Running check: $($script.Name)..." -ForegroundColor Yellow
     Push-Location (Join-Path $RepoRoot "..")
+    $oldErrorPreference = $ErrorActionPreference
     try {
+        $ErrorActionPreference = 'Continue'
         $out = Invoke-Expression $script.Cmd 2>&1
         $code = $LASTEXITCODE
         if ($code -ne 0) {
@@ -234,6 +237,7 @@ foreach ($script in $verifyScripts) {
         }
         Write-Host "  Check Passed: $($script.Name)" -ForegroundColor Green
     } finally {
+        $ErrorActionPreference = $oldErrorPreference
         Pop-Location
     }
 }

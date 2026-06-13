@@ -51,9 +51,22 @@ if ($auth -match "Logged in to") {
 Write-Host "$Prefix Creating GitHub release for tag $Tag..." -ForegroundColor Yellow
 Push-Location (Join-Path $RepoRoot "..")
 try {
-    # Check if release already exists
-    $existing = & gh release view $Tag 2>&1 | Out-String
-    if ($existing -match "tag:") {
+    # Check if release already exists safely
+    $releaseExists = $false
+    $oldErrorPreference = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = 'Continue'
+        $existing = & gh release view $Tag 2>&1 | Out-String
+        if ($LASTEXITCODE -eq 0 -and $existing -match "tag:") {
+            $releaseExists = $true
+        }
+    } catch {
+        # Safe to ignore; release likely does not exist yet
+    } finally {
+        $ErrorActionPreference = $oldErrorPreference
+    }
+
+    if ($releaseExists) {
         Write-Warning "Release for tag $Tag already exists on GitHub. Skipping recreation."
         Write-Host ''
         exit 0

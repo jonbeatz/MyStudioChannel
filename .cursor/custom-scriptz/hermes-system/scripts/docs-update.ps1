@@ -88,7 +88,7 @@ foreach ($f in $filesToCheck) {
     }
 
     if ($modified) {
-        $content | Set-Content $f -Encoding utf8
+        [System.IO.File]::WriteAllText($f, $content, (New-Object System.Text.UTF8Encoding($false)))
         Write-Host "  Successfully synchronized $name" -ForegroundColor Green
     } else {
         Write-Host "  OK — $name is aligned" -ForegroundColor Green
