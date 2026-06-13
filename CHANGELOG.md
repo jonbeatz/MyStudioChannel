@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+## [9.0.0] - 2026-06-13
+
+### Added
 - **Payload CMS Types Sync & Validation Pipeline (`payload-types-sync.ps1`):** Robust PowerShell controller supporting `-Watch`, `-Validate`, and `-PreCommit` actions. Integrated with NextJS build gates (`npm run build`) and `.husky/pre-commit` to guarantee database schema types are always validated and auto-staged on change.
 - **VRAM Idle Manager & Auto-Unloader (`vram-idle-manager.ps1`):** Lightweight background monitoring daemon tracking LM Studio local LLM idle durations. Auto-warns and unloads loaded GGUF models after 15 minutes of inactivity to reclaim system memory. Features manual overrides (`keep-model-on`, `keep-model-off`) and native PowerShell Job integration (`vram-daemon-start`, `vram-daemon-stop`).
 - **Seamless Local Build & Auto-Dev Pipeline (`npm run build:dev`):** Spawns a production compilation gate, validates schemas, purges active ports, and starts NextJS dev in a detached background job so local click-links are instantly active on port 3000.

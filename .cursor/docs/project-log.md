@@ -1,3 +1,11 @@
+## [2026-06-13] - Version 9.0.0 Release
+- **Branch:** $BranchName
+- **Changes:**
+  *   Automated version bump to $version from $oldVersion.
+  *   Synchronized dependencies and package references.
+  *   Initiated active development checkpoint for $BranchName release series.
+- **Status:** active â€” build and lint validated compile-safe.
+
 ## [2026-06-13] - Session Work — Start Project ritual, JARVIS greeting, summary cards, ngrok restore
 - **Branch:** `MSC-Website-v9`
 - **Changes:**
