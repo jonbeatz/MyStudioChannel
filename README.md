@@ -48,7 +48,7 @@ After setup, run `npm run dev` and visit [http://localhost:3000](http://localhos
 
 | Metric              | Value                                                                  |
 | ------------------- | ---------------------------------------------------------------------- |
-| **Version**         | v8.0.0 ([Latest release](https://github.com/jonbeatz/MyStudioChannel/releases/latest); deploy to update live label at [mystudiochannel.com](https://mystudiochannel.com)) |
+| **Version**         | v9.0.0 ([Latest release](https://github.com/jonbeatz/MyStudioChannel/releases/latest); deploy to update live label at [mystudiochannel.com](https://mystudiochannel.com)) |
 | **Stack**           | Next.js 15 (React 19) + Payload CMS 3.81.0                             |
 | **CMS Engine**      | ✅ MSC PRO ENGINE Studio Mode — Gold Sidebar + Dashboard               |
 | **Deployment**      | ✅ Tiered FTPS (Hostinger/hPanel) via `msc:pushitup`                       |

@@ -65,6 +65,16 @@ foreach ($f in $filesToCheck) {
                 Write-Host "  Aligning README version badge -> $Version" -ForegroundColor Yellow
             }
         }
+        # Update current version table row in README
+        $tablePattern = "v\d+\.\d+\.\d+ \(\[Latest release\]"
+        if ($content -match $tablePattern) {
+            $oldTable = $Matches[0]
+            if ($oldTable -ne "v$Version ([Latest release]") {
+                $content = $content -replace [regex]::Escape($oldTable), "v$Version ([Latest release]"
+                $modified = $true
+                Write-Host "  Aligning README version table row -> $Version" -ForegroundColor Yellow
+            }
+        }
     }
 
     if ($name -eq 'Checkpoint.md') {
