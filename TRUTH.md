@@ -4,7 +4,7 @@
 - **Name:** MyStudioChannel
 - **Type:** Next.js (15.4) + Payload CMS (3.81) application
 - **OS/Shell:** Windows 10/11 + PowerShell (Core or Desktop)
-- **Primary Branch:** `MSC-Website-v8` (active dev @ `b4ab8ae`); **`MSC-Website-v7`** frozen @ `b4ab8ae`; **`main`** @ `b4ab8ae`; **`MSC-Website-v6`** frozen @ `c9e260e`
+- **Primary Branch:** `MSC-Website-v9` (active dev); **`MSC-Website-v8`** frozen @ `c0d834e`; **`MSC-Website-v7`** frozen @ `b4ab8ae`; **`main`** @ `b4ab8ae`; **`MSC-Website-v6`** frozen @ `c9e260e`
 - **Repository:** [https://github.com/jonbeatz/MyStudioChannel](https://github.com/jonbeatz/MyStudioChannel)
 - **Primary Domain:** [https://mystudiochannel.com](https://mystudiochannel.com)
 
@@ -109,7 +109,7 @@ MyStudioChannel/
 
 ## Deployment (Hostinger)
 
-**Live:** [https://mystudiochannel.com](https://mystudiochannel.com) · **Dev branch:** `MSC-Website-v8` · **Repo version:** **v8.0.0** (deploy to update live footer/admin label from v7.0.0)
+**Live:** [https://mystudiochannel.com](https://mystudiochannel.com) · **Dev branch:** `MSC-Website-v9` · **Repo version:** **v9.0.0** (deploy to update live footer/admin label from v7.0.0)
 
 | Path | When | Local command |
 |------|------|----------------|
@@ -142,5 +142,5 @@ When booting up a session, you **must** execute the following sequence:
 
 ---
 
-*Last Updated: 2026-06-11 (v8.0.0 · `MSC-Website-v8` active · `MSC-Website-v7` frozen @ `b4ab8ae`)*  
+*Last Updated: 2026-06-13 (v9.0.0 · `MSC-Website-v9` active · `MSC-Website-v8` frozen @ `c0d834e`)*
 <sub>· Powered by the MyStudioChannel Media Engine</sub>

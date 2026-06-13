@@ -1,10 +1,19 @@
-## [2026-06-13] - Version 9.0.0 Release
-- **Branch:** $BranchName
+## [2026-06-13] - Update Docs workflow split (Path A / Path B)
+- **Branch:** `MSC-Website-v9`
 - **Changes:**
-  *   Automated version bump to $version from $oldVersion.
+  *   Split `.cursor/prompts/Update-Docs.md` into Path A (`update docs`, no Mem0) and Path B (`update docs and mem0`).
+  *   Phase 6 now reports only — no auto commit/push; operator says `commit docs` when ready.
+  *   Phase 5b Mem0 status line added; LM Studio auto-start for Path B.
+  *   Synced TRUTH.md, MASTER-COMMANDS.md, Jedi-List.md to v9.0.0 / `MSC-Website-v9`.
+- **Status:** completed
+
+## [2026-06-13] - Version 9.0.0 Release
+- **Branch:** `MSC-Website-v9`
+- **Changes:**
+  *   Automated version bump to `9.0.0` from `8.0.0`.
   *   Synchronized dependencies and package references.
-  *   Initiated active development checkpoint for $BranchName release series.
-- **Status:** active â€” build and lint validated compile-safe.
+  *   Initiated active development checkpoint for `MSC-Website-v9` release series.
+- **Status:** completed — build and lint validated compile-safe.
 
 ## [2026-06-13] - Session Work — Start Project ritual, JARVIS greeting, summary cards, ngrok restore
 - **Branch:** `MSC-Website-v9`

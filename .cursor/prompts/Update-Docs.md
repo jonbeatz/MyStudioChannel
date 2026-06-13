@@ -1,6 +1,34 @@
 # Workflow: Update Documentation
 
-When the user says "update docs", execute this workflow:
+When the user says **"update docs"** or **"update docs and mem0"**, execute the matching path below.
+
+---
+
+## Triggers & Paths
+
+### Path A: `update docs` (default — no Mem0)
+
+**Triggers:** `"update docs"`, `"Update Docs"`, or any docs-sync request **without** `and mem0`.
+
+1. Run **Phases 1–4** (scan, fix, sync physical files)
+2. Run **Phase 5** (summary report)
+3. **Skip Phase 5b entirely**
+4. Run **Phase 6** (report changes, no commit/push)
+5. End with: **"Ready to commit. Say 'commit docs' when ready."**
+
+### Path B: `update docs and mem0` (full sync with memory)
+
+**Triggers:** `"update docs and mem0"`, `"update docs + mem0"`, or any docs-sync request that **explicitly includes** `and mem0`.
+
+1. Run **Phases 1–4** (scan, fix, sync physical files)
+2. Run **Phase 5** (summary report)
+3. Run **Phase 5b** (Mem0 sync with auto LM Studio setup)
+4. Run **Phase 6** (report changes, no commit/push)
+5. End with: **"Ready to commit. Say 'commit docs' when ready."**
+
+**Rule:** Phase 5b is **optional and separate**. It runs **only** when the user explicitly includes `and mem0` in the command. Default `"update docs"` never touches Mem0.
+
+---
 
 ## Phase 1: Discovery & Audit
 
@@ -80,27 +108,43 @@ When the user says "update docs", execute this workflow:
     - Outstanding issues (if any)
     - Recommended next actions
 
-## Phase 5b: Memory Synchronization (Mem0)
+## Phase 5b: Memory Synchronization (Mem0) — Path B only
 
-11b. **Sync major milestones to Mem0:**
-    - If there are any new system-wide configurations, paths, directory shifts, or major troubleshooting resolutions:
-    - Record them as semantic memories in your local Mem0 vector database using:
+> **Do not run this phase** unless the user triggered Path B (`update docs and mem0`).
+
+11b. **LM Studio preflight (auto-start if needed):**
+    - Run `lms ps` to check whether LM Studio is running and a model is loaded.
+    - If `lms` is unavailable, LM Studio is not running, or no model is loaded:
+      1. Open LM Studio (start the app if closed).
+      2. Ensure the local server is active on `http://127.0.0.1:1234/v1`.
+      3. Load Qwen 4B: `lms load "qwen3-4b-instruct-2507"`
+      4. Re-check with `lms ps` until a model is loaded.
+    - **If LM Studio setup fails:** skip the rest of Phase 5b, report a warning, and continue to Phase 6.
+
+11c. **Sync major milestones to Mem0:**
+    - Identify new system-wide configurations, paths, directory shifts, or major troubleshooting resolutions from this session.
+    - Record each as a semantic memory using:
       `powershell -ExecutionPolicy Bypass -File scripts/mem0-chat.ps1 -Action "add" -Text "takeaway here"`
-    - Run these sequentially to avoid local Qdrant folder locking conflicts.
+    - Run **sequentially** (one call at a time) to avoid local Qdrant folder locking conflicts.
+    - Report how many memories were added and any Mem0 warnings.
 
-## Phase 6: Commit
+11d. **Confirm Mem0 status in output:**
+    - **Mem0 Status:** ✅ Memories synced *(or ⚠️ Skipped - LM Studio unavailable)*
 
-12. **Commit changes:**
-    ```bash
-    git add .cursor/docs/ .cursor/rules/ .cursor/prompts/ README.md CHANGELOG.md
-    git commit -m "docs: update synchronization [YYYY-MM-DD HH:MM]"
-    git push origin MSC-Website-v9
-    ```
+## Phase 6: Prepare Changes (No Auto-Commit)
+
+12. **Report all changes found and made**
+13. **Do NOT commit or push automatically**
+14. **State:** "Ready to commit. Say 'commit docs' when ready."
+
+---
 
 ## Output Format
 
 Provide a report showing:
+- **Path used:** Path A (docs only) or Path B (docs + mem0)
 - **Files scanned:** Count and list
 - **Changes made:** Before/after for key updates
 - **Issues logged:** What was added to ISSUES-RESOLVED.md
+- **Mem0 sync:** Skipped / completed / failed (Path B only) — include line: **Mem0 Status:** ✅ Memories synced *(or ⚠️ Skipped - LM Studio unavailable)*
 - **Remaining TODOs:** Any unresolved items

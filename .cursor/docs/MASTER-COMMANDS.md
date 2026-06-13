@@ -1,8 +1,8 @@
 # MyStudioChannel - Master Command Reference
 
-**Last Updated:** 2026-06-11 (`MSC-Website-v8` branch cut @ `b4ab8ae`)
-**Branch:** `MSC-Website-v8` (active @ `b4ab8ae`) · `MSC-Website-v7` frozen @ `b4ab8ae` · `main` @ `b4ab8ae` · `MSC-Website-v6` frozen @ `c9e260e`
-**Version:** `8.0.0`
+**Last Updated:** 2026-06-13 (`MSC-Website-v9` active)
+**Branch:** `MSC-Website-v9` (active) · `MSC-Website-v8` frozen @ `c0d834e` · `MSC-Website-v7` frozen @ `b4ab8ae` · `main` @ `b4ab8ae` · `MSC-Website-v6` frozen @ `c9e260e`
+**Version:** `9.0.0`
 
 ---
 
