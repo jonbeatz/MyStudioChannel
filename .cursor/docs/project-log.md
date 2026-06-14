@@ -362,3 +362,14 @@
   7. **Remote Sync & Cold Backup:** Audited, committed, and pushed all modifications to GitHub, and executed a complete non-interactive cold-backup of the workspace under `G:\Cursor_Project_BackUpz\MyStudioChannel\msc-website-v2-r\`.
 - **Status:** Complete
 - **Next:** Continue creating advanced design features and custom Payload schemas inside new projects using the portable J.A.R.V.I.S. module.
+
+## [2026-06-13 21:55] - Session Summary
+- **Branch:** MSC-Website-v9
+- **Changes:**
+  1. **ComfyUI Local Setup & Symlinks:** Stored large AI models on `H:` drive to conserve space on `D:` and established symlinks to `D:\AI_Models\ComfyUI\ComfyUI\models\`.
+  2. **Automated Image & Video Editing Pipelines:** Crafted PowerShell commands (`edit-image`, `animate-image`, `generate-video`) that talk directly to ComfyUI's API.
+  3. **CLIPSeg Automated Masking:** Integrated and customized `ComfyUI-CLIPSeg` node, patching internal Python file parsing errors (`OpenCV` resize errors, division by zero) to enable precise, text-guided image inpainting (such as automatically isolating and replacing the sky with a neon purple cyberpunk sky).
+  4. **Image to Video Motion Mapping:** Parameterized Stable Video Diffusion (SVD) inside ComfyUI, mapping friendly motion keywords (`zoom`, `pan`, `orbit`) to concrete motion bucket settings in the SVD workflow.
+  5. **Four-Model Generation Comparison:** Conducted a comprehensive, side-by-side performance test of Hugging Face FLUX.1-schnell, FLUX.1-dev, SDXL Turbo, and Stable Diffusion 1.5, and compiled the results into a gorgeous $2 \times 2$ grid layout.
+- **Status:** Complete
+- **Next:** Launch standard development tasks and continue creating high-end studio-style layouts.

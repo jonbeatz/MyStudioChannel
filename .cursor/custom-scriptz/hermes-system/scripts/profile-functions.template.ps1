@@ -531,17 +531,20 @@ function Invoke-ComfyPrompt {
     # 5. Retrieve output file
     $comfyOutputDir = "D:\AI_Models\ComfyUI\ComfyUI\output"
     
-    $outputImages = @()
+    $outputFiles = @()
     if ($promptOutput.outputs) {
         foreach ($prop in $promptOutput.outputs.PSObject.Properties) {
             if ($prop.Value.images) {
-                $outputImages += $prop.Value.images
+                $outputFiles += $prop.Value.images
+            }
+            if ($prop.Value.gifs) {
+                $outputFiles += $prop.Value.gifs
             }
         }
     }
 
-    if ($outputImages -and $outputImages.Count -gt 0) {
-        $filename = $outputImages[0].filename
+    if ($outputFiles -and $outputFiles.Count -gt 0) {
+        $filename = $outputFiles[0].filename
         $comfyFile = Join-Path $comfyOutputDir $filename
         
         if (Test-Path $comfyFile) {
@@ -553,7 +556,7 @@ function Invoke-ComfyPrompt {
         }
     }
 
-    Write-Error "Could not locate generated ComfyUI output image file in: $comfyOutputDir"
+    Write-Error "Could not locate generated ComfyUI output image/video file in: $comfyOutputDir"
     return $null
 }
 
@@ -562,12 +565,17 @@ function edit-image {
         [Parameter(Mandatory=$true)] [string]$InputPath,
         [Parameter(Mandatory=$true)] [string]$Prompt,
         [string]$OutputPath = "",
-        [float]$Strength = 0.75
+        [float]$Strength = 0.75,
+        [string]$TargetArea = ""
     )
 
     Write-Host "🤖 [J.A.R.V.I.S.] Initializing image-to-image editing workflow..." -ForegroundColor Green
     Write-Host "Prompt: $Prompt" -ForegroundColor Green
-    Write-Host "Strength: $Strength" -ForegroundColor Green
+    if ($TargetArea) {
+        Write-Host "Target Area (Masked): $TargetArea" -ForegroundColor Green
+    } else {
+        Write-Host "Strength: $Strength" -ForegroundColor Green
+    }
 
     $resolvedInput = Resolve-Path $InputPath -ErrorAction SilentlyContinue
     if (-not $resolvedInput) {
@@ -590,13 +598,22 @@ function edit-image {
     }
     $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
 
-    $overrides = @{
-        "4.text" = $Prompt
-        "6.image" = $inputFileName
-        "8.denoise" = $Strength
+    if ($TargetArea) {
+        $workflowFile = "D:\AI_Models\ComfyUI\workflows\edit-image-masked.json"
+        $overrides = @{
+            "4.text" = $Prompt
+            "6.image" = $inputFileName
+            "11.text" = $TargetArea
+            "8.denoise" = 1.0
+        }
+    } else {
+        $workflowFile = "D:\AI_Models\ComfyUI\workflows\img2img.json"
+        $overrides = @{
+            "4.text" = $Prompt
+            "6.image" = $inputFileName
+            "8.denoise" = $Strength
+        }
     }
-
-    $workflowFile = "D:\AI_Models\ComfyUI\workflows\img2img.json"
     
     $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
 
@@ -765,10 +782,14 @@ function generate-video {
 function animate-image {
     param(
         [Parameter(Mandatory=$true)] [string]$InputPath,
-        [string]$OutputPath = ""
+        [string]$OutputPath = "",
+        [string]$Motion = "zoom",
+        [int]$Duration = 5
     )
 
     Write-Host "[J.A.R.V.I.S.] Initializing image animation workflow..." -ForegroundColor Green
+    Write-Host "Motion: $Motion" -ForegroundColor Green
+    Write-Host "Duration: $Duration seconds" -ForegroundColor Green
 
     $resolvedInput = Resolve-Path $InputPath -ErrorAction SilentlyContinue
     if (-not $resolvedInput) {
@@ -791,8 +812,22 @@ function animate-image {
     }
     $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
 
+    # Map motion profile to SVD motion bucket id
+    $motionBucket = 127
+    if ($Motion -eq "pan") { $motionBucket = 160 }
+    elseif ($Motion -eq "orbit") { $motionBucket = 180 }
+    elseif ($Motion -eq "static") { $motionBucket = 40 }
+
+    # Calculate frames based on 6 FPS
+    $fps = 6
+    $frames = $Duration * $fps
+
     $overrides = @{
         "2.image" = $inputFileName
+        "3.video_frames" = $frames
+        "3.motion_bucket_id" = $motionBucket
+        "3.fps" = $fps
+        "6.frame_rate" = $fps
     }
 
     $workflowFile = "D:\AI_Models\ComfyUI\workflows\img2vid-svd.json"
