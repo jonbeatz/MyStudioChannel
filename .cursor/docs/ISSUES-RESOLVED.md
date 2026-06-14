@@ -2,6 +2,17 @@
 
 This file tracks problems encountered during development and how they were resolved.
 
+## [2026-06-13] Image Generation — Clickable Terminal Links & Auto-Open Fixes
+- **Error:** Clickable image-saved links printed in the terminal failed with `%5C` (URL-encoded backslash) error dialog boxes when clicked in Cursor on Windows; the auto-open Photos viewer failed to trigger reliably; success voice feedback played twice; and prompt aspect hints like "4k" crashed on Hugging Face API limits (max 2048x2048).
+- **Cause:** 1. Windows backslashes (`\`) are URL-encoded as `%5C` by Cursor's internal terminal link handler when resolving links. 2. `Start-Process $file` required explicit `-FilePath` parameters and fully resolved absolute path strings on Windows. 3. Sizing mapping was square-default and attempted unconstrained `3840x2160` output. 4. Duplicate voice triggered by manual agent `speak` script invocations during session sequences.
+- **Solution:** 
+  1. Updated `gen-image` in PowerShell profile to print standard absolute paths using backslashes but without markdown wraps. Cursor automatically recognizes the native path and makes it clickable without `%5C` corruption.
+  2. Updated `Start-Process` to use `Start-Process -FilePath $file` with `[System.IO.Path]::GetFullPath($file)` absolute pathing.
+  3. Switched square defaults to a cinema widescreen `1920x1080` (HD) layout; added keyword prompt parsers that scale high-resolution keywords (like `4k` and `ultra hd`) to the maximum aspect boundaries allowed by the API (`2048x1152`).
+  4. Shortened success voice confirmation to `"Image generated, opening now."` and verified only one voice process runs per generation.
+- **Files Changed:** `Microsoft.PowerShell_profile.ps1`, `scripts/generate-image.py`, `.cursor/custom-scriptz/hermes-system/scripts/profile-functions.template.ps1`, `.cursor/custom-scriptz/hermes-system/scripts/generate-image.py`
+- **Prevention:** Always use `[System.IO.Path]::GetFullPath` on Windows paths before shell execution; use standard absolute paths for terminal link clickability on Windows. Set console encoding `[Console]::OutputEncoding = [System.Text.Encoding]::UTF8` for full emoji support.
+
 ## [2026-06-13] LiteLLM Start Project — Prisma DATABASE_URL errors
 - **Error:** Start Project / LiteLLM proxy failed with Prisma errors expecting `postgresql://` while Payload uses SQLite (`file:./payload.sqlite`).
 - **Cause:** LiteLLM inherited `DATABASE_URL` from `.env.local` (Payload SQLite path); Prisma in LiteLLM requires PostgreSQL or no database.

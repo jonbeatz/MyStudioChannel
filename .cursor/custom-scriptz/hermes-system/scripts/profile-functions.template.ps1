@@ -50,14 +50,6 @@ function speak {
     $isImageTrigger = $text -match '^\s*(make|generate|draw|paint|create)\b.*\b(image|photo|background|picture|logo|art|rendering|canvas)\b'
     
     if ($isImageTrigger) {
-        # Check if they requested widescreen or HD dimensions
-        $w = 1024
-        $h = 1024
-        if ($text -match '\b(hd|widescreen|1920x1080|16:9|landscape)\b') {
-            $w = 1920
-            $h = 1080
-        }
-        
         # Extract prompt by stripping standard prefixes
         $cleanPrompt = $text -replace '^\s*(make|generate|draw|paint|create)\s+(me\s+)?(an?\s+)?(hd\s+)?(widescreen\s+)?(image|photo|background|picture|logo|art|rendering|painting|canvas)\s+(of\s+)?', ''
         
@@ -65,8 +57,8 @@ function speak {
         $cleanPrompt = $cleanPrompt -replace '\b(in\s+)?(hd|widescreen|1920x1080|16:9|landscape)\b', ''
         $cleanPrompt = $cleanPrompt.Trim()
         
-        # Invoke our new gen-image function!
-        gen-image -prompt $cleanPrompt -Width $w -Height $h
+        # Invoke our new gen-image function and let it handle size parsing!
+        gen-image -prompt $cleanPrompt
         return
     }
 
@@ -295,14 +287,41 @@ function gen-image {
         [string]$Path,
 
         [Parameter(Mandatory=$false)]
-        [int]$Width = 1024,
+        [int]$Width = $null,
 
         [Parameter(Mandatory=$false)]
-        [int]$Height = 1024
+        [int]$Height = $null
     )
 
     # 1. Touch VRAM activity timestamp so our auto-unload daemon is in sync
     Update-VramActivity
+
+    # 1b. Dimension parsing from prompt hints
+    $w = 1920
+    $h = 1080
+
+    if ($prompt -match '\b(4k|4K|ultra hd|ultra HD)\b') {
+        # Hugging Face serverless API limit is max 2048x2048. Scale 4K/ultra-hd widescreen to the absolute max 16:9 bounds.
+        $w = 2048
+        $h = 1152
+    } elseif ($prompt -match '\b(hd|HD|1080p|1080P|widescreen)\b') {
+        $w = 1920
+        $h = 1080
+    } elseif ($prompt -match '\b(vertical|phone|9:16)\b') {
+        $w = 1080
+        $h = 1920
+    } elseif ($prompt -match '\b(1024x768|4:3)\b') {
+        $w = 1024
+        $h = 768
+    }
+
+    # Override with explicitly passed parameters if provided
+    if ($null -ne $Width -and $Width -gt 0) {
+        $w = $Width
+    }
+    if ($null -ne $Height -and $Height -gt 0) {
+        $h = $Height
+    }
 
     # 2. Setup path if not passed
     $projectRoot = "__PROJECT_ROOT__"
@@ -310,8 +329,7 @@ function gen-image {
     $resolvedPath = ""
 
     if ($Path) {
-        $resolvedPath = Resolve-Path $Path -ErrorAction SilentlyContinue
-        if (-not $resolvedPath) { $resolvedPath = $Path }
+        $resolvedPath = [System.IO.Path]::GetFullPath($Path)
         $outputArg = "--output", $resolvedPath
     } else {
         $timestamp = (Get-Date).ToString("yyyyMMdd-HHmmss")
@@ -320,18 +338,19 @@ function gen-image {
             New-Item -ItemType Directory -Path $mediaDir -Force | Out-Null
         }
         $resolvedPath = Join-Path $mediaDir "generated-$timestamp.png"
+        $resolvedPath = [System.IO.Path]::GetFullPath($resolvedPath)
         $outputArg = "--output", $resolvedPath
     }
 
     Write-Host "[J.A.R.V.I.S.] Generating image..." -ForegroundColor Yellow
     Write-Host "Prompt: $prompt" -ForegroundColor Cyan
-    Write-Host "Dimensions: ${Width}x${Height}" -ForegroundColor Cyan
+    Write-Host "Dimensions: ${w}x${h}" -ForegroundColor Cyan
 
     $pythonPath = "C:\Users\JONBEATZ\AppData\Local\Programs\Python\Python312\python.exe"
     $scriptPath = Join-Path $projectRoot "scripts\generate-image.py"
 
     # 3. Call python image generation script
-    $responseRaw = & $pythonPath $scriptPath --prompt $prompt --width $Width --height $Height $outputArg 2>$null
+    $responseRaw = & $pythonPath $scriptPath --prompt $prompt --width $w --height $h $outputArg 2>$null
 
     if (-not $responseRaw) {
         Write-Error "No response received from image generation layer."
@@ -348,14 +367,27 @@ function gen-image {
 
     if ($response -and $response.success) {
         $file = $response.file_path
+        
+        # Resolve the clean absolute path for Start-Process to avoid any weird formatting
+        $cleanFile = Resolve-Path $file -ErrorAction SilentlyContinue
+        if ($cleanFile) {
+            $file = $cleanFile.ProviderPath
+        } else {
+            $file = [System.IO.Path]::GetFullPath($file)
+        }
+
+        # Ensure full UTF-8 emoji support in the console host so emojis don't render as '??' and break link parsing
+        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+        $displayFile = $file.Replace('\', '/')
+
         Write-Host "[OK] [J.A.R.V.I.S.] Image successfully generated!" -ForegroundColor Green
         Write-Host "Saved to: $file" -ForegroundColor Green
 
         # 4. Speak confirmation
-        Invoke-HermesTTS "Image generated, Jon. Opening it now."
+        Invoke-HermesTTS "Image generated, opening now."
 
         # 5. Automatically open the image in Windows native default photo viewer
-        Start-Process $file
+        Start-Process -FilePath $file
     } else {
         $err = $response.error
         Write-Host "[J.A.R.V.I.S. Error] $err" -ForegroundColor Red

@@ -56,11 +56,11 @@ def main():
         timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         media_dir = project_root / "public" / "media"
         media_dir.mkdir(parents=True, exist_ok=True)
-        output_path = str(media_dir / f"generated-{timestamp}.png")
+        output_path = os.path.abspath(str(media_dir / f"generated-{timestamp}.png"))
     else:
         output_path_obj = Path(output_path)
         output_path_obj.parent.mkdir(parents=True, exist_ok=True)
-        output_path = str(output_path_obj.resolve())
+        output_path = os.path.abspath(output_path)
 
     try:
         from huggingface_hub import InferenceClient

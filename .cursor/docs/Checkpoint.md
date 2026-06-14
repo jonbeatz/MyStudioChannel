@@ -12,9 +12,10 @@
 - **J.A.R.V.I.S.:** LiteLLM port **4000** + ngrok tunnel; `msc:litellm:verify` PASS; Start Project ~43s cold start
 - **Backup:** quick backup **`MSC-Website-v9-k`** @ `b4ab8ae` (v7 restore point)
 
-## Recent Milestones
+## Recent milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
+| 2026-06-13 | **Polished FLUX.1 Image Generation — Clickable Links & Shortened voice** | `97b4d5d` |
 | 2026-06-13 | **LiteLLM database-less proxy — no Prisma/SQLite startup errors** | `a938232` |
 | 2026-06-13 | **Update Docs workflow split (Path A / Path B Mem0)** | `ae27ff2` |
 | 2026-06-13 | **Version 9.0.0 release — MSC-Website-v9 active line** | `da57c3d` |
