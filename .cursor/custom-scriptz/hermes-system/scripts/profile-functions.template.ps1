@@ -674,3 +674,192 @@ function inpaint-image {
         Invoke-HermesTTS "Excuse me, Jon. I encountered an error while inpainting your image."
     }
 }
+
+# === ComfyUI Enhancements (Added June 2026) ===
+
+function upscale-image {
+    param(
+        [Parameter(Mandatory=$true)] [string]$InputPath,
+        [string]$OutputPath = ""
+    )
+
+    Write-Host "[J.A.R.V.I.S.] Initializing 4K upscaling workflow..." -ForegroundColor Green
+
+    $resolvedInput = Resolve-Path $InputPath -ErrorAction SilentlyContinue
+    if (-not $resolvedInput) {
+        Write-Error "Input image path not found: $InputPath"
+        return
+    }
+    $resolvedInputPath = $resolvedInput.ProviderPath
+
+    $comfyInputFolder = "D:\AI_Models\ComfyUI\ComfyUI\input"
+    if (-not (Test-Path $comfyInputFolder)) { New-Item -ItemType Directory -Path $comfyInputFolder -Force | Out-Null }
+    
+    $inputFileName = [System.IO.Path]::GetFileName($resolvedInputPath)
+    $comfyInputPath = Join-Path $comfyInputFolder $inputFileName
+    Copy-Item -Path $resolvedInputPath -Destination $comfyInputPath -Force
+
+    if ([string]::IsNullOrEmpty($OutputPath)) {
+        $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+        $projectRoot = "D:\Cursor_Projectz\MyStudioChannel"
+        $OutputPath = Join-Path $projectRoot "public\media\upscaled-$timestamp.png"
+    }
+    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
+
+    $overrides = @{
+        "2.image" = $inputFileName
+    }
+
+    $workflowFile = "D:\AI_Models\ComfyUI\workflows\upscale-4k.json"
+    
+    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
+
+    if ($resultFile) {
+        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+        Write-Host "[OK] [J.A.R.V.I.S.] Image successfully upscaled!" -ForegroundColor Green
+        Write-Host "Saved to: $resultFile" -ForegroundColor Green
+
+        Invoke-HermesTTS "Image upscaled, opening now."
+        Start-Process -FilePath $resultFile
+    } else {
+        Invoke-HermesTTS "Excuse me, Jon. I encountered an error while upscaling your image."
+    }
+}
+
+function generate-video {
+    param(
+        [Parameter(Mandatory=$true)] [string]$Prompt,
+        [string]$OutputPath = ""
+    )
+
+    Write-Host "[J.A.R.V.I.S.] Initializing text-to-video generation workflow..." -ForegroundColor Green
+    Write-Host "Prompt: $Prompt" -ForegroundColor Green
+
+    if ([string]::IsNullOrEmpty($OutputPath)) {
+        $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+        $projectRoot = "D:\Cursor_Projectz\MyStudioChannel"
+        $OutputPath = Join-Path $projectRoot "public\media\video-$timestamp.mp4"
+    }
+    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
+
+    $overrides = @{
+        "3.prompt" = $Prompt
+    }
+
+    $workflowFile = "D:\AI_Models\ComfyUI\workflows\txt2vid-cogvideo.json"
+    
+    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
+
+    if ($resultFile) {
+        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+        Write-Host "[OK] [J.A.R.V.I.S.] Video successfully generated!" -ForegroundColor Green
+        Write-Host "Saved to: $resultFile" -ForegroundColor Green
+
+        Invoke-HermesTTS "Video generation completed, opening now."
+        Start-Process -FilePath $resultFile
+    } else {
+        Invoke-HermesTTS "Excuse me, Jon. I encountered an error while generating your video."
+    }
+}
+
+function animate-image {
+    param(
+        [Parameter(Mandatory=$true)] [string]$InputPath,
+        [string]$OutputPath = ""
+    )
+
+    Write-Host "[J.A.R.V.I.S.] Initializing image animation workflow..." -ForegroundColor Green
+
+    $resolvedInput = Resolve-Path $InputPath -ErrorAction SilentlyContinue
+    if (-not $resolvedInput) {
+        Write-Error "Input image path not found: $InputPath"
+        return
+    }
+    $resolvedInputPath = $resolvedInput.ProviderPath
+
+    $comfyInputFolder = "D:\AI_Models\ComfyUI\ComfyUI\input"
+    if (-not (Test-Path $comfyInputFolder)) { New-Item -ItemType Directory -Path $comfyInputFolder -Force | Out-Null }
+    
+    $inputFileName = [System.IO.Path]::GetFileName($resolvedInputPath)
+    $comfyInputPath = Join-Path $comfyInputFolder $inputFileName
+    Copy-Item -Path $resolvedInputPath -Destination $comfyInputPath -Force
+
+    if ([string]::IsNullOrEmpty($OutputPath)) {
+        $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+        $projectRoot = "D:\Cursor_Projectz\MyStudioChannel"
+        $OutputPath = Join-Path $projectRoot "public\media\animated-$timestamp.mp4"
+    }
+    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
+
+    $overrides = @{
+        "2.image" = $inputFileName
+    }
+
+    $workflowFile = "D:\AI_Models\ComfyUI\workflows\img2vid-svd.json"
+    
+    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
+
+    if ($resultFile) {
+        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+        Write-Host "[OK] [J.A.R.V.I.S.] Image successfully animated to video!" -ForegroundColor Green
+        Write-Host "Saved to: $resultFile" -ForegroundColor Green
+
+        Invoke-HermesTTS "Animation completed, opening now."
+        Start-Process -FilePath $resultFile
+    } else {
+        Invoke-HermesTTS "Excuse me, Jon. I encountered an error while animating your image."
+    }
+}
+
+function fix-face {
+    param(
+        [Parameter(Mandatory=$true)] [string]$InputPath,
+        [string]$Prompt = "highly detailed face, realistic eyes, detailed skin texture, raw photo, masterwork, 8k",
+        [string]$OutputPath = ""
+    )
+
+    Write-Host "[J.A.R.V.I.S.] Initializing face-detailing face restoration workflow..." -ForegroundColor Green
+    Write-Host "Prompt: $Prompt" -ForegroundColor Green
+
+    $resolvedInput = Resolve-Path $InputPath -ErrorAction SilentlyContinue
+    if (-not $resolvedInput) {
+        Write-Error "Input image path not found: $InputPath"
+        return
+    }
+    $resolvedInputPath = $resolvedInput.ProviderPath
+
+    $comfyInputFolder = "D:\AI_Models\ComfyUI\ComfyUI\input"
+    if (-not (Test-Path $comfyInputFolder)) { New-Item -ItemType Directory -Path $comfyInputFolder -Force | Out-Null }
+    
+    $inputFileName = [System.IO.Path]::GetFileName($resolvedInputPath)
+    $comfyInputPath = Join-Path $comfyInputFolder $inputFileName
+    Copy-Item -Path $resolvedInputPath -Destination $comfyInputPath -Force
+
+    if ([string]::IsNullOrEmpty($OutputPath)) {
+        $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+        $projectRoot = "D:\Cursor_Projectz\MyStudioChannel"
+        $OutputPath = Join-Path $projectRoot "public\media\facefixed-$timestamp.png"
+    }
+    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
+
+    $overrides = @{
+        "4.image" = $inputFileName
+        "6.text"  = $Prompt
+    }
+
+    $workflowFile = "D:\AI_Models\ComfyUI\workflows\img2img-face-fix.json"
+    
+    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
+
+    if ($resultFile) {
+        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+        Write-Host "[OK] [J.A.R.V.I.S.] Facial restoration completed successfully!" -ForegroundColor Green
+        Write-Host "Saved to: $resultFile" -ForegroundColor Green
+
+        Invoke-HermesTTS "Facial detailing completed, opening now."
+        Start-Process -FilePath $resultFile
+    } else {
+        Invoke-HermesTTS "Excuse me, Jon. I encountered an error while restoring your facial features."
+    }
+}
+
