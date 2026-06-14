@@ -107,6 +107,12 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ## Recent changes (latest first)
 
+### 2026-06-13 — Local ComfyUI Setup Enhanced with GGUF Image & Video Engines
+
+- **Feature @ `55d856e`:** Cloned and fully wired 11 new custom node suites (Impact Pack, IC-Light, VHS, segment-anything-2, etc.). Configured a high-performance sequential downloader and mklink symlinker to store ~35 GB of model checkpoints, upscale models (`4x-UltraSharp`), image-to-video (`SVD`), and text-to-video (`CogVideoX`) models directly on `H:\AI_Models\comfyui_cache\` and link them to `D:\AI_Models\ComfyUI\ComfyUI\models\`.
+- **PowerShell Commands:** Implemented and integrated 4 new custom commands (`upscale-image`, `generate-video`, `animate-image`, `fix-face`) inside the user profile, backed up the profile-functions template, and authored a comprehensive master cheat sheet at `.cursor/docs/IMAGE-VIDEO-CHEATSHEET.md`. All tests, ESLint, Payload schema type sync, and git push succeeded on `MSC-Website-v9`.
+- **Docs:** Checkpoint, ReCall, Restore-Points, ISSUES-RESOLVED, CHANGELOG synced.
+
 ### 2026-06-13 — LiteLLM database-less proxy + docs sync
 
 - **Fix @ `a938232`:** LiteLLM no longer inherits Payload SQLite `DATABASE_URL`; Prisma startup errors eliminated; **`msc:litellm:verify`** PASS.
