@@ -396,3 +396,281 @@ function gen-image {
 }
 
 function hermes { & "C:\Users\JONBEATZ\AppData\Local\hermes\hermes-agent\venv\Scripts\hermes.exe" $args }
+
+# === ComfyUI Functions (New, Separate from gen-image) ===
+
+function Start-ComfyUI {
+    $port = 8188
+    $url = "http://127.0.0.1:$port"
+    Write-Host "[ComfyUI] Checking ComfyUI server status..." -ForegroundColor Cyan
+    
+    $tcp = New-Object System.Net.Sockets.TcpClient
+    $connected = $false
+    try {
+        $tcp.Connect("127.0.0.1", $port)
+        $connected = $true
+        $tcp.Close()
+    } catch {
+        # Not running
+    }
+
+    if ($connected) {
+        Write-Host "[ComfyUI] Server is already running on port $port." -ForegroundColor Green
+        return $true
+    }
+
+    Write-Host "[ComfyUI] Server is not running. Starting ComfyUI Portable minimized..." -ForegroundColor Yellow
+    $comfyDir = "D:\AI_Models\ComfyUI"
+    $batPath = Join-Path $comfyDir "run_nvidia_gpu.bat"
+    
+    if (-not (Test-Path $batPath)) {
+        Write-Error "ComfyUI executable batch file not found at: $batPath"
+        return $false
+    }
+
+    # Start minimized background process
+    Start-Process -FilePath "cmd.exe" -ArgumentList "/c", "cd /d `"$comfyDir`" && $batPath" -WindowStyle Minimized
+
+    # Poll until server responds
+    Write-Host "[ComfyUI] Waiting for server to boot up on port $port (this may take up to 30 seconds)..." -ForegroundColor Yellow
+    $timeout = 40
+    $elapsed = 0
+    while ($elapsed -lt $timeout) {
+        Start-Sleep -Seconds 2
+        $elapsed += 2
+        $tcp = New-Object System.Net.Sockets.TcpClient
+        try {
+            $tcp.Connect("127.0.0.1", $port)
+            $connected = $true
+            $tcp.Close()
+            break
+        } catch {
+            # Still booting
+        }
+    }
+
+    if ($connected) {
+        Write-Host "[ComfyUI] Server successfully booted and is listening on port $port!" -ForegroundColor Green
+        return $true
+    } else {
+        Write-Error "Timed out waiting for ComfyUI server to start on port $port." -ForegroundColor Red
+        return $false
+    }
+}
+
+function Invoke-ComfyPrompt {
+    param(
+        [Parameter(Mandatory=$true)] [string]$WorkflowPath,
+        [Parameter(Mandatory=$true)] [hashtable]$Overrides,
+        [Parameter(Mandatory=$true)] [string]$FinalOutputPath
+    )
+
+    if (-not (Start-ComfyUI)) { return }
+
+    # 1. Read Workflow Template
+    if (-not (Test-Path $WorkflowPath)) {
+        Write-Error "Workflow template not found at: $WorkflowPath"
+        return
+    }
+    
+    # Read as raw string and parse JSON
+    $workflowRaw = Get-Content -Path $WorkflowPath -Raw
+    try {
+        $workflow = $workflowRaw | ConvertFrom-Json
+    } catch {
+        Write-Error "Failed to parse workflow template JSON."
+        return
+    }
+
+    # 2. Apply Overrides
+    foreach ($key in $Overrides.Keys) {
+        $val = $Overrides[$key]
+        $parts = $key.Split('.')
+        $nodeId = $parts[0]
+        $inputKey = $parts[1]
+        
+        if ($workflow.$nodeId -and $workflow.$nodeId.inputs) {
+            $workflow.$nodeId.inputs.$inputKey = $val
+        }
+    }
+
+    # Convert back to JSON payload
+    $payloadJson = $workflow | ConvertTo-Json -Depth 100 -Compress
+    $wrappedPayload = @{ prompt = $workflow } | ConvertTo-Json -Depth 100 -Compress
+
+    # 3. Post to ComfyUI
+    Write-Host "[ComfyUI] Submitting prompt payload to server..." -ForegroundColor Cyan
+    $headers = @{ "Content-Type" = "application/json" }
+    
+    try {
+        $response = Invoke-RestMethod -Uri "http://127.0.0.1:8188/prompt" -Method Post -Body $wrappedPayload -Headers $headers
+        $promptId = $response.prompt_id
+        Write-Host "[ComfyUI] Prompt successfully queued! ID: $promptId" -ForegroundColor Green
+    } catch {
+        Write-Error "Failed to queue ComfyUI prompt: $_"
+        return
+    }
+
+    # 4. Poll /history for Completion
+    Write-Host "[ComfyUI] Running generation. Polling for completion..." -ForegroundColor Yellow
+    $completed = $false
+    while (-not $completed) {
+        Start-Sleep -Seconds 2
+        try {
+            $history = Invoke-RestMethod -Uri "http://127.0.0.1:8188/history/$promptId" -Method Get
+            if ($history -and $history.$promptId) {
+                $completed = $true
+                $promptOutput = $history.$promptId
+                break
+            }
+        } catch {
+            Write-Warning "Error polling ComfyUI history API: $_"
+        }
+    }
+
+    # 5. Retrieve output file
+    $comfyOutputDir = "D:\AI_Models\ComfyUI\ComfyUI\output"
+    
+    $outputImages = @()
+    if ($promptOutput.outputs) {
+        foreach ($prop in $promptOutput.outputs.PSObject.Properties) {
+            if ($prop.Value.images) {
+                $outputImages += $prop.Value.images
+            }
+        }
+    }
+
+    if ($outputImages -and $outputImages.Count -gt 0) {
+        $filename = $outputImages[0].filename
+        $comfyFile = Join-Path $comfyOutputDir $filename
+        
+        if (Test-Path $comfyFile) {
+            $targetDir = [System.IO.Path]::GetDirectoryName($FinalOutputPath)
+            if (-not (Test-Path $targetDir)) { New-Item -ItemType Directory -Path $targetDir -Force | Out-Null }
+            
+            Copy-Item -Path $comfyFile -Destination $FinalOutputPath -Force
+            return $FinalOutputPath
+        }
+    }
+
+    Write-Error "Could not locate generated ComfyUI output image file in: $comfyOutputDir"
+    return $null
+}
+
+function edit-image {
+    param(
+        [Parameter(Mandatory=$true)] [string]$InputPath,
+        [Parameter(Mandatory=$true)] [string]$Prompt,
+        [string]$OutputPath = "",
+        [float]$Strength = 0.75
+    )
+
+    Write-Host "🤖 [J.A.R.V.I.S.] Initializing image-to-image editing workflow..." -ForegroundColor Green
+    Write-Host "Prompt: $Prompt" -ForegroundColor Green
+    Write-Host "Strength: $Strength" -ForegroundColor Green
+
+    $resolvedInput = Resolve-Path $InputPath -ErrorAction SilentlyContinue
+    if (-not $resolvedInput) {
+        Write-Error "Input image path not found: $InputPath"
+        return
+    }
+    $resolvedInputPath = $resolvedInput.ProviderPath
+
+    $comfyInputFolder = "D:\AI_Models\ComfyUI\ComfyUI\input"
+    if (-not (Test-Path $comfyInputFolder)) { New-Item -ItemType Directory -Path $comfyInputFolder -Force | Out-Null }
+    
+    $inputFileName = [System.IO.Path]::GetFileName($resolvedInputPath)
+    $comfyInputPath = Join-Path $comfyInputFolder $inputFileName
+    Copy-Item -Path $resolvedInputPath -Destination $comfyInputPath -Force
+
+    if ([string]::IsNullOrEmpty($OutputPath)) {
+        $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+        $projectRoot = "D:\Cursor_Projectz\MyStudioChannel"
+        $OutputPath = Join-Path $projectRoot "public\media\edited-$timestamp.png"
+    }
+    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
+
+    $overrides = @{
+        "4.text" = $Prompt
+        "6.image" = $inputFileName
+        "8.denoise" = $Strength
+    }
+
+    $workflowFile = "D:\AI_Models\ComfyUI\workflows\img2img.json"
+    
+    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
+
+    if ($resultFile) {
+        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+        Write-Host "[OK] [J.A.R.V.I.S.] Image successfully edited!" -ForegroundColor Green
+        Write-Host "Saved to: $resultFile" -ForegroundColor Green
+
+        Invoke-HermesTTS "Image edited, opening now."
+        Start-Process -FilePath $resultFile
+    } else {
+        Invoke-HermesTTS "Excuse me, Jon. I encountered an error while editing your image."
+    }
+}
+
+function inpaint-image {
+    param(
+        [Parameter(Mandatory=$true)] [string]$InputPath,
+        [Parameter(Mandatory=$true)] [string]$MaskPath,
+        [Parameter(Mandatory=$true)] [string]$Prompt,
+        [string]$OutputPath = ""
+    )
+
+    Write-Host "🤖 [J.A.R.V.I.S.] Initializing inpainting workflow..." -ForegroundColor Green
+    Write-Host "Prompt: $Prompt" -ForegroundColor Green
+
+    $resolvedInput = Resolve-Path $InputPath -ErrorAction SilentlyContinue
+    if (-not $resolvedInput) {
+        Write-Error "Input image path not found: $InputPath"
+        return
+    }
+    $resolvedInputPath = $resolvedInput.ProviderPath
+
+    $resolvedMask = Resolve-Path $MaskPath -ErrorAction SilentlyContinue
+    if (-not $resolvedMask) {
+        Write-Error "Mask image path not found: $MaskPath"
+        return
+    }
+    $resolvedMaskPath = $resolvedMask.ProviderPath
+
+    $comfyInputFolder = "D:\AI_Models\ComfyUI\ComfyUI\input"
+    if (-not (Test-Path $comfyInputFolder)) { New-Item -ItemType Directory -Path $comfyInputFolder -Force | Out-Null }
+
+    $inputFileName = [System.IO.Path]::GetFileName($resolvedInputPath)
+    $maskFileName = [System.IO.Path]::GetFileName($resolvedMaskPath)
+    
+    Copy-Item -Path $resolvedInputPath -Destination (Join-Path $comfyInputFolder $inputFileName) -Force
+    Copy-Item -Path $resolvedMaskPath -Destination (Join-Path $comfyInputFolder $maskFileName) -Force
+
+    if ([string]::IsNullOrEmpty($OutputPath)) {
+        $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+        $projectRoot = "D:\Cursor_Projectz\MyStudioChannel"
+        $OutputPath = Join-Path $projectRoot "public\media\inpainted-$timestamp.png"
+    }
+    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
+
+    $overrides = @{
+        "4.text" = $Prompt
+        "6.image" = $inputFileName
+        "11.image" = $maskFileName
+    }
+
+    $workflowFile = "D:\AI_Models\ComfyUI\workflows\inpaint.json"
+
+    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
+
+    if ($resultFile) {
+        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+        Write-Host "[OK] [J.A.R.V.I.S.] Inpainting successfully completed!" -ForegroundColor Green
+        Write-Host "Saved to: $resultFile" -ForegroundColor Green
+
+        Invoke-HermesTTS "Image inpainting completed, opening now."
+        Start-Process -FilePath $resultFile
+    } else {
+        Invoke-HermesTTS "Excuse me, Jon. I encountered an error while inpainting your image."
+    }
+}

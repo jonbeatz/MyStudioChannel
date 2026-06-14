@@ -2,6 +2,16 @@
 
 This file tracks problems encountered during development and how they were resolved.
 
+## [2026-06-13] ComfyUI Web UI — Missing SD 1.5 Checkpoint & V2 Default Workflow Error
+- **Error:** Loading the ComfyUI V2 web UI at `http://127.0.0.1:8188` displayed a red "1 required model is missing" alert block with `v1-5-pruned-emaonly.ckpt` listed under missing checkpoints, rendering the default workspace non-executable.
+- **Cause:** The default workspace configuration inside ComfyUI Standalone's V2 frontend template is hardcoded to expect the standard Stable Diffusion 1.5 weights. This model file was completely absent from the checkpoints folder.
+- **Solution:** 
+  1. Frontend Default Customization (Preferred Setup): Modified ComfyUI's internal V2 default template `default.json` at `D:\AI_Models\ComfyUI\python_embeded\Lib\site-packages\comfyui_workflow_templates_media_image\templates\default.json` (after backing up the original) to load `z-image-turbo-Q4_K_M.gguf` using `UnetLoaderGGUF`, `Qwen3-4B-Instruct-2507-Q4_K_M.gguf` using `CLIPLoaderGGUF`, and `ae.safetensors` using `VAELoader` with a 1024x1024 Latent Canvas.
+  2. Fallback Model Download (Easiest): Successfully initiated and completed a background download of `v1-5-pruned-emaonly.ckpt` (4.27 GB) from runwayml's Hugging Face repository to `D:\AI_Models\ComfyUI\ComfyUI\models\checkpoints\` via `curl.exe -L` to cleanly heal any default loader nodes or legacy SD 1.5 workflows.
+  3. Verification: Recycled the backend server and loaded the web interface, confirming zero red errors in the Workflow Overview tab. Ran the native custom `edit-image` PowerShell command to successfully edit a test image with a prompt.
+- **Files Changed:** `D:\AI_Models\ComfyUI\python_embeded\Lib\site-packages\comfyui_workflow_templates_media_image\templates\default.json`, `D:\AI_Models\ComfyUI\ComfyUI\models\checkpoints\v1-5-pruned-emaonly.ckpt` (downloaded)
+- **Prevention:** Standardize all workspace default graphs to utilize pre-symlinked GGUF architectures to avoid local disk storage bloating. Keep `v1-5-pruned-emaonly.ckpt` present as a safe baseline model.
+
 ## [2026-06-13] Image Generation — Clickable Terminal Links & Auto-Open Fixes
 - **Error:** Clickable image-saved links printed in the terminal failed with `%5C` (URL-encoded backslash) error dialog boxes when clicked in Cursor on Windows; the auto-open Photos viewer failed to trigger reliably; success voice feedback played twice; and prompt aspect hints like "4k" crashed on Hugging Face API limits (max 2048x2048).
 - **Cause:** 1. Windows backslashes (`\`) are URL-encoded as `%5C` by Cursor's internal terminal link handler when resolving links. 2. `Start-Process $file` required explicit `-FilePath` parameters and fully resolved absolute path strings on Windows. 3. Sizing mapping was square-default and attempted unconstrained `3840x2160` output. 4. Duplicate voice triggered by manual agent `speak` script invocations during session sequences.
