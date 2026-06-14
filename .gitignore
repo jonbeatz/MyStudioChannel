@@ -73,6 +73,7 @@ google-api/gcp_key.json
 google-api/ngrok.exe
 **/Ngrok-API.md
 **/gcp-service-account.json
+.cursor/session-google-api.json
 
 # typescript
 *.tsbuildinfo
