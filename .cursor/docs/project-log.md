@@ -1,3 +1,12 @@
+## [2026-06-15 11:56] - Session Summary
+- **Branch:** `MSC-Website-v9` @ `79e5e17`
+- **Changes:**
+  *   **Start Project ritual:** LiteLLM + ngrok cold start verified (~44s); ngrok `https://pushy-water-reformer.ngrok-free.dev/v1`; `msc:litellm:verify` PASS (`vader-3.5-flash`).
+  *   **J.A.R.V.I.S. voice:** Welcome greeting + custom *"Hi Jon, how are you today?"* via `jarvis-speak.ps1`.
+  *   **No code changes** — working tree clean throughout session.
+- **Status:** completed
+- **Next:** Feature work on `MSC-Website-v9`; deploy v9 live when ready (`pushit:live:fast`).
+
 ## [2026-06-13] - Docs sync — v9 checkpoint, LiteLLM ISSUES-RESOLVED, ReCall
 - **Branch:** `MSC-Website-v9` @ `a938232`
 - **Changes:**
