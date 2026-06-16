@@ -105,6 +105,38 @@ For optimal results, **always run Hermes from your project root**:
 
 Hermes automatically scans and loads `HERMES.md` and `TRUTH.md` from the workspace folder to align itself with project blueprints, standards, and deployment safety triggers.
 
+### Hermes Desktop App — MSC project folder (important)
+
+The Desktop UI has **two** folder settings that are easy to confuse:
+
+| Setting | Where in app | What it writes | What actually drives `pwd` |
+| :--- | :--- | :--- | :--- |
+| **Workspace → Working Directory** | Settings → Workspace | `%LOCALAPPDATA%\hermes\config.yaml` → `terminal.cwd` | CLI / gateway config only |
+| **Default project directory** | Electron `project-dir.json` | `%APPDATA%\Hermes\project-dir.json` | **Desktop backend spawn** — sets `TERMINAL_CWD` |
+
+If `project-dir.json` is missing, Desktop falls back to **`C:\Users\JONBEATZ`** (home) even when Workspace shows the MSC path. Symptoms: `pwd` returns home, generic “Nous Research” intro instead of **`msc`** personality.
+
+**Fix (MSC coding):**
+
+1. Use desktop shortcut **`Hermes - MyStudioChannel`** (runs `scripts/start-hermes-desktop-msc.ps1`).
+2. Or ensure `%APPDATA%\Hermes\project-dir.json` contains:
+   ```json
+   { "dir": "D:\\Cursor_Projectz\\MyStudioChannel" }
+   ```
+3. **Fully quit** Desktop (tray → Quit), reopen, then **`Ctrl+N`** new session — old sessions keep their original cwd.
+
+**Personality:** Settings → Chat → **Msc** (maps to `display.personality: msc` + `agent.personalities.msc` in config).
+
+**General tasks (non-MSC):** set Workspace / `project-dir.json` to **`D:\Hermes`**.
+
+### Desktop shortcuts (Jon’s PC)
+
+| Shortcut | Purpose |
+| :--- | :--- |
+| **Start-Google-API-v2** | Single-window LiteLLM + hidden ngrok (`scripts/start-google-api-desktop.ps1`) |
+| **Stop-Google-API** | Full shutdown: Next **3000**, LiteLLM **4000**, ngrok, Hermes gateway (`scripts/stop-msc-session-desktop.ps1`) |
+| **Hermes - MyStudioChannel** | Opens Desktop with MSC project root + writes `project-dir.json` |
+
 ### Core Project Commands Hermes Can Trigger:
 *   `npm run dev` — Launch the Next.js development server on port 3000 (after clearing port).
 *   `npm run verify:next` — Clean cache and execute production build check.

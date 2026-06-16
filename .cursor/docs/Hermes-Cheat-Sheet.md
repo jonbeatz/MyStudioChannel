@@ -139,6 +139,22 @@ npm run msc:google-api:start-session
 
 Config file: **`%LOCALAPPDATA%\hermes\.env`** — keys `TELEGRAM_BOT_TOKEN`, `TELEGRAM_ALLOWED_USERS`. Verified **2026-06-15**.
 
+### 🖥️ Hermes Desktop App + Jon’s desktop shortcuts
+
+| Shortcut | Script / action |
+|----------|-----------------|
+| **Start-Google-API-v2** | `scripts/start-google-api-desktop.ps1` — one window LiteLLM + hidden ngrok |
+| **Stop-Google-API** | `scripts/stop-msc-session-desktop.ps1` → `npm run msc:session:stop` |
+| **Hermes - MyStudioChannel** | `scripts/start-hermes-desktop-msc.ps1` — Desktop with MSC project root |
+
+**MSC project folder (Desktop):** Settings → Workspace → Working Directory is **not enough**. Desktop backend reads **`%APPDATA%\Hermes\project-dir.json`** first. Use **`Hermes - MyStudioChannel`** shortcut or set:
+
+```json
+{ "dir": "D:\\Cursor_Projectz\\MyStudioChannel" }
+```
+
+Then **quit Desktop fully** → reopen → **`Ctrl+N`** new session. Chat → Personality **Msc**. General tasks: **`D:\Hermes`**.
+
 ### 🛠️ Safe Build & Auto-Dev Pipeline (`npm run build:dev`)
 Standard builds often leave your local server offline. This unified pipeline compiles code and immediately leaves your local server active:
 ```bash

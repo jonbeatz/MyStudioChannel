@@ -2,6 +2,13 @@
 
 This file tracks problems encountered during development and how they were resolved.
 
+## [2026-06-16] Hermes Desktop — Workspace setting ignored; pwd stays at home directory
+- **Error:** Settings → Workspace → Working Directory set to `D:\Cursor_Projectz\MyStudioChannel` and Chat → Personality **Msc**, but new sessions still report `C:\Users\JONBEATZ` from `pwd` and generic “Nous Research” assistant intro instead of MSC **`msc`** profile.
+- **Cause:** Hermes Desktop spawns its backend with `TERMINAL_CWD` from `%APPDATA%\Hermes\project-dir.json` (via `resolveHermesCwd()`), **not** from Settings → Workspace (`config.yaml` `terminal.cwd`). Missing `project-dir.json` → fallback to user home. Existing sessions also lock cwd at creation time.
+- **Solution:** Created `%APPDATA%\Hermes\project-dir.json` with MSC path. Added `scripts/start-hermes-desktop-msc.ps1` + desktop shortcut **`Hermes - MyStudioChannel`**. Set `agent.environment_hint` for Windows 11 + MSC path. Operator must fully quit Desktop and start **`Ctrl+N`** new session after fix.
+- **Files Changed:** `scripts/start-hermes-desktop-msc.ps1`, `%APPDATA%\Hermes\project-dir.json`, `%LOCALAPPDATA%\hermes\config.yaml` (`environment_hint`), `Hermes-Agent.md`, `ISSUES-RESOLVED.md`, `ReCall.md`, `Checkpoint.md`
+- **Prevention:** MSC Desktop work → always launch via **`Hermes - MyStudioChannel`** shortcut. Do not rely on Workspace → Working Directory alone for Desktop. General Hermes tasks → `D:\Hermes` in both Workspace and `project-dir.json`.
+
 ## [2026-06-16] Hermes Gateway — cmd.exe popup at Windows logon
 - **Error:** On every Windows login, a minimized `cmd.exe` window appeared immediately showing `Hermes Gateway Starting...` with Telegram connection warnings (`api.telegram.org` unreachable before network ready).
 - **Cause:** `hermes gateway install` registered scheduled task **`Hermes_Gateway`** with **`/SC ONLOGON`**, launching the gateway before LiteLLM (port 4000) and often before the network was ready. Hermes needs LiteLLM for AI replies; ngrok is Cursor-only.

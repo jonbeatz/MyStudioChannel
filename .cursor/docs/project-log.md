@@ -1,3 +1,22 @@
+## [2026-06-16 17:00] - Docs + Mem0: Hermes Desktop project-dir.json + desktop shortcuts
+- **Branch:** `MSC-Website-v9` @ `26610c4`
+- **Changes:**
+  *   **Root cause documented:** Desktop `TERMINAL_CWD` from `%APPDATA%\Hermes\project-dir.json`, not Settings → Workspace alone.
+  *   **Docs:** `Hermes-Agent.md`, `ISSUES-RESOLVED.md`, `ReCall.md`, `Checkpoint.md`, `CHANGELOG.md`.
+  *   **Mem0:** Synced desktop cwd fix, shortcuts, msc personality, project-dir.json path.
+- **Status:** completed
+- **Next:** Launch Desktop via **Hermes - MyStudioChannel**; `Ctrl+N` new session to verify MSC profile.
+
+## [2026-06-16 16:30] - Desktop Google-API shortcuts + Hermes Desktop MSC profile testing
+- **Branch:** `MSC-Website-v9` @ `26610c4`
+- **Changes:**
+  *   **Desktop shortcuts:** `Start-Google-API-v2.lnk` (single-window LiteLLM + hidden ngrok), `Stop-Google-API.lnk` (full `msc:session:stop`).
+  *   **Scripts:** `scripts/start-google-api-desktop.ps1`, `scripts/stop-msc-session-desktop.ps1` (uncommitted).
+  *   **Hermes Desktop:** Workspace → Working Directory set to `D:\Cursor_Projectz\MyStudioChannel`; Chat → Personality **Msc**. Old sessions keep stale cwd — new session after app restart required.
+  *   **Hermes config (local):** `terminal.cwd` + `display.personality: msc` synced via Desktop settings.
+- **Status:** completed
+- **Next:** Hermes Desktop — quit fully, `Ctrl+N` new session to verify MSC profile; use desktop stop shortcut for clean shutdown.
+
 ## [2026-06-16 10:20] - Hermes Desktop App + msc personality + session cleanup
 - **Branch:** `MSC-Website-v9` @ `41e7f52`
 - **Changes:**

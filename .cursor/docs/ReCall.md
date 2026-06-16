@@ -100,7 +100,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright); **`npm run analyze`** for admin bundle (~**816 kB**).
 - **J.A.R.V.I.S. / LiteLLM:** Start Project boots LiteLLM (**4000**) + ngrok; database-less proxy (no Prisma/SQLite leak); **`msc:litellm:verify`** PASS.
 - **Hermes Telegram:** Gateway verified **2026-06-15** — `%LOCALAPPDATA%\hermes\.env`; phone tests PASS. **2026-06-16:** no Windows logon auto-start; **Start Project** boots LiteLLM + ngrok then gateway; **End Project** / **`msc:session:stop`** stops gateway too.
-- **Hermes Desktop App:** Installed **2026-06-16** — same config as CLI/gateway. Default workspace **`D:\Hermes`**; **`msc`** personality (MyStudioChannel lead dev); skills linked from **`.cursor/skills`**. Cursor workflow on **`D:\Cursor_Projectz\MyStudioChannel`** unchanged.
+- **Hermes Desktop App:** Installed **2026-06-16** — shares config with CLI/gateway. **MSC project:** `%APPDATA%\Hermes\project-dir.json` + shortcut **`Hermes - MyStudioChannel`** (Workspace → Working Directory alone is **not** enough). **`msc`** personality in Chat settings; **`D:\Hermes`** for general tasks. Cursor workflow on **`D:\Cursor_Projectz\MyStudioChannel`** unchanged.
 - **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); Hostinger quartet via **`msc-hostinger-mcp.mjs`** launcher (scoped bins, no tool-naming warnings); MCP reload via **Settings → MCP**; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
 - **Audit (2026-06-07):** Phases 1–4 complete @ **`9d9831f`** (pushed). **`.cursor/review.md`** audit queue closed 2026-06-11.
 - **Next ideas:** Deploy v9 labels live (`pushit:live:fast`); feature work on **`MSC-Website-v9`**; portable kit from **ideaz.md** when starting new projects.
@@ -108,6 +108,13 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-16 — Hermes Desktop project-dir.json + Google-API desktop shortcuts
+
+- **Desktop cwd fix:** Workspace → Working Directory updates `config.yaml` only; Desktop backend reads **`%APPDATA%\Hermes\project-dir.json`** first. Missing file → `pwd` = home. Fix: `project-dir.json` + **`Hermes - MyStudioChannel`** shortcut (`scripts/start-hermes-desktop-msc.ps1`).
+- **Shortcuts:** `Start-Google-API-v2` (single-window LiteLLM/ngrok), `Stop-Google-API` (`msc:session:stop`), `Hermes - MyStudioChannel` (Desktop MSC root).
+- **Scripts (uncommitted):** `start-google-api-desktop.ps1`, `stop-msc-session-desktop.ps1`, `start-hermes-desktop-msc.ps1`.
+- **Docs:** `Hermes-Agent.md`, `ISSUES-RESOLVED.md`, `ReCall.md`, `Checkpoint.md`.
 
 ### 2026-06-16 — Hermes Desktop App + msc personality + gateway deferred start
 

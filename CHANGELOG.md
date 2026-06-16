@@ -21,12 +21,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Hermes Telegram gateway session-start (2026-06-16):** Start Project launches gateway after LiteLLM + ngrok (`hermes gateway install --no-start-on-login --start-now`); End Project stops gateway via `msc:litellm:stop`.
+- **Hermes Desktop MSC launcher (2026-06-16):** `scripts/start-hermes-desktop-msc.ps1` + `project-dir.json` pattern; desktop shortcuts **Start-Google-API-v2**, **Stop-Google-API**, **Hermes - MyStudioChannel**.
 
 ### Changed
 - **Hermes cold boot (2026-06-16):** Removed Windows logon scheduled task — no `Hermes Gateway Starting...` cmd popup at login.
 
 ### Fixed
 - **Hermes logon popup + premature Telegram polling (2026-06-16):** Gateway no longer starts before network/LiteLLM; see `ISSUES-RESOLVED.md`.
+- **Hermes Desktop cwd ignored (2026-06-16):** Workspace Working Directory alone did not set `TERMINAL_CWD`; Desktop needs `%APPDATA%\Hermes\project-dir.json` or **Hermes - MyStudioChannel** shortcut.
 
 ## [9.0.0] - 2026-06-13
 
