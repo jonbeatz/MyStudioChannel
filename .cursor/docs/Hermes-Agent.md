@@ -229,7 +229,8 @@ TELEGRAM_HOME_CHANNEL=...       # optional — DM chat ID for cron deliveries
 | :--- | :--- |
 | `hermes gateway setup` | Interactive wizard (token + user ID) |
 | `hermes gateway run` | Foreground gateway (first test) |
-| `hermes gateway install` | Windows Scheduled Task — auto-start at logon |
+| `hermes gateway install` | Windows Scheduled Task — auto-start at logon (legacy; MSC uses session start instead) |
+| `hermes gateway install --no-start-on-login --start-now` | Start gateway now without logon auto-start (used by Start Project) |
 | `hermes gateway start` | Start the scheduled task now |
 | `hermes gateway status` | PID + task status |
 | `hermes status` | Shows Telegram ✓ configured when ready |
@@ -238,11 +239,11 @@ TELEGRAM_HOME_CHANNEL=...       # optional — DM chat ID for cron deliveries
 
 | Service | Auto-starts? | Needed for Telegram? |
 | :--- | :--- | :--- |
-| **Hermes gateway** | ✓ at logon (`Hermes_Gateway` schtask) | Yes |
-| **LiteLLM** (port 4000) | ✗ manual | Yes — Hermes routes to `http://127.0.0.1:4000/v1` |
-| **ngrok** (port 4040) | ✗ manual | No — Cursor only |
+| **Hermes gateway** | ✗ at logon (removed) — **Start Project** | Yes |
+| **LiteLLM** (port 4000) | ✗ manual — **Start Project** | Yes — Hermes routes to `http://127.0.0.1:4000/v1` |
+| **ngrok** (port 4040) | ✗ manual — **Start Project** | No — Cursor only |
 
-**Morning ritual:** Say **Start Project** in Cursor (runs `msc:google-api:start-session` → LiteLLM + ngrok). Gateway should already be running; if the bot is silent after reboot, run `hermes gateway start`.
+**Morning ritual:** Say **Start Project** in Cursor (`msc:google-api:start-session` → LiteLLM + ngrok + Hermes gateway). **End Project** / `msc:session:stop` stops all three plus Next dev.
 
 **Verify:**
 

@@ -1,3 +1,13 @@
+## [2026-06-16 08:45] - Update Docs + Hermes gateway ritual + Mem0 sync
+- **Branch:** `MSC-Website-v9` @ `212e931` (uncommitted)
+- **Changes:**
+  *   **Hermes gateway:** Removed Windows logon auto-start (`hermes gateway uninstall`); Start Project starts gateway after LiteLLM + ngrok; `msc:litellm:stop` stops gateway on End Project.
+  *   **Scripts:** `scripts/start-hermes-api.ps1`, `scripts/msc-litellm-stop.mjs`.
+  *   **Mem0:** 10 new local memories synced (Hermes, LiteLLM, Cursor ngrok, JARVIS, UI skills, Payload types, VRAM, live v7).
+  *   **Docs:** Update Docs Path A — ReCall, Checkpoint, ISSUES-RESOLVED, Jedi-List, Restore-Points, CHANGELOG [Unreleased].
+- **Status:** completed
+- **Next:** Commit script + doc deltas when ready; deploy v9 live when ready (`pushit:live:fast`).
+
 ## [2026-06-15 21:54] - Session Closeout
 - **Branch:** `MSC-Website-v9` @ `522c149`
 - **Changes:**

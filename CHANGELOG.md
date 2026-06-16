@@ -20,6 +20,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Hermes Telegram gateway session-start (2026-06-16):** Start Project launches gateway after LiteLLM + ngrok (`hermes gateway install --no-start-on-login --start-now`); End Project stops gateway via `msc:litellm:stop`.
+
+### Changed
+- **Hermes cold boot (2026-06-16):** Removed Windows logon scheduled task — no `Hermes Gateway Starting...` cmd popup at login.
+
+### Fixed
+- **Hermes logon popup + premature Telegram polling (2026-06-16):** Gateway no longer starts before network/LiteLLM; see `ISSUES-RESOLVED.md`.
 
 ## [9.0.0] - 2026-06-13
 

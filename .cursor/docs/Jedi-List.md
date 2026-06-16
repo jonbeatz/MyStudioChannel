@@ -227,7 +227,7 @@ Secrets live in **`.env.local`** only. After changing GitHub, Resend, WordPress,
 | **`npm run msc:google-api:start`** | Shorthand for stopping active proxy/ngrok + starting them fresh in ngrok mode. |
 | **`npm run msc:litellm:test:ngrok`** | Runs full connection check against local + ngrok remote `/v1/models` endpoints. |
 | **`npm run msc:litellm:stop`** | Gracefully clears LiteLLM, ngrok, and port **4000** / **4040** processes. |
-| **`npm run msc:session:stop`** | **End Project closeout:** always stops Next dev (**3000**) + LiteLLM/ngrok (**4000**/**4040**) for a fresh cold start. |
+| **`npm run msc:session:stop`** | **End Project closeout:** stops Next dev (**3000**) + LiteLLM/ngrok (**4000**/**4040**) + **Hermes Telegram gateway** for a fresh cold start. |
 | **`npm run msc:hostinger:stop-node`** | **Option B deploy:** SSH stop live Node + clear SQLite WAL/SHM (when hPanel has no Stop button). |
 | **`npm run msc:hostinger:sync-db`** | **After FTPS:** SSH copy `payload.sqlite` from `public_html/nodejs/` into live app root. |
 | **`npm run msc:hostinger:sync-app`** | **After FTPS:** SSH mirror code + `.next` + lockfile staging → app root; runs **`npm install --ignore-scripts`**. |

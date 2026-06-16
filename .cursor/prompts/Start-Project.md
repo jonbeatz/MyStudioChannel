@@ -11,6 +11,8 @@ Launch **LiteLLM and ngrok** automatically in **minimized, elevated Windows Term
 
 Or: `npm run msc:google-api:start-session` · cold restart: `npm run msc:google-api:start`
 
+**Also starts:** Hermes **Telegram gateway** (after LiteLLM + ngrok) — hidden background, no Windows logon popup. Requires `%LOCALAPPDATA%\hermes\.env` Telegram config from prior `hermes gateway setup`.
+
 **Expected:** UAC prompt(s) may appear (RunAs). LiteLLM and ngrok tabs open in Windows Terminal (may pop up briefly — minimize on taskbar if needed). Script exits **0** only when:
 - LiteLLM responds on port **4000** (~30–90s)
 - ngrok inspector on **4040** reports an **HTTPS** tunnel URL
@@ -73,6 +75,7 @@ Gather live status, then print the session summary card in chat **immediately** 
    🔌 LiteLLM Proxy…………. [Online (port 4000) | Offline]
    ☁️ Google Vertex AI………. [Connected (vader-3.5-flash) | Reachable (models unverified) | Offline]
    🌐 ngrok Tunnel………….. [Online (https://xxxx.ngrok-free.dev/v1) | Active | Not running]
+   📱 Hermes Gateway………. [Online (Telegram) | Offline | Not configured]
 
 🔗 CURSOR
    Base URL……………… [https://xxxx.ngrok-free.dev/v1 | set after Step 1b]

@@ -71,6 +71,49 @@ function Configure-LiteLLMLocalEnv {
     }
 }
 
+function Get-HermesExecutable {
+    $candidates = @()
+    if ($env:LOCALAPPDATA) {
+        $candidates += (Join-Path $env:LOCALAPPDATA 'hermes\hermes-agent\venv\Scripts\hermes.exe')
+    }
+    if ($env:HERMES_HOME) {
+        $candidates += (Join-Path $env:HERMES_HOME 'hermes-agent\venv\Scripts\hermes.exe')
+    }
+    foreach ($candidate in $candidates) {
+        if ($candidate -and (Test-Path $candidate)) {
+            return $candidate
+        }
+    }
+    return $null
+}
+
+function Test-HermesGatewayRunning {
+    param([string]$HermesExe)
+    $status = & $HermesExe gateway status 2>&1 | Out-String
+    return $status -match 'Gateway (?:process )?running|Gateway is running'
+}
+
+function Start-HermesGatewayIfNeeded {
+    $hermesExe = Get-HermesExecutable
+    if (-not $hermesExe) {
+        Write-Warning "$Tag Hermes CLI not found - Telegram gateway skipped."
+        return
+    }
+
+    if (Test-HermesGatewayRunning -HermesExe $hermesExe) {
+        Write-Host "$Tag Hermes gateway already running (Telegram)" -ForegroundColor Green
+        return
+    }
+
+    Write-Host "$Tag Starting Hermes gateway (LiteLLM ready; no Windows logon auto-start)..." -ForegroundColor Cyan
+    $output = & $hermesExe gateway install --no-start-on-login --start-now 2>&1 | Out-String
+    if ($output -match 'Gateway started|already running') {
+        Write-Host "$Tag Hermes gateway online (Telegram)" -ForegroundColor Green
+    } else {
+        Write-Warning "$Tag Hermes gateway may not have started. Run: hermes gateway status"
+    }
+}
+
 function Get-NgrokExecutable {
     if ($env:MSC_NGROK_BIN -and (Test-Path $env:MSC_NGROK_BIN)) {
         return $env:MSC_NGROK_BIN
@@ -406,6 +449,8 @@ if ($remoteOk) {
 
 Write-SessionGoogleApiInfo -NgrokUrl $ngrokUrl -RemoteVerified $remoteOk
 Write-CursorNgrokSettings -PublicBaseUrl $ngrokUrl
+
+Start-HermesGatewayIfNeeded
 
 Write-Host "$Tag Session file: $SessionFile" -ForegroundColor DarkGray
 Write-Host "$Tag Test: npm run msc:litellm:verify" -ForegroundColor DarkGray

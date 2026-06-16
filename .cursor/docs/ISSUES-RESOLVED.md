@@ -2,6 +2,13 @@
 
 This file tracks problems encountered during development and how they were resolved.
 
+## [2026-06-16] Hermes Gateway — cmd.exe popup at Windows logon
+- **Error:** On every Windows login, a minimized `cmd.exe` window appeared immediately showing `Hermes Gateway Starting...` with Telegram connection warnings (`api.telegram.org` unreachable before network ready).
+- **Cause:** `hermes gateway install` registered scheduled task **`Hermes_Gateway`** with **`/SC ONLOGON`**, launching the gateway before LiteLLM (port 4000) and often before the network was ready. Hermes needs LiteLLM for AI replies; ngrok is Cursor-only.
+- **Solution:** Ran `hermes gateway uninstall` to remove logon auto-start. **`scripts/start-hermes-api.ps1`** now calls `hermes gateway install --no-start-on-login --start-now` after LiteLLM + ngrok are online (hidden `pythonw` spawn, no console). **`scripts/msc-litellm-stop.mjs`** runs `hermes gateway stop` on End Project / **`msc:session:stop`**.
+- **Files Changed:** `scripts/start-hermes-api.ps1`, `scripts/msc-litellm-stop.mjs`, `Hermes-Agent.md`, `Hermes-Cheat-Sheet.md`, `START-HERE.md`, `ReCall.md`, `Checkpoint.md`
+- **Prevention:** Do not use `hermes gateway install` (logon task) on MSC workstations. Morning ritual = **Start Project** only. Manual recovery: `hermes gateway install --no-start-on-login --start-now`.
+
 ## [2026-06-13] ComfyUI Web UI — Missing SD 1.5 Checkpoint & V2 Default Workflow Error
 - **Error:** Loading the ComfyUI V2 web UI at `http://127.0.0.1:8188` displayed a red "1 required model is missing" alert block with `v1-5-pruned-emaonly.ckpt` listed under missing checkpoints, rendering the default workspace non-executable.
 - **Cause:** The default workspace configuration inside ComfyUI Standalone's V2 frontend template is hardcoded to expect the standard Stable Diffusion 1.5 weights. This model file was completely absent from the checkpoints folder.

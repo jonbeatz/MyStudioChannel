@@ -141,10 +141,10 @@ If local breaks with missing vendor chunks (`date-fns`, etc.), after **`pushit:l
 For Vertex AI model testing/dev workflows:
 - Run **`npm run msc:google-api:start`** to fire up LiteLLM on port **4000** and mount an active ngrok HTTPS tunnel.
 - Check connections and display Cursor settings via **`npm run msc:litellm:test:ngrok`** (prints **Override OpenAI Base URL** + API key — use **`MSC_LITELLM_MASTER_KEY`** from **`.env.local`**, not a committed placeholder).
-- **Cursor Models:** **Auto** and **Tab** use Cursor’s servers; custom **`vader-*`** models use the ngrok **`/v1`** URL above. LiteLLM/ngrok survive a Cursor restart; **End Project** runs **`msc:session:stop`** (ports **3000**, **4000**, **4040**).
+- **Cursor Models:** **Auto** and **Tab** use Cursor’s servers; custom **`vader-*`** models use the ngrok **`/v1`** URL above. LiteLLM/ngrok survive a Cursor restart; **End Project** runs **`msc:session:stop`** (Next dev **3000**, LiteLLM **4000**, ngrok **4040**, Hermes gateway).
 - Keep credentials safe; never commit Service Account JSON or raw authtokens. Reference: **`config/Ngrok-SETUP.md`**.
 
-**Cold boot:** Say **Start Project** in Cursor — boots LiteLLM + ngrok for Cursor and for **Hermes Telegram** replies. The Telegram gateway itself is installed as a Windows logon task (`hermes gateway install`); if the bot is silent after reboot, run **`hermes gateway start`**. Details: **`.cursor/docs/Hermes-Agent.md`** § Telegram Gateway.
+**Cold boot:** Say **Start Project** in Cursor — boots LiteLLM + ngrok, then the **Hermes Telegram gateway** (no logon popup). **End Project** stops dev + LiteLLM + ngrok + gateway. Details: **`.cursor/docs/Hermes-Agent.md`** § Telegram Gateway.
 
 ### Why the browser shows a white page + `/_next/static/chunks/fallback/*` (500)
 

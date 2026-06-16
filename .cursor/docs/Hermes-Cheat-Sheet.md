@@ -126,7 +126,7 @@ npm run msc:google-api:start-session
 3.  Prints session summary card + ngrok `/v1` URL.
 4.  Plays J.A.R.V.I.S. welcome greeting (background, non-blocking).
 
-**Cold boot:** Hermes **Telegram gateway** auto-starts at Windows logon (`hermes gateway install`). Start Project does **not** start the gateway — it starts **LiteLLM**, which the bot needs to reply. If Telegram is silent after reboot: `hermes gateway start`.
+**Cold boot:** Say **Start Project** in Cursor — starts **LiteLLM + ngrok**, then the **Hermes Telegram gateway** (no Windows logon popup). Gateway needs LiteLLM on port **4000** to reply; ngrok is for Cursor only. Manual: `hermes gateway install --no-start-on-login --start-now`.
 
 ### 📱 Telegram Gateway (Hermes from phone)
 
@@ -134,7 +134,8 @@ npm run msc:google-api:start-session
 |---------|---------|
 | `hermes gateway setup` | First-time: @BotFather token + @userinfobot user ID |
 | `hermes gateway status` | Confirm gateway running |
-| `hermes gateway start` | Start after reboot if schtask missed (e.g. on battery) |
+| `hermes gateway install --no-start-on-login --start-now` | Start Telegram gateway without logon auto-start (also runs from Start Project) |
+| `hermes gateway stop` | Stop gateway (**End Project** / `msc:session:stop`) |
 
 Config file: **`%LOCALAPPDATA%\hermes\.env`** — keys `TELEGRAM_BOT_TOKEN`, `TELEGRAM_ALLOWED_USERS`. Verified **2026-06-15**.
 

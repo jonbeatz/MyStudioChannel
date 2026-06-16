@@ -66,7 +66,7 @@ These commands are bound to automated workflows inside `.cursor/prompts/` and ar
   1. Identifies and summarizes modified, added, and deleted files.
   2. Appends logs to `.cursor/docs/project-log.md`.
   3. Runs a Git audit and asks if you would like to commit and push.
-  4. Always runs `npm run msc:session:stop` (Next dev `3000`, LiteLLM `4000`, ngrok `4040`) — unconditional fresh restart.
+  4. Always runs `npm run msc:session:stop` (Next dev `3000`, LiteLLM `4000`, ngrok `4040`, Hermes gateway) — unconditional fresh restart.
   5. Outputs goodbye handshake.
 - **Handoff Response Format:**
   ```text
