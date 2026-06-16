@@ -211,7 +211,51 @@ function hermes { & "C:\Users\JONBEATZ\AppData\Local\hermes\hermes-agent\venv\Sc
 
 ---
 
-## ℹ️ 12. Version Info
+## 📱 12. Telegram Gateway (Phone Access)
+
+Hermes can run as a Telegram bot so Jon can chat from any device. Config lives in **`%LOCALAPPDATA%\hermes\.env`** (Windows native path — not `~/.hermes/.env` unless `HERMES_HOME` is overridden).
+
+### Required env vars
+
+```env
+TELEGRAM_BOT_TOKEN=...          # from @BotFather
+TELEGRAM_ALLOWED_USERS=...      # numeric user ID from @userinfobot
+TELEGRAM_HOME_CHANNEL=...       # optional — DM chat ID for cron deliveries
+```
+
+### Gateway commands (Local / PC)
+
+| Command | Purpose |
+| :--- | :--- |
+| `hermes gateway setup` | Interactive wizard (token + user ID) |
+| `hermes gateway run` | Foreground gateway (first test) |
+| `hermes gateway install` | Windows Scheduled Task — auto-start at logon |
+| `hermes gateway start` | Start the scheduled task now |
+| `hermes gateway status` | PID + task status |
+| `hermes status` | Shows Telegram ✓ configured when ready |
+
+### Cold boot (fresh Windows login)
+
+| Service | Auto-starts? | Needed for Telegram? |
+| :--- | :--- | :--- |
+| **Hermes gateway** | ✓ at logon (`Hermes_Gateway` schtask) | Yes |
+| **LiteLLM** (port 4000) | ✗ manual | Yes — Hermes routes to `http://127.0.0.1:4000/v1` |
+| **ngrok** (port 4040) | ✗ manual | No — Cursor only |
+
+**Morning ritual:** Say **Start Project** in Cursor (runs `msc:google-api:start-session` → LiteLLM + ngrok). Gateway should already be running; if the bot is silent after reboot, run `hermes gateway start`.
+
+**Verify:**
+
+```powershell
+hermes gateway status
+npm run msc:litellm:status
+```
+
+**Status (2026-06-15):** Telegram gateway verified — polling mode, live phone tests PASS (`Hello Hermes`, desktop query with tools).
+
+---
+
+## ℹ️ 13. Version Info
 
 *   **Active CLI Version:** `v0.16.0` (Upstream standard compilation)
 *   **Active Python Runtime:** `3.11.15`

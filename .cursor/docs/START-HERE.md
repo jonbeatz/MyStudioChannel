@@ -144,6 +144,8 @@ For Vertex AI model testing/dev workflows:
 - **Cursor Models:** **Auto** and **Tab** use Cursor’s servers; custom **`vader-*`** models use the ngrok **`/v1`** URL above. LiteLLM/ngrok survive a Cursor restart; **End Project** runs **`msc:session:stop`** (ports **3000**, **4000**, **4040**).
 - Keep credentials safe; never commit Service Account JSON or raw authtokens. Reference: **`config/Ngrok-SETUP.md`**.
 
+**Cold boot:** Say **Start Project** in Cursor — boots LiteLLM + ngrok for Cursor and for **Hermes Telegram** replies. The Telegram gateway itself is installed as a Windows logon task (`hermes gateway install`); if the bot is silent after reboot, run **`hermes gateway start`**. Details: **`.cursor/docs/Hermes-Agent.md`** § Telegram Gateway.
+
 ### Why the browser shows a white page + `/_next/static/chunks/fallback/*` (500)
 
 That pattern almost always means **`.next` was deleted or overwritten while `next dev` was still running** — for example **`npm run verify:next`** or **`npm run clean:next`** in a **second** terminal while the dev server was up. The dev server then serves broken chunks and error fallbacks.

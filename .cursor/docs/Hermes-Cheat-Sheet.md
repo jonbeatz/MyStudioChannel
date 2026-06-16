@@ -115,14 +115,28 @@ speak "make me an HD background image of a video camera filming a tv show"
 ## 🔄 5. Project & Dev Automation
 
 ### 🚀 Daily Start Project Workflow (`Start Project`)
-Execute the canonical session-start command to prepare your workspace:
+Say **Start Project** in Cursor (or run locally):
+
 ```powershell
 npm run msc:google-api:start-session
 ```
-1.  Launches your local LiteLLM Google API proxy.
-2.  Actively polls port `4000` until online.
-3.  Waits 2 seconds for tunnel stabilization.
-4.  Plays J.A.R.V.I.S.'s vocal welcome greeting: *"Welcome back Jon, I am J.A.R.V.I.S. your personal assistant..."*
+
+1.  Launches LiteLLM on port **4000** + ngrok tunnel (Cursor **Override OpenAI Base URL**).
+2.  Polls until LiteLLM is online (~30–90s).
+3.  Prints session summary card + ngrok `/v1` URL.
+4.  Plays J.A.R.V.I.S. welcome greeting (background, non-blocking).
+
+**Cold boot:** Hermes **Telegram gateway** auto-starts at Windows logon (`hermes gateway install`). Start Project does **not** start the gateway — it starts **LiteLLM**, which the bot needs to reply. If Telegram is silent after reboot: `hermes gateway start`.
+
+### 📱 Telegram Gateway (Hermes from phone)
+
+| Command | Purpose |
+|---------|---------|
+| `hermes gateway setup` | First-time: @BotFather token + @userinfobot user ID |
+| `hermes gateway status` | Confirm gateway running |
+| `hermes gateway start` | Start after reboot if schtask missed (e.g. on battery) |
+
+Config file: **`%LOCALAPPDATA%\hermes\.env`** — keys `TELEGRAM_BOT_TOKEN`, `TELEGRAM_ALLOWED_USERS`. Verified **2026-06-15**.
 
 ### 🛠️ Safe Build & Auto-Dev Pipeline (`npm run build:dev`)
 Standard builds often leave your local server offline. This unified pipeline compiles code and immediately leaves your local server active:

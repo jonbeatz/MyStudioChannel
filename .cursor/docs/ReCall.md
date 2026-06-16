@@ -99,6 +99,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **CI:** **`.github/workflows/verify.yml`** — build + Playwright smoke on push (Node **22**); admin login wait fix @ **`112acc5`**.
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright); **`npm run analyze`** for admin bundle (~**816 kB**).
 - **J.A.R.V.I.S. / LiteLLM:** Start Project boots LiteLLM (**4000**) + ngrok; database-less proxy (no Prisma/SQLite leak); **`msc:litellm:verify`** PASS.
+- **Hermes Telegram:** Gateway verified **2026-06-15** — `%LOCALAPPDATA%\hermes\.env`, schtask **`Hermes_Gateway`** at logon; phone tests PASS; cold boot = **Start Project** + gateway auto-start.
 - **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); Hostinger quartet via **`msc-hostinger-mcp.mjs`** launcher (scoped bins, no tool-naming warnings); MCP reload via **Settings → MCP**; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
 - **Audit (2026-06-07):** Phases 1–4 complete @ **`9d9831f`** (pushed). **`.cursor/review.md`** audit queue closed 2026-06-11.
 - **Next ideas:** Deploy v9 labels live (`pushit:live:fast`); feature work on **`MSC-Website-v9`**; portable kit from **ideaz.md** when starting new projects.
@@ -106,6 +107,12 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-15 — Hermes Telegram gateway (phone access)
+
+- **Ops:** Telegram bot configured via `hermes gateway setup`; `hermes gateway install` for logon auto-start; LiteLLM required for replies (`Start Project`).
+- **Verified:** Polling mode connected; inbound DMs answered (connectivity + tool-use test).
+- **Docs:** `Hermes-Agent.md`, `Hermes-Cheat-Sheet.md`, `START-HERE.md`, `Checkpoint.md`, `project-log.md`.
 
 ### 2026-06-13 — Local ComfyUI Setup Enhanced with GGUF Image & Video Engines
 

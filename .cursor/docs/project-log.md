@@ -1,3 +1,12 @@
+## [2026-06-15 21:35] - Hermes Telegram gateway verified + docs sync
+- **Branch:** `MSC-Website-v9`
+- **Changes:**
+  *   **Telegram gateway:** `TELEGRAM_BOT_TOKEN`, `TELEGRAM_ALLOWED_USERS`, `TELEGRAM_HOME_CHANNEL` in `%LOCALAPPDATA%\hermes\.env`; `hermes gateway install` (logon schtask); live phone tests PASS.
+  *   **Cold boot clarified:** Start Project → LiteLLM + ngrok; gateway auto at logon; `hermes gateway start` if silent.
+  *   **Docs:** `Hermes-Agent.md`, `Hermes-Cheat-Sheet.md`, `START-HERE.md`, `Checkpoint.md`, `ReCall.md`.
+- **Status:** completed
+- **Next:** Feature work on `MSC-Website-v9`; deploy v9 live when ready (`pushit:live:fast`).
+
 ## [2026-06-15 11:56] - Session Summary
 - **Branch:** `MSC-Website-v9` @ `79e5e17`
 - **Changes:**

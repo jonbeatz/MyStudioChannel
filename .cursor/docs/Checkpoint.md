@@ -1,20 +1,21 @@
 # Project Checkpoint
 
 ## Current Status
-- **Date:** 2026-06-13 (LiteLLM database-less proxy + Start Project ritual)
-- **Branch:** MSC-Website-v9 @ `a938232` (active dev)
+- **Date:** 2026-06-15 (Hermes Telegram gateway + Start Project cold-boot docs)
+- **Branch:** MSC-Website-v9 @ `3da925a` (active dev)
 - **Version:** 9.0.0 (`package.json` — sole release number)
 - **Build Status:** Passing (`verify:next:safe`); lint clean; **GitHub Actions** verify + Playwright on push to `MSC-Website-v9` / `main`
 - **Deploy default:** **`npm run pushit:live:fast`** (~10–15 min) for daily code/UI; canonical table in **HOSTINGER-DEPLOY.md**. Say **push it live** → agent asks mode.
 - **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v7.0.0** on host until next deploy; repo/local **`MyStudioChannel v9.0.0`**
 - **Git:** **`MSC-Website-v9`** active @ `a938232`; **`MSC-Website-v8`** frozen @ `c0d834e`; **`main`** @ `b4ab8ae`
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright smoke); **`npm run analyze`** for admin bundle (~816 kB baselined)
-- **J.A.R.V.I.S.:** LiteLLM port **4000** + ngrok tunnel; `msc:litellm:verify` PASS; Start Project ~43s cold start
+- **J.A.R.V.I.S.:** LiteLLM port **4000** + ngrok; Start Project ~43s; **Hermes Telegram gateway** verified (polling, schtask `Hermes_Gateway` at logon); phone tests PASS — cold boot = Start Project + gateway auto-start
 - **Backup:** quick backup **`MSC-Website-v9-k`** @ `b4ab8ae` (v7 restore point)
 
 ## Recent milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
+| 2026-06-15 | **Hermes Telegram gateway — phone access verified + cold-boot docs** | docs |
 | 2026-06-13 | **Polished FLUX.1 Image Generation — Clickable Links & Shortened voice** | `97b4d5d` |
 | 2026-06-13 | **LiteLLM database-less proxy — no Prisma/SQLite startup errors** | `a938232` |
 | 2026-06-13 | **Update Docs workflow split (Path A / Path B Mem0)** | `ae27ff2` |
