@@ -99,7 +99,8 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **CI:** **`.github/workflows/verify.yml`** — build + Playwright smoke on push (Node **22**); admin login wait fix @ **`112acc5`**.
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright); **`npm run analyze`** for admin bundle (~**816 kB**).
 - **J.A.R.V.I.S. / LiteLLM:** Start Project boots LiteLLM (**4000**) + ngrok; database-less proxy (no Prisma/SQLite leak); **`msc:litellm:verify`** PASS.
-- **Hermes Telegram:** Gateway verified **2026-06-15** — `%LOCALAPPDATA%\hermes\.env`; phone tests PASS. **2026-06-16:** no Windows logon auto-start; **Start Project** boots LiteLLM + ngrok then gateway (`--no-start-on-login --start-now`); **End Project** / **`msc:session:stop`** stops gateway too.
+- **Hermes Telegram:** Gateway verified **2026-06-15** — `%LOCALAPPDATA%\hermes\.env`; phone tests PASS. **2026-06-16:** no Windows logon auto-start; **Start Project** boots LiteLLM + ngrok then gateway; **End Project** / **`msc:session:stop`** stops gateway too.
+- **Hermes Desktop App:** Installed **2026-06-16** — same config as CLI/gateway. Default workspace **`D:\Hermes`**; **`msc`** personality (MyStudioChannel lead dev); skills linked from **`.cursor/skills`**. Cursor workflow on **`D:\Cursor_Projectz\MyStudioChannel`** unchanged.
 - **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); Hostinger quartet via **`msc-hostinger-mcp.mjs`** launcher (scoped bins, no tool-naming warnings); MCP reload via **Settings → MCP**; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
 - **Audit (2026-06-07):** Phases 1–4 complete @ **`9d9831f`** (pushed). **`.cursor/review.md`** audit queue closed 2026-06-11.
 - **Next ideas:** Deploy v9 labels live (`pushit:live:fast`); feature work on **`MSC-Website-v9`**; portable kit from **ideaz.md** when starting new projects.
@@ -108,11 +109,12 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ## Recent changes (latest first)
 
-### 2026-06-16 — Hermes gateway deferred start + Mem0 sync
+### 2026-06-16 — Hermes Desktop App + msc personality + gateway deferred start
 
-- **Ops:** Removed `Hermes_Gateway` Windows logon scheduled task (`hermes gateway uninstall`) — no cmd popup at boot. **Start Project** now starts gateway after LiteLLM + ngrok via `start-hermes-api.ps1`; **`msc:litellm:stop`** also runs `hermes gateway stop`.
-- **Mem0:** Synced 10 local memories (Hermes Telegram, gateway ritual, LiteLLM database-less, Cursor ngrok, JARVIS voice, live v7 vs repo v9, UI skills, Payload types, VRAM manager).
-- **Docs:** `Hermes-Agent.md`, `Hermes-Cheat-Sheet.md`, `START-HERE.md`, `ReCall.md`, `Checkpoint.md`, `ISSUES-RESOLVED.md`, `Jedi-List.md`.
+- **Desktop App:** Installed; shares `%LOCALAPPDATA%\hermes\config.yaml` + `.env` with CLI and Telegram gateway. Default cwd **`D:\Hermes`**; **`msc`** personality default; skills from **`.cursor/skills`** via `external_dirs`. Purged 18 old test sessions.
+- **Ops:** Removed Windows logon auto-start for gateway. **Start Project** starts gateway after LiteLLM + ngrok; **`msc:session:stop`** stops gateway.
+- **Mem0:** Synced 10 local memories (Hermes, LiteLLM, Cursor ngrok, JARVIS, UI skills, etc.).
+- **Docs:** `Hermes-Agent.md`, `Hermes-Cheat-Sheet.md`, `START-HERE.md`, ReCall, Checkpoint, ISSUES-RESOLVED, Jedi-List.
 
 ### 2026-06-15 — Hermes Telegram gateway (phone access)
 

@@ -1,3 +1,14 @@
+## [2026-06-16 10:20] - Hermes Desktop App + msc personality + session cleanup
+- **Branch:** `MSC-Website-v9` @ `41e7f52`
+- **Changes:**
+  *   **Hermes Desktop App:** Installed and verified against existing LiteLLM/Telegram config; shares `%LOCALAPPDATA%\hermes\config.yaml` + `.env` with CLI/gateway.
+  *   **Workspace:** Default terminal cwd → `D:\Hermes` (Hermes-only; Cursor/MyStudioChannel workflow unchanged).
+  *   **Personality:** Added **`msc`** (MyStudioChannel lead dev) as default; linked `.cursor/skills` via `skills.external_dirs`.
+  *   **Sessions:** Purged 18 old voice/personality test sessions (2026-06-12); kept Desktop App test + Telegram greeting.
+  *   **Config fix:** `max_concurrent_sessions: {}` (Desktop App warning cleared).
+- **Status:** completed
+- **Next:** Use Desktop App for non-coding tasks in `D:\Hermes`; heavy MSC work stays in Cursor. Say **Start Project** to boot LiteLLM + ngrok + gateway.
+
 ## [2026-06-16 08:45] - Update Docs + Hermes gateway ritual + Mem0 sync
 - **Branch:** `MSC-Website-v9` @ `212e931` (uncommitted)
 - **Changes:**

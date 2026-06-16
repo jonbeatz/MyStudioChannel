@@ -1,15 +1,15 @@
 # Project Checkpoint
 
 ## Current Status
-- **Date:** 2026-06-16 (Hermes gateway session-start + Mem0 sync)
-- **Branch:** MSC-Website-v9 @ `212e931` (active dev; uncommitted script/doc deltas from 2026-06-16)
+- **Date:** 2026-06-16 (Hermes Desktop App + gateway session-start)
+- **Branch:** MSC-Website-v9 @ `41e7f52` (clean; Hermes config lives in `%LOCALAPPDATA%\hermes\`)
 - **Version:** 9.0.0 (`package.json` — sole release number)
 - **Build Status:** Passing (`verify:next:safe`); lint clean; **GitHub Actions** verify + Playwright on push to `MSC-Website-v9` / `main`
 - **Deploy default:** **`npm run pushit:live:fast`** (~10–15 min) for daily code/UI; canonical table in **HOSTINGER-DEPLOY.md**. Say **push it live** → agent asks mode.
 - **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v7.0.0** on host until next deploy; repo/local **`MyStudioChannel v9.0.0`**
 - **Git:** **`MSC-Website-v9`** active @ `a938232`; **`MSC-Website-v8`** frozen @ `c0d834e`; **`main`** @ `b4ab8ae`
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright smoke); **`npm run analyze`** for admin bundle (~816 kB baselined)
-- **J.A.R.V.I.S.:** LiteLLM **4000** + ngrok **4040**; Start Project ~43s then Hermes gateway (no logon popup); Telegram verified **2026-06-15**; End Project stops dev + LiteLLM + ngrok + gateway
+- **J.A.R.V.I.S. / Hermes:** LiteLLM **4000** + ngrok **4040**; Start Project ~43s then Hermes gateway (no logon popup); **Hermes Desktop App** installed — shares config with CLI/Telegram; default cwd **`D:\Hermes`**; **`msc`** personality default; End Project stops dev + LiteLLM + ngrok + gateway
 - **Backup:** quick backup **`MSC-Website-v9-k`** @ `b4ab8ae` (v7 restore point)
 
 ## Recent milestones
