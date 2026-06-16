@@ -1,3 +1,15 @@
+## [2026-06-15 21:54] - Session Closeout
+- **Branch:** `MSC-Website-v9` @ `522c149`
+- **Changes:**
+  *   **Start Project:** LiteLLM + ngrok cold start; J.A.R.V.I.S. greeting; session summary card.
+  *   **Hermes Telegram gateway:** Full setup + verification (BotFather, user ID, `hermes gateway setup/install`); phone tests PASS.
+  *   **Docs:** Telegram gateway + cold-boot ritual — `Hermes-Agent.md`, `Hermes-Cheat-Sheet.md`, `START-HERE.md`, `Checkpoint.md`, `ReCall.md`, `project-log.md`.
+  *   **Git:** `1fbf17d` (docs), `522c149` (generated media) — pushed to `origin/MSC-Website-v9`.
+  *   **Backup:** quick **`msc-website-v2-y`** @ `G:\Cursor_Project_BackUpz\MyStudioChannel\`.
+  *   **End Project:** `msc:session:stop` — port 3000 free; LiteLLM **4000** stopped; ngrok **4040** stopped.
+- **Status:** completed
+- **Next:** Say **Start Project** tomorrow (LiteLLM + ngrok); Hermes gateway auto-starts at logon.
+
 ## [2026-06-15 21:35] - Hermes Telegram gateway verified + docs sync
 - **Branch:** `MSC-Website-v9`
 - **Changes:**
