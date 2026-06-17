@@ -4,38 +4,54 @@ Composio provides agent toolkits for Meta, TikTok, YouTube, X, and more — use 
 
 ## Sign up
 
-1. [Composio dashboard](https://app.composio.dev) — free developer tier
+1. [Composio dashboard](https://dashboard.composio.dev) — free developer tier
 2. Add to `.env.local`:
 
    ```env
    COMPOSIO_API_KEY=your-key
    ```
 
-## Cursor MCP registration
+## Cursor MCP registration (recommended — mcp-remote stdio bridge)
 
-Add to global or project MCP config (Settings → MCP → Add server):
+Direct `url` to `connect.composio.dev` can flash green then red in Cursor (**SSE stream 404**). Use **mcp-remote** instead:
+
+Project config: `.cursor/mcp.json` (synced via `npm run msc:sync:mcp-env`)
 
 ```json
 {
   "composio": {
-    "command": "npx",
-    "args": ["-y", "@composio/mcp@latest"],
-    "env": {
-      "COMPOSIO_API_KEY": "<from .env.local via msc:sync:mcp-env or manual>"
-    }
+    "command": "cmd",
+    "args": [
+      "/c", "npx", "-y", "mcp-remote@latest",
+      "https://connect.composio.dev/mcp",
+      "--transport", "http-first",
+      "--header", "x-consumer-api-key:${COMPOSIO_API_KEY}"
+    ],
+    "env": { "COMPOSIO_API_KEY": "ck_..." }
   }
 }
 ```
 
-Verify exact package name from [Composio MCP docs](https://docs.composio.dev) — update this file if the CLI package changes.
-
-After editing MCP config:
+Get your **consumer key** (`ck_…`) from **dashboard.composio.dev → Connect → MCP card** (FOR YOU mode in sidebar). Not Settings → API Keys (`ak_…`).
 
 ```powershell
 npm run msc:sync:mcp-env
 ```
 
-Reload **Settings → MCP** in Cursor.
+Reload **Settings → MCP**. If you previously clicked Connect/OAuth, click **Logout** on composio first, then toggle off/on.
+
+## Cursor MCP registration (HTTP — may error in Cursor)
+
+```json
+{
+  "composio": {
+    "url": "https://connect.composio.dev/mcp",
+    "headers": {
+      "x-consumer-api-key": "YOUR_CK_KEY"
+    }
+  }
+}
+```
 
 ## Platform toolkits
 

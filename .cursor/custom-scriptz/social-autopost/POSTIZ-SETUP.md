@@ -5,7 +5,7 @@ Install Postiz at `D:\Hermes\postiz` as the publishing hub for Facebook, Instagr
 ## Prerequisites
 
 - Docker Desktop (recommended) or Node.js 20+ with pnpm
-- Ports: **5000** (API/UI) — avoid conflict with MSC dev **3000**
+- Ports: **4007** (host UI/API) — container internal **5000**; avoid conflict with MSC dev **3000**
 
 ## Option A — Docker (recommended)
 
@@ -13,7 +13,6 @@ Install Postiz at `D:\Hermes\postiz` as the publishing hub for Facebook, Instagr
 cd D:\Hermes
 git clone https://github.com/gitroomhq/postiz-app.git postiz
 cd postiz
-# Follow https://docs.postiz.com/introduction for docker-compose
 docker compose up -d
 ```
 
@@ -23,13 +22,13 @@ See [Postiz docs](https://docs.postiz.com/introduction) for pnpm install and env
 
 ## After install
 
-1. Open Postiz UI (default `http://localhost:5000`)
+1. Open Postiz UI at **`http://localhost:4007`**
 2. Create account (local admin)
 3. Settings → API → copy API key
 4. Add to `.env.local`:
 
    ```env
-   POSTIZ_API_URL=http://localhost:5000/api
+   POSTIZ_API_URL=http://localhost:4007/api/public/v1
    POSTIZ_API_KEY=your-key-here
    ```
 
@@ -51,4 +50,4 @@ npm run social:auto-post -- --live --spec specs/social-autopost/examples/dry-run
 ## MSC rituals
 
 - **Start Project:** optional `docker compose up -d` in `D:\Hermes\postiz`
-- **End Project:** stop Postiz container if running (port 5000)
+- **End Project:** stop Postiz container if running (`docker compose down` in `D:\Hermes\postiz`)

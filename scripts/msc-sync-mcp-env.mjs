@@ -147,6 +147,22 @@ function setNestedEnv(config, serverName, envUpdates) {
   return changed;
 }
 
+function setNestedHeaders(config, serverName, headerUpdates) {
+  const servers = config.mcpServers || {};
+  const server = servers[serverName];
+  if (!server) return false;
+  server.headers = server.headers || {};
+  let changed = false;
+  for (const [key, value] of Object.entries(headerUpdates)) {
+    if (value === undefined || value === '') continue;
+    if (server.headers[key] !== value) {
+      server.headers[key] = value;
+      changed = true;
+    }
+  }
+  return changed;
+}
+
 function enableResendFromArchive(globalConfig) {
   if (!fs.existsSync(ARCHIVED_MCP)) {
     console.warn('WARN: archived MCP file missing; cannot enable resend');
@@ -322,6 +338,33 @@ function main() {
       console.log(`${changed ? 'PASS' : 'OK'}: browserbase env → project mcp.json`);
     } else if (projectConfig.mcpServers?.browserbase) {
       console.log('SKIP: No BROWSERBASE_API_KEY / BROWSERBASE_PROJECT_ID in .env.local');
+    }
+
+    const composioKey = env.COMPOSIO_API_KEY;
+    if (composioKey && projectConfig.mcpServers?.composio) {
+      const server = projectConfig.mcpServers.composio;
+      let changed = false;
+
+      if (server.url) {
+        delete server.url;
+        delete server.headers;
+        changed = true;
+      }
+
+      const envChanged = setNestedEnv(projectConfig, 'composio', {
+        COMPOSIO_API_KEY: composioKey,
+      });
+      if (envChanged) changed = true;
+
+      if (isPlaceholder(composioKey)) {
+        console.warn('WARN: COMPOSIO_API_KEY looks like a placeholder');
+      }
+      if (changed) projectChanged = true;
+      console.log(
+        `${changed ? 'PASS' : 'OK'}: composio COMPOSIO_API_KEY → project (${maskSecret(composioKey)})`,
+      );
+    } else if (projectConfig.mcpServers?.composio) {
+      console.warn('WARN: composio MCP present but COMPOSIO_API_KEY not in .env.local');
     }
 
     const projectNoSecrets = ['local-wp', 'pencil', 'markdownify'];

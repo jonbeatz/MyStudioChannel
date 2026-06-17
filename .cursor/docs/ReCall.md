@@ -112,6 +112,13 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ## Recent changes (latest first)
 
+### 2026-06-17 — Social auto-post: Postiz + Composio MCP stabilized
+
+- **Postiz (self-host):** Running at `http://localhost:4007` (host) mapped to container `5000`. Public API base: `POSTIZ_API_URL=http://localhost:4007/api/public/v1`. `scripts/social/postiz-client.mjs` health check returns **200** when `POSTIZ_API_KEY` is set.
+- **Composio MCP (Cursor):** Direct `url` transport can flash green then red due to **SSE stream 404**. Fixed by switching to **`mcp-remote` stdio bridge** in `.cursor/mcp.json` with header `x-consumer-api-key:${COMPOSIO_API_KEY}` and syncing via `npm run msc:sync:mcp-env`. If composio shows OAuth “Logout” in Cursor, click **Logout**, toggle off → fully quit Cursor → toggle on.
+- **Composio keys:** Use the **consumer** key (`ck_…`) from `dashboard.composio.dev → Connect → MCP card` (FOR YOU), not `ak_…` from Settings → API Keys.
+- **Kanban:** TaskBoardAI board updated (`.cursor/boards/msc-website-v9.json`) and Hermes Kanban now includes Postiz integrations + Composio workflow verification.
+
 ### 2026-06-17 — Docs/Mem0 closeout: End Project Kanban + cloud Mem0 linked
 
 - **End Project:** `.cursor/prompts/End-Project.md` — Kanban ports **3001**/**3005**/**9119** shutdown; optional Telegram gateway overnight; docs synced (START-HERE, Jedi-List, Prompt-Cheat-Sheet, Hermes-Agent/Cheat-Sheet).

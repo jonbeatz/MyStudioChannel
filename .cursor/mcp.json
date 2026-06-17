@@ -60,6 +60,24 @@
         "mcp-markdownify-server"
       ],
       "_comment": "Converts web content, PDFs, images (OCR), and document files directly to Markdown."
+    },
+    "composio": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "mcp-remote@latest",
+        "https://connect.composio.dev/mcp",
+        "--transport",
+        "http-first",
+        "--header",
+        "x-consumer-api-key:${COMPOSIO_API_KEY}"
+      ],
+      "env": {
+        "COMPOSIO_API_KEY": "REPLACE_WITH_COMPOSIO_API_KEY"
+      },
+      "_comment": "stdio bridge via mcp-remote — avoids Cursor streamable-HTTP SSE bug; key synced from .env.local"
     }
   }
 }

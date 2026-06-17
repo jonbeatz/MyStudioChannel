@@ -5,9 +5,16 @@
 import '../lib/msc-load-env.mjs';
 
 function getConfig() {
-  const baseUrl = (process.env.POSTIZ_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
+  const baseUrl = (process.env.POSTIZ_API_URL || 'http://localhost:4007/api/public/v1').replace(/\/$/, '');
   const apiKey = process.env.POSTIZ_API_KEY || '';
   return { baseUrl, apiKey };
+}
+
+function authHeaders(apiKey) {
+  return {
+    'Content-Type': 'application/json',
+    Authorization: apiKey,
+  };
 }
 
 /**
@@ -43,10 +50,7 @@ export async function schedulePost({ campaign, formatted, live = false }) {
   try {
     const res = await fetch(`${baseUrl}/posts`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
+      headers: authHeaders(apiKey),
       body: JSON.stringify(payload),
     });
 
@@ -68,9 +72,15 @@ export async function schedulePost({ campaign, formatted, live = false }) {
  * Health check for self-hosted Postiz.
  */
 export async function checkPostizHealth() {
-  const { baseUrl } = getConfig();
+  const { baseUrl, apiKey } = getConfig();
+  if (!apiKey) {
+    return { ok: false, error: 'POSTIZ_API_KEY not set' };
+  }
   try {
-    const res = await fetch(`${baseUrl.replace(/\/api$/, '')}/api/health`, { method: 'GET' });
+    const res = await fetch(`${baseUrl}/integrations`, {
+      method: 'GET',
+      headers: { Authorization: apiKey },
+    });
     return { ok: res.ok, status: res.status };
   } catch (err) {
     return { ok: false, error: err.message };

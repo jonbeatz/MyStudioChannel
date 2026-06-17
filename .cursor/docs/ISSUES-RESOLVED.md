@@ -191,6 +191,13 @@ Each entry follows this structure:
 - **Files Changed:** `scripts/msc-backup.mjs`, `.cursor/custom-scriptz/backup-system/scripts/msc-backup.mjs`, `.cursor/custom-scriptz/backup-system/{README,CURSOR}.md`, `.cursor/rules/global.mdc`, docs
 - **Prevention:** Use **`npm run msc:backup:quick`** — next folder auto-suggested (e.g. `msc-website-v3-b` after `v3-a`).
 
+## [2026-06-17] Cursor Composio MCP flashes green then red (SSE stream 404)
+- **Error:** Cursor MCP server `composio` goes green briefly then flips red **Error** after a second; logs show SSE stream failing (HTTP 404) after successful auth/initialize.
+- **Cause:** Cursor streamable HTTP transport + SSE stream path intermittently fails with Composio `connect.composio.dev` (green on initialize, then SSE open fails / tombstones transport after repeated 404s). Clicking Composio “Connect” OAuth inside Cursor can also conflict with API-key header auth.
+- **Solution:** Switch to a **stdio bridge** using `mcp-remote` in `.cursor/mcp.json` and pass the consumer key header as an env-injected header (`x-consumer-api-key:${COMPOSIO_API_KEY}`). Then **Logout** composio in Cursor MCP settings (clears OAuth state), toggle composio off, fully quit Cursor, reopen, toggle on. MCP stays green and exposes the 7 `COMPOSIO_*` meta-tools.
+- **Files Changed:** `.cursor/mcp.json`, `scripts/msc-sync-mcp-env.mjs`, `.cursor/custom-scriptz/social-autopost/COMPOSIO-MCP.md`
+- **Prevention:** Prefer `mcp-remote` for Composio in Cursor on Windows. Use the **consumer** key (`ck_…`) from `dashboard.composio.dev → Connect → MCP card` (FOR YOU), not the project key (`ak_…`) from Settings → API Keys.
+
 ## [2026-06-07] Standard backup bloated by reproducible deploy zips (~400 MB)
 - **Error:** Standard backups jumped from ~244 MB to ~637 MB after deploy sessions; `zips/` alone was ~525 MB.
 - **Cause:** `scripts/msc-backup.mjs` standard robocopy included gitignored `zips/` (`deploy-next.zip`, timestamped `MyStudioChannel-deploy-*.zip`). Archives are reproducible via `msc:deploy:zip` / `pushit:live:fast`.

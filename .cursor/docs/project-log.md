@@ -10,6 +10,15 @@
 - **Status:** completed (Phase 0); Phases 2–4 documented, credentials deferred.
 - **Next:** Self-host Postiz at `D:\Hermes\postiz` via Docker when computer restarts (waiting for operator reboot).
 
+## [2026-06-17 09:00] - Social auto-post: Postiz + Composio MCP stabilized
+- **Branch:** `MSC-Website-v9` (uncommitted)
+- **Changes:**
+  * **Postiz:** Self-hosted and verified at `http://localhost:4007` (container 5000). `POSTIZ_API_URL=http://localhost:4007/api/public/v1`. `scripts/social/postiz-client.mjs` health check **200** when `POSTIZ_API_KEY` is set.
+  * **Composio MCP:** Cursor composio server flashed green then red due to SSE stream open failures (404). Fixed via `mcp-remote` stdio bridge in `.cursor/mcp.json` with header `x-consumer-api-key:${COMPOSIO_API_KEY}` and `npm run msc:sync:mcp-env`. Logout OAuth in Cursor MCP settings to avoid header/OAuth conflicts.
+  * **Docs:** Updated `COMPOSIO-MCP.md` to point to `dashboard.composio.dev` and documented `ck_` consumer key location.
+  * **Kanban:** Updated TaskBoardAI board (`.cursor/boards/msc-website-v9.json`) and Hermes Kanban now includes Postiz integrations task and Composio workflow verification.
+- **Status:** ready for platform OAuth linking (Postiz Integrations preferred for publishing)
+
 ## [2026-06-17 02:15] - Session Summary (End Project)
 - **Branch:** `MSC-Website-v9` (uncommitted)
 - **Changes:**
