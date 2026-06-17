@@ -20,15 +20,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Visual Kanban & Task Management Stack (2026-06-17):** Integrated TaskBoardAI planning board on port `3001` (stored locally inside repository at `.cursor/boards/msc-website-v9.json`), Hermes Workspace visual dashboard on port `3005` (with secure authenticated WebAPI gateway bridge on port `8642`), and the embedded gateway dashboard on port `9119`.
+- **Cursor IDE Board MCP Server (2026-06-17):** Registered TaskBoardAI as a stdio-based MCP server in Cursor settings to allow automated agent reading and editing of repo Kanban boards.
 - **Hermes Telegram gateway session-start (2026-06-16):** Start Project launches gateway after LiteLLM + ngrok (`hermes gateway install --no-start-on-login --start-now`); End Project stops gateway via `msc:litellm:stop`.
 - **Hermes Desktop MSC launcher (2026-06-16):** `scripts/start-hermes-desktop-msc.ps1` + `project-dir.json` pattern; desktop shortcuts **Start-Google-API-v2**, **Stop-Google-API**, **Hermes - MyStudioChannel**.
+- **Hermes `google-workspace` skill (2026-06-17):** Gmail, Calendar, Drive OAuth on GCP `wordpress-map-1492461083797`; token at `%LOCALAPPDATA%\hermes\google_token.json`; natural-language access via Telegram/Desktop/CLI.
 
 ### Changed
 - **Hermes cold boot (2026-06-16):** Removed Windows logon scheduled task — no `Hermes Gateway Starting...` cmd popup at login.
 
 ### Fixed
+- **TaskBoardAI Windows dependency blocks (2026-06-17):** Patch-removed incompatible macOS/Linux `claude-code` from the package manifest, enabling clean Windows npm installations.
+- **Hermes Gateway WebAPI startup crashes (2026-06-17):** Set `API_SERVER_KEY` to bypass loopback api bind restrictions on port `8642`.
 - **Hermes logon popup + premature Telegram polling (2026-06-16):** Gateway no longer starts before network/LiteLLM; see `ISSUES-RESOLVED.md`.
 - **Hermes Desktop cwd ignored (2026-06-16):** Workspace Working Directory alone did not set `TERMINAL_CWD`; Desktop needs `%APPDATA%\Hermes\project-dir.json` or **Hermes - MyStudioChannel** shortcut.
+- **Hermes google-workspace OAuth ERR_UNSAFE_PORT (2026-06-17):** `localhost:1` redirect blocked by browser — copy full URL from address bar; see `ISSUES-RESOLVED.md`.
 
 ## [9.0.0] - 2026-06-13
 

@@ -1,3 +1,13 @@
+## [2026-06-17 22:30] - Hermes google-workspace skill setup + docs/Mem0
+- **Branch:** `MSC-Website-v9` @ `75ab3ba`
+- **Changes:**
+  *   **Skill:** `google-workspace` authenticated — Gmail, Calendar, Drive (+ Contacts/Sheets/Docs) on GCP `wordpress-map-1492461083797`.
+  *   **OAuth:** Desktop client JSON at `D:\Hermes\`; token + client secret in `%LOCALAPPDATA%\hermes\`.
+  *   **Docs:** `Hermes-Agent.md`, `Hermes-Cheat-Sheet.md`, `ISSUES-RESOLVED.md`, `ReCall.md`, `Checkpoint.md`, `CHANGELOG.md`.
+  *   **Mem0:** Skill paths, ERR_UNSAFE_PORT workaround, natural-language usage.
+- **Status:** completed
+- **Next:** Ask Hermes on Telegram — “Summarize unread emails” / “Calendar this week”.
+
 ## [2026-06-16 17:00] - Docs + Mem0: Hermes Desktop project-dir.json + desktop shortcuts
 - **Branch:** `MSC-Website-v9` @ `26610c4`
 - **Changes:**
@@ -443,3 +453,15 @@
   5. **Four-Model Generation Comparison:** Conducted a comprehensive, side-by-side performance test of Hugging Face FLUX.1-schnell, FLUX.1-dev, SDXL Turbo, and Stable Diffusion 1.5, and compiled the results into a gorgeous $2 \times 2$ grid layout.
 - **Status:** Complete
 - **Next:** Launch standard development tasks and continue creating high-end studio-style layouts.
+
+## [2026-06-17 00:15] - Session Summary
+- **Branch:** MSC-Website-v9
+- **Changes:**
+  1. **Google Workspace Skill Integration (`google-workspace`):** Installed and authenticated the native Google Workspace skill in Hermes. Enabled Gmail, Calendar, Drive, People, Sheets, and Docs APIs on GCP, bypassed browser-level `ERR_UNSAFE_PORT` redirects on port 1 via manual code exchange, and logged OAuth admin console links.
+  2. **Native Hermes Kanban Initialization:** Updated Hermes Agent to `v0.16.0` and initialized core SQLite databases. Created board `msc-website-v9` and seeded 3 tasks assigned to profile `msc`.
+  3. **Hermes Workspace Visual Dashboard Setup:** Cloned Workspace repository and built dependencies using `pnpm`. Configured port `3005` to prevent collision with Next.js development server on port `3000`. Wired secure `API_SERVER_KEY` loopback bridge on gateway port `8642` and successfully ran visual dashboard.
+  4. **TaskBoardAI Planning Board Deployment:** Cloned planning repo and edited manifest to bypass macOS/Linux preinstall blocks on Windows. Integrated `dotenv` to load configurations, mapped board storage directly into the project repo under `.cursor/boards/msc-website-v9.json`, set port `3001` explicitly, and booted Express service.
+  5. **Cursor IDE MCP Server Configuration:** Registered TaskBoardAI as a stdio-based MCP server inside Cursor settings to let agents read/write to board schemas natively.
+  6. **End-to-End Visual Demo Project:** Populated all three platforms with 6 demo tasks covering hero section bento grids, dark mode toggles, API test coverage, query optimization, navigation links, and launch notes. Started the J.A.R.V.I.S. LiteLLM proxy and ngrok tunnel session, verified that the visual dashboard displays the cards, and drafted the hybrid-promotion playbook.
+- **Status:** Complete
+- **Next:** Execute the promoted Kanban tasks, run automated Playwright smoke tests, and synchronize database collections.

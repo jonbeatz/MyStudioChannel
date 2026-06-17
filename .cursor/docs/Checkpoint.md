@@ -1,20 +1,23 @@
 # Project Checkpoint
 
 ## Current Status
-- **Date:** 2026-06-16 (Hermes Desktop project-dir + desktop shortcuts)
-- **Branch:** MSC-Website-v9 @ `26610c4` (uncommitted scripts + project-log)
+- **Date:** 2026-06-17 (Google Workspace and Visual Kanban Stack Integrated)
+- **Branch:** MSC-Website-v9 @ `75ab3ba`
 - **Version:** 9.0.0 (`package.json` — sole release number)
 - **Build Status:** Passing (`verify:next:safe`); lint clean; **GitHub Actions** verify + Playwright on push to `MSC-Website-v9` / `main`
 - **Deploy default:** **`npm run pushit:live:fast`** (~10–15 min) for daily code/UI; canonical table in **HOSTINGER-DEPLOY.md**. Say **push it live** → agent asks mode.
 - **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v7.0.0** on host until next deploy; repo/local **`MyStudioChannel v9.0.0`**
 - **Git:** **`MSC-Website-v9`** active @ `a938232`; **`MSC-Website-v8`** frozen @ `c0d834e`; **`main`** @ `b4ab8ae`
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright smoke); **`npm run analyze`** for admin bundle (~816 kB baselined)
-- **J.A.R.V.I.S. / Hermes:** LiteLLM **4000** + ngrok **4040**; Start Project ~43s then Hermes gateway (no logon popup); **Hermes Desktop App** — MSC via **`project-dir.json`** + **`Hermes - MyStudioChannel`** shortcut; **`msc`** personality; desktop **`Start-Google-API-v2`** / **`Stop-Google-API`** shortcuts; End Project stops dev + LiteLLM + ngrok + gateway
+- **J.A.R.V.I.S. / Hermes:** LiteLLM **4000** + ngrok **4040**; Start Project ~43s then Hermes gateway (no logon popup); **Hermes Desktop App** — MSC via **`project-dir.json`** + **`Hermes - MyStudioChannel`** shortcut; **`msc`** personality; **`google-workspace`** skill ✅ (Gmail/Calendar/Drive OAuth); desktop **`Start-Google-API-v2`** / **`Stop-Google-API`** shortcuts; End Project stops dev + LiteLLM + ngrok + gateway
+- **Kanban Stack:** TaskBoardAI **`3001`** (repo board: `.cursor/boards/msc-website-v9.json`); Hermes Workspace **`3005`** (gateway WebAPI connected on port `8642`); Embedded Gateway Dashboard **`9119`**
 - **Backup:** quick backup **`MSC-Website-v9-k`** @ `b4ab8ae` (v7 restore point)
 
 ## Recent milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
+| 2026-06-17 | **Visual Kanban & Task Management Stack Integration** | docs/mcp |
+| 2026-06-17 | **Google Workspace Skill (Gmail/Calendar/Drive OAuth)** | docs/gws |
 | 2026-06-16 | **Hermes gateway deferred to Start Project (no logon popup)** | scripts |
 | 2026-06-15 | **Hermes Telegram gateway — phone access verified + cold-boot docs** | docs |
 | 2026-06-13 | **Polished FLUX.1 Image Generation — Clickable Links & Shortened voice** | `97b4d5d` |

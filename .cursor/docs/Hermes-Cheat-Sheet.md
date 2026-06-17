@@ -155,6 +155,26 @@ Config file: **`%LOCALAPPDATA%\hermes\.env`** — keys `TELEGRAM_BOT_TOKEN`, `TE
 
 Then **quit Desktop fully** → reopen → **`Ctrl+N`** new session. Chat → Personality **Msc**. General tasks: **`D:\Hermes`**.
 
+### 📧 Google Workspace skill (`google-workspace`) — Gmail · Calendar · Drive
+
+**Status:** ✅ Authenticated **2026-06-17** · GCP project **`wordpress-map-1492461083797`**
+
+| What | Where |
+|------|--------|
+| Token | `%LOCALAPPDATA%\hermes\google_token.json` |
+| Client secret | `%LOCALAPPDATA%\hermes\google_client_secret.json` |
+| Setup script | `%LOCALAPPDATA%\hermes\skills\productivity\google-workspace\scripts\setup.py` |
+
+**Check auth:** `python …\setup.py --check` → `AUTHENTICATED`
+
+**OAuth gotcha:** After browser **Allow**, redirect to `http://localhost:1` shows **`ERR_UNSAFE_PORT`** — **normal**. Copy the **full URL** from the address bar (contains `code=4/0A…`); agent runs `--auth-code "URL"`.
+
+**Ask Hermes in plain English:** “Summarize unread emails”, “What's on my calendar today?”, “Search Drive for [file]”. No terminal needed day-to-day.
+
+**GCP admin:** [OAuth Clients](https://console.cloud.google.com/auth/clients?project=wordpress-map-1492461083797) · [Test users / Audience](https://console.cloud.google.com/auth/audience?project=wordpress-map-1492461083797)
+
+Full setup + revoke: **`Hermes-Agent.md`** § Google Workspace.
+
 ### 🛠️ Safe Build & Auto-Dev Pipeline (`npm run build:dev`)
 Standard builds often leave your local server offline. This unified pipeline compiles code and immediately leaves your local server active:
 ```bash
@@ -173,19 +193,48 @@ Completely automates database compilation and safety gates:
 
 ---
 
-## 🔧 6. Active Model Context Protocol (MCP) Servers
+## 📋 6. Visual Kanban & Task Management Stack
+
+Manage your human ideas and agent executions through a fully integrated visual Kanban ecosystem.
+
+### 🔌 Running Ports & URLs
+*   **TaskBoardAI Web UI (Port 3001):** `http://localhost:3001/` — Repository-level planning board.
+*   **Hermes Workspace Dashboard (Port 3005):** `http://localhost:3005/` — Visual orchestration dashboard.
+*   **Embedded Hermes Dashboard (Port 9119):** `http://localhost:9119/` — Gateway admin panel.
+
+### 🕹️ Service Control Shortcuts
+*   **Start Workspace:** Run `pnpm dev` in `D:\Hermes\hermes-workspace`.
+*   **Start TaskBoardAI Board:** Run `npm start` in `D:\Hermes\TaskBoardAI`. (Reads repository board file: `.cursor/boards/msc-website-v9.json`).
+*   **Start Hermes Dashboard:** Run `hermes dashboard --no-open --port 9119`.
+
+### 🔌 Cursor MCP Configuration
+Add this under **Cursor Settings ➡️ Features ➡️ MCP ➡️ Add New MCP Server**:
+*   **Name:** `TaskBoardAI`
+*   **Type:** `stdio`
+*   **Command:** `node "D:\Hermes\TaskBoardAI\server\mcp\kanbanMcpServer.js"`
+
+### 🔄 The Standard Hybrid Promotion Flow
+1. **Developer Plan:** Write/edit cards on **TaskBoardAI** (`http://localhost:3001/`).
+2. **Agent Promote:** Copy/promote task to active **Hermes Kanban** via `hermes kanban create "Task Title" --body "..." --assignee msc --workspace "dir:D:\Cursor_Projectz\MyStudioChannel"`.
+3. **Agent Execute:** A running gateway will automatically launch the profile `msc`, run the task, and mark it complete on finish.
+4. **Visual Monitor:** Track real-time progress on **Hermes Workspace** (`http://localhost:3005/`).
+
+---
+
+## 🔧 7. Active Model Context Protocol (MCP) Servers
 
 These servers are registered directly in your IDE settings (`cline_mcp_settings.json`) to expand Cursor's capabilities:
 
 | Server | Configuration Command | Scope / Capabilities |
 |--------|-----------------------|----------------------|
+| **TaskBoardAI MCP** | `node "D:\Hermes\TaskBoardAI\server\mcp\kanbanMcpServer.js"` | Read/write, move, and edit Kanban boards inside the project repo directly from the chat. |
 | **SQLite MCP** | `npx -y @modelcontextprotocol/server-sqlite D:\Cursor_Projectz\MyStudioChannel\payload.sqlite` | Enables Cursor to run read/write queries directly on your Payload CMS database, seed test records, or inspect user models. |
 | **Git MCP** | `npx -y @modelcontextprotocol/server-git` | Allows Cursor to inspect advanced branch histories, run diffs, check blame logs, and manage staging areas. |
 | **Docker MCP** | `npx -y docker-mcp` | Gives Cursor the ability to inspect running local containers, retrieve logs, and monitor system containers. |
 
 ---
 
-## 🚨 7. Troubleshooting & Recovery Runbooks
+## 🚨 8. Troubleshooting & Recovery Runbooks
 
 ### 💥 ERR_CONNECTION_REFUSED (Port 3000 Busy or White Screen)
 If NextJS dev crashes or port 3000 gets locked by a dead Node process, execute recovery immediately:

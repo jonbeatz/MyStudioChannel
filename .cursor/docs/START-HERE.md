@@ -146,6 +146,8 @@ For Vertex AI model testing/dev workflows:
 
 **Cold boot:** Say **Start Project** in Cursor — boots LiteLLM + ngrok, then the **Hermes Telegram gateway** (no logon popup). **End Project** stops dev + LiteLLM + ngrok + gateway. Details: **`.cursor/docs/Hermes-Agent.md`** § Telegram Gateway.
 
+**Hermes Google Workspace:** **`google-workspace`** skill authenticated (Gmail, Calendar, Drive) — ask Hermes on Telegram/Desktop in plain English. Setup + OAuth quirks: **`Hermes-Agent.md`** § Google Workspace.
+
 ### Why the browser shows a white page + `/_next/static/chunks/fallback/*` (500)
 
 That pattern almost always means **`.next` was deleted or overwritten while `next dev` was still running** — for example **`npm run verify:next`** or **`npm run clean:next`** in a **second** terminal while the dev server was up. The dev server then serves broken chunks and error fallbacks.

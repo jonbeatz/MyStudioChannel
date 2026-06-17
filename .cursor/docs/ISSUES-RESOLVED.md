@@ -2,6 +2,13 @@
 
 This file tracks problems encountered during development and how they were resolved.
 
+## [2026-06-17] Hermes google-workspace OAuth — ERR_UNSAFE_PORT on localhost:1 after Allow
+- **Error:** After clicking **Allow** on Google OAuth consent, browser (Brave/Chrome) shows “This site can't be reached” with **`ERR_UNSAFE_PORT`** at `http://localhost:1/?code=4/0A…&state=…`.
+- **Cause:** Hermes `google-workspace` setup uses redirect URI **`http://localhost:1`** (out-of-band manual code copy). Modern browsers block port **1** as unsafe — authorization still succeeds; the code is in the address bar.
+- **Solution:** Copy the **entire redirect URL** from the address bar (not just `state=`). Agent runs `setup.py --auth-code "FULL_URL"`. Codes expire in ~1 minute — paste immediately; re-run `--auth-url` if `invalid_grant`.
+- **Files Changed:** `%LOCALAPPDATA%\hermes\google_token.json`, `google_client_secret.json`, `Hermes-Agent.md`, `Hermes-Cheat-Sheet.md`, `ISSUES-RESOLVED.md`, `ReCall.md`, `Checkpoint.md`
+- **Prevention:** Treat `ERR_UNSAFE_PORT` as success. Never paste only the `state` parameter — need `code=4/0A…`. OAuth app in **Testing** → add Gmail as test user at [OAuth Audience](https://console.cloud.google.com/auth/audience?project=wordpress-map-1492461083797).
+
 ## [2026-06-16] Hermes Desktop — Workspace setting ignored; pwd stays at home directory
 - **Error:** Settings → Workspace → Working Directory set to `D:\Cursor_Projectz\MyStudioChannel` and Chat → Personality **Msc**, but new sessions still report `C:\Users\JONBEATZ` from `pwd` and generic “Nous Research” assistant intro instead of MSC **`msc`** profile.
 - **Cause:** Hermes Desktop spawns its backend with `TERMINAL_CWD` from `%APPDATA%\Hermes\project-dir.json` (via `resolveHermesCwd()`), **not** from Settings → Workspace (`config.yaml` `terminal.cwd`). Missing `project-dir.json` → fallback to user home. Existing sessions also lock cwd at creation time.
@@ -360,6 +367,30 @@ Each entry follows this structure:
   5. Created a permanent, workspace-level `HERMES.md` instruction file in the project root to load the architecture and `TRUTH.md` context into future Hermes sessions.
 - **Files Changed:** `HERMES.md` (created), `C:\Users\JONBEATZ\AppData\Local\hermes\config.yaml`, `C:\Users\JONBEATZ\AppData\Local\hermes\.env` (modified)
 - **Prevention:** Use LiteLLM on port 4000 as a unified local router to bridge custom agents with GCP/Vertex AI credentials effortlessly.
+
+## [2026-06-17] Google Workspace OAuth ERR_UNSAFE_PORT redirect
+- **Error:** When authenticating the `google-workspace` Hermes skill, the browser redirect failed with `ERR_UNSAFE_PORT` upon landing on `http://localhost:1`.
+- **Cause:** Modern web browsers block port `1` by default as it is classified as an unsafe/reserved system port, preventing the page from loading and showing the redirect code.
+- **Solution:** Explained to the operator that this is expected behavior. Instructed the operator to copy the *entire* blocked URL from the browser's address bar (which holds the crucial `code=4/0Adk...` query parameter) and run the manual setup option: `python setup.py --auth-code "FULL_URL"`. This bypassed the port restriction entirely, allowing successful token exchange.
+- **Files Changed:** `C:\Users\JONBEATZ\AppData\Local\hermes\google_client_secret.json`, `C:\Users\JONBEATZ\AppData\Local\hermes\google_token.json` (created)
+- **Prevention:** Standardize the redirect copy-paste playbook across all desktop OAuth applications using port 1.
+
+## [2026-06-17] TaskBoardAI Windows Preinstall Claude-Code Block
+- **Error:** Run `npm install` inside TaskBoardAI clone threw `Error: Claude Code is not supported on Windows. Claude Code requires macOS or Linux.` and terminated the process.
+- **Cause:** TaskBoardAI had a hard dependency on `@anthropic-ai/claude-code`, which includes a pre-installation shell script that actively asserts OS platform limits and fails builds on Windows.
+- **Solution:** Edited the `package.json` file to safely remove the `@anthropic-ai/claude-code` package from dependencies. Re-ran `npm install --legacy-peer-deps` which completed with 0 errors. Installed `dotenv` package to load the repository board configuration path locally.
+- **Files Changed:** `D:\Hermes\TaskBoardAI\package.json`, `D:\Hermes\TaskBoardAI\server\server.js`, `D:\Hermes\TaskBoardAI\server\config\config.js` (modified)
+- **Prevention:** Exclude platforms-dependent tooling from shared package manifests when configuring Windows-native developer workstations.
+
+## [2026-06-17] Hermes Gateway WebAPI Refusing to Start (Missing API_SERVER_KEY)
+- **Error:** When enabling `API_SERVER_ENABLED=true` inside `%LOCALAPPDATA%\hermes\.env` to connect to Hermes Workspace, the gateway daemon crashed with `ERROR gateway.platforms.api_server: [Api_Server] Refusing to start: API_SERVER_KEY is required...`
+- **Cause:** The core Hermes gateway requires a master API key when booting its local HTTP server (even on local binds) to prevent unauthorized loopback control scripts.
+- **Solution:** 
+  1. Appended `API_SERVER_KEY=my-secure-hermes-secret-key-998` to `%LOCALAPPDATA%\hermes\.env`.
+  2. Appended `HERMES_API_TOKEN=my-secure-hermes-secret-key-998` to `D:\Hermes\hermes-workspace\.env`.
+  3. Re-ran the gateway daemon with `hermes gateway run --replace` which successfully completed without errors, starting the API endpoint on port `8642`.
+- **Files Changed:** `C:\Users\JONBEATZ\AppData\Local\hermes\.env`, `D:\Hermes\hermes-workspace\.env` (modified)
+- **Prevention:** Always synchronise authentication tokens between local agent gateways and their client visual dashboards.
 
 ## Pending / To Be Investigated
 None currently

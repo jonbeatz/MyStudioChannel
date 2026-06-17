@@ -101,6 +101,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **J.A.R.V.I.S. / LiteLLM:** Start Project boots LiteLLM (**4000**) + ngrok; database-less proxy (no Prisma/SQLite leak); **`msc:litellm:verify`** PASS.
 - **Hermes Telegram:** Gateway verified **2026-06-15** — `%LOCALAPPDATA%\hermes\.env`; phone tests PASS. **2026-06-16:** no Windows logon auto-start; **Start Project** boots LiteLLM + ngrok then gateway; **End Project** / **`msc:session:stop`** stops gateway too.
 - **Hermes Desktop App:** Installed **2026-06-16** — shares config with CLI/gateway. **MSC project:** `%APPDATA%\Hermes\project-dir.json` + shortcut **`Hermes - MyStudioChannel`** (Workspace → Working Directory alone is **not** enough). **`msc`** personality in Chat settings; **`D:\Hermes`** for general tasks. Cursor workflow on **`D:\Cursor_Projectz\MyStudioChannel`** unchanged.
+- **Hermes `google-workspace` skill:** Authenticated **2026-06-17** — Gmail, Calendar, Drive (+ Contacts/Sheets/Docs) via OAuth on GCP **`wordpress-map-1492461083797`**. Token at **`%LOCALAPPDATA%\hermes\google_token.json`**. OAuth redirect **`ERR_UNSAFE_PORT`** on `localhost:1` is expected — copy full URL. Ask Hermes in natural language on Telegram/Desktop/CLI.
 - **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); Hostinger quartet via **`msc-hostinger-mcp.mjs`** launcher (scoped bins, no tool-naming warnings); MCP reload via **Settings → MCP**; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
 - **Audit (2026-06-07):** Phases 1–4 complete @ **`9d9831f`** (pushed). **`.cursor/review.md`** audit queue closed 2026-06-11.
 - **Next ideas:** Deploy v9 labels live (`pushit:live:fast`); feature work on **`MSC-Website-v9`**; portable kit from **ideaz.md** when starting new projects.
@@ -108,6 +109,21 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-17 — Visual Kanban & Task Management Stack
+
+- **Native Hermes Kanban (Core):** Updated Hermes to `v0.16.0`, initialized SQLite databases, and created board `msc-website-v9` with 6 tasks.
+- **Hermes Workspace (Visual UI):** Cloned to `D:\Hermes\hermes-workspace`, configured port `3005` to prevent conflicts, compiled dependencies, and connected securely to gateway API on port `8642` using a shared `API_SERVER_KEY` secret.
+- **TaskBoardAI (Planning Board):** Cloned to `D:\Hermes\TaskBoardAI`, removed incompatible Windows-preinstall checks on `claude-code`, added `dotenv` support, and set port `3001`. Created project board JSON in repo under `.cursor/boards/msc-website-v9.json`.
+- **Cursor IDE MCP Integration:** Wired TaskBoardAI as a stdio MCP server in Cursor settings to allow Cursor AI models to read/write/move cards natively.
+- **Demo Project:** Populated all three systems with 6 bento, dark mode, API test, navigation menu, query optimization, and release notes tasks.
+
+### 2026-06-17 — Hermes google-workspace skill (Gmail · Calendar · Drive)
+
+- **Skill:** `google-workspace` at `%LOCALAPPDATA%\hermes\skills\productivity\google-workspace\`; Cursor copy at `.agents\skills\google-workspace\`.
+- **OAuth:** Desktop client on GCP **`wordpress-map-1492461083797`**; APIs enabled (Gmail, Calendar, Drive, People, Sheets, Docs); token **`google_token.json`**.
+- **Setup quirk:** Browser **`ERR_UNSAFE_PORT`** after Allow — copy full `http://localhost:1/?code=…` URL for `--auth-code`.
+- **Usage:** Natural language on Telegram / Desktop / CLI — “summarize unread emails”, “calendar today”, “search Drive”.
 
 ### 2026-06-16 — Hermes Desktop project-dir.json + Google-API desktop shortcuts
 

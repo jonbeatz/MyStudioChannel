@@ -1,0 +1,156 @@
+{
+  "projectName": "MyStudioChannel v9",
+  "id": "msc-website-v9-board-id",
+  "columns": [
+    {
+      "id": "backlog",
+      "name": "Backlog"
+    },
+    {
+      "id": "ready",
+      "name": "Ready"
+    },
+    {
+      "id": "in-progress",
+      "name": "In Progress"
+    },
+    {
+      "id": "done",
+      "name": "Done"
+    },
+    {
+      "id": "blocked",
+      "name": "Blocked"
+    }
+  ],
+  "cards": [
+    {
+      "id": "card-hero-design",
+      "title": "Design a new hero section",
+      "content": "Create a visually striking hero section with a cinematic bento-grid layout, highlighting studio gold accents and micro-interactions.",
+      "columnId": "backlog",
+      "collapsed": false,
+      "position": 0,
+      "subtasks": [
+        "Wireframe layout",
+        "Style with NovaMira Gold",
+        "Add hover animations"
+      ],
+      "tags": [
+        "design",
+        "ui",
+        "bento"
+      ],
+      "dependencies": [],
+      "created_at": "2026-06-17T11:00:00.000Z",
+      "updated_at": "2026-06-17T11:00:00.000Z"
+    },
+    {
+      "id": "card-dark-mode",
+      "title": "Implement dark mode toggle",
+      "content": "Add a dark mode toggle with persistent user preference using Tailwind classes and localStorage caching.",
+      "columnId": "backlog",
+      "collapsed": false,
+      "position": 1,
+      "subtasks": [
+        "Create ThemeContext",
+        "Add Toggle Button component",
+        "Style dark states"
+      ],
+      "tags": [
+        "frontend",
+        "theme"
+      ],
+      "dependencies": [],
+      "created_at": "2026-06-17T11:01:00.000Z",
+      "updated_at": "2026-06-17T11:01:00.000Z"
+    },
+    {
+      "id": "card-unit-tests",
+      "title": "Write unit tests for API endpoints",
+      "content": "Comprehensive test coverage for Payload CMS api endpoints, including collection actions, media upload, and authorization checks.",
+      "columnId": "backlog",
+      "collapsed": false,
+      "position": 2,
+      "subtasks": [
+        "Configure Jest",
+        "Mock DB connections",
+        "Write auth tests"
+      ],
+      "tags": [
+        "test",
+        "backend"
+      ],
+      "dependencies": [],
+      "created_at": "2026-06-17T11:02:00.000Z",
+      "updated_at": "2026-06-17T11:02:00.000Z"
+    },
+    {
+      "id": "card-nav-menu",
+      "title": "Update navigation menu",
+      "content": "Add new 'Portfolio' and 'Services' links to the main header and sidebar navigation components.",
+      "columnId": "ready",
+      "collapsed": false,
+      "position": 0,
+      "subtasks": [
+        "Add 'Portfolio' link",
+        "Add 'Services' link",
+        "Verify active state highlighting"
+      ],
+      "tags": [
+        "frontend",
+        "navigation"
+      ],
+      "dependencies": [],
+      "created_at": "2026-06-17T11:03:00.000Z",
+      "updated_at": "2026-06-17T11:03:00.000Z"
+    },
+    {
+      "id": "card-db-queries",
+      "title": "Optimize database queries",
+      "content": "Review and optimize all Payload CMS database queries, adding composite indexes where necessary to reduce execution delays.",
+      "columnId": "ready",
+      "collapsed": false,
+      "position": 1,
+      "subtasks": [
+        "Audit heavy collection lookups",
+        "Add SQLite composite indexes",
+        "Measure load timings"
+      ],
+      "tags": [
+        "database",
+        "performance"
+      ],
+      "dependencies": [],
+      "created_at": "2026-06-17T11:04:00.000Z",
+      "updated_at": "2026-06-17T11:04:00.000Z"
+    },
+    {
+      "id": "card-release-notes",
+      "title": "Draft release notes for v9.0.0",
+      "content": "Write comprehensive release notes for the v9.0.0 launch, summarizing bento-grid layouts, dark theme, performance indexes, and unified voice setups.",
+      "columnId": "in-progress",
+      "collapsed": false,
+      "position": 0,
+      "subtasks": [
+        "Gather changelogs",
+        "Draft markdown layout",
+        "Publish to dashboard"
+      ],
+      "tags": [
+        "documentation",
+        "release"
+      ],
+      "dependencies": [],
+      "created_at": "2026-06-17T11:05:00.000Z",
+      "updated_at": "2026-06-17T11:05:00.000Z"
+    }
+  ],
+  "next-steps": [
+    "Verify the full stack: TaskBoardAI -> Hermes Kanban -> Hermes Workspace",
+    "Enable Cursor MCP for task management"
+  ],
+  "last_updated": "2026-06-17T11:06:00.000Z",
+  "isDragging": false,
+  "scrollToColumn": null
+}

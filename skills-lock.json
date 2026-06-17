@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "google-workspace": {
+      "source": "NousResearch/hermes-agent",
+      "sourceType": "github",
+      "skillPath": "skills/productivity/google-workspace/SKILL.md",
+      "computedHash": "f7c3a64ff18bb7b2d7eaa0bc7955001ec84a3b762ead614fb5198612646c2f3d"
+    },
     "mem0": {
       "source": "mem0ai/mem0",
       "sourceType": "github",
