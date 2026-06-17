@@ -1,7 +1,7 @@
 {
   "moduleId": "backup-system",
-  "version": "1.2.0",
-  "description": "Standard/Full robocopy backups with BackUp-Notez.md and agent note workflow",
+  "version": "1.3.0",
+  "description": "Standard/Full robocopy backups with BackUp-Notez.md, agent note workflow, and versioned folder naming (msc-website-v{N}-{a-z})",
   "install": {
     "command": ".\\.cursor\\custom-scriptz\\backup-system\\install.ps1"
   },
@@ -13,7 +13,7 @@
   "defaults": {
     "MSC_BACKUP_ROOT": "G:\\Cursor_Project_BackUpz\\MyStudioChannel"
   },
-  "standardSkips": ["node_modules", ".next", "logs", "test-results"],
+  "standardSkips": ["node_modules", ".next", "logs", "test-results", "zips"],
   "features": {
     "backupNotes": {
       "path": ".cursor/BackUp-Notez.md",

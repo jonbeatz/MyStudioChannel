@@ -68,13 +68,13 @@ If **custom**, ask the operator for the path in chat before Step 3.
 
 ### Step 3 — Folder
 
-Scan backup root for **`msc-website-v2-*`** folders; suggest next letter (script: `npm run msc:backup` / `scripts/msc-backup.mjs`).
+Scan backup root for **`msc-website-v{N}-{letter}`** folders; suggest next letter (or next version after `z`). Script: `npm run msc:backup` / `scripts/msc-backup.mjs`.
 
 **`AskQuestion` prompt:** `Folder name for this backup?`
 
 | Option id | Label |
 |-----------|--------|
-| `suggested` | **Use suggested** — e.g. msc-website-v2-c |
+| `suggested` | **Use suggested** — e.g. msc-website-v3-b |
 | `custom` | **Custom name** — I'll type it next |
 
 If **custom**, accept folder name from the operator's next message.

@@ -121,6 +121,8 @@ ps aux | grep node             # Check if Node is running
 | `npm run msc:backup:clean -- --dry-run` | Preview which folders would be cleaned up | Safely preview before deleting |
 | `npm run backup:clean-zips` | Keeps only the 3 most recent deploy zips in `zips/` | After deploy sessions |
 
+**Backup folder naming:** `G:\Cursor_Project_BackUpz\MyStudioChannel\msc-website-v{N}-{a-z}` (e.g. `msc-website-v3-a` → `v3-b`; at `v3-z` → `v4-a`). Auto-suggested by `msc:backup:quick` / interactive ritual.
+
 ### 🛡️ Git Pre-Commit Security Hook
 Every time you perform a `git commit` command, Husky automatically intercepts the commit to:
 1. Print a linter progress check (`npm run lint`).

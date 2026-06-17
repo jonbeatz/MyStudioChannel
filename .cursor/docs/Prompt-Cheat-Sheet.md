@@ -66,8 +66,9 @@ These commands are bound to automated workflows inside `.cursor/prompts/` and ar
   1. Identifies and summarizes modified, added, and deleted files.
   2. Appends logs to `.cursor/docs/project-log.md`.
   3. Runs a Git audit and asks if you would like to commit and push.
-  4. Always runs `npm run msc:session:stop` (Next dev `3000`, LiteLLM `4000`, ngrok `4040`, Hermes gateway) — unconditional fresh restart.
-  5. Outputs goodbye handshake.
+  4. **Close Kanban stack** — kills TaskBoardAI (**3001**), Hermes Workspace (**3005**), Hermes Dashboard (**9119**); optional Telegram gateway stop (operator choice); LiteLLM + ngrok via **`msc:litellm:stop`**.
+  5. Stops Next dev (**3000**) via **`msc:session:stop`** or **`msc:kill-dev-port`** when gateway kept overnight.
+  6. Outputs goodbye handshake.
 - **Handoff Response Format:**
   ```text
   -------------------------------------------------------------------------------
@@ -77,7 +78,7 @@ These commands are bound to automated workflows inside `.cursor/prompts/` and ar
   📦 SESSION WRAP-UP
      📝 Changes logged……… project-log.md
      🔧 Git………………… [clean | pending]
-     🛑 Services stopped…… Next dev (3000), LiteLLM + ngrok (4000, 4040)
+     🛑 Services stopped…… Next dev (3000), Kanban (3001, 3005, 9119), LiteLLM + ngrok (4000, 4040)
 
   📁 PROJECT
      🌿 Branch……………… [branch]

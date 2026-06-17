@@ -1,3 +1,24 @@
+## [2026-06-17 01:15] - Update Docs + Mem0 + session closeout
+- **Branch:** `MSC-Website-v9` @ `fc2207f` (pending commit)
+- **Changes:**
+  *   **Backup naming:** `msc-website-v{N}-{a-z}` in `scripts/msc-backup.mjs` + portable `backup-system`; quick backup **`msc-website-v3-a`**.
+  *   **End Project:** Kanban stack shutdown (3001/3005/9119) + optional Telegram gateway in `.cursor/prompts/End-Project.md`.
+  *   **Mem0:** Cloud Platform linked via `MEM0_API_KEY`; local Qdrant memories synced (Kanban, backup, End Project).
+  *   **Docs:** Checkpoint, ReCall, CHANGELOG, ISSUES-RESOLVED, START-HERE, Jedi-List, Prompt-Cheat-Sheet, Hermes-Agent/Cheat-Sheet, custom-scriptz README/Prompt-Module.
+- **Status:** completed
+- **Next:** Feature work on `MSC-Website-v9`; deploy v9 live when ready (`pushit:live:fast`).
+
+## [2026-06-17 00:40] - Backup naming v3+ + docs/Mem0 sync
+- **Branch:** `MSC-Website-v9` @ `fc2207f` (uncommitted script/docs deltas)
+- **Changes:**
+  *   **Backup naming:** `scripts/msc-backup.mjs` now uses `msc-website-v{N}-{a-z}` (e.g. `v3-a` → `v3-b` → … → `v3-z` → `v4-a`). Scans `G:\Cursor_Project_BackUpz\MyStudioChannel\`; starts at **`msc-website-v3-a`** when no versioned folders exist (v2 series exhausted). Removed timestamp fallback.
+  *   **Quick backup:** **`msc-website-v3-a`** @ `G:\Cursor_Project_BackUpz\MyStudioChannel\` (standard, 6/6 verify).
+  *   **Portable sync:** `.cursor/custom-scriptz/backup-system/scripts/msc-backup.mjs` + README/CURSOR aligned.
+  *   **Docs:** Checkpoint, ReCall, ISSUES-RESOLVED, CHANGELOG [Unreleased], custom-scriptz README/Prompt-Module.
+  *   **Mem0:** Backup naming scheme + Kanban gateway dashboard port synced to local Qdrant.
+- **Status:** completed
+- **Next:** Commit backup naming + doc deltas when ready.
+
 ## [2026-06-17 22:30] - Hermes google-workspace skill setup + docs/Mem0
 - **Branch:** `MSC-Website-v9` @ `75ab3ba`
 - **Changes:**

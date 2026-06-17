@@ -51,6 +51,7 @@ Say **push it live** → pick **Fast FTPS** for code-only, **`-WithDb`** if CMS 
 
 | Module | Purpose |
 |--------|---------|
-| `backup-system` | Pre-deploy backup |
+| `backup-system` | Pre-deploy backup (`msc-website-v{N}-{a-z}` naming) |
 | `google-api-proxy` | Optional Vertex/LiteLLM (not required for Hostinger) |
-| `dev-runtime-core` | *(ideaz backlog)* local port 3000 recovery |
+| `hermes-system` | J.A.R.V.I.S. Mem0, VRAM monitor, FLUX, Payload types sync |
+| `book-consultation` / `schedule-a-call` / `stay-in-the-loop` | Payload marketing forms (optional) |

@@ -177,10 +177,24 @@ Each entry follows this structure:
 - **Files Changed:** `middleware.ts`, `patches/@payloadcms+ui+3.81.0.patch`, `scripts/msc-hostinger-*.mjs`, `scripts/lib/msc-hostinger-ssh-preflight.mjs`, `scripts/pushit-live-fast.ps1`, `package.json`, `.cursor/rules/global.mdc`
 - **Prevention:** Fast deploy uses `--skip-db` unless `-WithDb`. Run `npx patch-package` after `@payloadcms/ui` upgrades.
 
+## [2026-06-17] Mem0 cloud CLI linked via existing account API key
+- **Error:** `mem0 init --email` failed — email already registered; Agent Mode key unclaimed.
+- **Cause:** jonbeatz@gmail.com has an existing Mem0 Platform account separate from Agent Mode bootstrap key.
+- **Solution:** Loaded **`MEM0_API_KEY`** from **`.env.local`** → `mem0 init --api-key … --force` → connected to Platform; config saved to `~/.mem0/config.json`. Local Qdrant (`mem0-chat.ps1`) unchanged.
+- **Files Changed:** (config only — `~/.mem0/config.json`, not in repo)
+- **Prevention:** Use **`MEM0_API_KEY`** from **`.env.local`** for cloud CLI; use **`scripts/mem0-chat.ps1`** for local J.A.R.V.I.S. memories.
+
+## [2026-06-17] Backup folder naming — versioned letter scheme (v3+)
+- **Error:** After `msc-website-v2-z`, quick backup fell back to timestamp folders (`my-project-backup-2026-06-17T…`).
+- **Cause:** `suggestNextBackupFolder()` only incremented letters within flat `msc-website-v2-*`; at `z` it called `defaultBackupFolder()` with ISO timestamp.
+- **Solution:** Pattern `msc-website-v(\d+)-([a-z])`; sort by version then letter; increment letter or bump version at `z`. Empty backup root → **`msc-website-v3-a`** (v2 series exhausted). Portable copy synced under `.cursor/custom-scriptz/backup-system/`.
+- **Files Changed:** `scripts/msc-backup.mjs`, `.cursor/custom-scriptz/backup-system/scripts/msc-backup.mjs`, `.cursor/custom-scriptz/backup-system/{README,CURSOR}.md`, `.cursor/rules/global.mdc`, docs
+- **Prevention:** Use **`npm run msc:backup:quick`** — next folder auto-suggested (e.g. `msc-website-v3-b` after `v3-a`).
+
 ## [2026-06-07] Standard backup bloated by reproducible deploy zips (~400 MB)
 - **Error:** Standard backups jumped from ~244 MB to ~637 MB after deploy sessions; `zips/` alone was ~525 MB.
 - **Cause:** `scripts/msc-backup.mjs` standard robocopy included gitignored `zips/` (`deploy-next.zip`, timestamped `MyStudioChannel-deploy-*.zip`). Archives are reproducible via `msc:deploy:zip` / `pushit:live:fast`.
-- **Solution:** Added `zips` to `STANDARD_DIRS` skip list. Added `scripts/clean-zips.ps1` + `npm run backup:clean-zips` (retain 3 newest). Backup folder naming uses `msc-website-v2-*`.
+- **Solution:** Added `zips` to `STANDARD_DIRS` skip list. Added `scripts/clean-zips.ps1` + `npm run backup:clean-zips` (retain 3 newest). Folder naming was **`msc-website-v2-*`** (superseded 2026-06-17 — see entry above).
 - **Files Changed:** `scripts/msc-backup.mjs`, `scripts/clean-zips.ps1`, `package.json`, `.cursor/custom-scriptz/backup-system/*`, `.cursor/rules/global.mdc`, docs
 - **Prevention:** Run **`npm run backup:clean-zips`** after deploys. Standard backup never copies `zips/`.
 

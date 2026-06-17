@@ -9,9 +9,15 @@ To install a portable module in this project:
 
 ## Available modules
 
-- `google-api-proxy` — LiteLLM + ngrok for Cursor AI
-- `backup-system` — Backup project command
-- `hostinger-setup` — Hostinger FTPS/SSH deploy stack + pitfalls + rules
+| Folder | Purpose |
+|--------|---------|
+| `google-api-proxy` | LiteLLM + ngrok for Cursor AI |
+| `backup-system` | Backup project command (`msc-website-v{N}-{a-z}` folder naming) |
+| `hostinger-setup` | Hostinger FTPS/SSH deploy stack + pitfalls + rules |
+| `hermes-system` | J.A.R.V.I.S.: Mem0, VRAM monitor, FLUX gen, Payload types sync |
+| `book-consultation` | Multi-step consultation booking (Payload + Resend) |
+| `schedule-a-call` | Call scheduling lightbox (Payload + Resend) |
+| `stay-in-the-loop` | Newsletter / email signup double opt-in |
 
 ## List modules (PowerShell)
 
@@ -31,6 +37,10 @@ Get-ChildItem .cursor\custom-scriptz -Directory -ErrorAction SilentlyContinue |
 | `google-api-proxy`, `google-api module`, `google-api` | `google-api-proxy` |
 | `backup-system`, `backup module` | `backup-system` |
 | `hostinger-setup`, `hostinger module`, `install hostinger` | `hostinger-setup` |
+| `hermes-system`, `jarvis module`, `hermes module` | `hermes-system` |
+| `book-consultation`, `booking module` | `book-consultation` |
+| `schedule-a-call`, `call scheduling module` | `schedule-a-call` |
+| `stay-in-the-loop`, `newsletter module` | `stay-in-the-loop` |
 
 ## Installer flags (optional)
 

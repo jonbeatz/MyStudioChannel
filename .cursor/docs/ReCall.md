@@ -93,7 +93,9 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Version:** **`v9.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v9.0.0`**, admin **`MyStudioChannel Admin v9.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
 - **Live:** **`https://mystudiochannel.com`** — **v7.0.0** on host until next deploy; repo/local **v9.0.0**.
 - **Deploy docs:** **`HOSTINGER-DEPLOY.md`**, **`DEPLOYMENT-TROUBLESHOOTING.md`** (§ fast deploy mistakes). **`-WithDb`** required for **`payload.sqlite`** on fast path. Zip unzip bug fixed — expect **~10–15 min**, not **~45 min** fallback.
-- **Branches:** **`MSC-Website-v9`** (active dev @ **`a938232`**); **`MSC-Website-v8`** frozen @ **`c0d834e`**; **`MSC-Website-v7`** frozen @ **`b4ab8ae`**; **`main`** @ **`b4ab8ae`**.
+- **Branches:** **`MSC-Website-v9`** (active dev @ **`fc2207f`**); **`MSC-Website-v8`** frozen @ **`c0d834e`**; **`MSC-Website-v7`** frozen @ **`b4ab8ae`**; **`main`** @ **`b4ab8ae`**.
+- **Backups:** **`G:\Cursor_Project_BackUpz\MyStudioChannel\`** — folder naming **`msc-website-v{N}-{a-z}`** (e.g. **`msc-website-v3-a`**); legacy **`msc-website-v2-*`** exhausted; quick via **`npm run msc:backup:quick`**.
+- **Mem0:** Local Qdrant via **`scripts/mem0-chat.ps1`**; cloud Platform linked via **`MEM0_API_KEY`** in **`.env.local`** (`mem0 init --api-key --force`).
 - **Git:** **`payload.sqlite`** tracked @ **`14ceb53`** (v7 CMS baseline for deploy seed); **`MSC-Website-v9`** @ **9.0.0**.
 - **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v9.0.0`**; **Latest = `v9.0.0`** (repo; live still v7 until deploy).
 - **CI:** **`.github/workflows/verify.yml`** — build + Playwright smoke on push (Node **22**); admin login wait fix @ **`112acc5`**.
@@ -109,6 +111,20 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 ---
 
 ## Recent changes (latest first)
+
+### 2026-06-17 — Docs/Mem0 closeout: End Project Kanban + cloud Mem0 linked
+
+- **End Project:** `.cursor/prompts/End-Project.md` — Kanban ports **3001**/**3005**/**9119** shutdown; optional Telegram gateway overnight; docs synced (START-HERE, Jedi-List, Prompt-Cheat-Sheet, Hermes-Agent/Cheat-Sheet).
+- **Mem0 cloud:** CLI linked to jonbeatz@gmail.com account via **`MEM0_API_KEY`** in **`.env.local`**; local Qdrant memories unchanged.
+- **Backup:** Quick **`msc-website-v3-a`**; naming **`msc-website-v{N}-{a-z}`** in script + portable `backup-system`.
+
+### 2026-06-17 — Backup folder naming v3+ (`msc-website-v{N}-{letter}`)
+
+- **Scheme:** `msc-website-v3-a` → `v3-b` → … → `v3-z` → `v4-a` (version bumps after `z`; letter resets to `a`).
+- **Script:** `scripts/msc-backup.mjs` scans `G:\Cursor_Project_BackUpz\MyStudioChannel\` for `msc-website-v(\d+)-([a-z])`; no timestamp fallback.
+- **Start point:** **`msc-website-v3-a`** when no versioned folders exist (v2 series exhausted at `msc-website-v2-z`).
+- **First v3 backup:** **`msc-website-v3-a`** (standard quick backup, 6/6 verify).
+- **Portable:** `.cursor/custom-scriptz/backup-system/` script + docs synced.
 
 ### 2026-06-17 — Visual Kanban & Task Management Stack
 
@@ -234,7 +250,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 ### 2026-06-07 — Backup bloat fix: exclude zips/ + clean-zips retention
 
 - **Issue:** Standard backups ~637 MB vs ~244 MB — `zips/` deploy archives (~525 MB) copied despite being gitignored.
-- **Fix:** `STANDARD_DIRS` now skips **`zips`**. **`npm run backup:clean-zips`** keeps 3 newest `zips/*.zip`. Folder naming **`msc-website-v2-*`**.
+- **Fix:** `STANDARD_DIRS` now skips **`zips`**. **`npm run backup:clean-zips`** keeps 3 newest `zips/*.zip`. Folder naming was **`msc-website-v2-*`** (superseded 2026-06-17 by **`msc-website-v{N}-{a-z}`** — see ISSUES-RESOLVED entry below).
 - **Docs:** MASTER-COMMANDS, START-HERE, ISSUES-RESOLVED, backup-system README/CURSOR, global.mdc.
 
 ### 2026-06-08 — Hostinger MCP fix + MCP-SETUP sync (global 12)

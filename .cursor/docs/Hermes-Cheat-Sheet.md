@@ -135,7 +135,7 @@ npm run msc:google-api:start-session
 | `hermes gateway setup` | First-time: @BotFather token + @userinfobot user ID |
 | `hermes gateway status` | Confirm gateway running |
 | `hermes gateway install --no-start-on-login --start-now` | Start Telegram gateway without logon auto-start (also runs from Start Project) |
-| `hermes gateway stop` | Stop gateway (**End Project** / `msc:session:stop`) |
+| `hermes gateway stop` | Stop gateway (**End Project** — optional; operator may keep overnight) |
 
 Config file: **`%LOCALAPPDATA%\hermes\.env`** — keys `TELEGRAM_BOT_TOKEN`, `TELEGRAM_ALLOWED_USERS`. Verified **2026-06-15**.
 
@@ -206,6 +206,9 @@ Manage your human ideas and agent executions through a fully integrated visual K
 *   **Start Workspace:** Run `pnpm dev` in `D:\Hermes\hermes-workspace`.
 *   **Start TaskBoardAI Board:** Run `npm start` in `D:\Hermes\TaskBoardAI`. (Reads repository board file: `.cursor/boards/msc-website-v9.json`).
 *   **Start Hermes Dashboard:** Run `hermes dashboard --no-open --port 9119`.
+
+### 🛑 End Project — Kanban shutdown
+**End Project** (`.cursor/prompts/End-Project.md`) kills **3001** (TaskBoardAI), **3005** (Workspace), **9119** (Dashboard), then LiteLLM/ngrok (**4000**/**4040**). Telegram gateway is **optional** — operator may keep it running overnight.
 
 ### 🔌 Cursor MCP Configuration
 Add this under **Cursor Settings ➡️ Features ➡️ MCP ➡️ Add New MCP Server**:

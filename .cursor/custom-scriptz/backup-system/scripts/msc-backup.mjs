@@ -11,9 +11,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
 /** MyStudioChannel project default — override with MSC_BACKUP_ROOT in .env.local */
 const DEFAULT_BACKUP_ROOT = 'G:\\Cursor_Project_BackUpz\\MyStudioChannel';
-/** Folder names under backup root: msc-website-v2-a … msc-website-v2-z */
-const BACKUP_FOLDER_PREFIX = 'msc-website-v2';
-const BACKUP_FOLDER_PATTERN = /^msc-website-v2-([a-z])$/i;
+/** Folder names under backup root: msc-website-v{N}-a … msc-website-v{N}-z */
+const BACKUP_FOLDER_BASE = 'msc-website';
+const BACKUP_FOLDER_PATTERN = /^msc-website-v(\d+)-([a-z])$/i;
+const DEFAULT_START_VERSION = 3;
 const STANDARD_DIRS = ['node_modules', '.next', 'logs', 'test-results', 'zips'];
 const NOTES_REL_PATH = path.join('.cursor', 'BackUp-Notez.md');
 const NOTES_FOOTER =
@@ -68,40 +69,52 @@ function defaultBackupFolder(projectName) {
   return `${projectName}-backup-${stamp}`;
 }
 
-/** List `msc-website-v2-*` folders in backup root (for agent / interactive hints). */
+function formatBackupFolderName(version, letter) {
+  return `${BACKUP_FOLDER_BASE}-v${version}-${letter}`;
+}
+
+function parseBackupFolder(name) {
+  const match = name.match(BACKUP_FOLDER_PATTERN);
+  if (!match) return null;
+  return { version: Number(match[1]), letter: match[2].toLowerCase() };
+}
+
+function compareBackupFolders(a, b) {
+  const pa = parseBackupFolder(a);
+  const pb = parseBackupFolder(b);
+  if (!pa || !pb) return a.localeCompare(b, undefined, { sensitivity: 'base' });
+  if (pa.version !== pb.version) return pa.version - pb.version;
+  return pa.letter.localeCompare(pb.letter);
+}
+
+/** List `msc-website-v{N}-*` folders in backup root (for agent / interactive hints). */
 function listSequentialBackupFolders(backupRoot) {
   if (!fs.existsSync(backupRoot)) return [];
   return fs
     .readdirSync(backupRoot, { withFileTypes: true })
     .filter((d) => d.isDirectory() && BACKUP_FOLDER_PATTERN.test(d.name))
     .map((d) => d.name)
-    .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+    .sort(compareBackupFolders);
 }
 
 /**
- * Next folder: msc-website-v2-a … z (e.g. …-a → …-b). Falls back to timestamp name if z exhausted.
+ * Next folder: msc-website-v{N}-a … z (e.g. v3-a → v3-b). At z, bump version (v3-z → v4-a).
+ * When no versioned folders exist, start at DEFAULT_START_VERSION (v3-a after legacy v2 series).
  */
 function suggestNextBackupFolder(backupRoot) {
   const existing = listSequentialBackupFolders(backupRoot);
   if (existing.length === 0) {
-    return `${BACKUP_FOLDER_PREFIX}-a`;
+    return formatBackupFolderName(DEFAULT_START_VERSION, 'a');
   }
 
-  let maxLetter = '@';
-  for (const name of existing) {
-    const letter = name.match(BACKUP_FOLDER_PATTERN)?.[1]?.toLowerCase();
-    if (letter && letter > maxLetter) maxLetter = letter;
+  const latest = existing[existing.length - 1];
+  const { version, letter } = parseBackupFolder(latest);
+
+  if (letter < 'z') {
+    return formatBackupFolderName(version, String.fromCharCode(letter.charCodeAt(0) + 1));
   }
 
-  const nextCode = maxLetter.charCodeAt(0) + 1;
-  if (nextCode > 'z'.charCodeAt(0)) {
-    console.warn(
-      `⚠️  ${BACKUP_FOLDER_PREFIX}-z exists; falling back to timestamp folder name.`,
-    );
-    return defaultBackupFolder(getProjectName());
-  }
-
-  return `${BACKUP_FOLDER_PREFIX}-${String.fromCharCode(nextCode)}`;
+  return formatBackupFolderName(version + 1, 'a');
 }
 
 function displayBackupType(backupType) {
