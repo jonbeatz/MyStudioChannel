@@ -299,14 +299,239 @@
       "hermesTaskId": "t_da53523e",
       "created_at": "2026-06-17T06:00:00.000Z",
       "updated_at": "2026-06-17T18:00:00.000Z"
+    },
+    {
+      "id": "card-postiz-facebook",
+      "title": "Connect Facebook Page in Postiz",
+      "content": "Open http://localhost:4007 → Integrations → Connect Facebook. OAuth login required. Meta Developer App + Facebook Page required.",
+      "columnId": "ready",
+      "collapsed": false,
+      "position": 5,
+      "subtasks": [
+        "Open Postiz Integrations tab",
+        "Connect Facebook Page via OAuth",
+        "Confirm integration shows connected"
+      ],
+      "tags": ["social-autopost", "phase-3", "postiz", "facebook"],
+      "dependencies": ["card-postiz-self-host"],
+      "hermesTaskId": "t_c3b36f65",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-17T19:00:00.000Z"
+    },
+    {
+      "id": "card-postiz-instagram",
+      "title": "Connect Instagram Business in Postiz",
+      "content": "Open http://localhost:4007 → Integrations → Connect Instagram. Requires IG Professional (Business/Creator) linked to Facebook Page. OAuth login required.",
+      "columnId": "ready",
+      "collapsed": false,
+      "position": 6,
+      "subtasks": [
+        "Ensure IG Business linked to FB Page",
+        "Connect Instagram in Postiz",
+        "Verify integration status"
+      ],
+      "tags": ["social-autopost", "phase-3", "postiz", "instagram"],
+      "dependencies": ["card-postiz-facebook"],
+      "hermesTaskId": "t_74d38b09",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-17T19:00:00.000Z"
+    },
+    {
+      "id": "card-postiz-tiktok-ui",
+      "title": "Connect TikTok in Postiz",
+      "content": "Open http://localhost:4007 → Integrations → Connect TikTok. TikTok Developer app required. OAuth login required.",
+      "columnId": "ready",
+      "collapsed": false,
+      "position": 7,
+      "subtasks": [
+        "Register TikTok Developer app if needed",
+        "Connect TikTok in Postiz UI",
+        "Verify ACTIVE integration"
+      ],
+      "tags": ["social-autopost", "phase-3", "postiz", "tiktok"],
+      "dependencies": ["card-postiz-self-host"],
+      "hermesTaskId": "t_d844dd99",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-17T19:00:00.000Z"
+    },
+    {
+      "id": "card-postiz-youtube",
+      "title": "Connect YouTube in Postiz",
+      "content": "Open http://localhost:4007 → Integrations → Connect YouTube. Reuse GCP project wordpress-map-1492461083797. OAuth login required.",
+      "columnId": "ready",
+      "collapsed": false,
+      "position": 8,
+      "subtasks": [
+        "Enable YouTube Data API v3 in GCP",
+        "Connect YouTube in Postiz",
+        "Verify upload scope"
+      ],
+      "tags": ["social-autopost", "phase-3", "postiz", "youtube"],
+      "dependencies": ["card-postiz-self-host"],
+      "hermesTaskId": "t_b863a58a",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-17T19:00:00.000Z"
+    },
+    {
+      "id": "card-postiz-wordpress",
+      "title": "Connect WordPress in Postiz",
+      "content": "Open http://localhost:4007 → Integrations → Connect WordPress. Generate application password in WordPress admin first.",
+      "columnId": "ready",
+      "collapsed": false,
+      "position": 9,
+      "subtasks": [
+        "WP Users → Application Passwords",
+        "Connect WordPress in Postiz",
+        "Test REST API connection"
+      ],
+      "tags": ["social-autopost", "phase-3", "postiz", "wordpress"],
+      "dependencies": ["card-postiz-self-host"],
+      "hermesTaskId": "t_d712ba2e",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-17T19:00:00.000Z"
+    },
+    {
+      "id": "card-postiz-x-optional",
+      "title": "Connect X (Twitter) in Postiz — optional",
+      "content": "Deferred until X API credits loaded (~$0.015/post). Open http://localhost:4007 → Integrations → Connect X when budget allows.",
+      "columnId": "backlog",
+      "collapsed": true,
+      "position": 0,
+      "subtasks": [
+        "Load X API credits in developer portal",
+        "Connect X in Postiz",
+        "Add X_* keys to .env.local"
+      ],
+      "tags": ["social-autopost", "phase-3", "postiz", "x", "optional"],
+      "dependencies": ["card-postiz-self-host"],
+      "hermesTaskId": "t_5a071d85",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-17T19:00:00.000Z"
+    },
+    {
+      "id": "card-env-credentials-v2",
+      "title": "Add all platform credentials to .env.local",
+      "content": "After each platform is connected, copy API keys/tokens to .env.local. Reference: specs/social-autopost/CREDENTIALS-CHECKLIST.md. Never commit secrets.",
+      "columnId": "blocked",
+      "collapsed": false,
+      "position": 3,
+      "subtasks": [
+        "POSTIZ + COMPOSIO keys (done)",
+        "Meta + TikTok + YouTube after OAuth",
+        "WordPress + X placeholders",
+        "Run npm run msc:sync:mcp-env"
+      ],
+      "tags": ["social-autopost", "phase-3", "credentials"],
+      "dependencies": [
+        "card-postiz-facebook",
+        "card-postiz-instagram",
+        "card-postiz-tiktok-ui",
+        "card-postiz-youtube",
+        "card-postiz-wordpress"
+      ],
+      "hermesTaskId": "t_36617086",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-17T19:00:00.000Z"
+    },
+    {
+      "id": "card-live-test-campaign",
+      "title": "Run first live test campaign",
+      "content": "After platforms connected and credentials added: npm run social:auto-post -- --live --spec specs/social-autopost/examples/dry-run-campaign.yaml",
+      "columnId": "blocked",
+      "collapsed": false,
+      "position": 4,
+      "subtasks": [
+        "Confirm Postiz integrations connected",
+        "Run --live (no --generate-image first)",
+        "Check Postiz calendar/queue"
+      ],
+      "tags": ["social-autopost", "phase-4", "test"],
+      "dependencies": ["card-env-credentials-v2"],
+      "hermesTaskId": "t_575572c4",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-17T19:00:00.000Z"
+    },
+    {
+      "id": "card-verify-postiz-publish",
+      "title": "Verify publish in Postiz dashboard",
+      "content": "After first live test: confirm post appears in Postiz calendar/queue with correct caption, image, and platform targets.",
+      "columnId": "blocked",
+      "collapsed": false,
+      "position": 5,
+      "subtasks": [
+        "Open Postiz calendar view",
+        "Confirm caption + platforms",
+        "Cancel or let publish on schedule"
+      ],
+      "tags": ["social-autopost", "phase-4", "test", "postiz"],
+      "dependencies": ["card-live-test-campaign"],
+      "hermesTaskId": "t_d65cbd5f",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-17T19:00:00.000Z"
+    },
+    {
+      "id": "card-hf-token",
+      "title": "Add HF_TOKEN for FLUX image generation",
+      "content": "Add Hugging Face token to .env.local for --generate-image pipeline. Prerequisite for live image test.",
+      "columnId": "blocked",
+      "collapsed": false,
+      "position": 6,
+      "subtasks": [
+        "Add HF_TOKEN to .env.local",
+        "Test generate-image.py",
+        "Optional: dry-run with --generate-image"
+      ],
+      "tags": ["social-autopost", "phase-4", "credentials", "image-gen"],
+      "dependencies": ["card-env-credentials-v2"],
+      "hermesTaskId": "t_5c7234b8",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-17T19:00:00.000Z"
+    },
+    {
+      "id": "card-live-test-image-gen",
+      "title": "Run live test campaign with image generation",
+      "content": "After first live test passes: npm run social:auto-post -- --live --generate-image --spec specs/social-autopost/examples/dry-run-campaign.yaml. Requires HF_TOKEN.",
+      "columnId": "blocked",
+      "collapsed": false,
+      "position": 7,
+      "subtasks": [
+        "Confirm HF_TOKEN set",
+        "Run --live --generate-image",
+        "Verify image attached in Postiz"
+      ],
+      "tags": ["social-autopost", "phase-4", "test", "image-gen"],
+      "dependencies": ["card-live-test-campaign", "card-hf-token"],
+      "hermesTaskId": "t_5797516e",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-17T19:00:00.000Z"
+    },
+    {
+      "id": "card-hermes-cron-schedule",
+      "title": "Schedule recurring campaign via Hermes cron",
+      "content": "Use specs/social-autopost/examples/hermes-cron.yaml template. cron_mode is already allow. Create cron job after first live test passes.",
+      "columnId": "blocked",
+      "collapsed": false,
+      "position": 8,
+      "subtasks": [
+        "Review hermes-cron.yaml template",
+        "Create Hermes cron job",
+        "Test dryRunFirst notification"
+      ],
+      "tags": ["social-autopost", "phase-4", "hermes", "cron"],
+      "dependencies": ["card-live-test-campaign"],
+      "hermesTaskId": "t_06ca0f82",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-17T19:00:00.000Z"
     }
   ],
   "next-steps": [
-    "Connect Facebook/Instagram — Postiz UI (http://localhost:4007) OR Composio OAuth (COMPOSIO_MANAGE_CONNECTIONS)",
-    "Connect TikTok + YouTube (Postiz or Composio)",
-    "Consolidate credentials → unblock Hermes cron → first test campaign"
+    "Connect Facebook Page in Postiz (http://localhost:4007 → Integrations)",
+    "Connect Instagram Business (requires FB Page link)",
+    "Connect TikTok, YouTube, WordPress in Postiz UI",
+    "Add platform credentials to .env.local (CREDENTIALS-CHECKLIST.md)",
+    "Run first live test → verify in Postiz → image gen test → Hermes cron schedule"
   ],
-  "last_updated": "2026-06-17T18:00:00.000Z",
+  "last_updated": "2026-06-17T19:00:00.000Z",
   "isDragging": false,
   "scrollToColumn": null
 }

@@ -525,6 +525,15 @@
 - **Status:** Complete
 - **Next:** Execute the promoted Kanban tasks, run automated Playwright smoke tests, and synchronize database collections.
 
+## [2026-06-17 12:00] - Session Summary
+- **Branch:** MSC-Website-v9
+- **Changes:**
+  1. **Social Auto-Post Kanban breakdown:** Added 12 granular Hermes Kanban tasks (FB, IG, TikTok, YouTube, WordPress Postiz connections, credentials, live test, image gen, HF_TOKEN, Postiz verify, Hermes cron schedule, X optional). All blocked to prevent auto-dispatch until Jon adds OAuth/credentials.
+  2. **TaskBoardAI board sync:** Updated `.cursor/boards/msc-website-v9.json` with matching cards, dependency chain, and refreshed next-steps sidebar.
+  3. **Recommended extras:** HF_TOKEN prerequisite, Postiz dashboard verification, Hermes cron template task, optional X/Twitter (paid API deferred).
+- **Status:** Complete — board ready for later platform connection work
+- **Next:** Unblock Postiz platform tasks one at a time when ready to OAuth; fill `.env.local`; run live test.
+
 ## [2026-06-17 11:30] - Session Summary
 - **Branch:** MSC-Website-v9
 - **Changes:**

@@ -112,6 +112,12 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ## Recent changes (latest first)
 
+### 2026-06-17 — Social Auto-Post Kanban task breakdown (12 tasks)
+
+- **Hermes Kanban:** Added granular platform tasks (FB/IG/TikTok/YouTube/WordPress in Postiz), credentials, live test, image gen, HF_TOKEN, Postiz verify, Hermes cron schedule, X optional. All **blocked** so dispatcher won't auto-run OAuth work.
+- **TaskBoardAI:** `.cursor/boards/msc-website-v9.json` synced with 12 new cards + dependency chain.
+- **When ready:** `hermes kanban unblock t_c3b36f65` (Facebook first) → connect in Postiz UI → credentials → live test.
+
 ### 2026-06-17 — Social Auto-Post ready for credentials
 
 - **Hermes cron_mode:** `approvals.cron_mode: allow` in `%LOCALAPPDATA%\hermes\config.yaml`; gateway running (`hermes gateway run`).

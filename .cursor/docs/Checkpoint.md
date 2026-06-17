@@ -11,12 +11,13 @@
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright smoke); **`npm run analyze`** for admin bundle (~816 kB baselined)
 - **J.A.R.V.I.S. / Hermes:** LiteLLM **4000** + ngrok **4040**; gateway running with **`cron_mode: allow`**; **Hermes Desktop App** — MSC via **`project-dir.json`** + **`Hermes - MyStudioChannel`** shortcut; **`msc`** personality; **`google-workspace`** skill ✅
 - **Kanban Stack:** TaskBoardAI **`3001`** (premium cinematic HUD; stock backup `app-stock`); Hermes Workspace **`3005`**; Gateway WebAPI **`8642`**
-- **Social Auto-Post:** Postiz **`4007`** ✅ · Composio MCP ✅ · dry-run pipeline ✅ · **platform OAuth/credentials pending**
+- **Social Auto-Post:** Postiz **`4007`** ✅ · Composio MCP ✅ · dry-run ✅ · **12 blocked Kanban tasks** for platform OAuth → credentials → live test → image gen → cron
 - **Backup:** quick **`msc-website-v3-a`** @ `G:\Cursor_Project_BackUpz\MyStudioChannel\`
 
 ## Recent milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
+| 2026-06-17 | **Social Auto-Post Kanban — 12 granular tasks (blocked, ready for OAuth)** | board |
 | 2026-06-17 | **Social Auto-Post infra ready — cron_mode + dry-run verified** | docs |
 | 2026-06-17 | **TaskBoardAI premium cinematic HUD (v0 safe-swap)** | `a2371b4` |
 | 2026-06-17 | **Postiz + Composio MCP stabilization** | `d5876f8` |
