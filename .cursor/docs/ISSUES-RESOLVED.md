@@ -413,5 +413,16 @@ Each entry follows this structure:
 - **Files Changed:** `C:\Users\JONBEATZ\AppData\Local\hermes\.env`, `D:\Hermes\hermes-workspace\.env` (modified)
 - **Prevention:** Always synchronise authentication tokens between local agent gateways and their client visual dashboards.
 
+## [2026-06-17] TaskBoardAI Premium Cinematic Dashboard Swap (MyStudioChannel Brand HUD)
+- **Error:** TaskBoardAI default visual layout was a basic generic card layout. The operator requested a cinematic, glassmorphic HUD overhaul featuring Studio Gold (#F5B841), bento boxes, dynamic next steps sidebars, real-time agent activity logs, and a J.A.R.V.I.S. waveform command footer console.
+- **Cause:** Stock aesthetic was non-cinematic and lacked MyStudioChannel integration.
+- **Solution:** 
+  1. Performed a full pre-flight backup of `/app` to `/app-stock` for 100% safe rollback capabilities.
+  2. Integrated v0's gorgeous cinematic `index.html` grid and dark glassmorphic custom variables (`css/base/_variables.css`) and rules (`css/main.css`).
+  3. Surgically refactored the ES6 modular components (`js/components/Column.js`, `js/components/Card.js`) and orchestrator (`js/app.js`) instead of writing raw monolithic assets. This beautifully preserves the backend Express storage connections, database persistence, stateManager, and active Cursor MCP integrations while rendering elite visual elements, subtask progress tracks, and Hermes Task IDs perfectly.
+  4. Hydrated startup actions to render live system status caps (LiteLLM, ComfyUI, Postiz, Hermes), fake active activity feeds, and J.A.R.V.I.S. orbital pulses.
+- **Files Changed:** `D:\Hermes\TaskBoardAI\app\index.html`, `D:\Hermes\TaskBoardAI\app\css\base\_variables.css`, `D:\Hermes\TaskBoardAI\app\css\main.css`, `D:\Hermes\TaskBoardAI\app\js\components\Column.js`, `D:\Hermes\TaskBoardAI\app\js\components\Card.js`, `D:\Hermes\TaskBoardAI\app\js\app.js` (modified), `D:\Hermes\TaskBoardAI\app-stock` (created as backup)
+- **Prevention:** Utilize modular ES6 class injection when applying raw visual outputs from v0 rather than using monolithic script rewrites to protect active state, web routers, and persistent backends.
+
 ## Pending / To Be Investigated
 None currently

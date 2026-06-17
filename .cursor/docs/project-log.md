@@ -524,3 +524,14 @@
   6. **End-to-End Visual Demo Project:** Populated all three platforms with 6 demo tasks covering hero section bento grids, dark mode toggles, API test coverage, query optimization, navigation links, and launch notes. Started the J.A.R.V.I.S. LiteLLM proxy and ngrok tunnel session, verified that the visual dashboard displays the cards, and drafted the hybrid-promotion playbook.
 - **Status:** Complete
 - **Next:** Execute the promoted Kanban tasks, run automated Playwright smoke tests, and synchronize database collections.
+
+## [2026-06-17 10:45] - Session Summary
+- **Branch:** MSC-Website-v9
+- **Changes:**
+  1. **Postiz & Composio MCP Stabilization:** Switched Composio MCP inside `.cursor/mcp.json` to an `mcp-remote` stdio bridge. This completely bypasses Cursor's streamable-HTTP SSE 404 bug. Synchronized `COMPOSIO_API_KEY` from `.env.local` to `.cursor/mcp.json` via updated `npm run msc:sync:mcp-env` script. Validated Postiz client API at `http://localhost:4007` via custom `postiz-client.mjs` test harness.
+  2. **Safe-Swap UI Deployment Strategy:** Backed up old TaskBoardAI `/app` folder to `/app-stock` for full, non-destructive rollback safety.
+  3. **TaskBoardAI Cinematic Redesign Integration:** Successfully incorporated v0's dark bento-grid layouts with Studio Gold (#F5B841) accents into `/app/index.html` and `/app/css/main.css`.
+  4. **Modular ES6 Component Injection:** Avoided monolithic rewrites by updating native `js/components/Column.js`, `js/components/Card.js`, and `js/app.js` to render v0's stunning visual layers, subtask progress tracks, and Hermes Task IDs while fully maintaining back-end Express storage connections, stateManager, and Cursor MCP integrations.
+  5. **J.A.R.V.I.S. System Monitoring HUD:** Wired interactive waveform indicators, real-time agent activity feeds, and service monitoring capsules (LiteLLM, ComfyUI, Postiz, Hermes) directly into the dashboard header and footer consoles.
+- **Status:** Complete
+- **Next:** Begin executing the platform connection tasks to authorize and link Facebook, Instagram, YouTube, TikTok, and WordPress accounts.
