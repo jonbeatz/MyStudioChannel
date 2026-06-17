@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Multi-platform social auto-post scaffold (2026-06-17):** `specs/social-autopost/` (research, platform matrix, credentials checklist, workflow, dry-run campaign YAML); CLI `npm run social:auto-post` (dry-run default); `scripts/social/format-caption.mjs` + `postiz-client.mjs` stub; Hermes skill `.agents/skills/auto-post/SKILL.md`; portable module `.cursor/custom-scriptz/social-autopost/`. Live publish deferred to Postiz self-host (Phase 2+).
 - **Mem0 dual-store setup (2026-06-17):** Local J.A.R.V.I.S. memory via `scripts/mem0-chat.ps1` (Qdrant `~/.mem0/qdrant`); cloud Mem0 Platform linked via **`MEM0_API_KEY`** in `.env.local` → `mem0 init --api-key … --force` → `~/.mem0/config.json`.
 - **Visual Kanban & Task Management Stack (2026-06-17):** Integrated TaskBoardAI planning board on port `3001` (stored locally inside repository at `.cursor/boards/msc-website-v9.json`), Hermes Workspace visual dashboard on port `3005` (with secure authenticated WebAPI gateway bridge on port `8642`), and the embedded gateway dashboard on port `9119`.
 - **Cursor IDE Board MCP Server (2026-06-17):** Registered TaskBoardAI as a stdio-based MCP server in Cursor settings to allow automated agent reading and editing of repo Kanban boards.

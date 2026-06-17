@@ -148,6 +148,14 @@ For Vertex AI model testing/dev workflows:
 
 **Hermes Google Workspace:** **`google-workspace`** skill authenticated (Gmail, Calendar, Drive) — ask Hermes on Telegram/Desktop in plain English. Setup + OAuth quirks: **`Hermes-Agent.md`** § Google Workspace.
 
+**Social auto-post (Phase 0 — dry-run):** Multi-platform scaffold at **`specs/social-autopost/`** + skill **`.agents/skills/auto-post/SKILL.md`**. Preview without credentials:
+
+```powershell
+npm run social:auto-post -- --dry-run --spec specs/social-autopost/examples/dry-run-campaign.yaml
+```
+
+Portable module: **`.cursor/custom-scriptz/social-autopost/`** · Postiz/Composio/cron guides for Phases 2–4 in that folder.
+
 ### Why the browser shows a white page + `/_next/static/chunks/fallback/*` (500)
 
 That pattern almost always means **`.next` was deleted or overwritten while `next dev` was still running** — for example **`npm run verify:next`** or **`npm run clean:next`** in a **second** terminal while the dev server was up. The dev server then serves broken chunks and error fallbacks.

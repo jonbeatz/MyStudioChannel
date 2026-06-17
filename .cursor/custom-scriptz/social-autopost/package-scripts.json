@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "social:auto-post": "node scripts/social/auto-post.mjs",
+    "social:format-caption": "node scripts/social/format-caption.mjs"
+  },
+  "envKeys": ["POSTIZ_API_URL", "POSTIZ_API_KEY", "COMPOSIO_API_KEY"],
+  "shortcuts": {
+    "auto-post": "npm run social:auto-post -- --dry-run",
+    "social dry-run": "npm run social:auto-post -- --dry-run --spec specs/social-autopost/examples/dry-run-campaign.yaml"
+  }
+}

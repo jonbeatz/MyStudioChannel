@@ -1,0 +1,28 @@
+{
+  "moduleId": "social-autopost",
+  "version": "0.1.0",
+  "description": "Multi-platform social auto-post scaffold: dry-run CLI, formatters, Postiz client stub, Hermes auto-post skill",
+  "install": {
+    "command": ".\\.cursor\\custom-scriptz\\social-autopost\\install.ps1"
+  },
+  "verifyCommands": [
+    "npm run social:auto-post -- --dry-run --spec specs/social-autopost/examples/dry-run-campaign.yaml"
+  ],
+  "prerequisites": ["scripts/lib/msc-load-env.mjs"],
+  "envKeys": [
+    "POSTIZ_API_URL",
+    "POSTIZ_API_KEY",
+    "COMPOSIO_API_KEY",
+    "HF_TOKEN"
+  ],
+  "defaults": {
+    "POSTIZ_API_URL": "http://localhost:5000/api"
+  },
+  "features": {
+    "dryRunDefault": true,
+    "platforms": ["facebook", "instagram", "tiktok", "x", "youtube", "wordpress", "payload"]
+  },
+  "fragments": ["env.example.fragment"],
+  "agentDoc": "CURSOR.md",
+  "humanDoc": "README.md"
+}

@@ -1,3 +1,32 @@
+## [2026-06-17 02:00] - Social auto-post scaffold (Phase 0)
+- **Branch:** `MSC-Website-v9` (uncommitted)
+- **Changes:**
+  *   **Specs:** `specs/social-autopost/` — RESEARCH, PLATFORM-MATRIX, CREDENTIALS-CHECKLIST, WORKFLOW, dry-run + Hermes cron examples.
+  *   **CLI:** `npm run social:auto-post` (dry-run default), `social:format-caption`; YAML parser fixed for platforms + caption blocks.
+  *   **Skill:** `.agents/skills/auto-post/SKILL.md` — chains image → caption → format → outbox/Postiz.
+  *   **Portable module:** `.cursor/custom-scriptz/social-autopost/` (install.ps1, POSTIZ-SETUP, COMPOSIO-MCP, SCHEDULING).
+  *   **Docs:** START-HERE, CHANGELOG [Unreleased], custom-scriptz README/Prompt-Module.
+  *   **Mem0:** Auto-post architecture + dry-run command synced.
+- **Status:** completed (Phase 0); Phases 2–4 documented, credentials deferred.
+- **Next:** Self-host Postiz at `D:\Hermes\postiz` via Docker when computer restarts (waiting for operator reboot).
+
+## [2026-06-17 02:15] - Session Summary (End Project)
+- **Branch:** `MSC-Website-v9` (uncommitted)
+- **Changes:**
+  *   **Social auto-post Phase 0:** `specs/social-autopost/`, `scripts/social/*.mjs`, `.cursor/custom-scriptz/social-autopost/`, npm scripts, docs (START-HERE, CHANGELOG, Prompt-Module).
+  *   **Kanban reset:** Demo tasks removed; 9 Phase 2–4 social-autopost tasks on Hermes Kanban + TaskBoardAI (`.cursor/boards/msc-website-v9.json`).
+  *   **Postiz Task 1:** Docker Desktop installed; **paused for PC reboot** before `docker compose up -d` at `D:\Hermes\postiz`. Hermes task `t_2348f1ce` ready; Phase 3+ blocked.
+- **Status:** in-progress (Postiz install pending reboot)
+- **Next:** After reboot — verify Docker, clone/start Postiz, add `POSTIZ_API_KEY` to `.env.local`, complete `t_2348f1ce`, unblock `t_83d079b0` (Composio MCP).
+
+## [2026-06-17 01:55] - Interrupted for System Reboot
+- **Branch:** `MSC-Website-v9` (uncommitted)
+- **Changes:**
+  *   **Docker Installed:** Operator installed Docker Desktop but requires system reboot to finish setup.
+  *   **Kanban Updated:** Swapped all demo tasks for real Phase 2-4 tasks. Blocked Phase 3 & 4 tasks. Task `t_2348f1ce` ("Self-host Postiz at D:\Hermes\postiz") is marked **running** and ready to execute immediately upon system boot.
+- **Status:** paused-for-reboot
+- **Next:** When operator starts Cursor up, immediately verify `docker --version` & `docker ps`, clone Postiz to `D:\Hermes\postiz`, and launch containers via `docker compose up -d`.
+
 ## [2026-06-17 01:15] - Update Docs + Mem0 + session closeout
 - **Branch:** `MSC-Website-v9` @ `fc2207f` (pending commit)
 - **Changes:**

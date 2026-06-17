@@ -1,5 +1,5 @@
 {
-  "projectName": "MyStudioChannel v9",
+  "projectName": "MyStudioChannel v9 — Social Auto-Post",
   "id": "msc-website-v9-board-id",
   "columns": [
     {
@@ -25,132 +25,224 @@
   ],
   "cards": [
     {
-      "id": "card-hero-design",
-      "title": "Design a new hero section",
-      "content": "Create a visually striking hero section with a cinematic bento-grid layout, highlighting studio gold accents and micro-interactions.",
+      "id": "card-postiz-self-host",
+      "title": "Self-host Postiz at D:\\Hermes\\postiz",
+      "content": "Phase 2. Follow POSTIZ-SETUP.md. Clone postiz-app, docker compose up -d, verify http://localhost:5000, add POSTIZ_API_URL + POSTIZ_API_KEY to .env.local.",
+      "columnId": "ready",
+      "collapsed": false,
+      "position": 0,
+      "subtasks": [
+        "Clone gitroomhq/postiz-app to D:\\Hermes\\postiz",
+        "docker compose up -d",
+        "Copy API key to .env.local"
+      ],
+      "tags": [
+        "social-autopost",
+        "phase-2",
+        "postiz"
+      ],
+      "dependencies": [],
+      "created_at": "2026-06-17T06:00:00.000Z",
+      "updated_at": "2026-06-17T06:00:00.000Z"
+    },
+    {
+      "id": "card-composio-mcp",
+      "title": "Connect Composio MCP to Cursor",
+      "content": "Phase 3. Follow COMPOSIO-MCP.md. Add COMPOSIO_API_KEY to .env.local, register Composio stdio MCP, npm run msc:sync:mcp-env, reload Cursor MCP.",
       "columnId": "backlog",
       "collapsed": false,
       "position": 0,
       "subtasks": [
-        "Wireframe layout",
-        "Style with NovaMira Gold",
-        "Add hover animations"
+        "Composio dashboard API key",
+        "Add MCP server to Cursor",
+        "Verify tools load"
       ],
       "tags": [
-        "design",
-        "ui",
-        "bento"
+        "social-autopost",
+        "phase-3",
+        "composio",
+        "mcp"
       ],
-      "dependencies": [],
-      "created_at": "2026-06-17T11:00:00.000Z",
-      "updated_at": "2026-06-17T11:00:00.000Z"
+      "dependencies": [
+        "card-postiz-self-host"
+      ],
+      "created_at": "2026-06-17T06:00:00.000Z",
+      "updated_at": "2026-06-17T06:00:00.000Z"
     },
     {
-      "id": "card-dark-mode",
-      "title": "Implement dark mode toggle",
-      "content": "Add a dark mode toggle with persistent user preference using Tailwind classes and localStorage caching.",
+      "id": "card-meta-composio",
+      "title": "Connect Facebook/Instagram via Composio",
+      "content": "Phase 3. Meta Developer App (FB Page + IG Business). Authenticate through Composio Meta toolkit. META_APP_ID + META_APP_SECRET in .env.local.",
       "columnId": "backlog",
       "collapsed": false,
       "position": 1,
       "subtasks": [
-        "Create ThemeContext",
-        "Add Toggle Button component",
-        "Style dark states"
+        "Create Meta Developer App",
+        "Link FB Page + IG Business",
+        "OAuth via Composio"
       ],
       "tags": [
-        "frontend",
-        "theme"
+        "social-autopost",
+        "phase-3",
+        "facebook",
+        "instagram"
       ],
-      "dependencies": [],
-      "created_at": "2026-06-17T11:01:00.000Z",
-      "updated_at": "2026-06-17T11:01:00.000Z"
+      "dependencies": [
+        "card-composio-mcp"
+      ],
+      "created_at": "2026-06-17T06:00:00.000Z",
+      "updated_at": "2026-06-17T06:00:00.000Z"
     },
     {
-      "id": "card-unit-tests",
-      "title": "Write unit tests for API endpoints",
-      "content": "Comprehensive test coverage for Payload CMS api endpoints, including collection actions, media upload, and authorization checks.",
+      "id": "card-tiktok-composio",
+      "title": "Connect TikTok via Composio",
+      "content": "Phase 3. TikTok Developer credentials. Authenticate TikTok toolkit through Composio. TIKTOK_CLIENT_KEY + TIKTOK_CLIENT_SECRET in .env.local.",
       "columnId": "backlog",
       "collapsed": false,
       "position": 2,
       "subtasks": [
-        "Configure Jest",
-        "Mock DB connections",
-        "Write auth tests"
+        "Register TikTok Developer app",
+        "OAuth via Composio",
+        "Test connection"
       ],
       "tags": [
-        "test",
-        "backend"
+        "social-autopost",
+        "phase-3",
+        "tiktok"
       ],
-      "dependencies": [],
-      "created_at": "2026-06-17T11:02:00.000Z",
-      "updated_at": "2026-06-17T11:02:00.000Z"
+      "dependencies": [
+        "card-composio-mcp"
+      ],
+      "created_at": "2026-06-17T06:00:00.000Z",
+      "updated_at": "2026-06-17T06:00:00.000Z"
     },
     {
-      "id": "card-nav-menu",
-      "title": "Update navigation menu",
-      "content": "Add new 'Portfolio' and 'Services' links to the main header and sidebar navigation components.",
-      "columnId": "ready",
+      "id": "card-youtube-composio",
+      "title": "Connect YouTube via Composio",
+      "content": "Phase 3. Reuse GCP project wordpress-map-1492461083797. Authenticate YouTube toolkit through Composio.",
+      "columnId": "backlog",
       "collapsed": false,
-      "position": 0,
+      "position": 3,
       "subtasks": [
-        "Add 'Portfolio' link",
-        "Add 'Services' link",
-        "Verify active state highlighting"
+        "YouTube OAuth client in GCP",
+        "OAuth via Composio",
+        "Verify upload scope"
       ],
       "tags": [
-        "frontend",
-        "navigation"
+        "social-autopost",
+        "phase-3",
+        "youtube"
       ],
-      "dependencies": [],
-      "created_at": "2026-06-17T11:03:00.000Z",
-      "updated_at": "2026-06-17T11:03:00.000Z"
+      "dependencies": [
+        "card-composio-mcp"
+      ],
+      "created_at": "2026-06-17T06:00:00.000Z",
+      "updated_at": "2026-06-17T06:00:00.000Z"
     },
     {
-      "id": "card-db-queries",
-      "title": "Optimize database queries",
-      "content": "Review and optimize all Payload CMS database queries, adding composite indexes where necessary to reduce execution delays.",
-      "columnId": "ready",
+      "id": "card-wordpress-app-password",
+      "title": "Connect WordPress via application password",
+      "content": "Phase 3. Generate WordPress application password on optional blog. WORDPRESS_SITE_URL + WORDPRESS_APP_PASSWORD in .env.local.",
+      "columnId": "backlog",
       "collapsed": false,
-      "position": 1,
+      "position": 4,
       "subtasks": [
-        "Audit heavy collection lookups",
-        "Add SQLite composite indexes",
-        "Measure load timings"
+        "WP Users → Application Passwords",
+        "Add env vars",
+        "Test REST API"
       ],
       "tags": [
-        "database",
-        "performance"
+        "social-autopost",
+        "phase-3",
+        "wordpress"
       ],
-      "dependencies": [],
-      "created_at": "2026-06-17T11:04:00.000Z",
-      "updated_at": "2026-06-17T11:04:00.000Z"
+      "dependencies": [
+        "card-composio-mcp"
+      ],
+      "created_at": "2026-06-17T06:00:00.000Z",
+      "updated_at": "2026-06-17T06:00:00.000Z"
     },
     {
-      "id": "card-release-notes",
-      "title": "Draft release notes for v9.0.0",
-      "content": "Write comprehensive release notes for the v9.0.0 launch, summarizing bento-grid layouts, dark theme, performance indexes, and unified voice setups.",
-      "columnId": "in-progress",
+      "id": "card-env-credentials",
+      "title": "Add all platform credentials to .env.local",
+      "content": "Phase 3. Consolidate all keys using specs/social-autopost/CREDENTIALS-CHECKLIST.md. Never commit secrets.",
+      "columnId": "backlog",
       "collapsed": false,
-      "position": 0,
+      "position": 5,
       "subtasks": [
-        "Gather changelogs",
-        "Draft markdown layout",
-        "Publish to dashboard"
+        "POSTIZ + COMPOSIO keys",
+        "Meta + TikTok + YouTube",
+        "WordPress + X placeholders"
       ],
       "tags": [
-        "documentation",
-        "release"
+        "social-autopost",
+        "phase-3",
+        "credentials"
       ],
-      "dependencies": [],
-      "created_at": "2026-06-17T11:05:00.000Z",
-      "updated_at": "2026-06-17T11:05:00.000Z"
+      "dependencies": [
+        "card-meta-composio",
+        "card-tiktok-composio",
+        "card-youtube-composio",
+        "card-wordpress-app-password"
+      ],
+      "created_at": "2026-06-17T06:00:00.000Z",
+      "updated_at": "2026-06-17T06:00:00.000Z"
+    },
+    {
+      "id": "card-hermes-cron",
+      "title": "Enable Hermes cron_mode",
+      "content": "Phase 4. Follow SCHEDULING.md. Set approvals.cron_mode: allow in Hermes config.yaml. Test hermes-cron.yaml template.",
+      "columnId": "backlog",
+      "collapsed": false,
+      "position": 6,
+      "subtasks": [
+        "Edit %LOCALAPPDATA%\\hermes\\config.yaml",
+        "Set cron_mode allow",
+        "Dry-run cron template"
+      ],
+      "tags": [
+        "social-autopost",
+        "phase-4",
+        "hermes",
+        "cron"
+      ],
+      "dependencies": [
+        "card-env-credentials"
+      ],
+      "created_at": "2026-06-17T06:00:00.000Z",
+      "updated_at": "2026-06-17T06:00:00.000Z"
+    },
+    {
+      "id": "card-first-test-campaign",
+      "title": "Create first test campaign",
+      "content": "Phase 4. Schedule test post 24h out. Verify dry-run then live workflow: npm run social:auto-post with FLUX image + FB/IG formatting via Postiz.",
+      "columnId": "backlog",
+      "collapsed": false,
+      "position": 7,
+      "subtasks": [
+        "Dry-run campaign YAML",
+        "Schedule 24h via Postiz",
+        "Cancel or verify publish"
+      ],
+      "tags": [
+        "social-autopost",
+        "phase-4",
+        "test"
+      ],
+      "dependencies": [
+        "card-hermes-cron",
+        "card-postiz-self-host"
+      ],
+      "created_at": "2026-06-17T06:00:00.000Z",
+      "updated_at": "2026-06-17T06:00:00.000Z"
     }
   ],
   "next-steps": [
-    "Verify the full stack: TaskBoardAI -> Hermes Kanban -> Hermes Workspace",
-    "Enable Cursor MCP for task management"
+    "Self-host Postiz at D:\\Hermes\\postiz (POSTIZ-SETUP.md)",
+    "Connect platforms in Postiz UI after API key is in .env.local",
+    "Promote ready cards to Hermes Kanban when execution starts"
   ],
-  "last_updated": "2026-06-17T11:06:00.000Z",
+  "last_updated": "2026-06-17T06:00:00.000Z",
   "isDragging": false,
   "scrollToColumn": null
 }

@@ -11,6 +11,7 @@ Personal dev packs — **fat on disk** (include `ngrok.exe` locally), **lean in 
 | [book-consultation](book-consultation/) | Multi-step consultation booking + Resend + Payload | [module.manifest.json](book-consultation/module.manifest.json) |
 | [schedule-a-call](schedule-a-call/) | Single-step call scheduling lightbox + Payload | [module.manifest.json](schedule-a-call/module.manifest.json) |
 | [stay-in-the-loop](stay-in-the-loop/) | Double opt-in newsletter / email signup + Resend | [module.manifest.json](stay-in-the-loop/module.manifest.json) |
+| [social-autopost](social-autopost/) | Multi-platform social auto-post scaffold (dry-run CLI, Postiz stub, Hermes skill) | [module.manifest.json](social-autopost/module.manifest.json) |
 
 Shared installer helpers: [_lib/Msc-ModuleInstall.ps1](_lib/Msc-ModuleInstall.ps1)
 

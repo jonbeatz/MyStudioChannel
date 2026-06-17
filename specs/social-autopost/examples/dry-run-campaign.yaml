@@ -1,0 +1,27 @@
+# Dry-run sample: FB + IG post at 3pm on 2026-06-18
+# Run: npm run social:auto-post -- --dry-run --spec specs/social-autopost/examples/dry-run-campaign.yaml
+
+id: msc-demo-fb-ig-2026-06-18
+topic: MyStudioChannel studio showcase — bento grid hero refresh
+tone: professional-friendly
+scheduledAt: "2026-06-18T15:00:00-04:00"
+platforms:
+  - facebook
+  - instagram
+image:
+  prompt: "Premium web studio hero section, NovaMira gold #F5B841 accents, dark glass bento grid, cinematic lighting, no text overlay"
+  width: 1080
+  height: 1080
+caption:
+  draft: |
+    We refreshed our studio site hero with a new bento layout and NovaMira gold accents.
+    Built with Next.js 15 and Payload CMS — fast, editable, and on-brand.
+  hashtags:
+    - MyStudioChannel
+    - WebDesign
+    - PayloadCMS
+    - NextJS
+dryRun: true
+crossPost:
+  payload: false
+  wordpress: false

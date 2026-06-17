@@ -1,0 +1,10 @@
+# Hermes cron template — social auto-post (Phase 4)
+# Enable approvals.cron_mode in Hermes config before use.
+
+name: msc-demo-fb-ig-2026-06-18
+schedule: "2026-06-18T15:00:00-04:00"
+timezone: America/New_York
+command: |
+  cd D:\Cursor_Projectz\MyStudioChannel && npm run social:auto-post -- --live --spec specs/social-autopost/examples/dry-run-campaign.yaml
+notify: telegram
+dryRunFirst: true

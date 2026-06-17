@@ -18,6 +18,7 @@ To install a portable module in this project:
 | `book-consultation` | Multi-step consultation booking (Payload + Resend) |
 | `schedule-a-call` | Call scheduling lightbox (Payload + Resend) |
 | `stay-in-the-loop` | Newsletter / email signup double opt-in |
+| `social-autopost` | Multi-platform social auto-post (dry-run CLI, formatters, Postiz stub) |
 
 ## List modules (PowerShell)
 
@@ -41,6 +42,7 @@ Get-ChildItem .cursor\custom-scriptz -Directory -ErrorAction SilentlyContinue |
 | `book-consultation`, `booking module` | `book-consultation` |
 | `schedule-a-call`, `call scheduling module` | `schedule-a-call` |
 | `stay-in-the-loop`, `newsletter module` | `stay-in-the-loop` |
+| `social-autopost`, `auto-post module`, `social module` | `social-autopost` |
 
 ## Installer flags (optional)
 
