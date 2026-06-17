@@ -1,21 +1,25 @@
 # Project Checkpoint
 
 ## Current Status
-- **Date:** 2026-06-17 (Kanban stack + backup naming v3)
-- **Branch:** MSC-Website-v9 @ `fc2207f`
+- **Date:** 2026-06-17 (Social Auto-Post ready for credentials)
+- **Branch:** MSC-Website-v9 @ `a2371b4`
 - **Version:** 9.0.0 (`package.json` — sole release number)
 - **Build Status:** Passing (`verify:next:safe`); lint clean; **GitHub Actions** verify + Playwright on push to `MSC-Website-v9` / `main`
 - **Deploy default:** **`npm run pushit:live:fast`** (~10–15 min) for daily code/UI; canonical table in **HOSTINGER-DEPLOY.md**. Say **push it live** → agent asks mode.
 - **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v7.0.0** on host until next deploy; repo/local **`MyStudioChannel v9.0.0`**
-- **Git:** **`MSC-Website-v9`** active @ `fc2207f`; **`MSC-Website-v8`** frozen @ `c0d834e`; **`main`** @ `b4ab8ae`
+- **Git:** **`MSC-Website-v9`** active @ `a2371b4`; **`MSC-Website-v8`** frozen @ `c0d834e`; **`main`** @ `b4ab8ae`
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright smoke); **`npm run analyze`** for admin bundle (~816 kB baselined)
-- **J.A.R.V.I.S. / Hermes:** LiteLLM **4000** + ngrok **4040**; Start Project ~43s then Hermes gateway (no logon popup); **Hermes Desktop App** — MSC via **`project-dir.json`** + **`Hermes - MyStudioChannel`** shortcut; **`msc`** personality; **`google-workspace`** skill ✅ (Gmail/Calendar/Drive OAuth); desktop **`Start-Google-API-v2`** / **`Stop-Google-API`** shortcuts; End Project stops dev + LiteLLM + ngrok + gateway
-- **Kanban Stack:** TaskBoardAI **`3001`** (repo board: `.cursor/boards/msc-website-v9.json`); Hermes Workspace **`3005`** (gateway WebAPI **`8642`**); Embedded Gateway Dashboard **`9119`**
-- **Backup:** quick **`msc-website-v3-a`** @ `G:\Cursor_Project_BackUpz\MyStudioChannel\` (versioned naming: `msc-website-v{N}-{a-z}`; v2 series exhausted → v3-a)
+- **J.A.R.V.I.S. / Hermes:** LiteLLM **4000** + ngrok **4040**; gateway running with **`cron_mode: allow`**; **Hermes Desktop App** — MSC via **`project-dir.json`** + **`Hermes - MyStudioChannel`** shortcut; **`msc`** personality; **`google-workspace`** skill ✅
+- **Kanban Stack:** TaskBoardAI **`3001`** (premium cinematic HUD; stock backup `app-stock`); Hermes Workspace **`3005`**; Gateway WebAPI **`8642`**
+- **Social Auto-Post:** Postiz **`4007`** ✅ · Composio MCP ✅ · dry-run pipeline ✅ · **platform OAuth/credentials pending**
+- **Backup:** quick **`msc-website-v3-a`** @ `G:\Cursor_Project_BackUpz\MyStudioChannel\`
 
 ## Recent milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
+| 2026-06-17 | **Social Auto-Post infra ready — cron_mode + dry-run verified** | docs |
+| 2026-06-17 | **TaskBoardAI premium cinematic HUD (v0 safe-swap)** | `a2371b4` |
+| 2026-06-17 | **Postiz + Composio MCP stabilization** | `d5876f8` |
 | 2026-06-17 | **Backup naming v3+ (`msc-website-v{N}-{letter}`)** | scripts |
 | 2026-06-17 | **Visual Kanban & Task Management Stack Integration** | `fc2207f` |
 | 2026-06-17 | **Google Workspace Skill (Gmail/Calendar/Drive OAuth)** | docs/gws |

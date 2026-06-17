@@ -525,6 +525,16 @@
 - **Status:** Complete
 - **Next:** Execute the promoted Kanban tasks, run automated Playwright smoke tests, and synchronize database collections.
 
+## [2026-06-17 11:30] - Session Summary
+- **Branch:** MSC-Website-v9
+- **Changes:**
+  1. **Hermes cron_mode enabled:** Set `approvals.cron_mode: allow` in `%LOCALAPPDATA%\hermes\config.yaml` and restarted gateway (`hermes gateway run`, PID verified).
+  2. **Social Auto-Post dry-run verified:** Ran `npm run social:auto-post -- --dry-run --spec specs/social-autopost/examples/dry-run-campaign.yaml` — Facebook/Instagram formatters PASS; outbox at `specs/social-autopost/outbox/msc-demo-fb-ig-2026-06-18/` (`preview.json`, caption `.txt` files).
+  3. **Kanban task hygiene:** Completed infrastructure-ready tasks (Postiz, Composio MCP, platform UI, FB/IG, TikTok, cron_mode). Blocked credential-dependent tasks (YouTube, WordPress, `.env.local` tokens, first live campaign).
+  4. **Documentation:** Added "Social Auto-Post (Ready for Credentials)" section to `Hermes-Agent.md`; updated `Checkpoint.md` milestone.
+- **Status:** Complete — system ready for platform OAuth when Jon adds credentials
+- **Next:** Connect platforms in Postiz UI (`http://localhost:4007`) and add tokens to `.env.local`, then run first live campaign.
+
 ## [2026-06-17 10:45] - Session Summary
 - **Branch:** MSC-Website-v9
 - **Changes:**

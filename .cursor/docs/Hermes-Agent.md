@@ -282,6 +282,47 @@ You can wire TaskBoardAI directly into Cursor to allow both you (human) and your
 
 ---
 
+## 7b. 📣 Social Auto-Post (Ready for Credentials)
+
+Multi-platform social publishing scaffold for MyStudioChannel. **Infrastructure is configured; platform OAuth/credentials are the only remaining gate before live posts.**
+
+### Stack status (2026-06-17)
+
+| Component | Status | Location / command |
+| :--- | :--- | :--- |
+| **Postiz (self-hosted)** | ✅ Running | `http://localhost:4007` — API `http://localhost:4007/api/public/v1` |
+| **Composio MCP** | ✅ Connected in Cursor | `.cursor/mcp.json` via `mcp-remote` stdio bridge; sync key with `npm run msc:sync:mcp-env` |
+| **Content pipeline CLI** | ✅ Dry-run verified | `npm run social:auto-post -- --dry-run --spec specs/social-autopost/examples/dry-run-campaign.yaml` |
+| **Hermes cron scheduling** | ✅ Enabled | `%LOCALAPPDATA%\hermes\config.yaml` → `approvals.cron_mode: allow`; gateway running |
+| **Platform OAuth** | ⏳ Waiting | Connect in Postiz UI (Integrations) or Composio when credentials are ready |
+
+### Dry-run workflow
+
+```powershell
+# Preview captions + outbox JSON (no Postiz publish)
+npm run social:auto-post -- --dry-run --spec specs/social-autopost/examples/dry-run-campaign.yaml
+```
+
+**Output:** `specs/social-autopost/outbox/<campaign-id>/` — `preview.json`, per-platform caption `.txt` files.
+
+### Live publish (when credentials are connected)
+
+1. Open Postiz → **Integrations** at `http://localhost:4007` and connect Facebook, Instagram, TikTok, YouTube, WordPress.
+2. Add platform tokens to `.env.local` (see `.cursor/custom-scriptz/social-autopost/`).
+3. Run without `--dry-run` and optionally `--generate-image` for ComfyUI/FLUX assets.
+
+```powershell
+npm run social:auto-post -- --live --spec specs/social-autopost/examples/dry-run-campaign.yaml
+```
+
+### Scheduled campaigns (Hermes cron)
+
+With `approvals.cron_mode: allow`, Hermes can schedule recurring social tasks. See `.cursor/custom-scriptz/social-autopost/SCHEDULING.md` for cron job examples and Kanban promotion patterns.
+
+**Docs:** `.cursor/custom-scriptz/social-autopost/` · `specs/social-autopost/` · `.agents/skills/auto-post/SKILL.md`
+
+---
+
 ## 8. 🧰 Tool Configuration Summary
 
 Hermes evaluates system environment conditions and enables/disables tools automatically:
