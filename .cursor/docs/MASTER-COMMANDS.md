@@ -1,6 +1,6 @@
 # MyStudioChannel - Master Command Reference
 
-**Last Updated:** 2026-06-13 (`MSC-Website-v9` active)
+**Last Updated:** 2026-06-18 (`MSC-Website-v9` active)
 **Branch:** `MSC-Website-v9` (active) · `MSC-Website-v8` frozen @ `c0d834e` · `MSC-Website-v7` frozen @ `b4ab8ae` · `main` @ `b4ab8ae` · `MSC-Website-v6` frozen @ `c9e260e`
 **Version:** `9.0.0`
 
@@ -37,6 +37,21 @@
 | `npm run analyze` | `@next/bundle-analyzer` — writes `.next/analyze/client.html` | Admin bundle inspection |
 
 **GitHub CI:** push to **`MSC-Website-v7`** or **`main`** runs `.github/workflows/verify.yml` (`verify:next:safe` + Playwright).
+
+---
+
+## 🎬 Session Stack (Start Project / End Project)
+
+| Command | What it does | When to use |
+|---------|--------------|-------------|
+| `npm run msc:session:start` | LiteLLM + ngrok + gateway + Kanban (3001, 3005, 9119 hidden) | **Start Project** cold boot |
+| `npm run msc:session:stop` | Stop Kanban + Next dev (3000) + LiteLLM + ngrok + gateway | **End Project** full shutdown |
+| `npm run msc:session:stop:keep-gateway` | Same as above but Telegram gateway stays overnight | End Project — keep bot alive |
+| `npm run kanban` | Kanban stack only (hidden background) | Mid-session Kanban restart |
+| `npm run kanban:stop` | Stop Kanban ports only | Kanban teardown without AI stack |
+| `npm run msc:google-api:start-session` | LiteLLM + ngrok + gateway only | AI proxy without Kanban |
+
+**Ports:** 3000 (Next dev, manual) · 3001 TaskBoardAI · 3005 Hermes Workspace · 4000 LiteLLM · 4007 Postiz (Docker) · 9119 Dashboard · 4040 ngrok inspector
 
 ---
 

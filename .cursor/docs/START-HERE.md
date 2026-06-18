@@ -99,6 +99,9 @@ Project rules layout:
 | `HOSTINGER-DEPLOY.md` | Hostinger hPanel deployment guide | Deployment |
 | `DEPLOYMENT-FIXES.md` | Hostinger deploy fixes & learnings (2026-06-01) | Deployment / troubleshooting |
 | `Jedi-List.md` | Commands and script meanings | Daily |
+| `HARDWARE-SPEC.md` | Workstation specifications & VRAM layouts | Reference |
+| `LMSTUDIO-OPTIMAL-CONFIG.md` | Optimal hardware & VRAM settings for LM Studio | Reference |
+| `KANBAN-STACK-GUIDE.md` | Workspace, port maps, & 1-click scripts for visual Kanban | Reference |
 | `Restore-Points.md` | Known-good checkpoints + rollback notes | Daily (after milestones) |
 | `ReCall.md` | Session history and resume context | Optional |
 | `ToDo.md` | Next ideas / tomorrow’s focus (lightweight; not a full backlog) | Optional |
@@ -144,7 +147,7 @@ For Vertex AI model testing/dev workflows:
 - **Cursor Models:** **Auto** and **Tab** use Cursor’s servers; custom **`vader-*`** models use the ngrok **`/v1`** URL above. LiteLLM/ngrok survive a Cursor restart; **End Project** stops Kanban stack (**3001**, **3005**, **9119**), Next dev (**3000**), LiteLLM + ngrok (**4000**, **4040**), and optionally the Hermes Telegram gateway (operator choice).
 - Keep credentials safe; never commit Service Account JSON or raw authtokens. Reference: **`config/Ngrok-SETUP.md`**.
 
-**Cold boot:** Say **Start Project** in Cursor — boots LiteLLM + ngrok, then the **Hermes Telegram gateway** (no logon popup). **End Project** stops Kanban (**3001**/**3005**/**9119**) + dev + LiteLLM + ngrok; gateway optional overnight. Details: **`.cursor/prompts/End-Project.md`** · **`Hermes-Agent.md`** § Kanban stack.
+**Cold boot:** Say **Start Project** in Cursor — runs **`npm run msc:session:start`** (LiteLLM + ngrok + Hermes gateway + Kanban stack hidden). **End Project** runs **`npm run msc:session:stop`** (or **`msc:session:stop:keep-gateway`** if Telegram stays overnight). Details: **`.cursor/prompts/Start-Project.md`** · **`.cursor/prompts/End-Project.md`** · **`KANBAN-STACK-GUIDE.md`**
 
 **Hermes Google Workspace:** **`google-workspace`** skill authenticated (Gmail, Calendar, Drive) — ask Hermes on Telegram/Desktop in plain English. Setup + OAuth quirks: **`Hermes-Agent.md`** § Google Workspace.
 

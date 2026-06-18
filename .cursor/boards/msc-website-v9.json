@@ -27,7 +27,7 @@
     {
       "id": "card-postiz-self-host",
       "title": "Self-host Postiz at D:\\Hermes\\postiz",
-      "content": "Phase 2 complete. Docker compose up; UI at http://localhost:4007. POSTIZ_API_URL + POSTIZ_API_KEY in .env.local; postiz-client health 200.",
+      "content": "Phase 2. Follow .cursor/custom-scriptz/social-autopost/POSTIZ-SETUP.md. Clone postiz-app to D:\\Hermes\\postiz, docker compose up -d, verify http://localhost:5000, add POSTIZ_API_URL and POSTIZ_API_KEY to .env.local.",
       "columnId": "done",
       "collapsed": false,
       "position": 0,
@@ -44,64 +44,16 @@
       "dependencies": [],
       "hermesTaskId": "t_2348f1ce",
       "created_at": "2026-06-17T06:00:00.000Z",
-      "updated_at": "2026-06-17T18:00:00.000Z"
-    },
-    {
-      "id": "card-composio-mcp",
-      "title": "Connect Composio MCP to Cursor",
-      "content": "Phase 3 complete. ck_ consumer key from dashboard FOR YOU → Connect → MCP. mcp-remote stdio bridge (not direct url — avoids SSE 404). npm run msc:sync:mcp-env. Logout OAuth in Cursor; toggle off → quit → on. Green with 7 meta-tools.",
-      "columnId": "done",
-      "collapsed": false,
-      "position": 1,
-      "subtasks": [
-        "ck_ key in .env.local + sync",
-        "mcp-remote in .cursor/mcp.json",
-        "Verify green + 7 COMPOSIO_* tools"
-      ],
-      "tags": [
-        "social-autopost",
-        "phase-3",
-        "composio",
-        "mcp"
-      ],
-      "dependencies": [
-        "card-postiz-self-host"
-      ],
-      "hermesTaskId": "t_83d079b0",
-      "created_at": "2026-06-17T06:00:00.000Z",
-      "updated_at": "2026-06-17T18:00:00.000Z"
-    },
-    {
-      "id": "card-composio-tools-workflow",
-      "title": "Verify Composio meta-tools workflow",
-      "content": "Confirmed 7 meta-tools: SEARCH_TOOLS → MANAGE_CONNECTIONS → WAIT_FOR_CONNECTIONS → MULTI_EXECUTE_TOOL (+ GET_TOOL_SCHEMAS, REMOTE_WORKBENCH, REMOTE_BASH). No platform connections yet (IG/FB/TikTok/YT/WP all unlinked). Next: OAuth per platform.",
-      "columnId": "done",
-      "collapsed": false,
-      "position": 2,
-      "subtasks": [
-        "List COMPOSIO_* tools in Cursor",
-        "MANAGE_CONNECTIONS list — 0 active",
-        "Document workflow in COMPOSIO-MCP.md"
-      ],
-      "tags": [
-        "social-autopost",
-        "phase-3",
-        "composio"
-      ],
-      "dependencies": [
-        "card-composio-mcp"
-      ],
-      "hermesTaskId": "t_cfa9979b",
-      "created_at": "2026-06-17T18:00:00.000Z",
-      "updated_at": "2026-06-17T18:00:00.000Z"
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     },
     {
       "id": "card-postiz-integrations",
       "title": "Connect platforms in Postiz UI (Integrations)",
-      "content": "Recommended publish path. Open http://localhost:4007 → Integrations → connect Facebook Page, Instagram Business, TikTok, YouTube. Simpler than Composio for scheduled posts via npm run social:auto-post --live.",
-      "columnId": "ready",
+      "content": "Open http://localhost:4007 → Integrations. Connect Facebook Page, Instagram Business, TikTok, YouTube. Recommended publish path for social:auto-post --live.",
+      "columnId": "done",
       "collapsed": false,
-      "position": 0,
+      "position": 1,
       "subtasks": [
         "Facebook Page + Instagram Business",
         "TikTok developer app in Postiz",
@@ -119,15 +71,42 @@
       ],
       "hermesTaskId": "t_29befb79",
       "created_at": "2026-06-17T18:00:00.000Z",
-      "updated_at": "2026-06-17T18:00:00.000Z"
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
+    },
+    {
+      "id": "card-composio-mcp",
+      "title": "Connect Composio MCP to Cursor",
+      "content": "Phase 3. Follow .cursor/custom-scriptz/social-autopost/COMPOSIO-MCP.md. Sign up at Composio, add COMPOSIO_API_KEY to .env.local, register stdio MCP in Cursor, run npm run msc:sync:mcp-env, reload MCP.",
+      "columnId": "done",
+      "collapsed": false,
+      "position": 2,
+      "subtasks": [
+        "ck_ key in .env.local + sync",
+        "mcp-remote in .cursor/mcp.json",
+        "Verify green + 7 COMPOSIO_* tools"
+      ],
+      "tags": [
+        "social-autopost",
+        "phase-3",
+        "composio",
+        "mcp"
+      ],
+      "dependencies": [
+        "card-postiz-self-host"
+      ],
+      "hermesTaskId": "t_83d079b0",
+      "created_at": "2026-06-17T06:00:00.000Z",
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     },
     {
       "id": "card-meta-composio",
       "title": "Connect Facebook/Instagram via Composio",
-      "content": "Phase 3. Meta Developer App (FB Page + IG Business). COMPOSIO_MANAGE_CONNECTIONS add instagram + facebook → OAuth link → COMPOSIO_WAIT_FOR_CONNECTIONS. Optional if Postiz integrations cover publish.",
-      "columnId": "ready",
+      "content": "Phase 3. Create Meta Developer App (FB Page + IG Business linked). Authenticate Meta toolkit through Composio. Record META_APP_ID and META_APP_SECRET in .env.local. See specs/social-autopost/CREDENTIALS-CHECKLIST.md.",
+      "columnId": "done",
       "collapsed": false,
-      "position": 1,
+      "position": 3,
       "subtasks": [
         "COMPOSIO_SEARCH_TOOLS for Meta post",
         "MANAGE_CONNECTIONS add facebook + instagram",
@@ -145,15 +124,42 @@
       ],
       "hermesTaskId": "t_6daba56f",
       "created_at": "2026-06-17T06:00:00.000Z",
-      "updated_at": "2026-06-17T18:00:00.000Z"
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
+    },
+    {
+      "id": "card-hermes-cron",
+      "title": "Enable Hermes cron_mode",
+      "content": "Phase 4. Follow .cursor/custom-scriptz/social-autopost/SCHEDULING.md. Set approvals.cron_mode: allow in %LOCALAPPDATA%\\hermes\\config.yaml with approval policy. Test with specs/social-autopost/examples/hermes-cron.yaml template.",
+      "columnId": "done",
+      "collapsed": false,
+      "position": 4,
+      "subtasks": [
+        "Edit %LOCALAPPDATA%\\hermes\\config.yaml",
+        "Set cron_mode allow",
+        "Dry-run cron template"
+      ],
+      "tags": [
+        "social-autopost",
+        "phase-4",
+        "hermes",
+        "cron"
+      ],
+      "dependencies": [
+        "card-env-credentials"
+      ],
+      "hermesTaskId": "t_79720ef6",
+      "created_at": "2026-06-17T06:00:00.000Z",
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     },
     {
       "id": "card-tiktok-composio",
       "title": "Connect TikTok via Composio",
-      "content": "Phase 3. TikTok Developer credentials. COMPOSIO_MANAGE_CONNECTIONS add tiktok → OAuth. Or connect in Postiz UI instead.",
-      "columnId": "ready",
+      "content": "Phase 3. Register TikTok Developer app. Authenticate TikTok toolkit through Composio. Add TIKTOK_CLIENT_KEY and TIKTOK_CLIENT_SECRET to .env.local.",
+      "columnId": "done",
       "collapsed": false,
-      "position": 2,
+      "position": 5,
       "subtasks": [
         "Register TikTok Developer app",
         "MANAGE_CONNECTIONS add tiktok",
@@ -170,61 +176,38 @@
       ],
       "hermesTaskId": "t_cb2d7a25",
       "created_at": "2026-06-17T06:00:00.000Z",
-      "updated_at": "2026-06-17T18:00:00.000Z"
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     },
     {
-      "id": "card-youtube-composio",
-      "title": "Connect YouTube via Composio",
-      "content": "Phase 3. Reuse GCP project wordpress-map-1492461083797. COMPOSIO_MANAGE_CONNECTIONS add youtube → OAuth.",
-      "columnId": "ready",
+      "id": "card-composio-tools-workflow",
+      "title": "Verify Composio meta-tools + platform OAuth workflow",
+      "content": "7 meta-tools confirmed (SEARCH_TOOLS, MANAGE_CONNECTIONS, WAIT_FOR_CONNECTIONS, MULTI_EXECUTE_TOOL, etc.). Zero active connections for IG/FB/TikTok/YT/WP. Next: OAuth per platform via MANAGE_CONNECTIONS.",
+      "columnId": "done",
       "collapsed": false,
-      "position": 3,
+      "position": 6,
       "subtasks": [
-        "YouTube OAuth client in GCP",
-        "MANAGE_CONNECTIONS add youtube",
-        "Verify upload scope"
+        "List COMPOSIO_* tools in Cursor",
+        "MANAGE_CONNECTIONS list — 0 active",
+        "Document workflow in COMPOSIO-MCP.md"
       ],
       "tags": [
         "social-autopost",
         "phase-3",
-        "youtube",
         "composio"
       ],
       "dependencies": [
         "card-composio-mcp"
       ],
-      "hermesTaskId": "t_cc0c3355",
-      "created_at": "2026-06-17T06:00:00.000Z",
-      "updated_at": "2026-06-17T18:00:00.000Z"
-    },
-    {
-      "id": "card-wordpress-app-password",
-      "title": "Connect WordPress via application password",
-      "content": "Phase 3. Generate WordPress application password on optional blog. WORDPRESS_SITE_URL + WORDPRESS_APP_PASSWORD in .env.local + npm run msc:sync:mcp-env.",
-      "columnId": "ready",
-      "collapsed": false,
-      "position": 4,
-      "subtasks": [
-        "WP Users → Application Passwords",
-        "Add env vars",
-        "Test REST API / mcp-wordpress"
-      ],
-      "tags": [
-        "social-autopost",
-        "phase-3",
-        "wordpress"
-      ],
-      "dependencies": [
-        "card-composio-mcp"
-      ],
-      "hermesTaskId": "t_e277247f",
-      "created_at": "2026-06-17T06:00:00.000Z",
-      "updated_at": "2026-06-17T18:00:00.000Z"
+      "hermesTaskId": "t_cfa9979b",
+      "created_at": "2026-06-17T18:00:00.000Z",
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     },
     {
       "id": "card-env-credentials",
       "title": "Add all platform credentials to .env.local",
-      "content": "Phase 3. Consolidate all keys using specs/social-autopost/CREDENTIALS-CHECKLIST.md. Never commit secrets.",
+      "content": "Phase 3. Consolidate POSTIZ, COMPOSIO, Meta, TikTok, YouTube, WordPress, and X placeholders using specs/social-autopost/CREDENTIALS-CHECKLIST.md. Never commit secrets.",
       "columnId": "blocked",
       "collapsed": false,
       "position": 0,
@@ -247,37 +230,40 @@
       ],
       "hermesTaskId": "t_3df5718a",
       "created_at": "2026-06-17T06:00:00.000Z",
-      "updated_at": "2026-06-17T18:00:00.000Z"
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     },
     {
-      "id": "card-hermes-cron",
-      "title": "Enable Hermes cron_mode",
-      "content": "Phase 4. Follow SCHEDULING.md. Set approvals.cron_mode: allow in Hermes config.yaml. Test hermes-cron.yaml template.",
+      "id": "card-postiz-x-optional",
+      "title": "Connect X (Twitter) in Postiz — optional",
+      "content": "Deferred until X API credits loaded (~$0.015/post). Open http://localhost:4007 → Integrations → Connect X. Tags: social-autopost, phase-3, postiz, optional",
       "columnId": "blocked",
-      "collapsed": false,
+      "collapsed": true,
       "position": 1,
       "subtasks": [
-        "Edit %LOCALAPPDATA%\\hermes\\config.yaml",
-        "Set cron_mode allow",
-        "Dry-run cron template"
+        "Load X API credits in developer portal",
+        "Connect X in Postiz",
+        "Add X_* keys to .env.local"
       ],
       "tags": [
         "social-autopost",
-        "phase-4",
-        "hermes",
-        "cron"
+        "phase-3",
+        "postiz",
+        "x",
+        "optional"
       ],
       "dependencies": [
-        "card-env-credentials"
+        "card-postiz-self-host"
       ],
-      "hermesTaskId": "t_79720ef6",
-      "created_at": "2026-06-17T06:00:00.000Z",
-      "updated_at": "2026-06-17T18:00:00.000Z"
+      "hermesTaskId": "t_5a071d85",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     },
     {
       "id": "card-first-test-campaign",
       "title": "Create first test campaign",
-      "content": "Phase 4. Schedule test post 24h out. Verify dry-run then live workflow: npm run social:auto-post with FLUX image + FB/IG formatting via Postiz.",
+      "content": "Phase 4. Schedule test post 24 hours out via Postiz. Verify dry-run (npm run social:auto-post -- --dry-run) then live (--live) workflow with FLUX image + FB/IG formatting.",
       "columnId": "blocked",
       "collapsed": false,
       "position": 2,
@@ -298,130 +284,53 @@
       ],
       "hermesTaskId": "t_da53523e",
       "created_at": "2026-06-17T06:00:00.000Z",
-      "updated_at": "2026-06-17T18:00:00.000Z"
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     },
     {
-      "id": "card-postiz-facebook",
-      "title": "Connect Facebook Page in Postiz",
-      "content": "Open http://localhost:4007 → Integrations → Connect Facebook. OAuth login required. Meta Developer App + Facebook Page required.",
-      "columnId": "ready",
+      "id": "card-youtube-composio",
+      "title": "Connect YouTube via Composio",
+      "content": "Phase 3. Reuse GCP project wordpress-map-1492461083797 or create YouTube OAuth client. Authenticate YouTube toolkit through Composio.",
+      "columnId": "blocked",
       "collapsed": false,
-      "position": 5,
+      "position": 3,
       "subtasks": [
-        "Open Postiz Integrations tab",
-        "Connect Facebook Page via OAuth",
-        "Confirm integration shows connected"
-      ],
-      "tags": ["social-autopost", "phase-3", "postiz", "facebook"],
-      "dependencies": ["card-postiz-self-host"],
-      "hermesTaskId": "t_c3b36f65",
-      "created_at": "2026-06-17T19:00:00.000Z",
-      "updated_at": "2026-06-17T19:00:00.000Z"
-    },
-    {
-      "id": "card-postiz-instagram",
-      "title": "Connect Instagram Business in Postiz",
-      "content": "Open http://localhost:4007 → Integrations → Connect Instagram. Requires IG Professional (Business/Creator) linked to Facebook Page. OAuth login required.",
-      "columnId": "ready",
-      "collapsed": false,
-      "position": 6,
-      "subtasks": [
-        "Ensure IG Business linked to FB Page",
-        "Connect Instagram in Postiz",
-        "Verify integration status"
-      ],
-      "tags": ["social-autopost", "phase-3", "postiz", "instagram"],
-      "dependencies": ["card-postiz-facebook"],
-      "hermesTaskId": "t_74d38b09",
-      "created_at": "2026-06-17T19:00:00.000Z",
-      "updated_at": "2026-06-17T19:00:00.000Z"
-    },
-    {
-      "id": "card-postiz-tiktok-ui",
-      "title": "Connect TikTok in Postiz",
-      "content": "Open http://localhost:4007 → Integrations → Connect TikTok. TikTok Developer app required. OAuth login required.",
-      "columnId": "ready",
-      "collapsed": false,
-      "position": 7,
-      "subtasks": [
-        "Register TikTok Developer app if needed",
-        "Connect TikTok in Postiz UI",
-        "Verify ACTIVE integration"
-      ],
-      "tags": ["social-autopost", "phase-3", "postiz", "tiktok"],
-      "dependencies": ["card-postiz-self-host"],
-      "hermesTaskId": "t_d844dd99",
-      "created_at": "2026-06-17T19:00:00.000Z",
-      "updated_at": "2026-06-17T19:00:00.000Z"
-    },
-    {
-      "id": "card-postiz-youtube",
-      "title": "Connect YouTube in Postiz",
-      "content": "Open http://localhost:4007 → Integrations → Connect YouTube. Reuse GCP project wordpress-map-1492461083797. OAuth login required.",
-      "columnId": "ready",
-      "collapsed": false,
-      "position": 8,
-      "subtasks": [
-        "Enable YouTube Data API v3 in GCP",
-        "Connect YouTube in Postiz",
+        "YouTube OAuth client in GCP",
+        "MANAGE_CONNECTIONS add youtube",
         "Verify upload scope"
       ],
-      "tags": ["social-autopost", "phase-3", "postiz", "youtube"],
-      "dependencies": ["card-postiz-self-host"],
-      "hermesTaskId": "t_b863a58a",
-      "created_at": "2026-06-17T19:00:00.000Z",
-      "updated_at": "2026-06-17T19:00:00.000Z"
-    },
-    {
-      "id": "card-postiz-wordpress",
-      "title": "Connect WordPress in Postiz",
-      "content": "Open http://localhost:4007 → Integrations → Connect WordPress. Generate application password in WordPress admin first.",
-      "columnId": "ready",
-      "collapsed": false,
-      "position": 9,
-      "subtasks": [
-        "WP Users → Application Passwords",
-        "Connect WordPress in Postiz",
-        "Test REST API connection"
+      "tags": [
+        "social-autopost",
+        "phase-3",
+        "youtube",
+        "composio"
       ],
-      "tags": ["social-autopost", "phase-3", "postiz", "wordpress"],
-      "dependencies": ["card-postiz-self-host"],
-      "hermesTaskId": "t_d712ba2e",
-      "created_at": "2026-06-17T19:00:00.000Z",
-      "updated_at": "2026-06-17T19:00:00.000Z"
-    },
-    {
-      "id": "card-postiz-x-optional",
-      "title": "Connect X (Twitter) in Postiz — optional",
-      "content": "Deferred until X API credits loaded (~$0.015/post). Open http://localhost:4007 → Integrations → Connect X when budget allows.",
-      "columnId": "backlog",
-      "collapsed": true,
-      "position": 0,
-      "subtasks": [
-        "Load X API credits in developer portal",
-        "Connect X in Postiz",
-        "Add X_* keys to .env.local"
+      "dependencies": [
+        "card-composio-mcp"
       ],
-      "tags": ["social-autopost", "phase-3", "postiz", "x", "optional"],
-      "dependencies": ["card-postiz-self-host"],
-      "hermesTaskId": "t_5a071d85",
-      "created_at": "2026-06-17T19:00:00.000Z",
-      "updated_at": "2026-06-17T19:00:00.000Z"
+      "hermesTaskId": "t_cc0c3355",
+      "created_at": "2026-06-17T06:00:00.000Z",
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     },
     {
       "id": "card-env-credentials-v2",
       "title": "Add all platform credentials to .env.local",
-      "content": "After each platform is connected, copy API keys/tokens to .env.local. Reference: specs/social-autopost/CREDENTIALS-CHECKLIST.md. Never commit secrets.",
+      "content": "After each platform is connected, copy API keys/tokens to .env.local. Reference: specs/social-autopost/CREDENTIALS-CHECKLIST.md. Never commit secrets. Tags: social-autopost, phase-3, credentials",
       "columnId": "blocked",
       "collapsed": false,
-      "position": 3,
+      "position": 4,
       "subtasks": [
         "POSTIZ + COMPOSIO keys (done)",
         "Meta + TikTok + YouTube after OAuth",
         "WordPress + X placeholders",
         "Run npm run msc:sync:mcp-env"
       ],
-      "tags": ["social-autopost", "phase-3", "credentials"],
+      "tags": [
+        "social-autopost",
+        "phase-3",
+        "credentials"
+      ],
       "dependencies": [
         "card-postiz-facebook",
         "card-postiz-instagram",
@@ -431,97 +340,293 @@
       ],
       "hermesTaskId": "t_36617086",
       "created_at": "2026-06-17T19:00:00.000Z",
-      "updated_at": "2026-06-17T19:00:00.000Z"
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
+    },
+    {
+      "id": "card-wordpress-app-password",
+      "title": "Connect WordPress via application password",
+      "content": "Phase 3. Generate WordPress application password on optional blog site. Add WORDPRESS_SITE_URL and WORDPRESS_APP_PASSWORD to .env.local.",
+      "columnId": "blocked",
+      "collapsed": false,
+      "position": 5,
+      "subtasks": [
+        "WP Users → Application Passwords",
+        "Add env vars",
+        "Test REST API / mcp-wordpress"
+      ],
+      "tags": [
+        "social-autopost",
+        "phase-3",
+        "wordpress"
+      ],
+      "dependencies": [
+        "card-composio-mcp"
+      ],
+      "hermesTaskId": "t_e277247f",
+      "created_at": "2026-06-17T06:00:00.000Z",
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     },
     {
       "id": "card-live-test-campaign",
       "title": "Run first live test campaign",
-      "content": "After platforms connected and credentials added: npm run social:auto-post -- --live --spec specs/social-autopost/examples/dry-run-campaign.yaml",
+      "content": "After platforms connected and credentials added: npm run social:auto-post -- --live --spec specs/social-autopost/examples/dry-run-campaign.yaml. Verify scheduled post in Postiz dashboard. Tags: social-autopost, phase-4, test",
       "columnId": "blocked",
       "collapsed": false,
-      "position": 4,
+      "position": 6,
       "subtasks": [
         "Confirm Postiz integrations connected",
         "Run --live (no --generate-image first)",
         "Check Postiz calendar/queue"
       ],
-      "tags": ["social-autopost", "phase-4", "test"],
-      "dependencies": ["card-env-credentials-v2"],
+      "tags": [
+        "social-autopost",
+        "phase-4",
+        "test"
+      ],
+      "dependencies": [
+        "card-env-credentials-v2"
+      ],
       "hermesTaskId": "t_575572c4",
       "created_at": "2026-06-17T19:00:00.000Z",
-      "updated_at": "2026-06-17T19:00:00.000Z"
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
+    },
+    {
+      "id": "card-postiz-facebook",
+      "title": "Connect Facebook Page in Postiz",
+      "content": "Open http://localhost:4007 → Integrations → Connect Facebook. OAuth login required. Tags: social-autopost, phase-3, postiz",
+      "columnId": "blocked",
+      "collapsed": false,
+      "position": 7,
+      "subtasks": [
+        "Open Postiz Integrations tab",
+        "Connect Facebook Page via OAuth",
+        "Confirm integration shows connected"
+      ],
+      "tags": [
+        "social-autopost",
+        "phase-3",
+        "postiz",
+        "facebook"
+      ],
+      "dependencies": [
+        "card-postiz-self-host"
+      ],
+      "hermesTaskId": "t_c3b36f65",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     },
     {
       "id": "card-verify-postiz-publish",
       "title": "Verify publish in Postiz dashboard",
-      "content": "After first live test: confirm post appears in Postiz calendar/queue with correct caption, image, and platform targets.",
+      "content": "After first live test: confirm post appears in Postiz calendar/queue with correct caption, image, and platform targets. Tags: social-autopost, phase-4, test, postiz",
       "columnId": "blocked",
       "collapsed": false,
-      "position": 5,
+      "position": 8,
       "subtasks": [
         "Open Postiz calendar view",
         "Confirm caption + platforms",
         "Cancel or let publish on schedule"
       ],
-      "tags": ["social-autopost", "phase-4", "test", "postiz"],
-      "dependencies": ["card-live-test-campaign"],
+      "tags": [
+        "social-autopost",
+        "phase-4",
+        "test",
+        "postiz"
+      ],
+      "dependencies": [
+        "card-live-test-campaign"
+      ],
       "hermesTaskId": "t_d65cbd5f",
       "created_at": "2026-06-17T19:00:00.000Z",
-      "updated_at": "2026-06-17T19:00:00.000Z"
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
+    },
+    {
+      "id": "card-postiz-instagram",
+      "title": "Connect Instagram Business in Postiz",
+      "content": "Open http://localhost:4007 → Integrations → Connect Instagram. Requires IG Professional linked to Facebook Page. OAuth login required. Tags: social-autopost, phase-3, postiz",
+      "columnId": "blocked",
+      "collapsed": false,
+      "position": 9,
+      "subtasks": [
+        "Ensure IG Business linked to FB Page",
+        "Connect Instagram in Postiz",
+        "Verify integration status"
+      ],
+      "tags": [
+        "social-autopost",
+        "phase-3",
+        "postiz",
+        "instagram"
+      ],
+      "dependencies": [
+        "card-postiz-facebook"
+      ],
+      "hermesTaskId": "t_74d38b09",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     },
     {
       "id": "card-hf-token",
       "title": "Add HF_TOKEN for FLUX image generation",
-      "content": "Add Hugging Face token to .env.local for --generate-image pipeline. Prerequisite for live image test.",
+      "content": "Add Hugging Face token to .env.local for --generate-image pipeline. Verify with generate-image.py or dry-run with --generate-image flag. Tags: social-autopost, phase-4, credentials, image-gen",
       "columnId": "blocked",
       "collapsed": false,
-      "position": 6,
+      "position": 10,
       "subtasks": [
         "Add HF_TOKEN to .env.local",
         "Test generate-image.py",
         "Optional: dry-run with --generate-image"
       ],
-      "tags": ["social-autopost", "phase-4", "credentials", "image-gen"],
-      "dependencies": ["card-env-credentials-v2"],
+      "tags": [
+        "social-autopost",
+        "phase-4",
+        "credentials",
+        "image-gen"
+      ],
+      "dependencies": [
+        "card-env-credentials-v2"
+      ],
       "hermesTaskId": "t_5c7234b8",
       "created_at": "2026-06-17T19:00:00.000Z",
-      "updated_at": "2026-06-17T19:00:00.000Z"
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
+    },
+    {
+      "id": "card-postiz-tiktok-ui",
+      "title": "Connect TikTok in Postiz",
+      "content": "Open http://localhost:4007 → Integrations → Connect TikTok. TikTok Developer app required. OAuth login required. Tags: social-autopost, phase-3, postiz",
+      "columnId": "blocked",
+      "collapsed": false,
+      "position": 11,
+      "subtasks": [
+        "Register TikTok Developer app if needed",
+        "Connect TikTok in Postiz UI",
+        "Verify ACTIVE integration"
+      ],
+      "tags": [
+        "social-autopost",
+        "phase-3",
+        "postiz",
+        "tiktok"
+      ],
+      "dependencies": [
+        "card-postiz-self-host"
+      ],
+      "hermesTaskId": "t_d844dd99",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     },
     {
       "id": "card-live-test-image-gen",
       "title": "Run live test campaign with image generation",
-      "content": "After first live test passes: npm run social:auto-post -- --live --generate-image --spec specs/social-autopost/examples/dry-run-campaign.yaml. Requires HF_TOKEN.",
+      "content": "After first live test passes: npm run social:auto-post -- --live --generate-image --spec specs/social-autopost/examples/dry-run-campaign.yaml. Requires HF_TOKEN in .env.local and ComfyUI/FLUX ready. Tags: social-autopost, phase-4, test, image-gen",
       "columnId": "blocked",
       "collapsed": false,
-      "position": 7,
+      "position": 12,
       "subtasks": [
         "Confirm HF_TOKEN set",
         "Run --live --generate-image",
         "Verify image attached in Postiz"
       ],
-      "tags": ["social-autopost", "phase-4", "test", "image-gen"],
-      "dependencies": ["card-live-test-campaign", "card-hf-token"],
+      "tags": [
+        "social-autopost",
+        "phase-4",
+        "test",
+        "image-gen"
+      ],
+      "dependencies": [
+        "card-live-test-campaign",
+        "card-hf-token"
+      ],
       "hermesTaskId": "t_5797516e",
       "created_at": "2026-06-17T19:00:00.000Z",
-      "updated_at": "2026-06-17T19:00:00.000Z"
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
+    },
+    {
+      "id": "card-postiz-youtube",
+      "title": "Connect YouTube in Postiz",
+      "content": "Open http://localhost:4007 → Integrations → Connect YouTube. Reuse GCP project wordpress-map-1492461083797. OAuth login required. Tags: social-autopost, phase-3, postiz",
+      "columnId": "blocked",
+      "collapsed": false,
+      "position": 13,
+      "subtasks": [
+        "Enable YouTube Data API v3 in GCP",
+        "Connect YouTube in Postiz",
+        "Verify upload scope"
+      ],
+      "tags": [
+        "social-autopost",
+        "phase-3",
+        "postiz",
+        "youtube"
+      ],
+      "dependencies": [
+        "card-postiz-self-host"
+      ],
+      "hermesTaskId": "t_b863a58a",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     },
     {
       "id": "card-hermes-cron-schedule",
       "title": "Schedule recurring campaign via Hermes cron",
-      "content": "Use specs/social-autopost/examples/hermes-cron.yaml template. cron_mode is already allow. Create cron job after first live test passes.",
+      "content": "Use specs/social-autopost/examples/hermes-cron.yaml template. cron_mode is already allow. Create cron job after first live test passes. Tags: social-autopost, phase-4, hermes, cron",
       "columnId": "blocked",
       "collapsed": false,
-      "position": 8,
+      "position": 14,
       "subtasks": [
         "Review hermes-cron.yaml template",
         "Create Hermes cron job",
         "Test dryRunFirst notification"
       ],
-      "tags": ["social-autopost", "phase-4", "hermes", "cron"],
-      "dependencies": ["card-live-test-campaign"],
+      "tags": [
+        "social-autopost",
+        "phase-4",
+        "hermes",
+        "cron"
+      ],
+      "dependencies": [
+        "card-live-test-campaign"
+      ],
       "hermesTaskId": "t_06ca0f82",
       "created_at": "2026-06-17T19:00:00.000Z",
-      "updated_at": "2026-06-17T19:00:00.000Z"
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
+    },
+    {
+      "id": "card-postiz-wordpress",
+      "title": "Connect WordPress in Postiz",
+      "content": "Open http://localhost:4007 → Integrations → Connect WordPress. Generate application password in WordPress admin first. Tags: social-autopost, phase-3, postiz",
+      "columnId": "blocked",
+      "collapsed": false,
+      "position": 15,
+      "subtasks": [
+        "WP Users → Application Passwords",
+        "Connect WordPress in Postiz",
+        "Test REST API connection"
+      ],
+      "tags": [
+        "social-autopost",
+        "phase-3",
+        "postiz",
+        "wordpress"
+      ],
+      "dependencies": [
+        "card-postiz-self-host"
+      ],
+      "hermesTaskId": "t_d712ba2e",
+      "created_at": "2026-06-17T19:00:00.000Z",
+      "updated_at": "2026-06-18T21:10:36.536Z",
+      "assignedWorker": "msc"
     }
   ],
   "next-steps": [
@@ -531,7 +636,7 @@
     "Add platform credentials to .env.local (CREDENTIALS-CHECKLIST.md)",
     "Run first live test → verify in Postiz → image gen test → Hermes cron schedule"
   ],
-  "last_updated": "2026-06-17T19:00:00.000Z",
+  "last_updated": "2026-06-18T21:10:36.536Z",
   "isDragging": false,
   "scrollToColumn": null
 }

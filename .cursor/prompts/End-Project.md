@@ -27,58 +27,43 @@ Append to `.cursor/docs/project-log.md`:
 - **Reminder Note for Jon**: Remind Jon to verify or find any missing API keys (e.g., `21ST_DEV_MAGIC_API_KEY`) in `.env.local` to fully unlock pre-wired MCP servers next session.
 - Ask: "Commit and push changes? (yes/no)"
 
-### Step 4: Close Kanban Stack Services
-Run from repo root (**Local — Cursor / PC**). Kill Kanban UI ports, stop LiteLLM + ngrok, and optionally leave the Telegram gateway running overnight.
+### Step 4: Stop Session Stack
+Run from repo root (**Local — Cursor / PC**). Uses unified teardown scripts — **agents run these commands themselves**, do not only list steps for Jon.
 
-#### 4a. Kill Kanban stack ports
-```powershell
-# Kill all Kanban stack ports (TaskBoardAI 3001, Workspace 3005, Dashboard 9119)
-$ports = @(3001, 3005, 9119)
-foreach ($port in $ports) {
-    $pids = netstat -ano | findstr ":$port " | findstr "LISTENING" | ForEach-Object { ($_ -split '\s+')[-1] } | Select-Object -Unique
-    foreach ($processId in $pids) {
-        if ($processId -match '^\d+$') { taskkill /PID $processId /F 2>$null }
-    }
-}
-```
-
-| Port | Service | Action |
-|------|---------|--------|
-| **3001** | TaskBoardAI | Kill the Node process |
-| **3005** | Hermes Workspace | Kill the `pnpm dev` / Node process |
-| **9119** | Hermes Dashboard | Kill the dashboard process |
-
-Report per port: **killed** / **already free**.
-
-#### 4b. Orphan Hermes Workspace cleanup
-If any Kanban port is still listening after **4a**, find and kill orphaned workspace processes:
-```powershell
-Get-CimInstance Win32_Process -Filter "Name = 'node.exe'" -ErrorAction SilentlyContinue |
-  Where-Object { $_.CommandLine -match 'hermes-workspace' } |
-  ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
-```
-Re-check **3001**, **3005**, **9119** and report.
-
-#### 4c. Telegram gateway (optional — may stay running overnight)
+#### 4a. Telegram gateway (optional — may stay running overnight)
 Use **`AskQuestion`** with:
-- **Stop Telegram gateway** (recommended for full shutdown)
-- **Keep gateway running overnight** (bot stays responsive; LiteLLM/ngrok still stop below)
+- **Stop everything including Telegram gateway** (recommended for full shutdown)
+- **Keep Telegram gateway running overnight** (bot stays responsive; LiteLLM/ngrok still stop)
 
-#### 4d. Stop LiteLLM + ngrok (ports 4000, 4040)
+#### 4b. Unified session stop
+| Command | When |
+|---------|------|
+| `npm run msc:session:stop` | Operator chose **Stop everything** — Kanban (**3001**, **3005**, **9119**), Next dev (**3000**), LiteLLM + ngrok (**4000**, **4040**), Hermes Telegram gateway |
+| `npm run msc:session:stop:keep-gateway` | Operator chose **Keep gateway overnight** — same as above **except** Telegram gateway stays running |
+
+**What `stop-session-stack.ps1` does:**
+1. `kanban:stop` — ports **3001**, **3005**, **9119**
+2. Orphan cleanup — stale TaskBoard/Hermes `cmd.exe` shells and old WT tabs
+3. `msc-kill-dev-port.mjs 3000` — Next.js dev
+4. `msc-litellm-stop.mjs` — ports **4000**, **4040**, ngrok (+ gateway unless `--keep-gateway`)
+
 | Port | Service | Action |
 |------|---------|--------|
-| **4000** | LiteLLM | Stopped via `msc:litellm:stop` |
-| **4040** | ngrok inspector | Stopped via `msc:litellm:stop` |
+| **3001** | TaskBoardAI | Stopped via `kanban:stop` |
+| **3005** | Hermes Workspace | Stopped via `kanban:stop` |
+| **9119** | Hermes Dashboard | Stopped via `kanban:stop` |
+| **3000** | Next.js dev | Stopped via session stop |
+| **4000** | LiteLLM | Stopped via `msc-litellm:stop` |
+| **4040** | ngrok inspector | Stopped via `msc-litellm:stop` |
 
-- If operator chose **Stop Telegram gateway**: run `npm run msc:litellm:stop` (includes `hermes gateway stop` on Windows).
-- If operator chose **Keep gateway running overnight**: run LiteLLM/ngrok cleanup only — kill ports **4000** and **4040** and ngrok processes (`node scripts/msc-kill-dev-port.mjs 4000`, `node scripts/msc-kill-dev-port.mjs 4040`, plus ngrok kill from `scripts/lib/msc-ngrok-utils.mjs` pattern in `msc-litellm-stop.mjs`) — **do not** run `hermes gateway stop`.
+**Kanban-only stop** (without touching LiteLLM): `npm run kanban:stop`
 
-Report what each sub-step found (process killed vs already free).
+Report per port: **killed** / **already free** (read script output).
 
-### Step 5: Stop Next.js dev (port 3000)
-Run from repo root:
-- If operator chose **Stop Telegram gateway** in **4c**: `npm run msc:session:stop` (clears **3000**, **4000**, **4040**, ngrok, and Hermes gateway).
-- If operator chose **Keep gateway running overnight**: `npm run msc:kill-dev-port` only (clears **3000**; gateway + partial LiteLLM cleanup from **4d** unchanged).
+**Postiz (4007):** Docker stack — not stopped by End Project. To shut down: `cd D:\Hermes\postiz && docker compose down`
+
+### Step 5: Confirm dev port clear
+Step **4b** already clears port **3000**. Re-check with `netstat -ano | findstr ":3000 "` if needed.
 
 Report what was killed vs already free.
 
@@ -93,8 +78,9 @@ Print (replace `[…]` with live values):
 📦 SESSION WRAP-UP
    📝 Changes logged……… project-log.md
    🔧 Git………………… [clean | pending commit/push]
-   🛑 Services stopped…… Next dev (3000), Kanban (3001, 3005, 9119), LiteLLM + ngrok (4000, 4040)
+   🛑 Services stopped…… Kanban (3001, 3005, 9119), Next dev (3000), LiteLLM + ngrok (4000, 4040)
    📡 Telegram gateway…… [stopped | left running overnight]
+   🐳 Postiz (4007)……… [still running in Docker | stopped manually]
 
 📁 PROJECT
    🌿 Branch……………… [current branch]
@@ -110,4 +96,4 @@ Cold-start pointer: Say "Start Project" to begin next session.
 - NEVER commit without explicit operator approval
 - NEVER force push unless operator confirms
 - NEVER log secret values - reference only variable names
-- **Agents:** run Kanban port kills and shutdown commands yourself from repo root — do not only list steps for Jon
+- **Agents:** run `npm run msc:session:stop` (or `:keep-gateway`) yourself from repo root — do not only list steps for Jon

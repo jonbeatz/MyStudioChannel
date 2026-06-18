@@ -12,6 +12,7 @@ import { msc_hydrateVertexEnv } from './lib/msc-litellm-env.mjs';
 import { msc_killNgrokProcesses } from './lib/msc-ngrok-utils.mjs';
 
 const BANNER = '[msc:litellm:stop]';
+const keepGateway = process.argv.includes('--keep-gateway');
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const scriptsDir = path.resolve(__dirname);
 const { port } = msc_hydrateVertexEnv();
@@ -26,7 +27,11 @@ function msc_stopHermesGateway() {
   spawnSync(hermesExe, ['gateway', 'stop'], { stdio: 'inherit' });
 }
 
-msc_stopHermesGateway();
+if (keepGateway) {
+  console.log(`${BANNER} keeping Hermes Telegram gateway running (--keep-gateway)`);
+} else {
+  msc_stopHermesGateway();
+}
 
 console.log(`${BANNER} clearing ngrok processes`);
 msc_killNgrokProcesses();

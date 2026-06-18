@@ -93,6 +93,28 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-18] Session stack — duplicate terminal windows and npm.ps1 Notepad popup
+- **Error:** After Kanban/LiteLLM testing, 7+ command windows appeared on the taskbar (duplicate `npm run start:all`, `npm run start:mcp`, admin PowerShell). Separately, `npm.ps1` opened in Notepad during a hidden-launch attempt.
+- **Cause:** `start-kanban-stack.ps1` used `Start-Process wt.exe` (new Windows Terminal tab per launch) and repeated cold-starts without teardown left orphan shells. `Start-Process -FilePath "npm"` on Windows opens `npm.ps1` in the default editor instead of executing it.
+- **Solution:**
+  1. Switched Kanban launches to `Start-Process cmd.exe /c npm run … -WindowStyle Hidden` (no visible windows).
+  2. Created unified **`scripts/start-session-stack.ps1`** and **`scripts/stop-session-stack.ps1`** with npm aliases **`msc:session:start`**, **`msc:session:stop`**, **`msc:session:stop:keep-gateway`**.
+  3. Updated **Start Project** and **End Project** prompts to use unified session scripts; **`msc-litellm-stop.mjs`** accepts **`--keep-gateway`** for overnight Telegram.
+  4. Stop script includes orphan cleanup for stale TaskBoard/Hermes `cmd.exe` and old WT tabs.
+- **Files Changed:** `scripts/start-kanban-stack.ps1`, `scripts/start-session-stack.ps1`, `scripts/stop-session-stack.ps1`, `scripts/msc-litellm-stop.mjs`, `package.json`, `.cursor/prompts/Start-Project.md`, `.cursor/prompts/End-Project.md`, `.cursor/docs/MASTER-COMMANDS.md`, `.cursor/docs/START-HERE.md`, `.cursor/docs/KANBAN-STACK-GUIDE.md`
+- **Prevention:** Never `Start-Process npm` on Windows — use `cmd.exe /c`. Use **`npm run msc:session:start`** / **`npm run msc:session:stop`** for full stack lifecycle; **`npm run kanban:stop`** before re-launching Kanban to avoid duplicates.
+
+## [2026-06-18] Hermes Workspace (Port 3005) — "Failed to load tasks" on Windows due to Missing SQLite CLI
+- **Error:** Hermes Workspace on Port 3005 displayed "Failed to load tasks" with 0 tasks shown on all Kanban lanes, while TaskBoardAI on Port 3001 correctly displayed the real tasks.
+- **Cause:** When the Python-based Hermes Dashboard (Port 9119) is offline, Hermes Workspace falls back to the direct direct-access backend (`claudeBackend`), which queries the database by executing the system `sqlite3` CLI executable as a subprocess (`spawnSync sqlite3`). On Windows systems where `sqlite3` is not on the `%PATH%`, this command fails with `ENOENT`. Additionally, the fallback direct-access path only knew about the legacy global database (`C:\Users\JONBEATZ\AppData\Local\hermes\kanban.db`) instead of the multi-board scoped project database (`\boards\msc-website-v9\kanban.db`).
+- **Solution:** 
+  1. Updated `D:\Hermes\hermes-workspace\src\server\kanban-backend.ts` to utilize Node.js 22+'s native, built-in, and highly optimized `node:sqlite` module synchronously (`DatabaseSync`) for direct in-process database access. This completely eliminates any system dependence on the `sqlite3` CLI binary.
+  2. Modified `claudeDbPath()` and `claudeWorkspacePath()` inside `kanban-backend.ts` to look up the `KANBAN_BOARD` or `CLAUDE_KANBAN_BOARD` environment variables. If present, it maps direct fallback queries directly to your active scoped multi-board database path.
+  3. Added `KANBAN_BOARD=msc-website-v9` to Hermes Workspace's `.env` config file to bind it permanently to your active project.
+  4. Refined socket checking inside `scripts/start-kanban-stack.ps1` to filter for active TCP states (`Listen`, `Established`) to prevent stale `TIME_WAIT` connection states from blocking clean launches of Port 3005.
+- **Files Changed:** `D:\Hermes\hermes-workspace\src\server\kanban-backend.ts`, `D:\Hermes\hermes-workspace\.env`, `D:\Cursor_Projectz\MyStudioChannel\scripts\start-kanban-stack.ps1`, `D:\Cursor_Projectz\MyStudioChannel\.cursor\docs\KANBAN-STACK-GUIDE.md`
+- **Prevention:** Always leverage direct native modules like `node:sqlite` for database-backed systems rather than spawning subprocess CLI dependencies which are not portable across operating systems. Set explicit port connection states when orchestrating stack automation.
+
 ## [2026-06-13] Start Project — voice played before summary / LiteLLM launcher blocking
 - **Error:** Start Project hung in agent terminal; J.A.R.V.I.S. voice played before session summary card; LiteLLM minimize experiments caused 4+ minute stalls.
 - **Cause:** Blocking `jarvis-speak.ps1` in launcher; `cursor terminal` CLI unavailable; `wt` ignores `ProcessWindowStyle.Minimized`; Win32 minimize polling added latency.

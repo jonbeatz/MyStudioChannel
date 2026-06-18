@@ -5,20 +5,31 @@ When user says "Start Project", "Begin Project", "Start Session", or "Cold Start
 
 ## Execution Steps (strict order)
 
-### Step 1: LiteLLM + ngrok (Vertex AI Proxy)
-Launch **LiteLLM and ngrok** automatically in **minimized, elevated Windows Terminal** tabs and wait until both are online:
-`powershell -ExecutionPolicy Bypass -File scripts/start-hermes-api.ps1`
+### Step 1: Session Stack (LiteLLM + ngrok + Kanban)
+Launch the **full session stack** in one command from repo root:
 
-Or: `npm run msc:google-api:start-session` · cold restart: `npm run msc:google-api:start`
+```powershell
+npm run msc:session:start
+```
 
-**Also starts:** Hermes **Telegram gateway** (after LiteLLM + ngrok) — hidden background, no Windows logon popup. Requires `%LOCALAPPDATA%\hermes\.env` Telegram config from prior `hermes gateway setup`.
+This runs, in order:
+1. **`scripts/start-hermes-api.ps1`** — LiteLLM (**4000**), ngrok (**4040**), Hermes **Telegram gateway** (hidden; no Windows logon popup)
+2. **`scripts/start-kanban-stack.ps1`** — TaskBoardAI (**3001**), Hermes Workspace (**3005**), Hermes Dashboard (**9119**) as **hidden background processes** (no command-window clutter)
 
-**Expected:** UAC prompt(s) may appear (RunAs). LiteLLM and ngrok tabs open in Windows Terminal (may pop up briefly — minimize on taskbar if needed). Script exits **0** only when:
+**Individual commands** (if you only need part of the stack):
+- AI proxy only: `npm run msc:google-api:start-session`
+- Kanban only: `npm run kanban`
+- Cold restart LiteLLM: `npm run msc:google-api:start`
+
+**Expected:** UAC prompt(s) may appear for LiteLLM (RunAs). **One** minimized Windows Terminal tab titled **LiteLLM** is normal; Kanban services run hidden. Script exits **0** when:
 - LiteLLM responds on port **4000** (~30–90s)
 - ngrok inspector on **4040** reports an **HTTPS** tunnel URL
 - Remote `/v1/models` probe is attempted (200 = verified)
+- Kanban ports **3001**, **3005**, **9119** are online or spawned (hidden)
 
-If either service is already running, the launcher **reuses** it (no duplicate ngrok).
+If a service is already running, the launcher **reuses** it (no duplicate ngrok or Kanban instances).
+
+**Does NOT start:** Next.js dev (**3000**) — start with `npm run dev` when you are actively coding the site.
 
 **No voice in this step.** The launcher must never call `jarvis-speak`, `speak`, or any TTS.
 
@@ -62,6 +73,10 @@ Gather live status, then print the session summary card in chat **immediately** 
   - URL found → `Online (https://xxxx.ngrok-free.dev)`
   - ngrok running but URL not available → `Active`
   - ngrok not running → `Not running`
+- Kanban stack: probe ports **3001**, **3005**, **9119** (`Get-NetTCPConnection -LocalPort … -State Listen`) or HTTP smoke:
+  - `http://127.0.0.1:3001/` → TaskBoardAI
+  - `http://127.0.0.1:3005/` → Hermes Workspace
+  - `http://127.0.0.1:9119/system` → Hermes Dashboard
 
 **Print this card** (replace `[…]` placeholders with live values; keep dot leaders aligned):
 
@@ -76,6 +91,7 @@ Gather live status, then print the session summary card in chat **immediately** 
    ☁️ Google Vertex AI………. [Connected (vader-3.5-flash) | Reachable (models unverified) | Offline]
    🌐 ngrok Tunnel………….. [Online (https://xxxx.ngrok-free.dev/v1) | Active | Not running]
    📱 Hermes Gateway………. [Online (Telegram) | Offline | Not configured]
+   📋 Kanban Stack…………. [3001 + 3005 + 9119 online | partial | offline]
 
 🔗 CURSOR
    Base URL……………… [https://xxxx.ngrok-free.dev/v1 | set after Step 1b]
@@ -116,7 +132,8 @@ Run from repo root. **Do not await** the process — exit the step immediately a
 **Expected:** Summary card is already in chat; voice plays a moment later in a hidden background process. Never use blocking `powershell -File scripts/jarvis-speak.ps1` or `npm run msc:jarvis:speak` here — they delay the summary.
 
 ## Important Rules
-- DO NOT auto-start dev servers (`npm run dev`) unless operator asks
+- DO NOT auto-start Next.js dev (`npm run dev` on **3000**) unless operator asks — session start handles AI + Kanban only
 - DO NOT auto-deploy or push without confirmation
 - DO NOT paste secrets or tokens in chat
 - Voice greeting is always **Step 7 only** — never in Step 1 or `start-hermes-api.ps1`; dispatch with `Start-Process -WindowStyle Hidden` (non-blocking) only after the Step 5 summary is in chat
+- **Kanban URLs:** http://localhost:3001 · http://localhost:3005 · http://localhost:9119/system
