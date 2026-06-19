@@ -90,14 +90,14 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Gallery hydration:** **`lib/cms/homepage-gallery-seed.ts`**, **`lib/cms/homepage-gallery-hydrate.ts`** (`afterRead` → full Media shape for admin + site).
 - **Public URLs:** **`lib/public-origin.ts`** + **`lib/site-origin-defaults.ts`** — **`PAYLOAD_PUBLIC_SERVER_URL`** / **`NEXT_PUBLIC_SERVER_URL`** / **`MSC_CANONICAL_SITE_ORIGIN`**; **`getPublicOriginClient()`** for admin Client Components; **`payload.config.ts`** **`serverURL`** + env-built **CSRF**.
 - **Marketing site:** Header/footer in-page hash scroll (mobile drawer defer); **`HomeHashScroll`**; **`middleware`** pathname-only rewrites (host-agnostic).
-- **Version:** **`v9.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v9.0.0`**, admin **`MyStudioChannel Admin v9.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
-- **Live:** **`https://mystudiochannel.com`** — **v7.0.0** on host until next deploy; repo/local **v9.0.0**.
+- **Version:** **`v10.0.0`** — sole source: root **`package.json`**; UI labels via **`lib/msc-app-version.ts`** (footer **`MyStudioChannel v10.0.0`**, admin **`MyStudioChannel Admin v10.0.0`**). Bump **`package.json`** only on release; see **`Jedi-List.md`** → *Release version*.
+- **Live:** **`https://mystudiochannel.com`** — **v7.0.0** on host until next deploy; repo/local **v10.0.0**.
 - **Deploy docs:** **`HOSTINGER-DEPLOY.md`**, **`DEPLOYMENT-TROUBLESHOOTING.md`** (§ fast deploy mistakes). **`-WithDb`** required for **`payload.sqlite`** on fast path. Zip unzip bug fixed — expect **~10–15 min**, not **~45 min** fallback.
-- **Branches:** **`MSC-Website-v9`** (active dev @ **`a2371b4`**); **`MSC-Website-v8`** frozen @ **`c0d834e`**; **`MSC-Website-v7`** frozen @ **`b4ab8ae`**; **`main`** @ **`b4ab8ae`**.
-- **Backups:** **`G:\Cursor_Project_BackUpz\MyStudioChannel\`** — folder naming **`msc-website-v{N}-{a-z}`** (e.g. **`msc-website-v3-a`**); legacy **`msc-website-v2-*`** exhausted; quick via **`npm run msc:backup:quick`**.
+- **Branches:** **`MSC-Website-v10`** (active dev @ **`f2d80ba`**); **`MSC-Website-v9`** frozen @ **`0007312`**; **`MSC-Website-v8`** frozen @ **`c0d834e`**; **`MSC-Website-v7`** frozen @ **`b4ab8ae`**; **`main`** @ **`b4ab8ae`**.
+- **Backups:** **`G:\Cursor_Project_BackUpz\MyStudioChannel\`** — folder naming **`msc-website-v{N}-{a-z}`** (e.g. **`msc-website-v3-i`**); legacy **`msc-website-v2-*`** exhausted; quick via **`npm run msc:backup:quick`**.
 - **Mem0:** Local Qdrant via **`scripts/mem0-chat.ps1`**; cloud Platform linked via **`MEM0_API_KEY`** in **`.env.local`** (`mem0 init --api-key --force`).
-- **Git:** **`payload.sqlite`** tracked @ **`14ceb53`** (v7 CMS baseline for deploy seed); **`MSC-Website-v9`** @ **9.0.0**.
-- **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v9.0.0`**; **Latest = `v9.0.0`** (repo; live still v7 until deploy).
+- **Git:** **`payload.sqlite`** tracked @ **`14ceb53`** (v7 CMS baseline for deploy seed); **`MSC-Website-v10`** @ **10.0.0**.
+- **GitHub:** [releases](https://github.com/jonbeatz/MyStudioChannel/releases) **`v1.0.0`–`v10.0.0`**; **Latest = `v10.0.0`** (repo; live still v7 until deploy).
 - **CI:** **`.github/workflows/verify.yml`** — build + Playwright smoke on push (Node **22**); admin login wait fix @ **`112acc5`**.
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright); **`npm run analyze`** for admin bundle (~**816 kB**).
 - **J.A.R.V.I.S. / LiteLLM:** Start Project boots LiteLLM (**4000**) + ngrok; database-less proxy (no Prisma/SQLite leak); **`msc:litellm:verify`** PASS.
@@ -106,7 +106,7 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 - **Hermes `google-workspace` skill:** Authenticated **2026-06-17** — Gmail, Calendar, Drive (+ Contacts/Sheets/Docs) via OAuth on GCP **`wordpress-map-1492461083797`**. Token at **`%LOCALAPPDATA%\hermes\google_token.json`**. OAuth redirect **`ERR_UNSAFE_PORT`** on `localhost:1` is expected — copy full URL. Ask Hermes in natural language on Telegram/Desktop/CLI.
 - **Agent tooling:** **MSC-UI-Taste** skill; project MCP **6 servers** (`browsermcp` + `antigravity` archived); Hostinger quartet via **`msc-hostinger-mcp.mjs`** launcher (scoped bins, no tool-naming warnings); MCP reload via **Settings → MCP**; **Obsidian** think layer at **`I:\Vader_Vault`** (ship layer = `.cursor/docs`).
 - **Audit (2026-06-07):** Phases 1–4 complete @ **`9d9831f`** (pushed). **`.cursor/review.md`** audit queue closed 2026-06-11.
-- **Next ideas:** Connect social platforms in Postiz UI when credentials ready; first live campaign via `npm run social:auto-post -- --live`; deploy v9 labels live (`pushit:live:fast`).
+- **Next ideas:** Connect social platforms in Postiz UI when credentials ready; first live campaign via `npm run social:auto-post -- --live`; deploy v10 labels live (`pushit:live:fast`).
 
 ---
 

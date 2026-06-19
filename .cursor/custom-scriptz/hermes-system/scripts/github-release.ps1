@@ -73,7 +73,7 @@ try {
     }
 
     # Create release
-    & gh release create $Tag --generate-notes
+    & gh release create $Tag --generate-notes --latest --title "MyStudioChannel $Tag"
     Write-Host "  GitHub Release $Tag successfully published!" -ForegroundColor Green
 } catch {
     Write-Error "Failed to create GitHub release: $($_.Exception.Message)"

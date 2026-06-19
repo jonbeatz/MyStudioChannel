@@ -4,7 +4,8 @@ param(
     [switch]$DryRun,
     [switch]$Restore,
     [switch]$Force,
-    [switch]$Release
+    [switch]$Release,
+    [switch]$SkipRelease
 )
 
 $ErrorActionPreference = 'Stop'
@@ -138,6 +139,22 @@ if (Test-Path $readmePath) {
             Write-Host "  Updated README.md version badges." -ForegroundColor Green
         }
     }
+    # Current Status table row (GitHub README — must match package.json or sidebar drifts)
+    $content = [System.IO.File]::ReadAllText($readmePath, [System.Text.Encoding]::UTF8)
+    $tablePattern = 'v\d+\.\d+\.\d+ \(\[Latest release\]'
+    if ($content -match $tablePattern) {
+        $oldTable = $Matches[0]
+        $newTable = "v$version ([Latest release]"
+        if ($oldTable -ne $newTable) {
+            if ($DryRun) {
+                Write-Host "  [DryRun] README.md status table: $oldTable -> $newTable" -ForegroundColor DarkGray
+            } else {
+                $content = $content -replace [regex]::Escape($oldTable), $newTable
+                [System.IO.File]::WriteAllText($readmePath, $content, (New-Object System.Text.UTF8Encoding($false)))
+                Write-Host "  Updated README.md Current Status table -> v$version." -ForegroundColor Green
+            }
+        }
+    }
 }
 
 # --- 3. Update .cursor/docs/Checkpoint.md ---
@@ -146,16 +163,15 @@ if (Test-Path $checkpointPath) {
     Write-Host "$Tag Updating Checkpoint.md active branch and milestone..." -ForegroundColor Yellow
     $content = [System.IO.File]::ReadAllText($checkpointPath, [System.Text.Encoding]::UTF8)
     if ($DryRun) {
-        Write-Host "  [DryRun] Checkpoint.md updates (active branch and milestone)" -ForegroundColor DarkGray
+        Write-Host "  [DryRun] Checkpoint.md updates (Current Status only)" -ForegroundColor DarkGray
     } else {
-        # Update branch names
-        $content = $content -replace "MSC-Website-v\d+", $BranchName
-        # Update version label in Milestone
-        $content = $content -replace "MyStudioChannel v\d+\.\d+\.\d+", "MyStudioChannel v$version"
-        # Update version property
-        $content = $content -replace "- \*\*Version:\*\* \d+\.\d+\.\d+", "- **Version:** $version"
+        # Current Status only — never global MSC-Website-v\d+ (corrupts milestone history)
+        $content = $content -replace '(?m)^- \*\*Branch:\*\* MSC-Website-v\d+', "- **Branch:** $BranchName"
+        $content = $content -replace '- \*\*Version:\*\* \d+\.\d+\.\d+', "- **Version:** $version"
+        $content = $content -replace '(- \*\*Git:\*\* \*\*`)(MSC-Website-v\d+)(`\*\* active @ `[^`]+`)', "`${1}$BranchName`${3}"
+        $content = $content -replace '(repo/local \*\*`MyStudioChannel v)\d+\.\d+\.\d+(\*\*`)', "`${1}$version`${2}"
         [System.IO.File]::WriteAllText($checkpointPath, $content, (New-Object System.Text.UTF8Encoding($false)))
-        Write-Host "  Updated Checkpoint.md references." -ForegroundColor Green
+        Write-Host "  Updated Checkpoint.md Current Status references." -ForegroundColor Green
     }
 }
 
@@ -191,11 +207,11 @@ if (Test-Path $logPath) {
     $logHeader = "## [$today] - Version $version Release"
     $logBody = @"
 ## [$today] - Version $version Release
-- **Branch:** `$BranchName`
+- **Branch:** $BranchName
 - **Changes:**
-  *   Automated version bump to `$version` from `$oldVersion`.
+  *   Automated version bump to $version from $oldVersion.
   *   Synchronized dependencies and package references.
-  *   Initiated active development checkpoint for `$BranchName` release series.
+  *   Initiated active development checkpoint for $BranchName release series.
 - **Status:** active — build and lint validated compile-safe.
 "@
     if ($DryRun) {
@@ -214,6 +230,10 @@ if ($DryRun) {
     Write-Host ''
     exit 0
 }
+
+# --- Align ReCall / GitHub-Cheat-Sheet (README table, current focus, Latest release link) ---
+Write-Host "$Tag Running docs version alignment..." -ForegroundColor Gray
+& powershell -ExecutionPolicy Bypass -File (Join-Path $RepoRoot "docs-update.ps1") -Version $version -BranchName $BranchName -SkipDocsSync
 
 # --- Run Verification Checks ---
 Write-Host ''
@@ -272,11 +292,14 @@ try {
     Pop-Location
 }
 
-# --- Release trigger ---
-if ($Release) {
+# --- GitHub Release (default on every bump — tag alone does not update Releases sidebar) ---
+if (-not $SkipRelease) {
     Write-Host ''
-    Write-Host "$Tag Triggering GitHub release generation..." -ForegroundColor Cyan
+    Write-Host "$Tag Publishing GitHub release (Latest)..." -ForegroundColor Cyan
     & powershell -ExecutionPolicy Bypass -File (Join-Path $RepoRoot "github-release.ps1") -Tag "v$version"
+} elseif ($Release) {
+    Write-Host ''
+    Write-Host "$Tag -SkipRelease set; use default bump (no -SkipRelease) to publish GitHub release." -ForegroundColor Yellow
 }
 
 Write-Host ''

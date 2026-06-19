@@ -1,7 +1,8 @@
 # docs-update.ps1 - MyStudioChannel Version Alignment Auditor
 param(
     [string]$Version,
-    [string]$BranchName
+    [string]$BranchName,
+    [switch]$SkipDocsSync
 )
 
 $ErrorActionPreference = 'Stop'
@@ -38,7 +39,9 @@ $filesToCheck = @(
     (Join-Path $docsDir 'START-HERE.md'),
     (Join-Path $docsDir 'Checkpoint.md'),
     (Join-Path $docsDir 'Restore-Points.md'),
-    (Join-Path $docsDir 'project-log.md')
+    (Join-Path $docsDir 'project-log.md'),
+    (Join-Path $docsDir 'ReCall.md'),
+    (Join-Path $docsDir 'GitHub-Cheat-Sheet.md')
 )
 
 Write-Host "$Tag Auditing documentation alignment..." -ForegroundColor Gray
@@ -105,6 +108,64 @@ foreach ($f in $filesToCheck) {
         }
     }
 
+    if ($name -eq 'ReCall.md') {
+        if ($content -match '- \*\*Version:\*\* \*\*`v\d+\.\d+\.\d+\*\*`') {
+            $oldV = $Matches[0]
+            $newV = "- **Version:** **`v$Version`**"
+            if ($oldV -ne $newV) {
+                $content = $content -replace [regex]::Escape($oldV), $newV
+                $modified = $true
+                Write-Host "  Aligning ReCall current-focus version -> v$Version" -ForegroundColor Yellow
+            }
+        }
+        if ($content -match 'repo/local \*\*v\d+\.\d+\.\d+\*\*') {
+            $oldLive = $Matches[0]
+            $newLive = "repo/local **v$Version**"
+            if ($oldLive -ne $newLive) {
+                $content = $content -replace [regex]::Escape($oldLive), $newLive
+                $modified = $true
+            }
+        }
+        if ($content -match '\*\*`MSC-Website-v\d+\*\* \(active dev @') {
+            $oldB = $Matches[0]
+            $newB = "**``$BranchName``** (active dev @"
+            if ($oldB -ne $newB) {
+                $content = $content -replace [regex]::Escape($oldB), $newB
+                $modified = $true
+                Write-Host "  Aligning ReCall active branch -> $BranchName" -ForegroundColor Yellow
+            }
+        }
+        if ($content -match 'Latest = \*\*`v\d+\.\d+\.\d+\*\*`') {
+            $oldGh = $Matches[0]
+            $newGh = "Latest = **`v$Version`**"
+            if ($oldGh -ne $newGh) {
+                $content = $content -replace [regex]::Escape($oldGh), $newGh
+                $modified = $true
+                Write-Host "  Aligning ReCall GitHub Latest release -> v$Version" -ForegroundColor Yellow
+            }
+        }
+        if ($content -match 'releases\) \*\*`v1\.0\.0`–`v\d+\.\d+\.\d+\*\*`') {
+            $oldRange = $Matches[0]
+            $newRange = "releases) **`v1.0.0`–`v$Version`**"
+            if ($oldRange -ne $newRange) {
+                $content = $content -replace [regex]::Escape($oldRange), $newRange
+                $modified = $true
+            }
+        }
+    }
+
+    if ($name -eq 'GitHub-Cheat-Sheet.md') {
+        if ($content -match '\[v\d+\.\d+\.\d+\]\(https://github\.com/jonbeatz/MyStudioChannel/releases/latest\)') {
+            $oldLink = $Matches[0]
+            $newLink = "[v$Version](https://github.com/jonbeatz/MyStudioChannel/releases/latest)"
+            if ($oldLink -ne $newLink) {
+                $content = $content -replace [regex]::Escape($oldLink), $newLink
+                $modified = $true
+                Write-Host "  Aligning GitHub-Cheat-Sheet Latest release link -> v$Version" -ForegroundColor Yellow
+            }
+        }
+    }
+
     if ($modified) {
         [System.IO.File]::WriteAllText($f, $content, (New-Object System.Text.UTF8Encoding($false)))
         Write-Host "  Successfully synchronized $name" -ForegroundColor Green
@@ -114,12 +175,15 @@ foreach ($f in $filesToCheck) {
 }
 
 Write-Host ''
-Write-Host "$Tag Docs alignment complete. Running docs sync..." -ForegroundColor Gray
-Push-Location (Join-Path $RepoRoot "..")
-try {
-    npm run msc:docs:sync
-} finally {
-    Pop-Location
+Write-Host "$Tag Docs alignment complete." -ForegroundColor Gray
+if (-not $SkipDocsSync) {
+    Write-Host "$Tag Running docs sync..." -ForegroundColor Gray
+    Push-Location (Join-Path $RepoRoot "..")
+    try {
+        npm run msc:docs:sync
+    } finally {
+        Pop-Location
+    }
 }
 Write-Host ''
 exit 0

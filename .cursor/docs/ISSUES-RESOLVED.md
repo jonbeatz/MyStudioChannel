@@ -2,7 +2,14 @@
 
 This file tracks problems encountered during development and how they were resolved.
 
-## [2026-06-18] SystemStats HUD Metric Realignment — Correcting Erroneous 96% Mock Readings
+## [2026-06-19] Version bump workflow — GitHub Releases + README table drift
+
+- **Error:** After v10 cut, GitHub sidebar/Releases still showed **v9.0.0 Latest**; README Current Status table still **v9.0.0** despite badge **10.0.0**.
+- **Cause:** `version-bump.ps1` only updated the README shield badge, not the status table; GitHub **Release** was opt-in (`-Release` flag) — tag push alone does not update Releases sidebar.
+- **Solution:** README table + ReCall + GitHub-Cheat-Sheet alignment in `version-bump.ps1` / `docs-update.ps1`; **publish GitHub release by default** (`github-release.ps1 --latest`); audit fails if README table ≠ `package.json`. Published **v10.0.0** release retroactively.
+- **Files Changed:** `scripts/version-bump.ps1`, `scripts/github-release.ps1`, `scripts/docs-update.ps1`, `scripts/msc-audit-docs.mjs`, `README.md`, `ReCall.md`, `GitHub-Cheat-Sheet.md`
+- **Prevention:** Use `npm run version:bump -Force` (includes GH release); `msc:docs:sync` now errors on README table drift.
+
 - **Error:** The SystemStats HUD at `http://localhost:3001` was showing highly inflated, incorrect data: CPU at 96%, memory at 87%, GPU at 47%, and network at 77%, while Task Manager showed CPU at 9%, memory at 54%, and GPU at 4%.
 - **Cause:** The Express backend route at `D:\Hermes\TaskBoardAI\server\routes\v2Routes.js` (`/api/system/stats`) was running a simulated `drift` function that drifted random mock values towards high utilization ceilings on every poll.
 - **Solution:** 

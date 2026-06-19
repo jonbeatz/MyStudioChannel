@@ -128,12 +128,13 @@ gh pr create --title "Title" --body "Summary"
 
 ## Releases & tags (MyStudioChannel)
 
-**Latest release:** [v8.0.0](https://github.com/jonbeatz/MyStudioChannel/releases/latest) · **All tags:** [tags](https://github.com/jonbeatz/MyStudioChannel/tags)
+**Latest release:** [v10.0.0](https://github.com/jonbeatz/MyStudioChannel/releases/latest) · **All tags:** [tags](https://github.com/jonbeatz/MyStudioChannel/tags)
 
 | Tag | Branch-cut commit | Notes |
 |-----|-------------------|-------|
-| `v8.0.0` | `40b200e` | **`MSC-Website-v8`** — **Latest** |
-| `v7.0.0` | `a295fc4` | **`MSC-Website-v7`** frozen @ `b4ab8ae` |
+| `v10.0.0` | `dd61788` | **`MSC-Website-v10`** — **Latest** |
+| `v9.0.0` | `da57c3d` | **`MSC-Website-v9`** frozen @ `0007312` |
+| `v8.0.0` | `40b200e` | **`MSC-Website-v8`** frozen @ `c0d834e` |
 | `v6.0.0` | `17b3da8` | MSC-Website-v6 (frozen @ `c9e260e`) |
 | `v5.0.0` | `d14a4b2` | MSC-Website-v5 production hardening (frozen at v5.0.0) |
 | `v4.0.0` | `87ec9de` | MSC-Website-v4 live on Hostinger (frozen at v4.0.0) |
@@ -148,7 +149,7 @@ git fetch --tags
 git checkout v8.0.0    # read-only snapshot
 ```
 
-**Cut a new release** (after version bump on `MSC-Website-v7`):
+**Cut a new release** (after version bump on `MSC-Website-v10`):
 
 ```bash
 git tag -a vX.Y.Z <commit> -m "MyStudioChannel vX.Y.Z"

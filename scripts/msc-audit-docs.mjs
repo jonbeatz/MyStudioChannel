@@ -188,6 +188,16 @@ for (const filePath of targetFiles) {
     fileWarnings.push("msc:session:stop now includes Kanban — remove 'stopped separately' wording")
   }
 
+  // Rule 7: README Current Status table must match package.json (GitHub profile)
+  if (relativeName === "README.md") {
+    const tableMatch = content.match(/\|\s*\*\*Version\*\*\s*\|\s*v(\d+\.\d+\.\d+)/)
+    if (tableMatch && tableMatch[1] !== currentVersion) {
+      fileIssues.push(
+        `README Current Status table shows v${tableMatch[1]} but package.json is v${currentVersion} — run docs-update or version-bump`
+      )
+    }
+  }
+
   // Report issues for this file
   if (fileIssues.length > 0 || fileWarnings.length > 0) {
     console.log(`\n📄 File: ${relativeName}`)
