@@ -499,6 +499,13 @@ function hermes { & "C:\Users\JONBEATZ\AppData\Local\hermes\hermes-agent\venv\Sc
 # === ComfyUI Functions (New, Separate from gen-image) ===
 
 function Start-ComfyUI {
+    param([switch]$Force)
+
+    if (-not $Force -and $env:MSC_COMFYUI_AUTO_START -ne '1') {
+        Write-Host "[ComfyUI] Auto-start disabled. Set `$env:MSC_COMFYUI_AUTO_START='1' or run: npm run msc:comfy:start" -ForegroundColor Yellow
+        return $false
+    }
+
     $port = 8188
     $url = "http://127.0.0.1:$port"
     Write-Host "[ComfyUI] Checking ComfyUI server status..." -ForegroundColor Cyan
@@ -995,5 +1002,36 @@ function fix-face {
     } else {
         Invoke-HermesTTS "Excuse me, Jon. I encountered an error while restoring your facial features."
     }
+}
+
+# === ComfyUI workstation control (explicit start/stop — voice-friendly) ===
+
+function comfy-start {
+    param([switch]$Force, [switch]$NoVRAMCheck, [switch]$UnloadLMStudio, [switch]$LowVram)
+    $script = Join-Path $env:MSC_REPO_ROOT ".cursor\custom-scriptz\start-comfyui.ps1"
+    if (-not (Test-Path $script)) { $script = "D:\Cursor_Projectz\MyStudioChannel\.cursor\custom-scriptz\start-comfyui.ps1" }
+    $args = @()
+    if ($Force) { $args += '-Force' }
+    if ($NoVRAMCheck) { $args += '-NoVRAMCheck' }
+    if ($UnloadLMStudio) { $args += '-UnloadLMStudio' }
+    if ($LowVram) { $args += '-LowVram' }
+    & $script @args
+}
+
+function comfy-stop {
+    param([switch]$DryRun)
+    $script = Join-Path $env:MSC_REPO_ROOT ".cursor\custom-scriptz\stop-comfyui.ps1"
+    if (-not (Test-Path $script)) { $script = "D:\Cursor_Projectz\MyStudioChannel\.cursor\custom-scriptz\stop-comfyui.ps1" }
+    if ($DryRun) { & $script -DryRun } else { & $script }
+}
+
+function comfy-restart {
+    param([switch]$Force, [switch]$NoVRAMCheck)
+    $script = Join-Path $env:MSC_REPO_ROOT ".cursor\custom-scriptz\restart-comfyui.ps1"
+    if (-not (Test-Path $script)) { $script = "D:\Cursor_Projectz\MyStudioChannel\.cursor\custom-scriptz\restart-comfyui.ps1" }
+    $args = @()
+    if ($Force) { $args += '-Force' }
+    if ($NoVRAMCheck) { $args += '-NoVRAMCheck' }
+    & $script @args
 }
 

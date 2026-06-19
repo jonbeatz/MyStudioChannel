@@ -92,6 +92,38 @@ To optimize local compilation and Next.js HMR speeds, the background daemon `scr
 *   `keep-model-on` — **Override:** Disables auto-unload (holds loaded models in VRAM indefinitely).
 *   `keep-model-off` — **Override:** Restores the 15-minute auto-unload safety loop.
 
+### 🎮 Emergency VRAM Cleanup (GPU reset switch)
+
+When LM Studio **and** idle ComfyUI both hold CUDA memory, total VRAM can hit **90%+** while the LM Studio UI still shows a small model. On Windows WDDM, trust **`nvidia-smi` total used**, not per-process `N/A` lines.
+
+**Use when:** VRAM **>80%**, after ComfyUI/LM Studio **crash** with stuck memory, or **before Flux/heavy work** if VRAM **>65%** and nothing is generating.
+
+**Do not use when:** VRAM **<65%**, a model is **actively generating**, or mid long-running task.
+
+| Trigger | Command |
+|---------|---------|
+| Script (Local) | `powershell -File .cursor/custom-scriptz/vram-cleanup.ps1` |
+| Pre-flight | `powershell -File .cursor/custom-scriptz/vram-check.ps1` |
+| Dev HUD | `http://localhost:3000` → hover SystemStats → **Emergency VRAM cleanup** |
+| Full playbook | **`.cursor/docs/VRAM-TROUBLESHOOTING.md`** |
+
+### 🖼️ ComfyUI VRAM Control (explicit start/stop)
+
+ComfyUI **must not** auto-start with the dev stack. High VRAM with ComfyUI "off" in the old HUD was a **state detection bug** (port 8188 vs python Path on WDDM) — fixed 2026-06-18.
+
+| Trigger | Command |
+|---------|---------|
+| Start ComfyUI | `npm run msc:comfy:start` or HUD **Start** |
+| Stop ComfyUI only (keep LM Studio) | `npm run msc:comfy:stop` or HUD **Stop** |
+| Restart | `npm run msc:comfy:restart` or HUD **Restart** |
+| Status JSON | `npm run msc:comfy:status` |
+| Full diag | `npm run msc:vram:diag` |
+| Profile aliases | `comfy-start` · `comfy-stop` · `comfy-restart` (requires `$env:MSC_COMFYUI_AUTO_START='1'` for auto in `Invoke-ComfyPrompt`) |
+| Audit log | `logs/comfyui.log` (500-line rotation) |
+| Models + SD 1.5 restore | **`.cursor/docs/COMFYUI-MODELS.md`** |
+
+**HUD states:** stopped · idle · generating · unknown (gold during boot). Queue shown as `(running: X, pending: Y)`.
+
 ---
 
 ## 🎨 4. Free AI Image Generation Pipeline (FLUX.1)

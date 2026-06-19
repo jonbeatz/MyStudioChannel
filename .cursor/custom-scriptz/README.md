@@ -26,6 +26,28 @@ Shared installer helpers: [_lib/Msc-ModuleInstall.ps1](_lib/Msc-ModuleInstall.ps
 
 Feature modules (`book-consultation`, `schedule-a-call`, `stay-in-the-loop`) install into an existing Payload/Next app — see each module's `CURSOR.md`.
 
+## Workstation VRAM scripts (repo root)
+
+Portable PowerShell helpers in **`.cursor/custom-scriptz/`** (not a separate module):
+
+| Script / module | Purpose |
+|-----------------|---------|
+| `lib/comfyui-state.psm1` | Shared state: WMI + port8188 fallback, `/queue` poll, logging |
+| `start-comfyui.ps1` | Explicit ComfyUI start (`-Force`, `-NoVRAMCheck`, `-LowVram`, `-UnloadLMStudio`) |
+| `stop-comfyui.ps1` | Stop ComfyUI only (`-DryRun`, `-Json`) — does **not** kill LM Studio |
+| `restart-comfyui.ps1` | Stop → wait → start |
+| `comfy-idle-watcher.ps1` | Opt-in idle suggest (never auto-kills) |
+| `vram-check.ps1` | Pre-flight: exit 1 if VRAM &gt; 10 GB |
+| `vram-cleanup.ps1` | GPU reset switch — stop LM Studio + ComfyUI python |
+| `vram-diagnostics.ps1` | JSON snapshot for `/api/system/vram` (uses `comfyui-state.psm1`) |
+| `vram-watcher.ps1` | Background alert log every 30s |
+| `vram-auto-clean.ps1` | Scheduled cleanup at 12 GB / 14 GB |
+| `start-comfyui-lowvram.ps1` | Legacy launcher with `--lowvram` |
+
+**npm aliases:** `msc:comfy:start` · `msc:comfy:stop` · `msc:comfy:restart` · `msc:comfy:status` · `msc:vram:diag` · `msc:comfy:idle-watcher`
+
+**Docs:** **`.cursor/docs/VRAM-TROUBLESHOOTING.md`** · **`COMFYUI-MODELS.md`** · **`start-mystudio.ps1`** (ComfyUI opt-in menu)
+
 ## Copy to another project
 
 1. Robocopy entire `.cursor/custom-scriptz/` folder (includes local `ngrok.exe` in google-api-proxy).

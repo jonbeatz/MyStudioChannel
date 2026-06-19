@@ -38,6 +38,13 @@ Re-download deleted weights:
 powershell -NoProfile -ExecutionPolicy Bypass -File D:\AI_Models\ComfyUI\scripts\restore-comfyui-models.ps1
 ```
 
+**SD 1.5 default workflow checkpoint** (fp16, ~1.99 GB — not on `runwayml` main repo):
+
+```powershell
+# Local (Cursor / repo root) — requires HF_TOKEN in .env.local
+hf download Comfy-Org/stable-diffusion-v1-5-archive v1-5-pruned-emaonly-fp16.safetensors --local-dir "D:\AI_Models\ComfyUI\ComfyUI\models\checkpoints"
+```
+
 ---
 
 ## Installed image models
@@ -65,6 +72,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File D:\AI_Models\ComfyUI\scripts
 | **Realistic Vision V5.1** (noVAE) | safetensors | ~4.0 GB | `SG161222/Realistic_Vision_V5.1_noVAE` | `H:\AI_Models\comfyui_cache\checkpoints\` | `txt2img-realism.json` |
 | **SD 1.5 VAE** ft-mse | safetensors | ~0.3 GB | `stabilityai/sd-vae-ft-mse` | `H:\AI_Models\comfyui_cache\vae\` | `txt2img-realism.json` |
 | **Anything v5 PrtRE** | safetensors | ~4.0 GB | `jackson885/anything-v5-PrtRE` *(Linaqruf repo gated)* | `H:\AI_Models\comfyui_cache\checkpoints\` | `txt2img-anime.json` |
+| **SD 1.5 pruned fp16** | safetensors | **1.99 GB** | `Comfy-Org/stable-diffusion-v1-5-archive` | `D:\AI_Models\ComfyUI\ComfyUI\models\checkpoints\` *(direct)* | ComfyUI default workflow, SD 1.5 base |
 | **4x-AnimeSharp** | `.pth` | ~64 MB | `Kim2091/AnimeSharp` | `H:\AI_Models\comfyui_cache\upscale_models\` | `upscale-image -Model 4x-AnimeSharp` |
 | **RealESRGAN_x4plus** | `.pth` | ~64 MB | `schwgHao/RealESRGAN_x4plus` | `H:\AI_Models\comfyui_cache\upscale_models\` | `upscale-image -Model RealESRGAN_x4plus` |
 
@@ -149,5 +157,18 @@ Models worth adding next (not auto-installed unless you download):
 ## Related docs
 
 - `.cursor/docs/IMAGE-VIDEO-CHEATSHEET.md` — PowerShell commands (`gen-image-local`, upscale, video)
+- `.cursor/docs/VRAM-TROUBLESHOOTING.md` — ComfyUI start/stop, emergency cleanup, HUD playbook
 - `.cursor/docs/comfyui-setup.md` — Portable install, RTX 50-series CUDA notes
 - `.cursor/docs/comfyui-enhancements.md` — Upscaler and multi-model overview
+- `.cursor/rules/comfyui-vram.mdc` — Agent rule: never auto-start ComfyUI with dev stack
+
+## ComfyUI control (npm)
+
+| Command | Purpose |
+|---------|---------|
+| `npm run msc:comfy:start` | Start ComfyUI (VRAM pre-flight) |
+| `npm run msc:comfy:stop` | Stop ComfyUI only — keeps LM Studio |
+| `npm run msc:comfy:restart` | Restart after model install or stuck state |
+| `npm run msc:comfy:status` | JSON state (port, queue, PIDs) |
+
+Audit log: **`logs/comfyui.log`** · HUD: **`http://localhost:3000`** SystemStats panel.

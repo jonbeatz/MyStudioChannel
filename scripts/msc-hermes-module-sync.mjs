@@ -36,6 +36,7 @@ const ASSET_PAIRS = [
   { src: '.cursor/docs/KANBAN-STACK-GUIDE.md', dest: 'KANBAN-STACK-GUIDE.md' },
   { src: '.cursor/docs/Hermes-Cheat-Sheet.md', dest: 'Hermes-Cheat-Sheet.md' },
   { src: '.cursor/docs/LMSTUDIO-OPTIMAL-CONFIG.md', dest: 'LMSTUDIO-OPTIMAL-CONFIG.md', optional: true },
+  { src: '.cursor/docs/VRAM-TROUBLESHOOTING.md', dest: 'VRAM-TROUBLESHOOTING.md', optional: true },
   { src: '.cursor/docs/HARDWARE-SPEC.md', dest: 'HARDWARE-SPEC.md', optional: true },
   { src: '.cursor/prompts/Start-Project.md', dest: 'prompts/Start-Project.md.fragment', optional: true },
   { src: '.cursor/prompts/End-Project.md', dest: 'prompts/End-Project.md.fragment', optional: true },

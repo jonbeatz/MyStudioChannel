@@ -92,6 +92,31 @@ Fast triage pattern:
 
 ---
 
+## Workstation VRAM (16 GB GPU — LM Studio + ComfyUI)
+
+**Playbooks:** **`VRAM-TROUBLESHOOTING.md`** · **`COMFYUI-MODELS.md`** · rule **`.cursor/rules/comfyui-vram.mdc`**
+
+| Script / action | Purpose |
+|-----------------|---------|
+| **`npm run msc:comfy:start`** | Start ComfyUI explicitly (VRAM pre-flight; **not** auto with dev stack) |
+| **`npm run msc:comfy:stop`** | Stop ComfyUI only — **keeps LM Studio** |
+| **`npm run msc:comfy:restart`** | Stop → wait → start (stuck / unknown HUD state) |
+| **`npm run msc:comfy:status`** | JSON: port, PIDs, queue, state |
+| **`npm run msc:vram:diag`** | Full VRAM + ComfyUI snapshot (HUD API source) |
+| **`powershell -File .cursor/custom-scriptz/vram-check.ps1`** | Pre-flight before ComfyUI (exit **1** if &gt; 10 GB) |
+| **`powershell -File .cursor/custom-scriptz/vram-cleanup.ps1`** | GPU reset switch — stops LM Studio **and** ComfyUI python |
+| **`powershell -File .cursor/custom-scriptz/vram-diagnostics.ps1`** | JSON snapshot (powers **`GET /api/system/vram`**) |
+| **`powershell -File start-mystudio.ps1`** | Unified stack launcher — ComfyUI **opt-in** (menu 1–5; default **1** = no ComfyUI) |
+| **HUD on `localhost:3000`** | SystemStats: VRAM %, ComfyUI state (stopped/idle/generating/unknown), queue counts, Start/Stop/Restart, **Emergency VRAM cleanup** (disabled when VRAM &lt; 65%) |
+
+**ComfyUI HUD states:** **stopped** · **idle** (port up, empty queue) · **generating** · **unknown** (boot — gold, not red). Process list shows **RAM — not VRAM**; trust **`nvidia-smi` total used** on WDDM.
+
+**Use emergency cleanup when:** VRAM **&gt;80%**, after crash with stuck memory, before Flux if **&gt;65%**. **Not** during active generation or when VRAM already healthy. Prefer **`msc:comfy:stop`** when you only need to free image VRAM without killing LM Studio.
+
+**SD 1.5 default checkpoint restore:** `hf download Comfy-Org/stable-diffusion-v1-5-archive v1-5-pruned-emaonly-fp16.safetensors` → `D:\AI_Models\ComfyUI\ComfyUI\models\checkpoints\` (see **COMFYUI-MODELS.md**).
+
+---
+
 ## Repeatable workflow: local → Hostinger → hPanel → Node restart
 
 **Authoritative step-by-step (numbered checklist, PC vs Hostinger, what not to run on the server):** **HOSTINGER-DEPLOY.md** → **Successful live update protocol**.

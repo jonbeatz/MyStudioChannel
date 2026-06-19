@@ -1,15 +1,24 @@
 import { NextResponse } from 'next/server';
-import { exec } from 'child_process';
+import { execFile } from 'child_process';
 import { promisify } from 'util';
 import net from 'net';
+import path from 'path';
 
-const execAsync = promisify(exec);
+const execFileAsync = promisify(execFile);
 
-// Helper to check if a local port is listening
+const SERVICE_PORTS: { key: string; port: number }[] = [
+  { key: 'devApp', port: 3000 },
+  { key: 'taskBoard', port: 3001 },
+  { key: 'workspace', port: 3005 },
+  { key: 'dashboard', port: 9119 },
+  { key: 'comfyUI', port: 8188 },
+  { key: 'postiz', port: 4007 },
+];
+
 function checkPort(port: number): Promise<boolean> {
   return new Promise((resolve) => {
     const socket = new net.Socket();
-    socket.setTimeout(300); // quick timeout
+    socket.setTimeout(300);
 
     socket.on('connect', () => {
       socket.destroy();
@@ -30,67 +39,134 @@ function checkPort(port: number): Promise<boolean> {
   });
 }
 
+export type ComfyUiState = {
+  portListening?: boolean;
+  processDetected?: boolean;
+  pids?: number[];
+  state?: 'stopped' | 'idle' | 'generating' | 'unknown';
+  queueRunning?: number | null;
+  queuePending?: number | null;
+  queueError?: boolean;
+};
+
+export type LmStudioState = {
+  running?: boolean;
+  loadedModels?: string[];
+  vramNote?: string;
+};
+
+type VramDiagnostics = {
+  usedMb?: number;
+  totalMb?: number;
+  freeMb?: number;
+  used?: string;
+  total?: string;
+  percent?: number;
+  level?: string;
+  lmStudioRunning?: boolean;
+  comfyRunning?: boolean;
+  comfyui?: ComfyUiState;
+  lmStudio?: LmStudioState;
+  processes?: Array<{
+    pid: number;
+    name: string;
+    exe?: string;
+    ramMb: number;
+    gpuCompute: boolean;
+  }>;
+  recommendation?: string;
+  wddmNote?: string;
+  status?: string;
+};
+
+async function runVramDiagnostics(): Promise<VramDiagnostics | null> {
+  if (process.platform !== 'win32') return null;
+
+  const scriptPath = path.join(
+    process.cwd(),
+    '.cursor',
+    'custom-scriptz',
+    'vram-diagnostics.ps1',
+  );
+
+  try {
+    const { stdout } = await execFileAsync(
+      'powershell',
+      ['-ExecutionPolicy', 'Bypass', '-NoProfile', '-File', scriptPath],
+      { timeout: 20000, maxBuffer: 1024 * 512 },
+    );
+    return JSON.parse(stdout.trim()) as VramDiagnostics;
+  } catch {
+    return null;
+  }
+}
+
 export async function GET() {
-  // Only execute this check on localhost/development to avoid running local shell tools in production
   if (process.env.NODE_ENV === 'production' && process.env.VERCEL === '1') {
     return NextResponse.json({
       used: '0.0',
       total: '16.0',
       percent: 0,
+      level: 'healthy',
       services: {},
       allNominal: true,
-      status: 'production-disabled'
+      vramHealthy: true,
+      status: 'production-disabled',
     });
   }
 
   try {
-    let usedRaw = '';
-    let totalRaw = '';
-    
-    try {
-      const { stdout: usedRes } = await execAsync('nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits');
-      const { stdout: totalRes } = await execAsync('nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits');
-      usedRaw = usedRes.trim();
-      totalRaw = totalRes.trim();
-    } catch {
-      // nvidia-smi not available (e.g. non-NVIDIA machine or server deployment)
-    }
-
-    const used = usedRaw ? parseFloat(usedRaw) : 0;
-    const total = totalRaw ? parseFloat(totalRaw) : 16311; // fallback to 16GB
-    const usedGB = (used / 1024).toFixed(1);
-    const totalGB = (total / 1024).toFixed(1);
-    const vramPercent = total > 0 ? Math.round((used / total) * 100) : 0;
-
-    // Check service ports
-    const servicesToCheck = [
-      { key: 'devApp',    port: 3000 },
-      { key: 'taskBoard', port: 3001 },
-      { key: 'workspace', port: 3005 },
-      { key: 'dashboard', port: 9119 },
-      { key: 'comfyUI',   port: 8188 },
-      { key: 'postiz',    port: 4007 }
-    ];
+    const diag = await runVramDiagnostics();
 
     const serviceResults: Record<string, boolean> = {};
-    let allNominal = true;
 
-    for (const s of servicesToCheck) {
-      const active = await checkPort(s.port);
-      serviceResults[s.key] = active;
-      if (!active) {
-        // If critical system components are down, mark nominal as false
-        allNominal = false;
-      }
+    for (const s of SERVICE_PORTS) {
+      serviceResults[s.key] = await checkPort(s.port);
     }
 
+    const comfyState = diag?.comfyui?.state ?? (diag?.comfyRunning ? 'idle' : 'stopped');
+    if (comfyState !== 'stopped') {
+      serviceResults.comfyUI = true;
+    }
+
+    const percent = diag?.percent ?? 0;
+    const level = diag?.level ?? 'healthy';
+    const vramHealthy = percent < 65;
+    const allServicesUp = Object.entries(serviceResults).every(([key, active]) => {
+      if (key === 'comfyUI' && comfyState === 'stopped') return true;
+      return active;
+    });
+
     return NextResponse.json({
-      used: usedGB,
-      total: totalGB,
-      percent: vramPercent,
+      used: diag?.used ?? '0.0',
+      total: diag?.total ?? '16.0',
+      usedMb: diag?.usedMb ?? 0,
+      totalMb: diag?.totalMb ?? 16311,
+      freeMb: diag?.freeMb ?? 0,
+      percent,
+      level,
+      vramHealthy,
+      lmStudioRunning: diag?.lmStudioRunning ?? diag?.lmStudio?.running ?? false,
+      comfyRunning: diag?.comfyRunning ?? comfyState !== 'stopped',
+      comfyui: diag?.comfyui ?? {
+        portListening: serviceResults.comfyUI ?? false,
+        processDetected: false,
+        pids: [],
+        state: comfyState,
+        queueRunning: null,
+        queuePending: null,
+        queueError: false,
+      },
+      lmStudio: diag?.lmStudio ?? {
+        running: diag?.lmStudioRunning ?? false,
+        loadedModels: [],
+      },
+      processes: diag?.processes ?? [],
+      recommendation: diag?.recommendation ?? '',
+      wddmNote: diag?.wddmNote ?? '',
       services: serviceResults,
-      allNominal: allNominal,
-      status: 'success'
+      allNominal: allServicesUp && vramHealthy,
+      status: diag?.status ?? 'success',
     });
   } catch (error: unknown) {
     const errMsg = error instanceof Error ? error.message : String(error);
@@ -98,10 +174,12 @@ export async function GET() {
       used: '0.0',
       total: '16.0',
       percent: 0,
+      level: 'unknown',
       services: {},
       allNominal: false,
+      vramHealthy: false,
       status: 'error',
-      message: errMsg
+      message: errMsg,
     });
   }
 }

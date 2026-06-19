@@ -97,3 +97,21 @@ The following files have been generated to enforce these limits automatically up
 
 These overrides ensure that when you select any of these models from LM Studio's dropdown menus or load them via CLI, they will automatically scale to these maximized context windows without requiring manual adjustments in the sidebar.
 
+---
+
+## VRAM collision prevention (required on 16 GB)
+
+| Setting | Value | Why |
+|---------|-------|-----|
+| **Unload model after idle** | **10 minutes** | Frees CUDA context when you switch to ComfyUI |
+| **Only one large model loaded** | Qwen 35B MoE **or** ComfyUI Flux — never both | Combined usage exceeds 16 GB |
+| **Context length when coding + ComfyUI same session** | Cap at **8,192–16,384** for 35B MoE | KV cache adds multi-GB overhead |
+
+Before starting ComfyUI, run from repo root:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .cursor/custom-scriptz/vram-check.ps1
+```
+
+Full playbook: **`.cursor/docs/VRAM-TROUBLESHOOTING.md`**
+

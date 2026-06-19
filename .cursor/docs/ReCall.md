@@ -112,6 +112,14 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ## Recent changes (latest first)
 
+### 2026-06-18 — ComfyUI VRAM control + SD 1.5 checkpoint restore
+
+- **HUD fix:** SystemStats now uses **`comfyui-state.psm1`** (WMI + port 8188 + `/queue`) — states stopped/idle/generating/unknown; Start/Stop/Restart buttons; process list labeled **RAM — not VRAM**.
+- **Explicit control:** ComfyUI **opt-in only** — **`start-mystudio.ps1`** default menu **1**; profile gated by **`MSC_COMFYUI_AUTO_START`**. npm **`msc:comfy:*`**, API **`/api/system/comfyui/*`**, audit **`logs/comfyui.log`**.
+- **Emergency vs selective:** **`msc:comfy:stop`** frees image VRAM without killing LM Studio; **`vram-cleanup.ps1`** still kills both (GPU reset switch).
+- **SD 1.5:** Restored **`v1-5-pruned-emaonly-fp16.safetensors`** from **`Comfy-Org/stable-diffusion-v1-5-archive`** (not `runwayml` URL). See **`COMFYUI-MODELS.md`** + **`ISSUES-RESOLVED.md`**.
+- **Restore point:** **`RP-2026-06-18-comfyui-vram-control-sd15-restore`** in **`Restore-Points.md`**.
+
 ### 2026-06-17 — Social Auto-Post Kanban task breakdown (12 tasks)
 
 - **Hermes Kanban:** Added granular platform tasks (FB/IG/TikTok/YouTube/WordPress in Postiz), credentials, live test, image gen, HF_TOKEN, Postiz verify, Hermes cron schedule, X optional. All **blocked** so dispatcher won't auto-run OAuth work.

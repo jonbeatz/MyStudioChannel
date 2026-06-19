@@ -168,6 +168,9 @@ Every time you perform a `git commit` command, Husky automatically intercepts th
 | Issue | Command/Action |
 |-------|----------------|
 | Port 3000 in use | `node scripts/msc-kill-dev-port.mjs` or `npm run msc:kill-dev-port` |
+| VRAM &gt; 80% / stuck after crash | `powershell -File .cursor/custom-scriptz/vram-cleanup.ps1` or HUD **Emergency VRAM cleanup** on `localhost:3000` |
+| VRAM paradox (high usage, small model in UI) | See **VRAM-TROUBLESHOOTING.md** — usually LM Studio + idle ComfyUI both on GPU |
+| Pre-flight before ComfyUI / Flux | `powershell -File .cursor/custom-scriptz/vram-check.ps1` (exit 1 = high VRAM) |
 | 503 error | `npm run msc:hostinger:recover` (preload) or `msc:hostinger:npm-install` (webpack in `stderr.log`) |
 | Wrong footer/nav on live | `npm run msc:hostinger:sync-app` or `pushit:live:fast -- -WithDb` or full `pushit:live` |
 | Fast deploy always ~45 min (zip fallback) | Read **`logs/pushit-unzip-last.log`**; run **`msc:hostinger:deploy-diagnose`** — see **DEPLOYMENT-TROUBLESHOOTING.md** § fast deploy mistakes |
@@ -264,6 +267,21 @@ npm run msc:test:hostinger-ftp
 
 | Command | What it does | When to use |
 |---------|--------------|-------------|
+| `powershell -File .cursor/custom-scriptz/vram-check.ps1` | Pre-flight VRAM threshold check (exit 1 if &gt;10 GB) | Before ComfyUI or heavy LM Studio load |
+| `powershell -File .cursor/custom-scriptz/vram-cleanup.ps1` | GPU reset switch — stops LM Studio + ComfyUI python | VRAM &gt;80%, after crash, before Flux if &gt;65% |
+| `powershell -File .cursor/custom-scriptz/vram-diagnostics.ps1` | JSON VRAM + process snapshot | Debugging / API backing |
+| `npm run msc:comfy:start` | Start ComfyUI (explicit, VRAM pre-flight) | Image generation — not auto with dev stack |
+| `npm run msc:comfy:stop` | Stop ComfyUI only (keeps LM Studio) | Free image VRAM |
+| `npm run msc:comfy:restart` | Stop → start ComfyUI | Stuck / unknown HUD state |
+| `npm run msc:comfy:status` | ComfyUI state JSON | Quick check |
+| `npm run msc:vram:diag` | Same as vram-diagnostics.ps1 | HUD / debugging |
+| `powershell -File .cursor/custom-scriptz/vram-watcher.ps1` | Log VRAM alerts every 30s → `vram-log.txt` | Optional background monitor |
+| `powershell -File start-mystudio.ps1` | Unified stack launcher — ComfyUI **opt-in** (menu 1–5) | Boot Kanban + dev; ComfyUI not default |
+| `GET http://localhost:3000/api/system/vram` | Live VRAM + ComfyUI state (dev only) | SystemStats HUD |
+| `POST http://localhost:3000/api/system/comfyui/start` | Start ComfyUI from HUD | localhost only |
+| `POST http://localhost:3000/api/system/comfyui/stop` | Stop ComfyUI from HUD | localhost only |
+| `POST http://localhost:3000/api/system/comfyui/restart` | Restart ComfyUI from HUD | localhost only |
+| `POST http://localhost:3000/api/system/emergency-vram-cleanup` | Run cleanup from dev site | HUD button (localhost only) |
 | `codeburn` | View token usage and cost for Cursor/Claude sessions | Optional — run from any terminal after global install |
 | `npm run msc:codeburn` | Wrapper: runs `codeburn` if installed | Weekly token spend review |
 
@@ -278,6 +296,7 @@ npm install -g codeburn
 ## 📚 Related Documentation
 
 - [START-HERE.md](./START-HERE.md) — Project entry point
+- [VRAM-TROUBLESHOOTING.md](./VRAM-TROUBLESHOOTING.md) — GPU memory reset switch & workstation VRAM playbook
 - [HOSTINGER-DEPLOY.md](./HOSTINGER-DEPLOY.md) — Full deployment guide
 - [DEPLOYMENT-TROUBLESHOOTING.md](./DEPLOYMENT-TROUBLESHOOTING.md) — Fix common issues
 - [PREMIUM-UI-CATALOG.md](./PREMIUM-UI-CATALOG.md) — Pre-wired and copy-paste interactive components

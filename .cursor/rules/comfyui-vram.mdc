@@ -1,0 +1,37 @@
+---
+description: ComfyUI VRAM control — explicit start/stop, never auto-launch without opt-in
+globs:
+  - "**/*comfy*"
+  - "**/vram*"
+  - "**/system-stats*"
+alwaysApply: false
+---
+
+# ComfyUI VRAM Agent Rules
+
+## Start policy
+
+1. **Never start ComfyUI** unless Jon explicitly asks, runs `npm run msc:comfy:start`, uses the HUD Start button, or sets `MSC_COMFYUI_AUTO_START=1` for the session.
+2. Before starting, run `npm run msc:vram:diag` or check HUD VRAM %. **Warn if >65%** unless Jon requested `-NoVRAMCheck`.
+3. **Never run LM Studio large model + ComfyUI** on 16 GB VRAM without Jon confirming.
+
+## Stop policy
+
+4. Prefer **`npm run msc:comfy:stop`** over **`vram-cleanup.ps1`** when only ComfyUI should stop (preserves LM Studio).
+5. Use **`stop-comfyui.ps1 -DryRun`** when Jon asks what would be killed.
+6. After stop, verify total VRAM dropped; if still high, suggest `lms unload --all` or `-UnloadLMStudio` on next start.
+
+## Detection
+
+7. Do **not** infer ComfyUI from VRAM thresholds alone.
+8. Trust **port 8188 + `/queue` + WMI command line** (with tasklist/port-PID fallback).
+9. On WDDM, per-process VRAM in `nvidia-smi` is N/A — **total used MiB** is authoritative.
+
+## Idle and logging
+
+10. If ComfyUI idle >15 min, **suggest stop** — do not auto-stop unless idle watcher daemon was explicitly enabled (start-mystudio menu option 5).
+11. Check **`logs/comfyui.log`** when debugging start/stop failures (rotates to last 500 lines).
+
+## Voice / profile
+
+12. Jon can say **"comfy start"** / **"comfy stop"** / **"comfy restart"** (profile functions) or use HUD on `http://localhost:3000`.

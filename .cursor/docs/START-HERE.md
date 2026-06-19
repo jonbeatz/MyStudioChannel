@@ -101,6 +101,8 @@ Project rules layout:
 | `Jedi-List.md` | Commands and script meanings | Daily |
 | `HARDWARE-SPEC.md` | Workstation specifications & VRAM layouts | Reference |
 | `LMSTUDIO-OPTIMAL-CONFIG.md` | Optimal hardware & VRAM settings for LM Studio | Reference |
+| `VRAM-TROUBLESHOOTING.md` | VRAM paradox, reset-switch cleanup, ComfyUI start/stop, HUD playbook | Reference / troubleshooting |
+| `COMFYUI-MODELS.md` | Local model inventory, workflows, SD 1.5 restore (`Comfy-Org` archive) | Reference (image gen) |
 | `KANBAN-STACK-GUIDE.md` | Workspace, port maps, & 1-click scripts for visual Kanban | Reference |
 | `Restore-Points.md` | Known-good checkpoints + rollback notes | Daily (after milestones) |
 | `ReCall.md` | Session history and resume context | Optional |
@@ -150,6 +152,8 @@ For Vertex AI model testing/dev workflows:
 **Cold boot:** Say **Start Project** in Cursor — runs **`npm run msc:session:start`** (LiteLLM + ngrok + Hermes gateway + Kanban stack hidden). **End Project** runs **`npm run msc:session:stop`** (or **`msc:session:stop:keep-gateway`** if Telegram stays overnight). Details: **`.cursor/prompts/Start-Project.md`** · **`.cursor/prompts/End-Project.md`** · **`KANBAN-STACK-GUIDE.md`**
 
 **Portable modules:** Live repo is source of truth. After changing `scripts/` or session tooling, run **`npm run msc:portable:sync`** (see **`.cursor/custom-scriptz/registry.json`**).
+
+**Workstation VRAM / ComfyUI:** ComfyUI does **not** auto-start with **`npm run dev`** or **Start Project**. Use **`npm run msc:comfy:start`** when generating images; **`npm run msc:comfy:stop`** to free GPU without killing LM Studio. SystemStats HUD on **`http://localhost:3000`** shows VRAM %, ComfyUI state, and Start/Stop/Restart. Playbook: **`VRAM-TROUBLESHOOTING.md`** · models: **`COMFYUI-MODELS.md`**.
 
 **Hermes Google Workspace:** **`google-workspace`** skill authenticated (Gmail, Calendar, Drive) — ask Hermes on Telegram/Desktop in plain English. Setup + OAuth quirks: **`Hermes-Agent.md`** § Google Workspace.
 

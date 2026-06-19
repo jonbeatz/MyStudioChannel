@@ -2,6 +2,41 @@
 
 This file tracks problems encountered during development and how they were resolved.
 
+## [2026-06-18] Missing SD 1.5 Checkpoint — ComfyUI Default Workflow Blocked
+- **Error:** ComfyUI at `http://127.0.0.1:8188` showed **Missing Models (1)** for `v1-5-pruned-emaonly-fp16.safetensors` (1.99 GB). Default workflow could not run after the file was deleted during VRAM cleanup.
+- **Cause:** Checkpoint was removed to free disk/VRAM; `runwayml/stable-diffusion-v1-5` does **not** host the fp16 filename (curl returned "Entry not found"). The correct source is **`Comfy-Org/stable-diffusion-v1-5-archive`**.
+- **Solution:**
+  1. Downloaded via `hf download Comfy-Org/stable-diffusion-v1-5-archive v1-5-pruned-emaonly-fp16.safetensors` → `D:\AI_Models\ComfyUI\ComfyUI\models\checkpoints\` (**2,132,696,762 bytes**, safetensors **1145 keys** verified).
+  2. Restarted ComfyUI (`npm run msc:comfy:restart`); **`CheckpointLoaderSimple`** lists the model.
+  3. Test generation via API: **success** → `msc_sd15_test_00001_.png` (512×512, 20 steps). HUD state **`generating`** during queue, returned to **`idle`**.
+- **Files Changed:** `D:\AI_Models\ComfyUI\ComfyUI\models\checkpoints\v1-5-pruned-emaonly-fp16.safetensors`, `.cursor/docs/COMFYUI-MODELS.md`, `logs/sd15-download.log`
+- **Prevention:** Use **`Comfy-Org/stable-diffusion-v1-5-archive`** for fp16 SD 1.5 — not the raw `runwayml` URL. Prefer **`txt2img-realism.json`** / Flux workflows for production; keep SD 1.5 only for legacy/default ComfyUI templates.
+
+## [2026-06-18] ComfyUI VRAM Control — HUD State Machine + Explicit Start/Stop
+- **Error:** SystemStats showed **ComfyUI: off** while port 8188 was up (or high VRAM with no visible culprit). `start-mystudio.ps1` and profile `Start-ComfyUI` auto-launched ComfyUI in background. No ComfyUI-only stop (emergency cleanup killed LM Studio too).
+- **Cause:** 1. HUD used **`comfyRunning`** (python `.Path` match) while workstation channels used **port 8188** — WDDM/embedded python often has empty Path. 2. Process list labeled **RAM** not VRAM. 3. Multiple auto-start sources (launcher step 4, `Invoke-ComfyPrompt`). 4. Live diag: **12.6 GB / 79%** with ComfyUI stopped — LM Studio Qwen3-4B UI shows 2.5 GB but GPU total much higher (WDDM + backend reservation).
+- **Solution:**
+  1. Added **`comfyui-state.psm1`** — WMI + port8188 fallback, `/queue` poll, `queueError`, states: stopped/idle/generating/unknown.
+  2. **`start-comfyui.ps1`**, **`stop-comfyui.ps1`**, **`restart-comfyui.ps1`**, **`comfy-idle-watcher.ps1`** (opt-in); flags `-NoVRAMCheck`, `-DryRun`, `-UnloadLMStudio`; **`logs/comfyui.log`** (500-line rotation).
+  3. API: **`POST /api/system/comfyui/start|stop|restart`**; extended **`GET /api/system/vram`**.
+  4. HUD: state tooltips, queue counts, Start/Stop/Restart; unknown state **gold not red**; ComfyUI channel dot from state.
+  5. **`start-mystudio.ps1`** menu — ComfyUI opt-in only; idle watcher option 5.
+  6. Profile: **`MSC_COMFYUI_AUTO_START`** gate; **`comfy-start`/`comfy-stop`/`comfy-restart`** aliases.
+- **Files Changed:** `.cursor/custom-scriptz/lib/comfyui-state.psm1`, `start/stop/restart-comfyui.ps1`, `vram-diagnostics.ps1`, `start-mystudio.ps1`, `app/api/system/comfyui/*`, `components/system-stats.tsx`, `.cursor/rules/comfyui-vram.mdc`, docs
+- **Prevention:** Never auto-start ComfyUI with dev stack. Use **`npm run msc:comfy:stop`** to free image VRAM without killing LM Studio. See **VRAM-TROUBLESHOOTING.md** ComfyUI section.
+- **Verification fixes (same session):** `stop-comfyui.ps1` used `$pid` (PowerShell auto-var) — processes not killed; fixed to `$procId`. `start-comfyui.ps1` parse error on `-join` in double-quoted string; fixed via `$pidsStr`. `lms unload` stderr tripped `$ErrorActionPreference = 'Stop'` — wrapped SilentlyContinue. `msc:comfy:status` relative Import-Module path — fixed with `Join-Path (Get-Location)`.
+
+## [2026-06-18] VRAM 92% Paradox — Dual CUDA Stacks + SystemStats HUD Fixes
+- **Error:** SystemStats HUD showed **14.7 GB / 16 GB (92%)** while LM Studio UI reported only Qwen3-4B (~2.5 GB) loaded and no ComfyUI workflow was running. Badge showed red **❌ VRAM OK** (misleading). Emergency cleanup semantics were undocumented.
+- **Cause:** 1. **LM Studio + idle ComfyUI server** both held CUDA compute contexts simultaneously (`LM Studio.exe` + `python.exe` under ComfyUI). 2. Windows **WDDM** hides per-process VRAM in `nvidia-smi` (shows `N/A`); total `memory.used` is authoritative. 3. HUD tied badge color to **`allNominal`** (service ports) while label said **VRAM OK** — red X when ComfyUI/Dashboard ports were down despite healthy VRAM.
+- **Solution:**
+  1. Ran full diagnostics; **`vram-cleanup.ps1`** dropped VRAM from ~15.1 GB → ~843 MB (5%) by killing LM Studio + ComfyUI python processes.
+  2. Added **`vram-diagnostics.ps1`**, enhanced **`GET /api/system/vram`**, **`POST /api/system/emergency-vram-cleanup`**, and **`VRAM-TROUBLESHOOTING.md`** (reset-switch playbook).
+  3. Fixed **`components/system-stats.tsx`**: VRAM badge uses green (&lt;65%), gold (65–80%), red (&gt;80%); decoupled from service health; emergency button disabled when VRAM healthy; confirm dialogs before cleanup.
+  4. Added **`vram-watcher.ps1`**, **`vram-auto-clean.ps1`**, **`start-comfyui-lowvram.ps1`**; updated **`start-mystudio.ps1`** with cleanup menu on high VRAM.
+- **Files Changed:** `.cursor/custom-scriptz/vram-*.ps1`, `app/api/system/vram/route.ts`, `app/api/system/emergency-vram-cleanup/route.ts`, `components/system-stats.tsx`, `.cursor/docs/VRAM-TROUBLESHOOTING.md`, `LMSTUDIO-OPTIMAL-CONFIG.md`, `start-mystudio.ps1`
+- **Prevention:** One heavy AI stack at a time on 16 GB. Run **`vram-check.ps1`** before ComfyUI. Use emergency cleanup only when VRAM &gt;65% (or &gt;80% critical), not during active generation. See **VRAM-TROUBLESHOOTING.md**.
+
 ## [2026-06-18] ComfyUI Model Library & Workflow Restore
 - **Error:** ComfyUI model suite was deleted or broken (symlinks missing). In addition, running the newly restored `flux-klein` GGUF workflow failed with a `mat1 and mat2 shapes cannot be multiplied` error during sampling, and unauthenticated Hugging Face downloads were getting rate-limited or hung.
 - **Cause:** 1. Models and upscale weights were deleted or unlinked on `H:` drive. 2. `flux-klein` workflow was using the wrong CLIP loader (`DualCLIPLoader` for Flux.1) and VAE (`ae.safetensors`) instead of Lumina-2/Flux.2 Klein specific requirements: `Qwen3-4B-Instruct-2507-Q4_K_M.gguf` text encoder (type `flux2`) and `flux2-vae.safetensors`. 3. `huggingface-cli` requires explicit `HF_TOKEN` from `.env.local` to trigger high-speed authenticated downloads.
