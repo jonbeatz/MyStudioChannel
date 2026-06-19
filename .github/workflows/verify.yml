@@ -3,6 +3,8 @@ name: Verify Next.js Build
 on:
   push:
     branches:
+      - MSC-Website-v10
+      - MSC-Website-v9
       - MSC-Website-v8
       - MSC-Website-v7
       - main
