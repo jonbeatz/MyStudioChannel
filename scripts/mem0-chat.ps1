@@ -1,7 +1,7 @@
 # J.A.R.V.I.S. Mem0 Integration Wrapper
 param(
     [Parameter(Mandatory=$true)]
-    [ValidateSet("add", "search")]
+    [ValidateSet("add", "search", "list", "delete")]
     [string]$Action,
 
     [Parameter(Mandatory=$false)]
@@ -9,6 +9,9 @@ param(
 
     [Parameter(Mandatory=$false)]
     [string]$Query,
+
+    [Parameter(Mandatory=$false)]
+    [string]$Id,
 
     [switch]$SkipPreflight
 )
@@ -36,12 +39,20 @@ if ($Action -eq "add") {
         return
     }
     $argsList = @("--action", "add", "--text", $Text)
-} else {
+} elseif ($Action -eq "search") {
     if (-not $Query) {
         Write-Error "The -Query parameter is required when searching memories."
         return
     }
     $argsList = @("--action", "search", "--query", $Query)
+} elseif ($Action -eq "list") {
+    $argsList = @("--action", "list")
+} elseif ($Action -eq "delete") {
+    if (-not $Id) {
+        Write-Error "The -Id parameter is required when deleting memories."
+        return
+    }
+    $argsList = @("--action", "delete", "--id", $Id)
 }
 
 # Run the Python script and capture the stdout

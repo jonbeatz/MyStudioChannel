@@ -41,28 +41,30 @@ def get_memory_instance():
 
 def main():
     parser = argparse.ArgumentParser(description="MyStudioChannel Mem0 Integration layer")
-    parser.add_argument("--action", choices=["add", "search"], required=True, help="Action to perform")
+    parser.add_argument("--action", choices=["add", "search", "list", "delete", "get_all"], required=True, help="Action to perform")
     parser.add_argument("--text", help="Text to add (required for add action)")
     parser.add_argument("--query", help="Query to search (required for search action)")
+    parser.add_argument("--id", help="Memory ID to delete (required for delete action)")
     args = parser.parse_args()
     
     # Simple check for LM Studio readiness when adding or searching
-    import urllib.request
-    try:
-        urllib.request.urlopen("http://127.0.0.1:1234/v1/models", timeout=2)
-    except Exception:
-        print("[J.A.R.V.I.S. Warning] Local LM Studio endpoint (http://127.0.0.1:1234/v1) is not online. Please make sure LM Studio is running and local server is started on port 1234!")
-        sys.exit(1)
-        
-    # Check if a model is loaded via lms ps
-    import subprocess
-    try:
-        res = subprocess.run(["lms", "ps"], capture_output=True, text=True)
-        if "No models are currently loaded" in res.stdout or not res.stdout.strip():
-            print("[J.A.R.V.I.S. Warning] No local LLM models are currently loaded in LM Studio. Please load a model first (e.g. by running 'load-qwen').")
+    if args.action in ["add", "search"]:
+        import urllib.request
+        try:
+            urllib.request.urlopen("http://127.0.0.1:1234/v1/models", timeout=2)
+        except Exception:
+            print("[J.A.R.V.I.S. Warning] Local LM Studio endpoint (http://127.0.0.1:1234/v1) is not online. Please make sure LM Studio is running and local server is started on port 1234!")
             sys.exit(1)
-    except Exception:
-        pass
+            
+        # Check if a model is loaded via lms ps
+        import subprocess
+        try:
+            res = subprocess.run(["lms", "ps"], capture_output=True, text=True)
+            if "No models are currently loaded" in res.stdout or not res.stdout.strip():
+                print("[J.A.R.V.I.S. Warning] No local LLM models are currently loaded in LM Studio. Please load a model first (e.g. by running 'load-qwen').")
+                sys.exit(1)
+        except Exception:
+            pass
         
     try:
         m = get_memory_instance()
@@ -80,6 +82,19 @@ def main():
                 sys.exit(1)
             # Search memory in Mem0
             res = m.search(args.query, filters={"user_id": "jon"})
+            print(json.dumps({"success": True, "data": res}))
+
+        elif args.action == "list" or args.action == "get_all":
+            # List all memories for user
+            res = m.get_all(filters={"user_id": "jon"})
+            print(json.dumps({"success": True, "data": res}))
+
+        elif args.action == "delete":
+            if not args.id:
+                print(json.dumps({"success": False, "error": "--id is required for delete action"}))
+                sys.exit(1)
+            # Delete memory by ID
+            res = m.delete(args.id)
             print(json.dumps({"success": True, "data": res}))
             
     except Exception as e:
