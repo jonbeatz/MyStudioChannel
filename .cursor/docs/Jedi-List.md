@@ -200,6 +200,8 @@ Fast triage pattern:
 
 When you ship a new release, bump **`package.json`** in the **same commit** as the code you deploy, then **`npm run build`** + full **`.next`** upload (or **`npm run pushit:live`**). After restart, confirm the new **`vX.Y.Z`** in **`/admin`** and on the site footer. For admin-only source changes (no version bump), still run **`npm run msc:pushitup:admin-ui`** + rebuild/upload **`.next`** as needed — see **Deploy uploaders** above.
 
+**Branch cut (new dev line `MSC-Website-vN`):** Say **`branch cut`** or **`Cut MSC-Website-vN`** — agent runs **`.cursor/prompts/Branch-Cut.md`**. Key commands: **`npm run msc:backup:quick`**, **`npm run version:bump`** (with **`-Force -BranchName`** via script), **`npm run github:release`**, **`npm run sync`**. Tag alone does **not** update GitHub Releases sidebar — bump publishes **`--latest`** by default.
+
 ---
 
 ## Payload utilities

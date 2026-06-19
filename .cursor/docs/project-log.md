@@ -1,3 +1,14 @@
+## [2026-06-19] - Update Docs + Mem0 (branch-cut ritual + release workflow sync)
+- **Branch:** MSC-Website-v10 @ `e71d39e` (+ uncommitted branch-cut docs)
+- **Changes:**
+  1. **Branch-cut ritual:** `.cursor/prompts/Branch-Cut.md` + extended **Checkpoint-Restore** skill; **workflow.mdc**, **Prompt-Cheat-Sheet**, **AGENTS.md** wired.
+  2. **Release workflow fix (prior commit `e71d39e`):** version bump → GitHub Release `--latest` + README table; audit gate on README drift.
+  3. **Docs pass:** **Agent-Runbook**, **Workflow-Ops**, **Jedi-List** aligned to full branch-cut (not bare `git checkout -b`).
+  4. **`msc:docs:sync`:** PERFECT — v10.0.0 | MSC-Website-v10.
+  5. **Mem0:** Path B memories for branch-cut ritual + release/tag distinction.
+- **Status:** completed (docs + mem0)
+- **Next:** Commit branch-cut docs; feature work on v10.
+
 ## [2026-06-19] - Update Docs + Mem0 (v10 branch cut closeout)
 - **Branch:** MSC-Website-v10 @ `61a8b87`
 - **Changes:**

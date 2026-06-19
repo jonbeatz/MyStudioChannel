@@ -45,3 +45,9 @@ When user says **"push website live"**, **"push it live"**, **"push site live"**
 - **Canonical deploy modes and commands:** [`.cursor/rules/global.mdc`](./global.mdc) → *Push website live*
 - Execute [`.cursor/prompts/Push-Website-Live.md`](../prompts/Push-Website-Live.md) with **`AskQuestion` first** (Quick DB · **Fast FTPS** · Full FTPS · MCP avoid)
 - Tier reference (when editing deploy scripts): [`.cursor/rules/deploy-safety-hostinger.mdc`](./deploy-safety-hostinger.mdc)
+
+## Branch Cut (MSC-Website-vN + version bump)
+When user says **"branch cut"**, **"cut development branch"**, **"Cut MSC-Website-vN"**, or **"Lets Cut New Branch"**:
+- Read `.cursor/skills/Workflow-Portable/Checkpoint-Restore/SKILL.md` (MSC branch-cut ritual)
+- Execute [`.cursor/prompts/Branch-Cut.md`](../prompts/Branch-Cut.md) end-to-end (backup → branch → TRUTH/Restore-Points/CI → `version-bump.ps1 -Force` → docs sync → GitHub Latest verify)
+- **Not** a bare `git checkout -b` — must include version bump + GitHub Release + README table sync

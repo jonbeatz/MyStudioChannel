@@ -35,7 +35,7 @@ Always check `.cursor/skills/` for project-specific and portable agent abilities
 - **DesignMD**: Use `.cursor/skills/DesignMD/SKILL.md` for design system extraction/application. **Required before greenfield UI.**
 - **Premium-UI**: Use `.cursor/skills/Premium-UI/SKILL.md` for pre-wired UI builders, Lenis smooth scroll integrations, 21st.dev Magic MCP, Uiverse.io, VibeUI, and MotionSites.ai.
 - **GitHub-Ops**: Use `.cursor/skills/GitHub-Ops/SKILL.md` for repo and library management.
-- **Workflow-Portable**: Standard ops (backups, deploys, session logs).
+- **Workflow-Portable**: Standard ops (backups, deploys, session logs, **branch cut** — see `Checkpoint-Restore/SKILL.md`).
 - **Imported playbooks**: `.cursor/skills/imported/CURATED-INDEX.md` only — **do not** bulk-install antigravity skills.
 
 ## UI taste rules

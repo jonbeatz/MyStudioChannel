@@ -73,4 +73,5 @@
 - [x] Version bumped to **10.0.0** in `package.json`; tag **`v10.0.0`**
 - [x] Governance: TRUTH.md, Restore-Points **RP-2026-06-19-v10-start**, CI **`verify.yml`**
 - [x] Backup **`msc-website-v3-i`** before cut
+- [x] Branch-cut ritual — **Branch-Cut.md** + **Checkpoint-Restore** skill; release workflow (GH Latest + README table)
 - [ ] Feature work on `MSC-Website-v10`

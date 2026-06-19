@@ -24,7 +24,7 @@ Only do this once at flow start (not every follow-up).
 - `Lets Verify Live`
 - `Lets Checkpoint Docs + Commit`
 - `Lets Checkpoint + Deploy`
-- `Lets Cut New Branch`
+- `Lets Cut New Branch` / `branch cut` / `Cut MSC-Website-vN` — **MSC:** full ritual via `.cursor/prompts/Branch-Cut.md` (not bare git branch)
 - `Lets Finish`
 - `Lets Finish + Deploy`
 

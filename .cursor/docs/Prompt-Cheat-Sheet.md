@@ -158,9 +158,10 @@ These phrasings trigger targeted mini-runbooks or prompt workflows to help guide
 - **Purpose:** Proactive impact risk planning.
 - **Action:** Evaluates proposed task against codebase and outputs a short 2-3 line list of impacted files and risk level before any code change.
 
-### ➡️ `"Lets Cut New Branch"`
-- **Purpose:** Branch cutting.
-- **Action:** Creates a clean git branch from the current HEAD, sets up upstream tracking, and verifies git branch status.
+### ➡️ `"Lets Cut New Branch"` · `"branch cut"` · `"Cut MSC-Website-vN"`
+- **Purpose:** Full MSC development-line handoff (not a bare git branch).
+- **Action:** Execute [`.cursor/prompts/Branch-Cut.md`](../prompts/Branch-Cut.md) — backup → `MSC-Website-vN` → TRUTH + Restore-Points + CI → `version-bump.ps1 -Force` (GitHub Release **Latest** + README table) → `msc:docs:sync` → verify Releases sidebar.
+- **Skill:** `.cursor/skills/Workflow-Portable/Checkpoint-Restore/SKILL.md`
 
 ### ➡️ `"Show me only the exact next step"`
 - **Purpose:** Focused, zero-noise execution.

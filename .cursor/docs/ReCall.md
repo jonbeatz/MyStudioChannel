@@ -112,6 +112,17 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ## Recent changes (latest first)
 
+### 2026-06-19 — Update Docs + Mem0 (branch-cut ritual sync)
+
+- **Docs:** Agent-Runbook §8 + cheat index updated; Jedi-List branch-cut commands; Workflow-Ops trigger note; **`msc:docs:sync`** PERFECT.
+- **Mem0:** Branch-cut ritual + release workflow memories (Path B).
+
+### 2026-06-19 — Branch-cut ritual (Checkpoint-Restore + Branch-Cut prompt)
+
+- **Skill:** Extended **Checkpoint-Restore** with full MSC branch-cut checklist (v10 lessons: GH Release `--latest`, README table, Checkpoint audit).
+- **Prompt:** **`.cursor/prompts/Branch-Cut.md`** — triggers: **branch cut**, **Cut MSC-Website-vN**, **Lets Cut New Branch**.
+- **Workflow:** **`workflow.mdc`** + **Prompt-Cheat-Sheet** wired to full ritual (not bare `git checkout -b`).
+
 ### 2026-06-19 — Update Docs + Mem0 (v10 closeout)
 
 - **Docs:** Jedi-List **10.0.0**; project-log v10 template placeholders fixed; **`msc:docs:sync`** PERFECT on **`MSC-Website-v10`** @ **`61a8b87`**.

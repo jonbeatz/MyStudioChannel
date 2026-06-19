@@ -270,26 +270,30 @@ Please do this in order:
 
 ---
 
-## 8) Lets Cut New Branch
+## 8) Lets Cut New Branch (MSC full ritual)
 
-Use this to create a clean starting point quickly.
+For **MyStudioChannel** release lines, this is **not** a bare `git checkout -b`. Execute **`.cursor/prompts/Branch-Cut.md`** and **`.cursor/skills/Workflow-Portable/Checkpoint-Restore/SKILL.md`**.
+
+**Triggers:** `branch cut`, `Cut MSC-Website-vN`, `Lets Cut New Branch`
 
 ```text
-Lets Cut New Branch.
+Lets Cut New Branch (MSC release line).
 
-1) Run git status first and tell me if working tree is clean or dirty.
-2) If dirty: do NOT auto-commit. Ask me whether to:
-   - continue branch cut with current uncommitted changes, or
-   - stop so I can run a checkpoint/commit first.
-3) Ask me for the new branch name (or propose one from current context).
-4) Create branch from current HEAD.
-5) Push with upstream tracking.
-6) Confirm I am now on that branch.
-7) Show quick git status.
+1) Read Branch-Cut.md + Checkpoint-Restore skill.
+2) git status — clean tree or operator-approved commit first.
+3) npm run msc:backup:quick (recommended).
+4) git checkout -b MSC-Website-v{N} from current active line.
+5) Update TRUTH.md, Restore-Points.md (RP row), .github/workflows/verify.yml.
+6) powershell -File scripts/version-bump.ps1 -Force -BranchName MSC-Website-v{N}
+   (includes build gate, tag, GitHub Release --latest, README table).
+7) Audit Checkpoint milestone history; commit governance if needed.
+8) npm run msc:docs:sync — must pass.
+9) Optional: update docs and mem0 (Path B).
+10) Report active/frozen SHAs, tag, GitHub Latest, live still old until deploy.
 
 Rules:
-- Do not auto-commit in this flow.
-- Do not deploy in this flow.
+- Do not stop after step 4 alone.
+- Do not deploy in this flow unless operator asks separately.
 ```
 
 ---
@@ -603,8 +607,8 @@ Use these as quick "commands in plain English" for the agent.
 12. **`Lets Checkpoint + Deploy`**  
     - Runs docs checkpoint + commit/push, then deploys (`pushit:live`) with confirm gates and Hostinger restart links.
 
-13. **`Lets Cut New Branch`**  
-    - Creates a clean branch from current HEAD, pushes upstream, and confirms active branch/status.
+13. **`Lets Cut New Branch`** · **`branch cut`** · **`Cut MSC-Website-vN`**  
+    - Full MSC ritual: **`.cursor/prompts/Branch-Cut.md`** — backup → branch → TRUTH/Restore-Points/CI → **`version-bump.ps1 -Force`** (GitHub Release Latest + README table) → **`msc:docs:sync`**. Not bare `git checkout -b`.
 
 14. **`Lets Verify Live`**  
     - Runs local smoke checks and gives a concise post-deploy validation checklist + fast recovery if needed.
