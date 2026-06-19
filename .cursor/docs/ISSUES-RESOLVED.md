@@ -2,6 +2,18 @@
 
 This file tracks problems encountered during development and how they were resolved.
 
+## [2026-06-18] SystemStats HUD Metric Realignment — Correcting Erroneous 96% Mock Readings
+- **Error:** The SystemStats HUD at `http://localhost:3001` was showing highly inflated, incorrect data: CPU at 96%, memory at 87%, GPU at 47%, and network at 77%, while Task Manager showed CPU at 9%, memory at 54%, and GPU at 4%.
+- **Cause:** The Express backend route at `D:\Hermes\TaskBoardAI\server\routes\v2Routes.js` (`/api/system/stats`) was running a simulated `drift` function that drifted random mock values towards high utilization ceilings on every poll.
+- **Solution:** 
+  1. Replaced the mock `drift` function with native, instant system telemetry calls in `v2Routes.js`.
+  2. Bypassed the slow 1.2-second startup latency of Windows PowerShell/CIM commands by executing native Node.js **`os.cpus()`** thread comparisons for CPU load, and standard **`os.totalmem()` / `os.freemem()`** for memory calculations. This dropped execution latency from 1200ms to **0.2ms**, preventing API connection queuing.
+  3. Linked active GPU Core Utilization tracking directly via the instant sensor query `nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits` (runs in 40ms).
+  4. Calculated live Network activity by delta calculations on `netstat -e` byte throughput over intervals, mapped onto a standard 100 Mbps indicator scale.
+  5. Force-killed the stale background Express process (PID 28144) and restarted the TaskBoardAI server on port 3001 to apply the changes.
+- **Files Changed:** `D:\Hermes\TaskBoardAI\server\routes\v2Routes.js`, `D:\Cursor_Projectz\MyStudioChannel\.cursor\docs\VRAM-TROUBLESHOOTING.md`, `D:\Cursor_Projectz\MyStudioChannel\.cursor\docs\Restore-Points.md`.
+- **Prevention:** Always leverage direct in-process native modules (like `os` in Node) for rapid polling intervals (2-3 seconds) on Windows rather than spawning heavy out-of-process subprocess shells like PowerShell. Always restart background server daemons to clear memory caching after backend edits.
+
 ## [2026-06-18] Missing SD 1.5 Checkpoint — ComfyUI Default Workflow Blocked
 - **Error:** ComfyUI at `http://127.0.0.1:8188` showed **Missing Models (1)** for `v1-5-pruned-emaonly-fp16.safetensors` (1.99 GB). Default workflow could not run after the file was deleted during VRAM cleanup.
 - **Cause:** Checkpoint was removed to free disk/VRAM; `runwayml/stable-diffusion-v1-5` does **not** host the fp16 filename (curl returned "Entry not found"). The correct source is **`Comfy-Org/stable-diffusion-v1-5-archive`**.

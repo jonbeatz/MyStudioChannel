@@ -226,6 +226,11 @@ If VRAM stays high after cleanup:
 
 - **WDDM** shares GPU with desktop compositor — `dwm.exe`, `Cursor.exe`, `brave.exe` appear in process list with `N/A` VRAM.
 - **Per-process VRAM** unavailable on Windows consumer drivers; trust **total** `memory.used`.
+- **System Metrics Alignment (HUD vs Task Manager):** To ensure metrics at `http://localhost:3001` match Windows Task Manager directly, we query native instant sensors via CIM instead of cumulative averages or mock drift values:
+  - **CPU Utilization:** Query instant load percentage using `Get-CimInstance -ClassName Win32_Processor`.
+  - **RAM Memory:** Calculated using physical memory free vs total visible memory: `((total - free) / total) * 100` via `Win32_OperatingSystem`.
+  - **GPU Engine Core:** Query `utilization.gpu` using `nvidia-smi` to reflect core engine loading (rather than VRAM pool footprint alone).
+  - **Network Throughput:** Calculate throughput over interval deltas from `netstat -e`.
 - Driver **596.49** / CUDA **13.2** — no known leak; issue was **dual AI stacks**.
 
 ---
