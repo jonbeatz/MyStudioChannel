@@ -10,9 +10,9 @@ $ErrorActionPreference = 'Continue'
 $RepoRoot = Split-Path $PSScriptRoot -Parent
 
 Write-Host "================================================================" -ForegroundColor Red
-Write-Host "  J.A.R.V.I.S. Session Stack — Shutdown" -ForegroundColor Red
+Write-Host "  J.A.R.V.I.S. Session Stack - Shutdown" -ForegroundColor Red
 if ($KeepGateway) {
-    Write-Host "  (Telegram gateway will stay running)" -ForegroundColor Yellow
+    Write-Host '  (Telegram gateway will stay running)' -ForegroundColor Yellow
 }
 Write-Host "================================================================" -ForegroundColor Red
 
@@ -52,5 +52,5 @@ Pop-Location
 
 Write-Host "================================================================" -ForegroundColor Red
 Write-Host "  Session stack stopped." -ForegroundColor Green
-Write-Host "  Postiz (4007) runs in Docker — stop separately if needed: cd D:\Hermes\postiz && docker compose down" -ForegroundColor Gray
+Write-Host "  Postiz (4007) runs in Docker - stop separately if needed: cd D:\Hermes\postiz; docker compose down" -ForegroundColor Gray
 Write-Host "================================================================" -ForegroundColor Red

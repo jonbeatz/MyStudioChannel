@@ -1,3 +1,15 @@
+## [2026-06-18 23:45] - Session Summary (End Project)
+- **Branch:** MSC-Website-v9
+- **Changes:**
+  1. **TaskBoardAI v0 merge:** Redesign merged into `D:\Hermes\TaskBoardAI` with v2Routes adapter, Express routing precedence fix, populated `msc-website-v9.json` board (44 tasks).
+  2. **SystemStats HUD fix:** Replaced mock drift metrics with native `os` (CPU/MEM) + `nvidia-smi`/`netstat` (GPU/NET); server restart required for live alignment with Task Manager.
+  3. **VRAM / ComfyUI:** ComfyUI stopped; LM Studio Qwen3-4B + embedding loaded; WDDM VRAM at ~80% documented.
+  4. **Docs + Mem0:** ISSUES-RESOLVED, Restore-Points, VRAM-TROUBLESHOOTING synced; 3 Mem0 memories added.
+  5. **Git:** `6131626`, `ef8c9d2` pushed; working tree clean.
+  6. **Backups:** Quick `msc-website-v3-g`, full `msc-website-v3-h` @ `G:\Cursor_Project_BackUpz\MyStudioChannel\`.
+- **Status:** Session closed — services stopped
+- **Next:** Start Project → hard-refresh TaskBoardAI HUD if metrics drift; connect Postiz OAuth when ready.
+
 ## [2026-06-17 02:00] - Social auto-post scaffold (Phase 0)
 - **Branch:** `MSC-Website-v9` (uncommitted)
 - **Changes:**

@@ -170,6 +170,13 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-19] Session stack PowerShell em-dash parse errors (Start/End Project)
+- **Error:** `npm run msc:session:start` failed with `Unexpected token` on line 19 of `start-session-stack.ps1`. End Project `npm run msc:session:stop` hit the same class of error on `stop-session-stack.ps1` (Postiz footer line with Unicode em dash `—`).
+- **Cause:** Unicode em dashes (`—`, U+2014) inside double-quoted `Write-Host` strings are misread by Windows PowerShell when the file is saved as UTF-8 without BOM, corrupting to `?"` and breaking the parser.
+- **Solution:** Replaced em dashes with ASCII hyphens in all `Write-Host` lines in `start-session-stack.ps1` and `stop-session-stack.ps1`. Synced portable copies under `.cursor/custom-scriptz/hermes-system/scripts/`.
+- **Files Changed:** `scripts/start-session-stack.ps1`, `scripts/stop-session-stack.ps1`, `.cursor/custom-scriptz/hermes-system/scripts/start-session-stack.ps1`, `.cursor/custom-scriptz/hermes-system/scripts/stop-session-stack.ps1`
+- **Prevention:** Use ASCII `-` only in PowerShell automation strings (see also [2026-06-12] Windows PowerShell Console Emoji Parse Mismatch). Husky pre-commit is ~4–8s for docs-only commits — not the hang source.
+
 ## [2026-06-18] Session stack — duplicate terminal windows and npm.ps1 Notepad popup
 - **Error:** After Kanban/LiteLLM testing, 7+ command windows appeared on the taskbar (duplicate `npm run start:all`, `npm run start:mcp`, admin PowerShell). Separately, `npm.ps1` opened in Notepad during a hidden-launch attempt.
 - **Cause:** `start-kanban-stack.ps1` used `Start-Process wt.exe` (new Windows Terminal tab per launch) and repeated cold-starts without teardown left orphan shells. `Start-Process -FilePath "npm"` on Windows opens `npm.ps1` in the default editor instead of executing it.
