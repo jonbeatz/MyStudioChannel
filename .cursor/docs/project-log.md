@@ -1,10 +1,21 @@
-## [2026-06-19] - Version 10.0.0 Release
-- **Branch:** $BranchName
+## [2026-06-19] - Update Docs + Mem0 (v10 branch cut closeout)
+- **Branch:** MSC-Website-v10 @ `61a8b87`
 - **Changes:**
-  *   Automated version bump to $version from $oldVersion.
+  1. **Branch cut:** `MSC-Website-v10` from `MSC-Website-v9` @ `0007312`; tag **`v10.0.0`**; v9 frozen restore line.
+  2. **Governance:** TRUTH.md, Restore-Points **RP-2026-06-19-v10-start**, CI **`verify.yml`** (v10 + v9 triggers).
+  3. **Checkpoint repair:** Fixed `version-bump.ps1` global `MSC-Website-v\d+` replace corrupting milestone history (v6–v9 rows).
+  4. **Docs:** Jedi-List release version → **10.0.0**; project-log v10 template placeholders fixed; **`msc:docs:sync`** PERFECT.
+  5. **Mem0:** Path B memories synced for v10 cut + branch workflow.
+- **Status:** completed (docs + mem0)
+- **Next:** Feature work on `MSC-Website-v10`; live still v7 until deploy.
+
+## [2026-06-19] - Version 10.0.0 Release
+- **Branch:** MSC-Website-v10
+- **Changes:**
+  *   Automated version bump to **10.0.0** from **9.0.0**.
   *   Synchronized dependencies and package references.
-  *   Initiated active development checkpoint for $BranchName release series.
-- **Status:** active â€” build and lint validated compile-safe.
+  *   Initiated active development checkpoint for MSC-Website-v10 release series.
+- **Status:** active — build and lint validated compile-safe.
 
 ## [2026-06-19] - Update Docs + Mem0 (session fixes & VRAM optimization)
 - **Branch:** MSC-Website-v9 @ `6b8e35f` (Mem0 preflight uncommitted)

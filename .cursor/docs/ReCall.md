@@ -112,6 +112,11 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ## Recent changes (latest first)
 
+### 2026-06-19 — Update Docs + Mem0 (v10 closeout)
+
+- **Docs:** Jedi-List **10.0.0**; project-log v10 template placeholders fixed; **`msc:docs:sync`** PERFECT on **`MSC-Website-v10`** @ **`61a8b87`**.
+- **Mem0:** Path B memories for v10 branch cut (restore v9 @ **`0007312`**, tag **`v10.0.0`**, live still v7).
+
 ### 2026-06-19 — MSC-Website-v10 branch cut + v10.0.0
 
 - **Branch cut:** **`MSC-Website-v10`** created from **`MSC-Website-v9`** @ **`0007312`**; **`MSC-Website-v9`** frozen as restore line.
