@@ -1,15 +1,15 @@
 # Project Checkpoint
 
 ## Current Status
-- **Date:** 2026-06-17 (Social Auto-Post ready for credentials)
-- **Branch:** MSC-Website-v9 @ `a2371b4`
+- **Date:** 2026-06-19 (Mem0 VRAM preflight + session stack fixes)
+- **Branch:** MSC-Website-v9 @ `6b8e35f`
 - **Version:** 9.0.0 (`package.json` — sole release number)
 - **Build Status:** Passing (`verify:next:safe`); lint clean; **GitHub Actions** verify + Playwright on push to `MSC-Website-v9` / `main`
 - **Deploy default:** **`npm run pushit:live:fast`** (~10–15 min) for daily code/UI; canonical table in **HOSTINGER-DEPLOY.md**. Say **push it live** → agent asks mode.
 - **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v7.0.0** on host until next deploy; repo/local **`MyStudioChannel v9.0.0`**
 - **Git:** **`MSC-Website-v9`** active @ `a2371b4`; **`MSC-Website-v8`** frozen @ `c0d834e`; **`main`** @ `b4ab8ae`
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright smoke); **`npm run analyze`** for admin bundle (~816 kB baselined)
-- **J.A.R.V.I.S. / Hermes:** LiteLLM **4000** + ngrok **4040**; gateway running with **`cron_mode: allow`**; **Hermes Desktop App** — MSC via **`project-dir.json`** + **`Hermes - MyStudioChannel`** shortcut; **`msc`** personality; **`google-workspace`** skill ✅
+- **J.A.R.V.I.S. / Hermes:** LiteLLM **4000** + ngrok **4040**; **`msc:mem0:preflight`** (~4 GB VRAM for local memory); gateway **`cron_mode: allow`**
 - **Kanban Stack:** TaskBoardAI **`3001`** (premium cinematic HUD; stock backup `app-stock`); Hermes Workspace **`3005`**; Gateway WebAPI **`8642`**
 - **Social Auto-Post:** Postiz **`4007`** ✅ · Composio MCP ✅ · dry-run ✅ · **12 blocked Kanban tasks** for platform OAuth → credentials → live test → image gen → cron
 - **Backup:** quick **`msc-website-v3-a`** @ `G:\Cursor_Project_BackUpz\MyStudioChannel\`
@@ -17,6 +17,8 @@
 ## Recent milestones
 | Date | Milestone | Commit |
 |------|-----------|--------|
+| 2026-06-19 | **Mem0 VRAM preflight (8192 ctx, ~4 GB) + session stack em-dash fix** | pending |
+| 2026-06-19 | **Session stack Start/End parse fix** | `6b8e35f` |
 | 2026-06-17 | **Social Auto-Post Kanban — 12 granular tasks (blocked, ready for OAuth)** | board |
 | 2026-06-17 | **Social Auto-Post infra ready — cron_mode + dry-run verified** | docs |
 | 2026-06-17 | **TaskBoardAI premium cinematic HUD (v0 safe-swap)** | `a2371b4` |

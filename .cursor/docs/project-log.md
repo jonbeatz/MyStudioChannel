@@ -1,3 +1,14 @@
+## [2026-06-19] - Update Docs + Mem0 (session fixes & VRAM optimization)
+- **Branch:** MSC-Website-v9 @ `6b8e35f` (Mem0 preflight uncommitted)
+- **Changes:**
+  1. **Session stack:** Fixed PowerShell em-dash parse errors in `start/stop-session-stack.ps1` — committed `6b8e35f`.
+  2. **End Project git audit:** Confirmed slow commit was Husky (~4–8s) + aborted final push; not git failure.
+  3. **Mem0 VRAM optimization:** Added `msc-mem0-preflight.ps1` — loads Qwen3-4B at context 8192 / parallel 1 (~4 GB VRAM vs ~12 GB). Auto-runs in `mem0-chat.ps1`; npm `msc:mem0:preflight|add|search`.
+  4. **Docs:** ISSUES-RESOLVED, Update-Docs Path B, Hermes-Cheat-Sheet, Jedi-List, CHANGELOG, Checkpoint, ReCall synced.
+  5. **Mem0:** Path B memories synced for session stack + Mem0 preflight workflow.
+- **Status:** completed (docs + mem0)
+- **Next:** Commit Mem0 optimization delta; optional Postiz OAuth when ready.
+
 ## [2026-06-18 23:45] - Session Summary (End Project)
 - **Branch:** MSC-Website-v9
 - **Changes:**

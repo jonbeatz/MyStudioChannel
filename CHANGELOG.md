@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Mem0 VRAM-optimized preflight (2026-06-19):** `scripts/msc-mem0-preflight.ps1` + `npm run msc:mem0:preflight` — loads `qwen3-4b-instruct-2507` at context **8192** / parallel **1** (~4 GB VRAM). Auto-runs before `mem0-chat.ps1` add/search; Update-Docs Path B updated.
 - **Multi-platform social auto-post scaffold (2026-06-17):** `specs/social-autopost/` (research, platform matrix, credentials checklist, workflow, dry-run campaign YAML); CLI `npm run social:auto-post` (dry-run default); `scripts/social/format-caption.mjs` + `postiz-client.mjs` stub; Hermes skill `.agents/skills/auto-post/SKILL.md`; portable module `.cursor/custom-scriptz/social-autopost/`. Live publish deferred to Postiz self-host (Phase 2+).
 - **Mem0 dual-store setup (2026-06-17):** Local J.A.R.V.I.S. memory via `scripts/mem0-chat.ps1` (Qdrant `~/.mem0/qdrant`); cloud Mem0 Platform linked via **`MEM0_API_KEY`** in `.env.local` → `mem0 init --api-key … --force` → `~/.mem0/config.json`.
 - **Visual Kanban & Task Management Stack (2026-06-17):** Integrated TaskBoardAI planning board on port `3001` (stored locally inside repository at `.cursor/boards/msc-website-v9.json`), Hermes Workspace visual dashboard on port `3005` (with secure authenticated WebAPI gateway bridge on port `8642`), and the embedded gateway dashboard on port `9119`.
@@ -34,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Hermes cold boot (2026-06-16):** Removed Windows logon scheduled task — no `Hermes Gateway Starting...` cmd popup at login.
 
 ### Fixed
+- **Session stack PowerShell parse errors (2026-06-19):** Unicode em dashes in `start/stop-session-stack.ps1` broke Start/End Project on Windows — replaced with ASCII hyphens (`6b8e35f`).
 - **TaskBoardAI Windows dependency blocks (2026-06-17):** Patch-removed incompatible macOS/Linux `claude-code` from the package manifest, enabling clean Windows npm installations.
 - **Hermes Gateway WebAPI startup crashes (2026-06-17):** Set `API_SERVER_KEY` to bypass loopback api bind restrictions on port `8642`.
 - **Hermes logon popup + premature Telegram polling (2026-06-16):** Gateway no longer starts before network/LiteLLM; see `ISSUES-RESOLVED.md`.

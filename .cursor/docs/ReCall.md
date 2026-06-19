@@ -112,6 +112,13 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ## Recent changes (latest first)
 
+### 2026-06-19 — Mem0 VRAM preflight + session stack parse fix
+
+- **Session stack:** Unicode em dashes in `start/stop-session-stack.ps1` broke Start/End Project — ASCII hyphens fix committed **`6b8e35f`**.
+- **End Project git audit:** Slow commit = Husky lint + payload sync (~4–8s); final push was user-aborted, not broken git.
+- **Mem0 VRAM:** **`msc-mem0-preflight.ps1`** loads Qwen3-4B at **8192 ctx / parallel 1** (~**4 GB** VRAM vs ~12 GB). Auto in **`mem0-chat.ps1`**; npm **`msc:mem0:preflight|add|search`**; Update-Docs Path B updated.
+- **Docs synced:** project-log, CHANGELOG, Checkpoint, Jedi-List, Hermes-Cheat-Sheet, ISSUES-RESOLVED; Mem0 Path B memories added.
+
 ### 2026-06-18 — ComfyUI VRAM control + SD 1.5 checkpoint restore
 
 - **HUD fix:** SystemStats now uses **`comfyui-state.psm1`** (WMI + port 8188 + `/queue`) — states stopped/idle/generating/unknown; Start/Stop/Restart buttons; process list labeled **RAM — not VRAM**.

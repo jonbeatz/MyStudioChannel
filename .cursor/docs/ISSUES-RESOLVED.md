@@ -170,6 +170,13 @@ Each entry follows this structure:
 
 ## Log Entries
 
+## [2026-06-19] Mem0 VRAM optimization - 8192 context preflight
+- **Error:** Mem0 workflow loaded Qwen3-4B with LM Studio defaults (65536 context, parallel 4) using ~12 GB VRAM for short memory updates.
+- **Cause:** `lms load "qwen3-4b-instruct-2507"` without flags inherited injected 64k overrides; KV cache pre-allocation dominated GPU memory.
+- **Solution:** Added `scripts/msc-mem0-preflight.ps1` + `npm run msc:mem0:preflight` — reloads with `-c 8192 --parallel 1` (~4 GB total). `mem0-chat.ps1` runs preflight automatically; Update-Docs Path B Phase 5b updated.
+- **Files Changed:** `scripts/msc-mem0-preflight.ps1`, `scripts/mem0-chat.ps1`, `scripts/mem0_integration.py`, `package.json`, `.cursor/prompts/Update-Docs.md`, `scripts/msc-hermes-module-sync.mjs`
+- **Prevention:** Use `npm run msc:mem0:preflight` or `mem0-chat.ps1` (auto) before Mem0 ops; use full context load only for coding/chat sessions.
+
 ## [2026-06-19] Session stack PowerShell em-dash parse errors (Start/End Project)
 - **Error:** `npm run msc:session:start` failed with `Unexpected token` on line 19 of `start-session-stack.ps1`. End Project `npm run msc:session:stop` hit the same class of error on `stop-session-stack.ps1` (Postiz footer line with Unicode em dash `—`).
 - **Cause:** Unicode em dashes (`—`, U+2014) inside double-quoted `Write-Host` strings are misread by Windows PowerShell when the file is saved as UTF-8 without BOM, corrupting to `?"` and breaking the parser.

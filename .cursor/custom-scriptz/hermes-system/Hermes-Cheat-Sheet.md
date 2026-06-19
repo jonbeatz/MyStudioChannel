@@ -46,6 +46,7 @@ If your premium Gemini/Orus API limits are exceeded or hit a network timeout, J.
 Your workspace features a local long-term memory layer that persists context, user preferences, and project states across chat sessions.
 
 ### 💾 Memory Commands
+*   `npm run msc:mem0:preflight` — Loads Qwen3-4B for Mem0 only (**8192** context, **parallel 1**, ~**4 GB** VRAM). Runs automatically before add/search below.
 *   `remember "<fact or preference>"` — Extracts semantic facts from your input using local LLM reasoning and stores them in your vector database.
     ```powershell
     remember "I prefer widescreen 1920x1080 images for header backgrounds"

@@ -26,7 +26,7 @@ def get_memory_instance():
                 "model": "qwen3-4b-instruct-2507",
                 "lmstudio_base_url": "http://127.0.0.1:1234/v1",
                 "temperature": 0.1,
-                "max_tokens": 1000,
+                "max_tokens": 512,
                 "lmstudio_response_format": {"type": "json_schema", "json_schema": {"type": "object", "schema": {}}}
             }
         },

@@ -30,6 +30,7 @@ const SCRIPT_FILES = [
   'stop-kanban-stack.ps1',
   'start-session-stack.ps1',
   'stop-session-stack.ps1',
+  'msc-mem0-preflight.ps1',
 ];
 
 const ASSET_PAIRS = [

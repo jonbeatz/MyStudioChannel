@@ -246,6 +246,9 @@ Secrets live in **`.env.local`** only. After changing GitHub, Resend, WordPress,
 | **`npm run msc:test:github-api`** | Verifies **`GITHUB_PERSONAL_ACCESS_TOKEN`** from **`.env.local`** against GitHub REST API. |
 | **`npm run msc:test:tavily-api`** | Verifies **`TAVILY_API_KEY`** from **`.env.local`** against Tavily search API. |
 | **`npm run msc:backup:github-repos`** | Clones + bundles Jon’s GitHub repos to **`.cursor/GitHub-Repo-BackUps/`** (gitignored). |
+| **`npm run msc:mem0:preflight`** | VRAM-light LM Studio load for Mem0 (**8192** ctx, **parallel 1**, ~4 GB). Auto-runs in `mem0-chat.ps1`. |
+| **`npm run msc:mem0:add`** | Add local J.A.R.V.I.S. memory via `mem0-chat.ps1 -Action add -Text "..."`. |
+| **`npm run msc:mem0:search`** | Search local Qdrant memories via `mem0-chat.ps1 -Action search -Query "..."`. |
 | **`npm run msc:litellm:preflight`** | Performs config, Vertex credentials, port, and LiteLLM dependency preflight check. |
 | **`npm run msc:litellm:start`** | Starts LiteLLM Proxy in localhost mode on port **4000**. |
 | **`npm run msc:litellm:start:ngrok`** | Starts LiteLLM on port **4000** and mounts an HTTPS ngrok tunnel. |

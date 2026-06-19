@@ -8,11 +8,26 @@ param(
     [string]$Text,
 
     [Parameter(Mandatory=$false)]
-    [string]$Query
+    [string]$Query,
+
+    [switch]$SkipPreflight
 )
 
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $pythonPath = "C:\Users\JONBEATZ\AppData\Local\Programs\Python\Python312\python.exe"
-$scriptPath = "D:\Cursor_Projectz\MyStudioChannel\scripts\mem0_integration.py"
+$scriptPath = Join-Path $PSScriptRoot 'mem0_integration.py'
+$preflightPath = Join-Path $PSScriptRoot 'msc-mem0-preflight.ps1'
+
+if (-not $SkipPreflight) {
+    & powershell -ExecutionPolicy Bypass -File $preflightPath -Quiet
+    if ($LASTEXITCODE -ne 0) {
+        Write-Warning "J.A.R.V.I.S.: Mem0 preflight failed. LM Studio may be offline or qwen3-4b could not load."
+        if (Get-Command speak -ErrorAction SilentlyContinue) {
+            speak "Excuse me, Jon. Mem0 preflight failed. Please ensure LM Studio is available on port 12 34." 2>$null
+        }
+        return
+    }
+}
 
 # Build the command arguments
 if ($Action -eq "add") {

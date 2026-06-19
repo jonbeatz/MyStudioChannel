@@ -123,14 +123,10 @@ When the user says **"update docs"** or **"update docs and mem0"**, execute the 
 
 > **Do not run this phase** unless the user triggered Path B (`update docs and mem0`).
 
-11b. **LM Studio preflight (auto-start if needed):**
-    - Run `lms ps` to check whether LM Studio is running and a model is loaded.
-    - If `lms` is unavailable, LM Studio is not running, or no model is loaded:
-      1. Open LM Studio (start the app if closed).
-      2. Ensure the local server is active on `http://127.0.0.1:1234/v1`.
-      3. Load Qwen 4B: `lms load "qwen3-4b-instruct-2507"`
-      4. Re-check with `lms ps` until a model is loaded.
-    - **If LM Studio setup fails:** skip the rest of Phase 5b, report a warning, and continue to Phase 6.
+11b. **LM Studio preflight (VRAM-optimized for Mem0):**
+    - Run `npm run msc:mem0:preflight` (loads `qwen3-4b-instruct-2507` with **context 8192**, **parallel 1** — ~3-4 GB VRAM vs ~12 GB at 64k).
+    - This runs automatically before every `mem0-chat.ps1` add/search unless `-SkipPreflight` is passed.
+    - If `lms` is unavailable or load fails: skip Phase 5b, report a warning, continue to Phase 6.
 
 11c. **Sync major milestones to Mem0:**
     - Identify new system-wide configurations, paths, directory shifts, or major troubleshooting resolutions from this session.
