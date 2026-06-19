@@ -2,17 +2,17 @@
 
 ## Current Status
 - **Date:** 2026-06-19 (Mem0 VRAM preflight + session stack fixes)
-- **Branch:** MSC-Website-v9 @ `6b8e35f`
-- **Version:** 9.0.0 (`package.json` — sole release number)
-- **Build Status:** Passing (`verify:next:safe`); lint clean; **GitHub Actions** verify + Playwright on push to `MSC-Website-v9` / `main`
+- **Branch:** MSC-Website-v10 @ `6b8e35f`
+- **Version:** 10.0.0 (`package.json` — sole release number)
+- **Build Status:** Passing (`verify:next:safe`); lint clean; **GitHub Actions** verify + Playwright on push to `MSC-Website-v10` / `main`
 - **Deploy default:** **`npm run pushit:live:fast`** (~10–15 min) for daily code/UI; canonical table in **HOSTINGER-DEPLOY.md**. Say **push it live** → agent asks mode.
-- **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v7.0.0** on host until next deploy; repo/local **`MyStudioChannel v9.0.0`**
-- **Git:** **`MSC-Website-v9`** active @ `a2371b4`; **`MSC-Website-v8`** frozen @ `c0d834e`; **`main`** @ `b4ab8ae`
+- **Live:** [https://mystudiochannel.com](https://mystudiochannel.com) — **v7.0.0** on host until next deploy; repo/local **`MyStudioChannel v10.0.0`**
+- **Git:** **`MSC-Website-v10`** active @ `a2371b4`; **`MSC-Website-v10`** frozen @ `c0d834e`; **`main`** @ `b4ab8ae`
 - **Local preflight:** **`npm run verify:local`** (HTTP + Playwright smoke); **`npm run analyze`** for admin bundle (~816 kB baselined)
 - **J.A.R.V.I.S. / Hermes:** LiteLLM **4000** + ngrok **4040**; **`msc:mem0:preflight`** (~4 GB VRAM for local memory); gateway **`cron_mode: allow`**
 - **Kanban Stack:** TaskBoardAI **`3001`** (premium cinematic HUD; stock backup `app-stock`); Hermes Workspace **`3005`**; Gateway WebAPI **`8642`**
 - **Social Auto-Post:** Postiz **`4007`** ✅ · Composio MCP ✅ · dry-run ✅ · **12 blocked Kanban tasks** for platform OAuth → credentials → live test → image gen → cron
-- **Backup:** quick **`msc-website-v3-a`** @ `G:\Cursor_Project_BackUpz\MyStudioChannel\`
+- **Backup:** quick **`MSC-Website-v10-a`** @ `G:\Cursor_Project_BackUpz\MyStudioChannel\`
 
 ## Recent milestones
 | Date | Milestone | Commit |
@@ -31,7 +31,7 @@
 | 2026-06-13 | **Polished FLUX.1 Image Generation — Clickable Links & Shortened voice** | `97b4d5d` |
 | 2026-06-13 | **LiteLLM database-less proxy — no Prisma/SQLite startup errors** | `a938232` |
 | 2026-06-13 | **Update Docs workflow split (Path A / Path B Mem0)** | `ae27ff2` |
-| 2026-06-13 | **Version 9.0.0 release — MSC-Website-v9 active line** | `da57c3d` |
+| 2026-06-13 | **Version 9.0.0 release — MSC-Website-v10 active line** | `da57c3d` |
 | 2026-06-13 | **Start Project ritual — JARVIS greeting, ngrok restore, summary cards** | `c0d834e` |
 | 2026-06-12 | **Portable J.A.R.V.I.S. Setup Script & LM Studio Guidebooks** | `4056295` |
 | 2026-06-12 | **Conversational FLUX.1 Image Generation Pipeline** | `4056295` |
@@ -40,8 +40,8 @@
 | 2026-06-12 | **Local J.A.R.V.I.S. Memory Layer & LM Studio Switcher Integration** | `4056295` |
 | 2026-06-12 | **J.A.R.V.I.S. Vocal Welcome Greeting & Unified System Startup** | `4056295` |
 | 2026-06-12 | **Cursor Developer MCP Server Expansion (SQLite, Git, Docker)** | `4056295` |
-| 2026-06-11 | **v8.0.0 release — version bump on `MSC-Website-v9`** | `40b200e` |
-| 2026-06-11 | **MSC-Website-v9 branch cut — v7 frozen @ `b4ab8ae`** | `b4ab8ae` |
+| 2026-06-11 | **v8.0.0 release — version bump on `MSC-Website-v10`** | `40b200e` |
+| 2026-06-11 | **MSC-Website-v10 branch cut — v7 frozen @ `b4ab8ae`** | `b4ab8ae` |
 | 2026-06-11 | **depcheck fix — `@payloadcms/ui` + review.md closeout** | `3d3cef7` |
 | 2026-06-11 | **Playwright CI fix — admin login wait + warmup script** | `112acc5` |
 | 2026-06-11 | **Docs sync — operational docs @ `6cb8c5a`** | `ac79160` |
@@ -60,21 +60,21 @@
 | 2026-06-08 | **payload.sqlite v7 dev baseline + main sync** | `14ceb53` |
 | 2026-06-08 | **v7.0.0 live deploy (`pushit:live:fast -WithDb`)** | ops |
 | 2026-06-08 | **v7.0.0 release — version bump + GitHub tag** | `a295fc4` |
-| 2026-06-08 | **v7 development branch cut — MSC-Website-v9** | `c9e260e` |
-| 2026-06-07 | **v6.0.0 branch cut — MSC-Website-v9** | `17b3da8` |
+| 2026-06-08 | **v7 development branch cut — MSC-Website-v10** | `c9e260e` |
+| 2026-06-07 | **v6.0.0 branch cut — MSC-Website-v10** | `17b3da8` |
 | 2026-06-07 | **Deploy hardening — SSH sync-db, Quick DB, Sentry org fix** | `06ec2be` |
 | 2026-06-07 | **Sentry Diagnostics Suite Integrated** | feat |
 | 2026-06-07 | **Jina Reader & Canonical Tool Chest Integrated** | feat |
 | 2026-06-02 | **v5.0.0 branch cut + Master version bump** | chore |
 
 ## Session checklist
-- [x] Branch `MSC-Website-v9` created from `MSC-Website-v9`
+- [x] Branch `MSC-Website-v10` created from `MSC-Website-v10`
 - [x] Version bumped to **6.0.0** in `package.json`
 - [x] Operational docs synced to v6
 - [x] GitHub tags/releases v4.0.0–v6.0.0
-- [x] Branch `MSC-Website-v9` created from `MSC-Website-v9` @ `c9e260e`; v6 frozen
+- [x] Branch `MSC-Website-v10` created from `MSC-Website-v10` @ `c9e260e`; v6 frozen
 - [x] Version bumped to **7.0.0** in `package.json`
-- [ ] Feature work on `MSC-Website-v9`
+- [ ] Feature work on `MSC-Website-v10`
 - [x] Deploy v7.0.0 labels to live (`pushit:live:fast -- -WithDb`)
 - [x] Fix fast-deploy zip path (bash `$STAGING` quoting) + `package.json` FTPS on step 4
 - [x] Document Hostinger two-folder map + 503 webpack fix across ops docs

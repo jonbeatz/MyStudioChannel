@@ -112,6 +112,13 @@ If **`package.json`** scripts change, update the five docs in the same commit wh
 
 ## Recent changes (latest first)
 
+### 2026-06-19 — MSC-Website-v10 branch cut + v10.0.0
+
+- **Branch cut:** **`MSC-Website-v10`** created from **`MSC-Website-v9`** @ **`0007312`**; **`MSC-Website-v9`** frozen as restore line.
+- **Version:** **`10.0.0`** via **`npm run version:bump -Force`**; Git tag **`v10.0.0`**.
+- **Governance:** TRUTH.md, Restore-Points **RP-2026-06-19-v10-start**, CI **`verify.yml`** adds v10 (+ keeps v9).
+- **Backup:** **`msc-website-v3-i`** taken before cut.
+
 ### 2026-06-19 — Mem0 VRAM preflight + session stack parse fix
 
 - **Session stack:** Unicode em dashes in `start/stop-session-stack.ps1` broke Start/End Project — ASCII hyphens fix committed **`6b8e35f`**.
