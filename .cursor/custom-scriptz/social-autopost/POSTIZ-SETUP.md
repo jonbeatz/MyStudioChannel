@@ -49,5 +49,5 @@ npm run social:auto-post -- --live --spec specs/social-autopost/examples/dry-run
 
 ## MSC rituals
 
-- **Start Project:** optional `docker compose up -d` in `D:\Hermes\postiz`
-- **End Project:** stop Postiz container if running (`docker compose down` in `D:\Hermes\postiz`)
+- **Start Project:** optional `docker compose up -d` in `D:\Hermes\postiz` (not part of `msc:session:start`)
+- **End Project:** `npm run msc:session:stop` handles Kanban + LiteLLM; stop Postiz separately if needed: `docker compose down` in `D:\Hermes\postiz`

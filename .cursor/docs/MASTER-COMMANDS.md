@@ -55,6 +55,22 @@
 
 ---
 
+## 📂 Portable Module Sync (`custom-scriptz`)
+
+Live repo → portable copies for reinstall on other machines/projects.
+
+| Command | Module |
+|---------|--------|
+| `npm run msc:portable:sync` | All modules (hostinger + hermes + google-api + backup) |
+| `npm run msc:hermes:module:sync` | hermes-system (session + Kanban scripts, cheat sheets) |
+| `npm run msc:google-api:module:sync` | google-api-proxy (LiteLLM/ngrok scripts) |
+| `npm run msc:backup:module:sync` | backup-system |
+| `npm run msc:hostinger:module:sync` | hostinger-setup |
+
+Run after editing `scripts/` or session prompts; **`update docs`** workflow includes this in Phase 4.
+
+---
+
 ## 📦 Deployment Commands
 
 > **For deploy methods, see [HOSTINGER-DEPLOY.md#deploy-methods-quick-decision-tree](./HOSTINGER-DEPLOY.md#deploy-methods-quick-decision-tree)**

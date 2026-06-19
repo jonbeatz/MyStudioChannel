@@ -8,7 +8,8 @@ This document serves as your unified reference guide for all local and remote me
 
 | What I Want | Command | Where It Runs |
 |-------------|---------|---------------|
-| Generate new image from text | `gen-image "prompt"` | Hugging Face API (remote) |
+| Generate new image from text (remote) | `gen-image "prompt"` | Hugging Face API (FLUX.1-schnell) |
+| Generate new image locally (GPU) | `gen-image-local "prompt"` | ComfyUI + z-image-turbo GGUF |
 | Edit existing image | `edit-image -InputPath "file.png" -Prompt "changes"` | Local ComfyUI |
 | Inpaint (replace area) | `inpaint-image -InputPath "file.png" -MaskPath "mask.png" -Prompt "new object"` | Local ComfyUI |
 | Upscale to 4K | `upscale-image -InputPath "file.png" -TargetSize 4K` | Local ComfyUI |
@@ -22,6 +23,7 @@ You do not need to remember rigid syntax. Just describe what you want in plain E
 | You Say | What J.A.R.V.I.S. Does |
 |---------|-------------------------|
 | make me a chicken playing golf on a football field | Runs `gen-image` with your prompt |
+| generate this locally / on my GPU | Runs `gen-image-local` (ComfyUI z-image-turbo) |
 | edit this image and make the background blue | Runs `edit-image` on the last generated or specified image |
 | fix the faces in this photo | Runs `fix-face` on the specified image |
 | turn this photo into a video | Runs `animate-image` with default motion |
@@ -62,6 +64,26 @@ When interpreting your natural language, J.A.R.V.I.S. translates dimension keywo
 ---
 
 ## 2. Detailed Command Guide
+
+### A2. gen-image-local (Text to Image — Local ComfyUI)
+
+Generates images on your **RTX 5060 Ti** via ComfyUI + **z-image-turbo** GGUF (no cloud API). Uses **Qwen3-4B** as CLIP text encoder and **ae.safetensors** VAE.
+
+> **DiffusionGemma 26B:** That GGUF is a **text/VLM** model (llama-diffusion-cli / LM Studio chat), **not** a ComfyUI image UNet. It cannot drive `gen-image-local`. Your `H:\AI_Models\diffusiongemma-26B-A4B-it-Q4_K_M.gguf` is kept for future text workflows; local **images** use z-image-turbo.
+
+*   **PowerShell Syntax:**
+    ```powershell
+    gen-image-local "prompt string"
+    gen-image-local "prompt" -OutputPath "public/media/my-shot.png"
+    gen-image-local "prompt" -Width 1920 -Height 1080
+    ```
+*   **Natural Language:** `"generate this locally on my GPU"` or `"make a cyberpunk city locally"`
+*   **Typical Output Location:** `public/media/generated-local-timestamp.png`
+*   **Expected Time:** ~30–120 seconds (first run loads GGUF into VRAM)
+*   **Workflow file:** `D:\AI_Models\ComfyUI\workflows\txt2img-gen-image-local.json`
+*   **Best Results Tip:** Same as `gen-image` — add lighting and quality words; use HD / widescreen keywords for 1920x1080.
+
+---
 
 ### A. gen-image (Text to Image)
 Generates high-fidelity original images from natural language descriptions via remote Hugging Face APIs.
@@ -247,7 +269,8 @@ generate-video -Prompt "cinematic shot of waves crashing on rocks, 4k" -Duration
 
 | Model | Best For | Speed | Quality |
 |-------|----------|-------|---------|
-| **`z-image-turbo`** (default edit) | Fast, highly interactive image editing | Fast | Good |
+| **`z-image-turbo`** (gen-image-local) | Fast local txt2img on 16GB VRAM | Fast | Good |
+| **`diffusiongemma-26b`** | Text/VLM only — **not** ComfyUI images | Fast (text) | N/A for images |
 | **`flux-1-dev`** | Photorealistic faces, intricate hand details, complex text rendering | Medium | Excellent |
 | **`SDXL Base + Refiner`** | Versatile scenery, illustration styles, generic text-to-image | Slow | Very Good |
 | **`Realistic Vision v5.1`** | Real people, analog photography, realistic portraiture | Medium | Excellent |
@@ -320,19 +343,18 @@ While our PowerShell CLI functions provide high-speed automation, the ComfyUI We
 
 ## 11. Model Download Status
 
-All local weights are downloaded and fully operational across your drives:
+**Canonical inventory:** see **`.cursor/docs/COMFYUI-MODELS.md`** (paths, workflows, symlink repair scripts).
 
 | Model | Status | Drive Cache Location |
 |-------|--------|----------------------|
-| `flux1-dev-Q4_K_M.gguf` (7.02 GB) | ✅ Complete | `H:\AI_Models\comfyui_cache\unet\` |
-| `stable-diffusion-xl-base-1.0-Q4_0.gguf` (3.54 GB) | ✅ Complete | `H:\AI_Models\comfyui_cache\unet\` |
-| `stable-diffusion-xl-refiner-1.0-Q4_0.gguf` (3.06 GB) | ✅ Complete | `H:\AI_Models\comfyui_cache\unet\` |
-| `Realistic_Vision_V5.1_noVAE.safetensors` (4.02 GB) | ✅ Complete | `H:\AI_Models\comfyui_cache\checkpoints\` |
-| `anything-v5-PrtRE.safetensors` (4.03 GB) | ✅ Complete | `H:\AI_Models\comfyui_cache\checkpoints\` |
+| `z-image-turbo-Q4_K_M.gguf` | ✅ Complete | `H:\AI_Models\unsloth\Z-Image-Turbo-GGUF\` |
+| `flux-2-klein-4b-Q5_K_M.gguf` | ✅ Restored 2026-06-18 | `H:\AI_Models\unsloth\FLUX.2-klein-4B-GGUF\` |
+| `flux1-dev-Q4_K_S.gguf` | ✅ Restored 2026-06-18 | `H:\AI_Models\comfyui_cache\unet\` |
+| `stable-diffusion-xl-base-1.0-Q4_0.gguf` | ✅ Restored 2026-06-18 | `H:\AI_Models\comfyui_cache\unet\` |
+| `stable-diffusion-xl-refiner-1.0-Q4_0.gguf` | ✅ Restored 2026-06-18 | `H:\AI_Models\comfyui_cache\unet\` |
+| `Realistic_Vision_V5.1_noVAE.safetensors` | ✅ Restored 2026-06-18 | `H:\AI_Models\comfyui_cache\checkpoints\` |
+| `anything-v5-PrtRE.safetensors` | ✅ Restored 2026-06-18 | `H:\AI_Models\comfyui_cache\checkpoints\` |
 | `svd_xt.safetensors` (8.90 GB) | ✅ Complete | `H:\AI_Models\comfyui_cache\checkpoints\` |
-| `CogVideoX_5b_I2V_GGUF_Q4_0.safetensors` (3.30 GB) | ✅ Complete | `H:\AI_Models\comfyui_cache\CogVideo\` |
-| `4x-UltraSharp.pth` | ✅ Complete | `H:\AI_Models\comfyui_cache\upscale_models\` |
-| `4x-AnimeSharp.pth` | ✅ Complete | `H:\AI_Models\comfyui_cache\upscale_models\` |
-| `RealESRGAN_x4plus.pth` | ✅ Complete | `H:\AI_Models\comfyui_cache\upscale_models\` |
+| `4x-UltraSharp.pth` / `4x-AnimeSharp.pth` / `RealESRGAN_x4plus.pth` | ✅ Restored 2026-06-18 | `H:\AI_Models\comfyui_cache\upscale_models\` |
 
-*Note: All commands are pre-wired, pre-symlinked, and fully ready for immediate high-performance deployment!*
+Restore / symlink repair: `D:\AI_Models\ComfyUI\scripts\restore-comfyui-models.ps1` and `repair-comfyui-symlinks.ps1`.

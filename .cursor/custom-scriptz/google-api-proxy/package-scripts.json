@@ -5,6 +5,7 @@
     "msc:litellm:start": "node scripts/msc-litellm-start.mjs",
     "msc:litellm:start:ngrok": "node scripts/msc-litellm-start.mjs --ngrok",
     "msc:google-api:start": "npm run msc:litellm:stop && npm run msc:litellm:start:ngrok",
+    "msc:google-api:start-session": "powershell -ExecutionPolicy Bypass -File scripts/start-hermes-api.ps1",
     "msc:litellm:test:ngrok": "node scripts/msc-litellm-test-ngrok.mjs",
     "msc:litellm:stop": "node scripts/msc-litellm-stop.mjs",
     "msc:litellm:status": "node scripts/msc-litellm-status.mjs",
@@ -23,7 +24,9 @@
   ],
   "shortcuts": {
     "start google-api": "npm run msc:google-api:start",
+    "start google-api session": "npm run msc:google-api:start-session",
     "stop google-api": "npm run msc:litellm:stop",
+    "stop google-api keep gateway": "node scripts/msc-litellm-stop.mjs --keep-gateway",
     "status google-api": "npm run msc:litellm:status",
     "verify google-api": "npm run msc:litellm:test:ngrok",
     "restart google-api": "npm run msc:google-api:start"

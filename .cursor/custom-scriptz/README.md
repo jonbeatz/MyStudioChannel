@@ -7,7 +7,7 @@ Personal dev packs — **fat on disk** (include `ngrok.exe` locally), **lean in 
 | [google-api-proxy](google-api-proxy/) | LiteLLM + Vertex + ngrok for Cursor AI | [module.manifest.json](google-api-proxy/module.manifest.json) |
 | [backup-system](backup-system/) | Standard/Full robocopy + BackUp-Notez + versioned folder naming (`msc-website-v{N}-{a-z}`) | [module.manifest.json](backup-system/module.manifest.json) |
 | [hostinger-setup](hostinger-setup/) | Hostinger deploy tiers, SSH sync, pitfalls, Cursor rules | [module.manifest.json](hostinger-setup/module.manifest.json) |
-| [hermes-system](hermes-system/) | J.A.R.V.I.S. suite: Mem0/Qdrant, VRAM monitor, FLUX image gen, Payload types sync | [module.manifest.json](hermes-system/module.manifest.json) |
+| [hermes-system](hermes-system/) | J.A.R.V.I.S. suite: Mem0/Qdrant, VRAM monitor, FLUX image gen, Payload types sync, **session + Kanban stack** | [module.manifest.json](hermes-system/module.manifest.json) |
 | [book-consultation](book-consultation/) | Multi-step consultation booking + Resend + Payload | [module.manifest.json](book-consultation/module.manifest.json) |
 | [schedule-a-call](schedule-a-call/) | Single-step call scheduling lightbox + Payload | [module.manifest.json](schedule-a-call/module.manifest.json) |
 | [stay-in-the-loop](stay-in-the-loop/) | Double opt-in newsletter / email signup + Resend | [module.manifest.json](stay-in-the-loop/module.manifest.json) |
@@ -35,7 +35,7 @@ Feature modules (`book-consultation`, `schedule-a-call`, `stay-in-the-loop`) ins
 
 ## Create a new module
 
-Say **`make new`** or **`create module`** — [Create-New-Module.md](../prompts/Create-New-Module.md)
+Say **`make new`** or **`create module`** — see **`.cursor/ideaz.md`** (portable module roadmap).
 
 ## Future modules (backlog)
 
@@ -43,8 +43,18 @@ See **[`.cursor/ideaz.md`](../ideaz.md)** for the portable studio kit roadmap (`
 
 ## Agent entry (any project)
 
-**[Prompt-Module.md](Prompt-Module.md)** — tell the agent to read and follow this file, then name the module (e.g. `google-api-proxy`).
-
-In Vader Engine, chat shortcuts (`install module`, etc.) route to [Install-Module.md](../prompts/Install-Module.md), which points back to Prompt-Module.md.
+**[Prompt-Module.md](Prompt-Module.md)** — tell the agent to read and follow this file, then name the module (e.g. `google-api-proxy`). For install steps, open each module's `CURSOR.md` + `install.ps1`.
 
 Per-module detail: `module.manifest.json` + `CURSOR.md` + `install.ps1`.
+
+## Sync portable copies from live repo
+
+After changing `scripts/`, session stack, LiteLLM, backup, or Hostinger tooling:
+
+```powershell
+npm run msc:portable:sync
+```
+
+Individual modules: `msc:hermes:module:sync`, `msc:google-api:module:sync`, `msc:backup:module:sync`, `msc:hostinger:module:sync`.
+
+Registry: [registry.json](registry.json) · Audit drift: `npm run sync` (docs audit includes portable hash check).

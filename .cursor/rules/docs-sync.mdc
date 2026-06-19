@@ -29,3 +29,9 @@ description: Documentation synchronization rules - auto-enforced when "update do
 - Documentation changes go in separate commits from code changes
 - Use `docs:` prefix for doc-only commits
 - Always update docs when changing behavior
+
+## Portable Modules (`custom-scriptz`)
+- **Live repo is source of truth** — `scripts/`, `.cursor/docs/`, `.cursor/prompts/`
+- After changing session/deploy/backup scripts, run **`npm run msc:portable:sync`**
+- Registry: `.cursor/custom-scriptz/registry.json`
+- Audit checks hash drift on key pairs; warnings mean run sync before backup or copy to another project

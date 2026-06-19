@@ -42,6 +42,78 @@ function Get-LiteLLMMasterKey {
     return 'sk-vader-protocol-1234'
 }
 
+function Get-LiteLLMDatabaseUrl {
+    if ($env:MSC_LITELLM_DATABASE_URL) {
+        return $env:MSC_LITELLM_DATABASE_URL.Trim()
+    }
+    return $null
+}
+
+function Configure-LiteLLMLocalEnv {
+    $litellmDb = Get-LiteLLMDatabaseUrl
+    if ($litellmDb) {
+        $env:DATABASE_URL = $litellmDb
+        Remove-Item Env:DISABLE_SCHEMA_UPDATE -ErrorAction SilentlyContinue
+    } else {
+        Remove-Item Env:DATABASE_URL -ErrorAction SilentlyContinue
+        Remove-Item Env:DATABASE_HOST -ErrorAction SilentlyContinue
+        Remove-Item Env:DATABASE_USER -ErrorAction SilentlyContinue
+        Remove-Item Env:DATABASE_PASSWORD -ErrorAction SilentlyContinue
+        Remove-Item Env:DATABASE_NAME -ErrorAction SilentlyContinue
+        Remove-Item Env:DATABASE_SCHEMA -ErrorAction SilentlyContinue
+        $env:DISABLE_SCHEMA_UPDATE = 'true'
+    }
+
+    $masterKey = Get-LiteLLMMasterKey
+    if ($masterKey) {
+        $env:LITELLM_MASTER_KEY = $masterKey
+        $env:MSC_LITELLM_MASTER_KEY = $masterKey
+    }
+}
+
+function Get-HermesExecutable {
+    $candidates = @()
+    if ($env:LOCALAPPDATA) {
+        $candidates += (Join-Path $env:LOCALAPPDATA 'hermes\hermes-agent\venv\Scripts\hermes.exe')
+    }
+    if ($env:HERMES_HOME) {
+        $candidates += (Join-Path $env:HERMES_HOME 'hermes-agent\venv\Scripts\hermes.exe')
+    }
+    foreach ($candidate in $candidates) {
+        if ($candidate -and (Test-Path $candidate)) {
+            return $candidate
+        }
+    }
+    return $null
+}
+
+function Test-HermesGatewayRunning {
+    param([string]$HermesExe)
+    $status = & $HermesExe gateway status 2>&1 | Out-String
+    return $status -match 'Gateway (?:process )?running|Gateway is running'
+}
+
+function Start-HermesGatewayIfNeeded {
+    $hermesExe = Get-HermesExecutable
+    if (-not $hermesExe) {
+        Write-Warning "$Tag Hermes CLI not found - Telegram gateway skipped."
+        return
+    }
+
+    if (Test-HermesGatewayRunning -HermesExe $hermesExe) {
+        Write-Host "$Tag Hermes gateway already running (Telegram)" -ForegroundColor Green
+        return
+    }
+
+    Write-Host "$Tag Starting Hermes gateway (LiteLLM ready; no Windows logon auto-start)..." -ForegroundColor Cyan
+    $output = & $hermesExe gateway install --no-start-on-login --start-now 2>&1 | Out-String
+    if ($output -match 'Gateway started|already running') {
+        Write-Host "$Tag Hermes gateway online (Telegram)" -ForegroundColor Green
+    } else {
+        Write-Warning "$Tag Hermes gateway may not have started. Run: hermes gateway status"
+    }
+}
+
 function Get-NgrokExecutable {
     if ($env:MSC_NGROK_BIN -and (Test-Path $env:MSC_NGROK_BIN)) {
         return $env:MSC_NGROK_BIN
@@ -177,7 +249,8 @@ function Stop-LiteLLMProxy {
 function Start-LiteLLM-Window {
     Write-Host "$Tag Launching LiteLLM in Windows Terminal..." -ForegroundColor Cyan
 
-    $litellmCmd = 'cd /d "' + $RepoRoot + '" && litellm --config "' + $ConfigRel + '" --port ' + $Port
+    # Node launcher strips Payload DATABASE_URL and sets DISABLE_SCHEMA_UPDATE (see msc-litellm-env.mjs)
+    $litellmCmd = 'cd /d "' + $RepoRoot + '" && node scripts/msc-litellm-start.mjs'
     Start-WtWindow -Arguments ('nt --title "LiteLLM" cmd /k ' + $litellmCmd) -Elevated
 }
 
@@ -285,6 +358,7 @@ function Write-CursorNgrokSettings {
 }
 
 Import-DotEnvLocal
+Configure-LiteLLMLocalEnv
 
 Write-Host ''
 Write-Host "$Tag Session startup - LiteLLM proxy + ngrok tunnel" -ForegroundColor Cyan
@@ -375,6 +449,8 @@ if ($remoteOk) {
 
 Write-SessionGoogleApiInfo -NgrokUrl $ngrokUrl -RemoteVerified $remoteOk
 Write-CursorNgrokSettings -PublicBaseUrl $ngrokUrl
+
+Start-HermesGatewayIfNeeded
 
 Write-Host "$Tag Session file: $SessionFile" -ForegroundColor DarkGray
 Write-Host "$Tag Test: npm run msc:litellm:verify" -ForegroundColor DarkGray

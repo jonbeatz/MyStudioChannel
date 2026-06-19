@@ -1,7 +1,11 @@
 <!-- Append rows to .cursor/rules/global.mdc Natural Language Commands table if missing -->
 
 | "start google-api" | Run `npm run msc:google-api:start` (clean stop → LiteLLM → ngrok → READY) |
-| "stop google-api" | Run `npm run msc:litellm:stop` |
+| "start google-api session" | Run `npm run msc:google-api:start-session` (LiteLLM + ngrok + gateway; no Kanban) |
+| "stop google-api" | Run `npm run msc:litellm:stop` (includes Hermes gateway on Windows) |
+| "stop google-api keep gateway" | Run `node scripts/msc-litellm-stop.mjs --keep-gateway` |
 | "status google-api" | Run `npm run msc:litellm:status` |
 | "verify google-api" | Run `npm run msc:litellm:test:ngrok` |
 | "restart google-api" | Run `npm run msc:google-api:start` |
+| "Start Project" | Run `npm run msc:session:start` (requires hermes-system session scripts) |
+| "End Project" | Run `npm run msc:session:stop` or `msc:session:stop:keep-gateway` after operator choice |

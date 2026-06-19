@@ -1,10 +1,24 @@
 import fs from "node:fs"
 import path from "node:path"
+import crypto from "node:crypto"
 import { execSync } from "node:child_process"
 import { fileURLToPath } from "node:url"
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..")
 const docsDir = path.join(root, ".cursor", "docs")
+const promptsDir = path.join(root, ".cursor", "prompts")
+const customScriptzDir = path.join(root, ".cursor", "custom-scriptz")
+
+function collectMarkdownFiles(dir, acc = []) {
+  if (!fs.existsSync(dir)) return acc
+  for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (ent.name.startsWith("_")) continue
+    const p = path.join(dir, ent.name)
+    if (ent.isDirectory()) collectMarkdownFiles(p, acc)
+    else if (ent.name.endsWith(".md") || ent.name.endsWith(".mdc")) acc.push(p)
+  }
+  return acc
+}
 
 console.log("╔══════════════════════════════════════════════════════════════╗")
 console.log("║  📚 Documentation Integrity & Sync Auditor                   ║")
@@ -29,6 +43,30 @@ if (fs.existsSync(docsDir)) {
       targetFiles.push(path.join(docsDir, f))
     }
   }
+}
+
+for (const p of collectMarkdownFiles(promptsDir)) {
+  targetFiles.push(p)
+}
+
+for (const p of collectMarkdownFiles(customScriptzDir)) {
+  targetFiles.push(p)
+}
+
+/** Key portable pairs — live repo → custom-scriptz copy (hash drift = run msc:portable:sync). */
+const PORTABLE_DRIFT_PAIRS = [
+  ["scripts/start-session-stack.ps1", ".cursor/custom-scriptz/hermes-system/scripts/start-session-stack.ps1"],
+  ["scripts/stop-session-stack.ps1", ".cursor/custom-scriptz/hermes-system/scripts/stop-session-stack.ps1"],
+  ["scripts/start-kanban-stack.ps1", ".cursor/custom-scriptz/hermes-system/scripts/start-kanban-stack.ps1"],
+  ["scripts/stop-kanban-stack.ps1", ".cursor/custom-scriptz/hermes-system/scripts/stop-kanban-stack.ps1"],
+  ["scripts/msc-litellm-stop.mjs", ".cursor/custom-scriptz/google-api-proxy/scripts/msc-litellm-stop.mjs"],
+  [".cursor/docs/Hermes-Cheat-Sheet.md", ".cursor/custom-scriptz/hermes-system/Hermes-Cheat-Sheet.md"],
+  [".cursor/docs/KANBAN-STACK-GUIDE.md", ".cursor/custom-scriptz/hermes-system/KANBAN-STACK-GUIDE.md"],
+]
+
+function fileSha256(filePath) {
+  if (!fs.existsSync(filePath)) return null
+  return crypto.createHash("sha256").update(fs.readFileSync(filePath)).digest("hex")
 }
 
 let totalErrors = 0
@@ -128,6 +166,28 @@ for (const filePath of targetFiles) {
     fileIssues.push(linkIssue)
   }
 
+  // Rule 5: Start Project should reference unified session stack (not legacy-only google-api)
+  const isStartProjectGuide =
+    relativeName.endsWith("Start-Project.md") ||
+    (relativeName.includes("Hermes-Cheat-Sheet") && !relativeName.includes("custom-scriptz"))
+  if (
+    isStartProjectGuide &&
+    content.includes("msc:google-api:start-session") &&
+    !content.includes("msc:session:start")
+  ) {
+    fileWarnings.push("Start Project docs still use msc:google-api:start-session only — prefer msc:session:start (full stack)")
+  }
+
+  // Rule 6: End Project / session stop should include Kanban in unified stop
+  if (
+    (relativeName.endsWith("Jedi-List.md") || relativeName.endsWith("TRUTH.md")) &&
+    content.includes("msc:session:stop") &&
+    content.includes("Kanban stack ports") &&
+    content.includes("stopped separately")
+  ) {
+    fileWarnings.push("msc:session:stop now includes Kanban — remove 'stopped separately' wording")
+  }
+
   // Report issues for this file
   if (fileIssues.length > 0 || fileWarnings.length > 0) {
     console.log(`\n📄 File: ${relativeName}`)
@@ -140,6 +200,33 @@ for (const filePath of targetFiles) {
       totalWarnings++
     }
   }
+}
+
+console.log("\n🔌 Portable module drift (live → custom-scriptz)…")
+let portableDrift = 0
+for (const [liveRel, portableRel] of PORTABLE_DRIFT_PAIRS) {
+  const livePath = path.join(root, liveRel)
+  const portablePath = path.join(root, portableRel)
+  const liveHash = fileSha256(livePath)
+  const portableHash = fileSha256(portablePath)
+  if (!liveHash) {
+    console.log(`   ⚠️  SKIP missing live: ${liveRel}`)
+    continue
+  }
+  if (!portableHash) {
+    console.log(`   ❌ MISSING portable: ${portableRel}`)
+    totalErrors++
+    portableDrift++
+    continue
+  }
+  if (liveHash !== portableHash) {
+    console.log(`   ⚠️  DIFFERS: ${portableRel} (run npm run msc:portable:sync)`)
+    totalWarnings++
+    portableDrift++
+  }
+}
+if (portableDrift === 0) {
+  console.log("   ✅ All checked portable files match live repo")
 }
 
 console.log("\n━━━━━━━━━━━━━━━━════════════════════════════════════════════════")

@@ -30,6 +30,8 @@
    npm run msc:litellm:test:ngrok
    ```
 
+**Session lifecycle:** Full **Start Project** / **End Project** stack (Kanban + AI) lives in the **hermes-system** module (`msc:session:start`, `msc:session:stop`). This module owns LiteLLM/ngrok only. Overnight Telegram: `node scripts/msc-litellm-stop.mjs --keep-gateway`.
+
 ## Do not
 
 - Commit `ngrok.exe`, `gcp_key.json`, real `gcp-service-account.json`, or `.env.local`

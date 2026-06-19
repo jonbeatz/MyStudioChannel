@@ -37,7 +37,11 @@ $scripts = @(
     "config.yaml.template",
     "version-bump.ps1",
     "github-release.ps1",
-    "docs-update.ps1"
+    "docs-update.ps1",
+    "start-kanban-stack.ps1",
+    "stop-kanban-stack.ps1",
+    "start-session-stack.ps1",
+    "stop-session-stack.ps1"
 )
 
 if (-not $WhatIf) {

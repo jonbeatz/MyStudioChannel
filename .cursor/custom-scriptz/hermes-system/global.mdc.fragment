@@ -13,3 +13,6 @@
 | **`keep-model-off`**| `keep-model-off` | Re-enables the 15-minute auto-unload safety loop |
 | **`gen-image <prompt>`** | `gen-image "<prompt>"` | Generates a free FLUX.1 image locally (sub-3s) |
 | **`speak <conversational image prompt>`** | `speak "make me an HD background..."` | Converse naturally to trigger image downloads & opens |
+| **`Start Project`** | `npm run msc:session:start` | LiteLLM + ngrok + gateway + Kanban (hidden) |
+| **`End Project`** | `npm run msc:session:stop` | Full stack teardown |
+| **`kanban`** | `npm run kanban` | Kanban stack only (3001, 3005, 9119) |

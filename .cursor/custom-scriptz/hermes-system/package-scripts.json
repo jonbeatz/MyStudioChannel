@@ -1,5 +1,10 @@
 {
   "scripts": {
+    "kanban": "powershell -ExecutionPolicy Bypass -File scripts/start-kanban-stack.ps1",
+    "kanban:stop": "powershell -ExecutionPolicy Bypass -File scripts/stop-kanban-stack.ps1",
+    "msc:session:start": "powershell -ExecutionPolicy Bypass -File scripts/start-session-stack.ps1",
+    "msc:session:stop": "powershell -ExecutionPolicy Bypass -File scripts/stop-session-stack.ps1",
+    "msc:session:stop:keep-gateway": "powershell -ExecutionPolicy Bypass -File scripts/stop-session-stack.ps1 -KeepGateway",
     "msc:generate:types": "node scripts/generate-payload-types.mjs",
     "msc:types:watch": "powershell -ExecutionPolicy Bypass -File scripts/payload-types-sync.ps1 -Watch",
     "msc:types:validate": "powershell -ExecutionPolicy Bypass -File scripts/payload-types-sync.ps1 -Validate",

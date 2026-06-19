@@ -36,9 +36,9 @@ Say these exact commands in Cursor chat to run automated, pre-flight workflow sc
 
 | Say This | What happens | Associated Prompts / Skills |
 | :--- | :--- | :--- |
-| **`"Start Project"`** | Cold-start handshake ritual | Loads START-HERE, README, TRUTH, project-log, and Checkpoint. Runs preflights. |
-| **`"End Project"`** | Session closeout and ports clear | Identifies changed files, prompts for git commits, logs summary, kills port 3000. |
-| **`"update docs"`** | Synchronizes documentation | Audits files for drift, updates versions, logs issues to ISSUES-RESOLVED.md. |
+| **`"Start Project"`** | Cold-start handshake ritual | Runs `msc:session:start` (LiteLLM + ngrok + gateway + Kanban), loads START-HERE, README, TRUTH, project-log, Checkpoint. Does **not** auto-start Next.js dev (**3000**). |
+| **`"End Project"`** | Session closeout and ports clear | `msc:session:stop` (or `keep-gateway`): Kanban + Next dev + LiteLLM/ngrok; git audit, project-log, optional commit prompt. |
+| **`"update docs"`** | Synchronizes documentation | Audits docs/prompts/custom-scriptz, runs `msc:portable:sync` when scripts changed, logs ISSUES-RESOLVED.md. |
 | **`"Update Project"`** | Git-to-docs milestone sync | Parses commits and updates `project-log.md` and `Checkpoint.md` milestones. |
 | **`"backup project"`** | Runs project backup ritual | Prompts step-by-step for standard/full backup, note, and exports to the G: backup drive. |
 | **`"start google-api"`** | Start Vertex AI proxy | Boots local LiteLLM on port `4000` connected to Vertex AI and mounts an ngrok tunnel. |

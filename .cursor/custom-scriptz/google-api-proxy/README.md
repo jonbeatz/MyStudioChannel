@@ -52,9 +52,13 @@ Installer auto-detects repo root: current directory if `package.json` exists, el
 | Say / Command | Action |
 |---------------|--------|
 | `start google-api` | `npm run msc:google-api:start` |
+| `start google-api session` | `npm run msc:google-api:start-session` (LiteLLM + ngrok + gateway) |
 | `verify google-api` | `npm run msc:litellm:test:ngrok` (local + ngrok **200**) |
-| `stop google-api` | `npm run msc:litellm:stop` |
+| `stop google-api` | `npm run msc:litellm:stop` (stops gateway on Windows) |
+| `stop google-api keep gateway` | `node scripts/msc-litellm-stop.mjs --keep-gateway` |
 | `status google-api` | `npm run msc:litellm:status` |
+
+Full session stack (Kanban + AI): install **hermes-system** module → `npm run msc:session:start` / `msc:session:stop`.
 
 ## Cursor shortcuts
 

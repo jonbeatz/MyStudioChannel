@@ -100,6 +100,7 @@ const DOC_ROOTS = [
   '.cursor/docs',
   '.cursor/rules',
   '.cursor/prompts',
+  '.cursor/custom-scriptz',
   '.cursor/skills',
   '.cursor/mcp.json',
   'AGENTS.md',

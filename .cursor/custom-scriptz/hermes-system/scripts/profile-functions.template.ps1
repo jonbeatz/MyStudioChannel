@@ -201,16 +201,71 @@ function recall {
 }
 
 # --- LM Studio CLI Model Switcher Functions ---
-function load-qwen {
-    Update-VramActivity
-    lms load "qwen3-4b-instruct-2507"
-    Write-Host "[OK] Qwen 4B loaded" -ForegroundColor Green
+$script:MscLmsModels = [ordered]@{
+    qwen4    = @{ Key = 'qwen3-4b-instruct-2507'; Label = 'Qwen 4B (default — fast, Mem0)'; Task = 'light chat, memory, daily default' }
+    qwen9    = @{ Key = 'qwen3.5-9b'; Label = 'Qwen 3.5 9B (smarter local chat)'; Task = 'better answers when you can wait' }
+    coder14  = @{ Key = 'qwen2.5-coder-14b-instruct'; Label = 'Qwen Coder 14B'; Task = 'local coding — best fit for 16GB VRAM' }
+    deepseek33 = @{ Key = 'deepseek-coder-33b-instruct'; Label = 'DeepSeek Coder 33B'; Task = 'heavy coding tests' }
+    r1       = @{ Key = 'deepseek-r1-distill-qwen-14b'; Label = 'DeepSeek R1 14B'; Task = 'step-by-step reasoning' }
+    arsenic  = @{ Key = 'arsenic-shahrazad-12b-v4.4'; Label = 'Arsenic Shahrazad 12B'; Task = 'creative writing / RP' }
 }
 
-function load-deepseek {
+function Invoke-MscLmsLoad {
+    param(
+        [Parameter(Mandatory = $true)][string]$ModelKey,
+        [Parameter(Mandatory = $true)][string]$OkMessage
+    )
     Update-VramActivity
-    lms load "deepseek-coder-33b-instruct"
-    Write-Host "[OK] DeepSeek 33B loaded" -ForegroundColor Green
+    lms load $ModelKey
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "[FAIL] Could not load: $ModelKey (lms exit $LASTEXITCODE)" -ForegroundColor Red
+        return
+    }
+    Write-Host "[OK] $OkMessage" -ForegroundColor Green
+    model-status
+}
+
+function load-qwen4 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.qwen4.Key -OkMessage 'Qwen 4B loaded (default)' }
+function load-qwen9 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.qwen9.Key -OkMessage 'Qwen 3.5 9B loaded' }
+function load-coder14 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.coder14.Key -OkMessage 'Qwen Coder 14B loaded' }
+function load-deepseek33 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.deepseek33.Key -OkMessage 'DeepSeek Coder 33B loaded' }
+function load-r1 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.r1.Key -OkMessage 'DeepSeek R1 14B loaded' }
+function load-arsenic { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.arsenic.Key -OkMessage 'Arsenic Shahrazad 12B loaded' }
+function load-qwen { load-qwen4 }
+function load-deepseek { load-deepseek33 }
+
+function load-model {
+    param([Parameter(Mandatory = $true, Position = 0)][string]$Name)
+    $n = $Name.Trim().ToLower() -replace '\s+', '' -replace '_', ''
+    $taskMap = @{
+        default = 'qwen4'; fast = 'qwen4'; mem0 = 'qwen4'; memory = 'qwen4'
+        smart = 'qwen9'; chat = 'qwen9'
+        code = 'coder14'; coder = 'coder14'; dev = 'coder14'
+        heavy = 'deepseek33'; deepseek = 'deepseek33'
+        reason = 'r1'; think = 'r1'
+        creative = 'arsenic'; story = 'arsenic'
+    }
+    if ($taskMap.ContainsKey($n)) { $n = $taskMap[$n] }
+    if ($script:MscLmsModels.Contains($n)) {
+        $entry = $script:MscLmsModels[$n]
+        Invoke-MscLmsLoad -ModelKey $entry.Key -OkMessage "$($entry.Label) loaded"
+        return
+    }
+    Invoke-MscLmsLoad -ModelKey $Name -OkMessage "Loaded $Name"
+}
+
+function list-models {
+    Write-Host ""
+    Write-Host "LM Studio shortcuts (load-model <nick> or load-<nick>):" -ForegroundColor Cyan
+    foreach ($prop in $script:MscLmsModels.Keys) {
+        $e = $script:MscLmsModels[$prop]
+        Write-Host ("  {0,-12} load-{0,-8} {1}" -f $prop, $e.Label) -ForegroundColor White
+        Write-Host ("              -> {0}" -f $e.Task) -ForegroundColor DarkGray
+    }
+    Write-Host ""
+    Write-Host "Task aliases: load-model code | smart | reason | creative | fast" -ForegroundColor DarkCyan
+    Write-Host ""
+    lms ls
 }
 
 function unload-model {
@@ -393,6 +448,50 @@ function gen-image {
         Write-Host "[J.A.R.V.I.S. Error] $err" -ForegroundColor Red
         Invoke-HermesTTS "Excuse me, Jon. I encountered an error while generating your image."
     }
+}
+
+function gen-image-local {
+    param(
+        [Parameter(Mandatory = $true, Position = 0)]
+        [string]$Prompt,
+        [Parameter(Mandatory = $false)]
+        [string]$OutputPath,
+        [Parameter(Mandatory = $false)]
+        [int]$Width = 0,
+        [Parameter(Mandatory = $false)]
+        [int]$Height = 0
+    )
+    Update-VramActivity
+    $w = 1920; $h = 1080
+    if ($Prompt -match '\b(square|1024x1024|1:1)\b') { $w = 1024; $h = 1024 }
+    elseif ($Prompt -match '\b(vertical|phone|9:16)\b') { $w = 1080; $h = 1920 }
+    if ($Width -gt 0) { $w = $Width }
+    if ($Height -gt 0) { $h = $Height }
+    $projectRoot = "__PROJECT_ROOT__"
+    if ([string]::IsNullOrWhiteSpace($OutputPath)) {
+        $timestamp = (Get-Date).ToString("yyyyMMdd-HHmmss")
+        $mediaDir = Join-Path $projectRoot "public\media"
+        if (-not (Test-Path $mediaDir)) { New-Item -ItemType Directory -Path $mediaDir -Force | Out-Null }
+        $OutputPath = Join-Path $mediaDir "generated-local-$timestamp.png"
+    }
+    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
+    $targetDir = [System.IO.Path]::GetDirectoryName($absoluteOutput)
+    if (-not (Test-Path $targetDir)) { New-Item -ItemType Directory -Path $targetDir -Force | Out-Null }
+    Write-Host "[J.A.R.V.I.S.] Local ComfyUI image generation (z-image-turbo)..." -ForegroundColor Yellow
+    $workflowFile = "D:\AI_Models\ComfyUI\workflows\txt2img-gen-image-local.json"
+    $overrides = @{
+        "4.text" = $Prompt; "6.width" = $w; "6.height" = $h
+        "8.seed" = Get-Random -Minimum 1 -Maximum 9999999999999
+    }
+    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
+    if ($resultFile -and (Test-Path $resultFile)) {
+        Write-Host "[OK] Saved to: $resultFile" -ForegroundColor Green
+        Invoke-HermesTTS "Local image generated, opening now."
+        Start-Process -FilePath $resultFile
+        return $resultFile
+    }
+    Invoke-HermesTTS "Local image generation failed."
+    return $null
 }
 
 function hermes { & "C:\Users\JONBEATZ\AppData\Local\hermes\hermes-agent\venv\Scripts\hermes.exe" $args }

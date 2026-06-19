@@ -21,8 +21,11 @@ It packages your neural speaking assistant, vector memory layers, VRAM idle auto
     *   `msc-build-and-dev.ps1` — NextJS production build check + detached auto-dev relaunch.
     *   `generate-image.py` — High-fidelity FLUX.1 cloud image generation.
     *   `mem0_integration.py` & `mem0-chat.ps1` — Local Qdrant memory vector layers.
-    *   `start-hermes-api.ps1` — Polling API launcher + J.A.R.V.I.S. greeting trigger.
+    *   `start-hermes-api.ps1` — LiteLLM + ngrok + Hermes gateway launcher.
+    *   `start-session-stack.ps1` / `stop-session-stack.ps1` — Unified Start/End Project lifecycle.
+    *   `start-kanban-stack.ps1` / `stop-kanban-stack.ps1` — Visual Kanban stack (hidden background).
     *   `generate-payload-types.mjs` — Fast Jiti-driven Payload typescript generator.
+    *   **`KANBAN-STACK-GUIDE.md`** — Port map, architecture, and session commands.
 
 ---
 

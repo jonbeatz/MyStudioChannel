@@ -30,6 +30,7 @@ def get_hf_token(project_root):
 def main():
     parser = argparse.ArgumentParser(description="Generate images locally using Hugging Face Serverless FLUX.1")
     parser.add_argument("--prompt", required=True, type=str, help="Text description of the image to generate")
+    parser.add_argument("--model", type=str, default="black-forest-labs/FLUX.1-schnell", help="HF model name to use")
     parser.add_argument("--output", type=str, default="", help="Optional specific output path for the PNG file")
     parser.add_argument("--width", type=int, default=1024, help="Image width (optional)")
     parser.add_argument("--height", type=int, default=1024, help="Image height (optional)")
@@ -68,10 +69,10 @@ def main():
         # Initialize client with our token
         client = InferenceClient(api_key=hf_token)
 
-        # Generate image using Black Forest Labs FLUX.1-schnell model
+        # Generate image using Black Forest Labs model
         image = client.text_to_image(
             prompt=args.prompt,
-            model="black-forest-labs/FLUX.1-schnell",
+            model=args.model,
             width=args.width,
             height=args.height
         )

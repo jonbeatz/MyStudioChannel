@@ -453,7 +453,7 @@ TELEGRAM_HOME_CHANNEL=...       # optional — DM chat ID for cron deliveries
 | **LiteLLM** (port 4000) | ✗ manual — **Start Project** | Yes — Hermes routes to `http://127.0.0.1:4000/v1` |
 | **ngrok** (port 4040) | ✗ manual — **Start Project** | No — Cursor only |
 
-**Morning ritual:** Say **Start Project** in Cursor (`msc:google-api:start-session` → LiteLLM + ngrok + Hermes gateway). **End Project** (`.cursor/prompts/End-Project.md`) stops Kanban stack (**3001**, **3005**, **9119**), LiteLLM + ngrok, Next dev (**3000**), and optionally the Telegram gateway.
+**Morning ritual:** Say **Start Project** in Cursor (`npm run msc:session:start` → LiteLLM + ngrok + gateway + Kanban hidden). **End Project** (`.cursor/prompts/End-Project.md`) runs `msc:session:stop` — Kanban (**3001**, **3005**, **9119**), LiteLLM + ngrok, Next dev (**3000**), and optionally the Telegram gateway (`msc:session:stop:keep-gateway`).
 
 **Verify:**
 

@@ -35,6 +35,8 @@ When the user says **"update docs"** or **"update docs and mem0"**, execute the 
 1. **Scan all documentation folders:**
    - `.cursor/docs/` - All markdown files
    - `.cursor/rules/` - All .mdc rule files
+   - `.cursor/prompts/` - Start/End Project and workflow prompts
+   - `.cursor/custom-scriptz/` - Portable module READMEs and cheat sheets
    - `README.md` - Root readme
    - `CONTRIBUTING.md` - Contributing guide
    - `CHANGELOG.md` - Version history
@@ -48,7 +50,7 @@ When the user says **"update docs"** or **"update docs and mem0"**, execute the 
    - **Deployment:** HOSTINGER-DEPLOY.md, Go-Live-Checklist.md
 
 3. **Check for inconsistencies:**
-   - Outdated paths (D:\Cursor_Projectz\MSC_Clean_v2\msc-new vs D:\Cursor_Projectz\MyStudioChannel)
+   - Outdated paths (legacy `MSC_Clean_v2` tree vs current `MyStudioChannel` workspace)
    - Old branch names (MSC-Website-v2 vs MSC-Website-v3)
    - Missing sections or TODOs
    - Contradictory instructions
@@ -57,7 +59,7 @@ When the user says **"update docs"** or **"update docs and mem0"**, execute the 
 ## Phase 2: Synchronization
 
 4. **Update paths across all docs:**
-   - Replace any `msc-new` references with `MyStudioChannel`
+   - Replace legacy short project folder names with `MyStudioChannel`
    - Update any hardcoded drive paths to relative or current workspace
    - Update branch names to current workflow (`main`, `MSC-Website-v9`)
 
@@ -99,6 +101,15 @@ When the user says **"update docs"** or **"update docs and mem0"**, execute the 
 10. **Update timestamps:**
     - Add/update "Last Updated" footers
     - Update `Restore-Points.md` with current state
+
+11. **Portable module sync (when live scripts changed):**
+    - If `git diff` or session work touched `scripts/` (session stack, LiteLLM, backup, Hostinger) or `.cursor/prompts/Start-Project.md` / `End-Project.md`:
+      ```powershell
+      npm run msc:portable:sync
+      ```
+    - Or sync individually: `msc:hermes:module:sync`, `msc:google-api:module:sync`, `msc:backup:module:sync`, `msc:hostinger:module:sync`
+    - Report **SYNCED** / **DIFFERS** for key pairs (audit script checks hashes)
+    - **Source of truth:** live repo `scripts/` + `.cursor/docs/` → copies into `.cursor/custom-scriptz/*/`
 
 ## Phase 5: Reporting
 
@@ -147,4 +158,5 @@ Provide a report showing:
 - **Changes made:** Before/after for key updates
 - **Issues logged:** What was added to ISSUES-RESOLVED.md
 - **Mem0 sync:** Skipped / completed / failed (Path B only) — include line: **Mem0 Status:** ✅ Memories synced *(or ⚠️ Skipped - LM Studio unavailable)*
+- **Portable sync:** Files synced via `msc:portable:sync` (or skipped if no script changes)
 - **Remaining TODOs:** Any unresolved items

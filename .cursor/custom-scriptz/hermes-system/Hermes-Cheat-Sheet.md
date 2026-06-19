@@ -67,13 +67,20 @@ Your workspace features a local long-term memory layer that persists context, us
 Your system features native CLI model switching and an autonomous VRAM background daemon to keep your computer's resources fast and clean.
 
 ### 🔌 Model Switcher Shortcuts
-*   `load-qwen` — Fast-loads your default reasoning model (`qwen3-4b-instruct-2507` — 2.33 GB VRAM).
-*   `load-deepseek` — Loads your heavy development model (`deepseek-coder-33b-instruct` — 20+ GB VRAM).
+*   **Model switchers** — `list-models` shows all shortcuts; load by nick or task:
+    *   `load-qwen4` / `load-qwen` — default fast (`qwen3-4b-instruct-2507`)
+    *   `load-qwen9` — smarter local chat (`qwen3.5-9b`)
+    *   `load-coder14` — local coding, 16GB sweet spot
+    *   `load-deepseek33` / `load-deepseek` — heavy coder test
+    *   `load-r1` — step-by-step reasoning
+    *   `load-arsenic` — creative writing
+    *   `load-model code` · `smart` · `reason` · `creative` · `fast` — task aliases
+    *   `unload-model` · `model-status`
 *   `unload-model` — Purges and unloads all models from VRAM immediately.
 *   `model-status` — Displays currently active loaded models and their allocations.
 
 ### ⏱️ VRAM Idle Auto-Unload Daemon
-To optimize local compilation and Next.js HMR speeds, the background daemon `[scripts/vram-idle-manager.ps1](../../scripts/vram-idle-manager.ps1)` monitors loaded models:
+To optimize local compilation and Next.js HMR speeds, the background daemon `scripts/vram-idle-manager.ps1` (copied to repo `scripts/` on install) monitors loaded models:
 *   **14 Minutes Idle:** Speaks a warning: *"Warning: Model has been idle for fourteen minutes and will be unloaded shortly to conserve VRAM."*
 *   **15 Minutes Idle:** Automatically unloads all models and speaks: *"Model auto unloaded to free up system VRAM."*
 
@@ -115,14 +122,73 @@ speak "make me an HD background image of a video camera filming a tv show"
 ## 🔄 5. Project & Dev Automation
 
 ### 🚀 Daily Start Project Workflow (`Start Project`)
-Execute the canonical session-start command to prepare your workspace:
+Say **Start Project** in Cursor (or run locally):
+
 ```powershell
-npm run msc:google-api:start-session
+npm run msc:session:start
 ```
-1.  Launches your local LiteLLM Google API proxy.
-2.  Actively polls port `4000` until online.
-3.  Waits 2 seconds for tunnel stabilization.
-4.  Plays J.A.R.V.I.S.'s vocal welcome greeting: *"Welcome back Jon, I am J.A.R.V.I.S. your personal assistant..."*
+
+Unified stack (one command):
+1. **LiteLLM** on port **4000** + **ngrok** tunnel (Cursor **Override OpenAI Base URL**)
+2. **Hermes Telegram gateway** (hidden; no Windows logon popup)
+3. **Kanban stack** — TaskBoardAI (**3001**), Hermes Workspace (**3005**), Dashboard (**9119**) as hidden background processes
+
+**Partial stack:**
+| Command | Scope |
+|---------|--------|
+| `npm run msc:google-api:start-session` | LiteLLM + ngrok + gateway only (no Kanban) |
+| `npm run kanban` | Kanban ports only |
+
+**End Project:** `npm run msc:session:stop` stops Kanban + Next dev (**3000**) + LiteLLM/ngrok + gateway. Use `msc:session:stop:keep-gateway` to leave Telegram running overnight.
+
+**Cold boot:** Say **Start Project** in Cursor — no voice/TTS in the launcher step. Manual gateway: `hermes gateway install --no-start-on-login --start-now`.
+
+### 📱 Telegram Gateway (Hermes from phone)
+
+| Command | Purpose |
+|---------|---------|
+| `hermes gateway setup` | First-time: @BotFather token + @userinfobot user ID |
+| `hermes gateway status` | Confirm gateway running |
+| `hermes gateway install --no-start-on-login --start-now` | Start Telegram gateway without logon auto-start (also runs from Start Project) |
+| `hermes gateway stop` | Stop gateway (**End Project** — optional; operator may keep overnight) |
+
+Config file: **`%LOCALAPPDATA%\hermes\.env`** — keys `TELEGRAM_BOT_TOKEN`, `TELEGRAM_ALLOWED_USERS`. Verified **2026-06-15**.
+
+### 🖥️ Hermes Desktop App + Jon’s desktop shortcuts
+
+| Shortcut | Script / action |
+|----------|-----------------|
+| **Start-Google-API-v2** | `scripts/start-google-api-desktop.ps1` — one window LiteLLM + hidden ngrok |
+| **Stop-Google-API** | `scripts/stop-msc-session-desktop.ps1` → `npm run msc:session:stop` |
+| **Hermes - MyStudioChannel** | `scripts/start-hermes-desktop-msc.ps1` — Desktop with MSC project root |
+
+**MSC project folder (Desktop):** Settings → Workspace → Working Directory is **not enough**. Desktop backend reads **`%APPDATA%\Hermes\project-dir.json`** first. Use **`Hermes - MyStudioChannel`** shortcut or set:
+
+```json
+{ "dir": "D:\\Cursor_Projectz\\MyStudioChannel" }
+```
+
+Then **quit Desktop fully** → reopen → **`Ctrl+N`** new session. Chat → Personality **Msc**. General tasks: **`D:\Hermes`**.
+
+### 📧 Google Workspace skill (`google-workspace`) — Gmail · Calendar · Drive
+
+**Status:** ✅ Authenticated **2026-06-17** · GCP project **`wordpress-map-1492461083797`**
+
+| What | Where |
+|------|--------|
+| Token | `%LOCALAPPDATA%\hermes\google_token.json` |
+| Client secret | `%LOCALAPPDATA%\hermes\google_client_secret.json` |
+| Setup script | `%LOCALAPPDATA%\hermes\skills\productivity\google-workspace\scripts\setup.py` |
+
+**Check auth:** `python …\setup.py --check` → `AUTHENTICATED`
+
+**OAuth gotcha:** After browser **Allow**, redirect to `http://localhost:1` shows **`ERR_UNSAFE_PORT`** — **normal**. Copy the **full URL** from the address bar (contains `code=4/0A…`); agent runs `--auth-code "URL"`.
+
+**Ask Hermes in plain English:** “Summarize unread emails”, “What's on my calendar today?”, “Search Drive for [file]”. No terminal needed day-to-day.
+
+**GCP admin:** [OAuth Clients](https://console.cloud.google.com/auth/clients?project=wordpress-map-1492461083797) · [Test users / Audience](https://console.cloud.google.com/auth/audience?project=wordpress-map-1492461083797)
+
+Full setup + revoke: **`Hermes-Agent.md`** § Google Workspace.
 
 ### 🛠️ Safe Build & Auto-Dev Pipeline (`npm run build:dev`)
 Standard builds often leave your local server offline. This unified pipeline compiles code and immediately leaves your local server active:
@@ -140,32 +206,53 @@ Completely automates database compilation and safety gates:
 *   `npm run msc:types:validate` — Validation check inside NextJS compilation. Fails the build if you modified a schema but forgot to commit `payload-types.ts`.
 *   **Husky Hooks (`.husky/pre-commit`):** Automatically intercepts commits. If schemas were changed, it compiles the types and **auto-stages `payload-types.ts`** into the current git commit safely!
 
-### 📈 Automated Version Bumping & Releases
-When transitioning to a new version branch (e.g. `MSC-Website-v9`, `MSC-Website-v10`, etc.), you can automate the entire version alignment, documentation synchronization, and GitHub release pipeline:
-*   `npm run version:bump` — Auto-detects active branch, parses version (`MSC-Website-v9` -> `9.0.0`), updates `package.json`, `README.md` badges, milestone configurations, prepend-logs `project-log.md`, and runs full verification builds/lints, then commits and pushes!
-*   `npm run version:release` — Bumps the version, runs the build gate, commits/tags, and triggers the `github:release` publisher automatically.
-*   `npm run github:release` — Auto-publishes a GitHub release using the active package version and compiles release notes.
-*   `npm run version:restore` — Safety switch: immediately restores all affected files from `.version-backup/` to safety.
+---
 
-#### Flags:
-*   `-- --dry-run` — Show what version/files would change without writing anything (e.g., `npm run version:bump -- --dry-run`).
-*   `-- --force` — Bypass the user confirmation prompt.
+## 📋 6. Visual Kanban & Task Management Stack
+
+Manage your human ideas and agent executions through a fully integrated visual Kanban ecosystem.
+
+### 🔌 Running Ports & URLs
+*   **TaskBoardAI Web UI (Port 3001):** `http://localhost:3001/` — Repository-level planning board.
+*   **Hermes Workspace Dashboard (Port 3005):** `http://localhost:3005/` — Visual orchestration dashboard.
+*   **Embedded Hermes Dashboard (Port 9119):** `http://localhost:9119/` — Gateway admin panel.
+
+### 🕹️ Service Control Shortcuts
+*   **Start Workspace:** Run `pnpm dev` in `D:\Hermes\hermes-workspace`.
+*   **Start TaskBoardAI Board:** Run `npm start` in `D:\Hermes\TaskBoardAI`. (Reads repository board file: `.cursor/boards/msc-website-v9.json`).
+*   **Start Hermes Dashboard:** Run `hermes dashboard --no-open --port 9119`.
+
+### 🛑 End Project — Kanban shutdown
+**End Project** (`.cursor/prompts/End-Project.md`) kills **3001** (TaskBoardAI), **3005** (Workspace), **9119** (Dashboard), then LiteLLM/ngrok (**4000**/**4040**). Telegram gateway is **optional** — operator may keep it running overnight.
+
+### 🔌 Cursor MCP Configuration
+Add this under **Cursor Settings ➡️ Features ➡️ MCP ➡️ Add New MCP Server**:
+*   **Name:** `TaskBoardAI`
+*   **Type:** `stdio`
+*   **Command:** `node "D:\Hermes\TaskBoardAI\server\mcp\kanbanMcpServer.js"`
+
+### 🔄 The Standard Hybrid Promotion Flow
+1. **Developer Plan:** Write/edit cards on **TaskBoardAI** (`http://localhost:3001/`).
+2. **Agent Promote:** Copy/promote task to active **Hermes Kanban** via `hermes kanban create "Task Title" --body "..." --assignee msc --workspace "dir:D:\Cursor_Projectz\MyStudioChannel"`.
+3. **Agent Execute:** A running gateway will automatically launch the profile `msc`, run the task, and mark it complete on finish.
+4. **Visual Monitor:** Track real-time progress on **Hermes Workspace** (`http://localhost:3005/`).
 
 ---
 
-## 🔧 6. Active Model Context Protocol (MCP) Servers
+## 🔧 7. Active Model Context Protocol (MCP) Servers
 
 These servers are registered directly in your IDE settings (`cline_mcp_settings.json`) to expand Cursor's capabilities:
 
 | Server | Configuration Command | Scope / Capabilities |
 |--------|-----------------------|----------------------|
+| **TaskBoardAI MCP** | `node "D:\Hermes\TaskBoardAI\server\mcp\kanbanMcpServer.js"` | Read/write, move, and edit Kanban boards inside the project repo directly from the chat. |
 | **SQLite MCP** | `npx -y @modelcontextprotocol/server-sqlite D:\Cursor_Projectz\MyStudioChannel\payload.sqlite` | Enables Cursor to run read/write queries directly on your Payload CMS database, seed test records, or inspect user models. |
 | **Git MCP** | `npx -y @modelcontextprotocol/server-git` | Allows Cursor to inspect advanced branch histories, run diffs, check blame logs, and manage staging areas. |
 | **Docker MCP** | `npx -y docker-mcp` | Gives Cursor the ability to inspect running local containers, retrieve logs, and monitor system containers. |
 
 ---
 
-## 🚨 7. Troubleshooting & Recovery Runbooks
+## 🚨 8. Troubleshooting & Recovery Runbooks
 
 ### 💥 ERR_CONNECTION_REFUSED (Port 3000 Busy or White Screen)
 If NextJS dev crashes or port 3000 gets locked by a dead Node process, execute recovery immediately:
@@ -178,10 +265,6 @@ npm run dev:reset
 *   **The Issue:** Running `remember` or `recall` returns: *"I was unable to access local memory because LM Studio is offline."*
 *   **The Fix:** Make sure LM Studio is open on your PC and the local server port is active on `http://127.0.0.1:1234`.
 
-### 🛡️ Administrator Privileges (UAC / Process Management)
-*   **The Issue:** Attempting to query, restart, or kill background proxy servers (like `next dev`, LiteLLM wt, or ngrok) returns: *"Access is denied."*
-*   **The Fix:** Run your **Cursor Desktop IDE as Administrator**. This allows background commands to inherit elevated privileges, bypass Windows UAC prompts, and control running background jobs smoothly.
-
 ### 💾 WAL/SHM Database Locking
 *   **The Issue:** Your doctor check reports unusually large database sidecars or file locking errors on Hostinger.
 *   **The Fix:** Flush the temporary SQL WAL/SHM files:
@@ -190,4 +273,4 @@ npm run dev:reset
 
 ---
 
-*Last Updated: 2026-06-13 — Authorized J.A.R.V.I.S. Core Update*
+*Last Updated: 2026-06-12 — Authorized J.A.R.V.I.S. Core Update*

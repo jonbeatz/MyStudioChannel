@@ -2,6 +2,36 @@
 
 This file tracks problems encountered during development and how they were resolved.
 
+## [2026-06-18] ComfyUI Model Library & Workflow Restore
+- **Error:** ComfyUI model suite was deleted or broken (symlinks missing). In addition, running the newly restored `flux-klein` GGUF workflow failed with a `mat1 and mat2 shapes cannot be multiplied` error during sampling, and unauthenticated Hugging Face downloads were getting rate-limited or hung.
+- **Cause:** 1. Models and upscale weights were deleted or unlinked on `H:` drive. 2. `flux-klein` workflow was using the wrong CLIP loader (`DualCLIPLoader` for Flux.1) and VAE (`ae.safetensors`) instead of Lumina-2/Flux.2 Klein specific requirements: `Qwen3-4B-Instruct-2507-Q4_K_M.gguf` text encoder (type `flux2`) and `flux2-vae.safetensors`. 3. `huggingface-cli` requires explicit `HF_TOKEN` from `.env.local` to trigger high-speed authenticated downloads.
+- **Solution:** 
+  1. Updated `restore-comfyui-models.ps1` to load and inject `HF_TOKEN` from `.env.local`. Added VAE and file renaming logic.
+  2. Fixed `repair-comfyui-symlinks.ps1` to link all 5 major model paths.
+  3. Redesigned `txt2img-flux-klein.json` workflow with correct `CLIPLoaderGGUF` (type: `flux2`) and loaded `flux2-vae.safetensors`.
+  4. Modified `test-comfyui-workflows.ps1` to run automated smoke tests, successfully generating 1024x1024 landscapes for all 5 workflows (`flux-dev`, `flux-klein`, `sdxl`, `realism`, `anime`).
+- **Files Changed:** `restore-comfyui-models.ps1`, `repair-comfyui-symlinks.ps1`, `test-comfyui-workflows.ps1`, `txt2img-flux-klein.json`, `txt2img-flux-dev.json`, `txt2img-sdxl.json`, `txt2img-realism.json`, `txt2img-anime.json`, `Microsoft.PowerShell_profile.ps1` (Invoke-ComfyPrompt).
+- **Prevention:** Always ensure `HF_TOKEN` is present in `.env.local`. Use `CLIPLoaderGGUF` with `flux2` type for all Flux.2 models.
+
+## [2026-06-18] Visual Kanban Stack - Dual-Mode Agent Automation
+- **Error:** Kanban workflow (TaskBoardAI on Port 3001 and Hermes Workspace on Port 3005) lacked automated agent task execution and manual-override gating. There was no direct mechanism for agents to autonomously poll, route, claim, execute, and report on board tasks.
+- **Cause:** No dispatcher or agent executor existed to interface between the visual Board JSON (`msc-website-v9.json`) and the transaction-safe SQLite database (`kanban.db`).
+- **Solution:** 
+  1. Designed and deployed **`task-executor.js`** skill inside `.cursor/custom-scriptz/agent-tasks/` utilizing Node.js's native `node:sqlite` (`DatabaseSync`).
+  2. Implemented **Dual-Mode** controls: Default `manual` mode (sends Telegram approval requests and gates execution) and `auto` mode (autonomous claim and dispatch loop).
+  3. Integrated **Smart Tag Routing**: Automatically routes tasks based on card tags (`#code` -> `coder`, `#research` -> `researcher`, `#creative` -> `creative`, `#deploy` -> `msc`).
+  4. Programmed **Live Actuators**: Triggers actual workspace scripts on execution (Next.js compilation verification, ComfyUI render workflows).
+  5. Added **Telegram Notifier**: Connects directly to the existing global credentials in `%LOCALAPPDATA%\hermes\.env` for real-time channel posts.
+- **Files Changed:** `.cursor/custom-scriptz/agent-tasks/task-executor.js`, `.cursor/custom-scriptz/agent-tasks/state.json`, `.cursor/docs/AGENT-TASKS.md`, `package.json` (`agent:daemon`, `agent:cmd` scripts).
+- **Prevention:** Keep `npm run agent:daemon` active in the background. Use correct hashtags in card titles or tags for auto-routing.
+
+## [2026-06-18] Portable `custom-scriptz` drift — no automated sync from live repo
+- **Error:** Session stack scripts (`start-session-stack.ps1`, Kanban, LiteLLM) lived in `scripts/` but portable copies under `.cursor/custom-scriptz/` went stale after commits; `update docs` did not refresh them.
+- **Cause:** Only `msc:hostinger:module:sync` existed; hermes/google-api/backup modules had manual copy-only workflow.
+- **Solution:** Added `msc-hermes-module-sync.mjs`, `msc-google-api-module-sync.mjs`, `msc-backup-module-sync.mjs`, orchestrator `msc-portable-module-sync.mjs`, `registry.json`, extended `msc-audit-docs.mjs` (prompts + custom-scriptz scan + hash drift), wired **Update-Docs** Phase 4 and **workflow.mdc**.
+- **Files Changed:** `scripts/msc-*-module-sync.mjs`, `package.json`, `.cursor/custom-scriptz/registry.json`, `Update-Docs.md`, `docs-sync.mdc`, `TRUTH.md`, `Jedi-List.md`, `Hermes-Cheat-Sheet.md`, `MASTER-COMMANDS.md`, `START-HERE.md`, `workflow.mdc`
+- **Prevention:** After editing session/deploy/backup scripts, run **`npm run msc:portable:sync`**. Docs audit (`npm run sync`) warns on hash drift.
+
 ## [2026-06-17] Hermes google-workspace OAuth — ERR_UNSAFE_PORT on localhost:1 after Allow
 - **Error:** After clicking **Allow** on Google OAuth consent, browser (Brave/Chrome) shows “This site can't be reached” with **`ERR_UNSAFE_PORT`** at `http://localhost:1/?code=4/0A…&state=…`.
 - **Cause:** Hermes `google-workspace` setup uses redirect URI **`http://localhost:1`** (out-of-band manual code copy). Modern browsers block port **1** as unsafe — authorization still succeeds; the code is in the address bar.

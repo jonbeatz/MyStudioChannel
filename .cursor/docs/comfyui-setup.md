@@ -24,6 +24,10 @@ All assets, models, and workflows are situated on your `D:` and `H:` drives to c
 - **Workflows:** `D:\AI_Models\ComfyUI\workflows\`
   - `img2img.json` (Image-to-Image API template)
   - `inpaint.json` (Inpainting API template)
+  - `txt2img-gen-image-local.json` (z-image-turbo default local path)
+  - `txt2img-flux-dev.json`, `txt2img-flux-klein.json`, `txt2img-sdxl.json`, `txt2img-realism.json`, `txt2img-anime.json`
+- **Model inventory:** `.cursor/docs/COMFYUI-MODELS.md`
+- **Restore scripts:** `D:\AI_Models\ComfyUI\scripts\restore-comfyui-models.ps1`, `repair-comfyui-symlinks.ps1`
 
 ---
 

@@ -67,13 +67,20 @@ Your workspace features a local long-term memory layer that persists context, us
 Your system features native CLI model switching and an autonomous VRAM background daemon to keep your computer's resources fast and clean.
 
 ### 🔌 Model Switcher Shortcuts
-*   `load-qwen` — Fast-loads your default reasoning model (`qwen3-4b-instruct-2507` — 2.33 GB VRAM).
-*   `load-deepseek` — Loads your heavy development model (`deepseek-coder-33b-instruct` — 20+ GB VRAM).
+*   **Model switchers** — `list-models` shows all shortcuts; load by nick or task:
+    *   `load-qwen4` / `load-qwen` — default fast (`qwen3-4b-instruct-2507`)
+    *   `load-qwen9` — smarter local chat (`qwen3.5-9b`)
+    *   `load-coder14` — local coding, 16GB sweet spot
+    *   `load-deepseek33` / `load-deepseek` — heavy coder test
+    *   `load-r1` — step-by-step reasoning
+    *   `load-arsenic` — creative writing
+    *   `load-model code` · `smart` · `reason` · `creative` · `fast` — task aliases
+    *   `unload-model` · `model-status`
 *   `unload-model` — Purges and unloads all models from VRAM immediately.
 *   `model-status` — Displays currently active loaded models and their allocations.
 
 ### ⏱️ VRAM Idle Auto-Unload Daemon
-To optimize local compilation and Next.js HMR speeds, the background daemon `[scripts/vram-idle-manager.ps1](../../scripts/vram-idle-manager.ps1)` monitors loaded models:
+To optimize local compilation and Next.js HMR speeds, the background daemon `scripts/vram-idle-manager.ps1` (copied to repo `scripts/` on install) monitors loaded models:
 *   **14 Minutes Idle:** Speaks a warning: *"Warning: Model has been idle for fourteen minutes and will be unloaded shortly to conserve VRAM."*
 *   **15 Minutes Idle:** Automatically unloads all models and speaks: *"Model auto unloaded to free up system VRAM."*
 
@@ -118,15 +125,23 @@ speak "make me an HD background image of a video camera filming a tv show"
 Say **Start Project** in Cursor (or run locally):
 
 ```powershell
-npm run msc:google-api:start-session
+npm run msc:session:start
 ```
 
-1.  Launches LiteLLM on port **4000** + ngrok tunnel (Cursor **Override OpenAI Base URL**).
-2.  Polls until LiteLLM is online (~30–90s).
-3.  Prints session summary card + ngrok `/v1` URL.
-4.  Plays J.A.R.V.I.S. welcome greeting (background, non-blocking).
+Unified stack (one command):
+1. **LiteLLM** on port **4000** + **ngrok** tunnel (Cursor **Override OpenAI Base URL**)
+2. **Hermes Telegram gateway** (hidden; no Windows logon popup)
+3. **Kanban stack** — TaskBoardAI (**3001**), Hermes Workspace (**3005**), Dashboard (**9119**) as hidden background processes
 
-**Cold boot:** Say **Start Project** in Cursor — starts **LiteLLM + ngrok**, then the **Hermes Telegram gateway** (no Windows logon popup). Gateway needs LiteLLM on port **4000** to reply; ngrok is for Cursor only. Manual: `hermes gateway install --no-start-on-login --start-now`.
+**Partial stack:**
+| Command | Scope |
+|---------|--------|
+| `npm run msc:google-api:start-session` | LiteLLM + ngrok + gateway only (no Kanban) |
+| `npm run kanban` | Kanban ports only |
+
+**End Project:** `npm run msc:session:stop` stops Kanban + Next dev (**3000**) + LiteLLM/ngrok + gateway. Use `msc:session:stop:keep-gateway` to leave Telegram running overnight.
+
+**Cold boot:** Say **Start Project** in Cursor — no voice/TTS in the launcher step. Manual gateway: `hermes gateway install --no-start-on-login --start-now`.
 
 ### 📱 Telegram Gateway (Hermes from phone)
 

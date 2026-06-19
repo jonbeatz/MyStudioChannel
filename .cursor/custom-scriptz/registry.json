@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "description": "Portable custom-scriptz modules — live repo is source of truth; run npm run msc:portable:sync after script changes.",
+  "modules": {
+    "hostinger-setup": {
+      "syncScript": "msc-hostinger-module-sync.mjs",
+      "npmAlias": "msc:hostinger:module:sync"
+    },
+    "hermes-system": {
+      "syncScript": "msc-hermes-module-sync.mjs",
+      "npmAlias": "msc:hermes:module:sync",
+      "docMaster": ".cursor/docs/Hermes-Cheat-Sheet.md",
+      "docPortable": ".cursor/custom-scriptz/hermes-system/Hermes-Cheat-Sheet.md"
+    },
+    "google-api-proxy": {
+      "syncScript": "msc-google-api-module-sync.mjs",
+      "npmAlias": "msc:google-api:module:sync"
+    },
+    "backup-system": {
+      "syncScript": "msc-backup-module-sync.mjs",
+      "npmAlias": "msc:backup:module:sync"
+    }
+  },
+  "orchestrator": {
+    "syncScript": "msc-portable-module-sync.mjs",
+    "npmAlias": "msc:portable:sync"
+  }
+}

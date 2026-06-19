@@ -149,6 +149,8 @@ For Vertex AI model testing/dev workflows:
 
 **Cold boot:** Say **Start Project** in Cursor — runs **`npm run msc:session:start`** (LiteLLM + ngrok + Hermes gateway + Kanban stack hidden). **End Project** runs **`npm run msc:session:stop`** (or **`msc:session:stop:keep-gateway`** if Telegram stays overnight). Details: **`.cursor/prompts/Start-Project.md`** · **`.cursor/prompts/End-Project.md`** · **`KANBAN-STACK-GUIDE.md`**
 
+**Portable modules:** Live repo is source of truth. After changing `scripts/` or session tooling, run **`npm run msc:portable:sync`** (see **`.cursor/custom-scriptz/registry.json`**).
+
 **Hermes Google Workspace:** **`google-workspace`** skill authenticated (Gmail, Calendar, Drive) — ask Hermes on Telegram/Desktop in plain English. Setup + OAuth quirks: **`Hermes-Agent.md`** § Google Workspace.
 
 **Social auto-post (Phase 0 — dry-run):** Multi-platform scaffold at **`specs/social-autopost/`** + skill **`.agents/skills/auto-post/SKILL.md`**. Preview without credentials:

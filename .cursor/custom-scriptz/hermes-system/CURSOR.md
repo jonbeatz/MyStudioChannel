@@ -4,6 +4,7 @@ This module installs and configures your local long-term memory (Mem0), VRAM aut
 
 ### 📚 Reference Manuals Included:
 *   **`Hermes-Cheat-Sheet.md`** — Comprehensive user guide documenting all voice commands, Mem0, VRAM commands, and image triggers.
+*   **`KANBAN-STACK-GUIDE.md`** — Visual Kanban stack ports, session commands, and architecture.
 *   **`LMSTUDIO-SETUP.md`** — Step-by-step user guide to install LM Studio, download local models, and bootstrap the local CLI.
 
 ---
@@ -38,8 +39,13 @@ After installation, the following scripts are fully copied and configured:
 | `scripts/generate-image.py` | Serverless cloud-accelerated FLUX.1 generation (0% local VRAM/GPU load). |
 | `scripts/mem0_integration.py` | Python orchestration layer for Qdrant memory vectors. |
 | `scripts/mem0-chat.ps1` | PowerShell wrapper for adding/searching vectors with auto-LLM-load checkers. |
+| `scripts/start-hermes-api.ps1` | LiteLLM + ngrok + Hermes gateway launcher (Start Project AI stack). |
+| `scripts/start-session-stack.ps1` | Full cold start: AI stack + Kanban (Start Project). |
+| `scripts/stop-session-stack.ps1` | Full teardown: Kanban + dev + LiteLLM + ngrok (End Project). |
+| `scripts/start-kanban-stack.ps1` | TaskBoardAI + Hermes Workspace + Dashboard (hidden background). |
+| `scripts/stop-kanban-stack.ps1` | Graceful Kanban port teardown (3001, 3005, 9119). |
 
----
+Portable reference: **`KANBAN-STACK-GUIDE.md`** · **`Hermes-Cheat-Sheet.md`**
 
 ## 🛠️ 3. Post-Installation Verification Checklist
 

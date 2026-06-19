@@ -1,0 +1,32 @@
+﻿[
+    {
+        "Model":  "flux-dev",
+        "Status":  "PASS",
+        "Path":  "D:\\Cursor_Projectz\\MyStudioChannel\\public\\media\\comfyui-tests\\test-flux-dev-20260618-163510.png",
+        "SizeKB":  2667.8
+    },
+    {
+        "Model":  "flux-klein",
+        "Status":  "PASS",
+        "Path":  "D:\\Cursor_Projectz\\MyStudioChannel\\public\\media\\comfyui-tests\\test-flux-klein-20260618-163643.png",
+        "SizeKB":  1327.3
+    },
+    {
+        "Model":  "sdxl",
+        "Status":  "PASS",
+        "Path":  "D:\\Cursor_Projectz\\MyStudioChannel\\public\\media\\comfyui-tests\\test-sdxl-20260618-163713.png",
+        "SizeKB":  1686.1
+    },
+    {
+        "Model":  "realism",
+        "Status":  "PASS",
+        "Path":  "D:\\Cursor_Projectz\\MyStudioChannel\\public\\media\\comfyui-tests\\test-realism-20260618-163747.png",
+        "SizeKB":  1767.8
+    },
+    {
+        "Model":  "anime",
+        "Status":  "PASS",
+        "Path":  "D:\\Cursor_Projectz\\MyStudioChannel\\public\\media\\comfyui-tests\\test-anime-20260618-163828.png",
+        "SizeKB":  1356.3
+    }
+]
