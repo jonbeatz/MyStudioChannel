@@ -4,6 +4,7 @@ import type { ReactNode } from "react"
 import { BookConsultationProvider } from "@/components/book-consultation-context"
 import { ContactModalProvider } from "@/components/contact-modal-context"
 import { ContactModal } from "@/components/contact-modal"
+import { SystemStats } from "@/components/system-stats"
 
 /**
  * Marketing site client shell: **Send a message** (Radix `Dialog`) + **Book a consultation**
@@ -22,6 +23,7 @@ export function SiteToolingProvider({ children }: { children: ReactNode }) {
       <BookConsultationProvider>
         {children}
         <ContactModal />
+        <SystemStats />
       </BookConsultationProvider>
     </ContactModalProvider>
   )
