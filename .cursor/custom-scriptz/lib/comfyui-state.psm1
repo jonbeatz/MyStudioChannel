@@ -1,6 +1,6 @@
 # comfyui-state.psm1 — shared ComfyUI detection, queue poll, logging
 
-$script:ComfyUiRoot = 'D:\AI_Models\ComfyUI'
+$script:ComfyUiRoot = 'H:\AI_Models\ComfyUI'
 $script:ComfyUiPort = 8188
 $script:ComfyUiLogMaxLines = 500
 

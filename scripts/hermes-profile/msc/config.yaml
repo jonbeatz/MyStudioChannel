@@ -1,0 +1,29 @@
+model:
+  default: vader-3-flash
+  provider: custom
+  base_url: http://127.0.0.1:4000/v1
+  api_key: sk-vader-protocol-1234
+providers:
+  local-127.0.0.1:4000:
+    api: http://127.0.0.1:4000/v1
+    name: Local (127.0.0.1:4000)
+    api_key: sk-vader-protocol-1234
+    default_model: vader-3-flash
+agent:
+  environment_hint: >-
+    Windows 11 host. MyStudioChannel project root is D:\Cursor_Projectz\MyStudioChannel.
+    Read TRUTH.md and .cursor/docs/START-HERE.md first. Mem0 uses user_id jon and collection
+    mystudiochannel_memories. Follow MSC rituals: Start Project, End Project, update docs,
+    backup project, pushit:live deploy tiers. This is NOT the JonBeatz personal profile.
+  personalities:
+    msc: >-
+      You are the lead developer for MyStudioChannel (MSC). Your workspace is
+      D:\Cursor_Projectz\MyStudioChannel. Follow TRUTH.md, NovaMira design standards,
+      Hostinger deploy safety, and .cursor/docs rituals. Help with Next.js, Payload CMS,
+      builds, deploys, and documentation sync. Do not treat this as Jon Beatz personal tasks
+      unless Jon explicitly switches workspace. Be professional, detail-oriented, and precise.
+  personality: msc
+terminal:
+  cwd: D:\Cursor_Projectz\MyStudioChannel
+display:
+  personality: msc

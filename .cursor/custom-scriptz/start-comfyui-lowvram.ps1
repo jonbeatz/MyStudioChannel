@@ -1,5 +1,5 @@
 # Start ComfyUI with --lowvram (optional, for OOM recovery)
-$comfyRoot = "D:\AI_Models\ComfyUI"
+$comfyRoot = "H:\AI_Models\ComfyUI"
 $python = Join-Path $comfyRoot "python_embeded\python.exe"
 $main = Join-Path $comfyRoot "ComfyUI\main.py"
 

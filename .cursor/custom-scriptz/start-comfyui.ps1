@@ -12,7 +12,7 @@ Import-Module $modulePath -Force
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot '..\..')
 $vramCheck = Join-Path $PSScriptRoot 'vram-check.ps1'
-$comfyBat = 'D:\AI_Models\ComfyUI\run_nvidia_gpu.bat'
+$comfyBat = 'H:\AI_Models\ComfyUI\run_nvidia_gpu.bat'
 $lowVramScript = Join-Path $PSScriptRoot 'start-comfyui-lowvram.ps1'
 
 if ($LowVram) {
@@ -62,7 +62,7 @@ if (-not (Test-Path $comfyBat)) {
 Write-Host '[ComfyUI] Starting via run_nvidia_gpu.bat...' -ForegroundColor Cyan
 Write-ComfyUiLog -Action 'START' -Detail "Force=$Force NoVRAMCheck=$NoVRAMCheck"
 
-Start-Process -FilePath $comfyBat -WorkingDirectory 'D:\AI_Models\ComfyUI' -WindowStyle Minimized
+Start-Process -FilePath $comfyBat -WorkingDirectory 'H:\AI_Models\ComfyUI' -WindowStyle Minimized
 
 $timeout = 60
 $elapsed = 0

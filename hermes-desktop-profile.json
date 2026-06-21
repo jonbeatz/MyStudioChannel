@@ -1,0 +1,21 @@
+{
+  "profileName": "msc",
+  "workspaceDir": "D:\\Cursor_Projectz\\MyStudioChannel",
+  "hermesHome": "C:\\Users\\JONBEATZ\\AppData\\Local\\hermes\\profiles\\msc",
+  "desktopConfig": {
+    "projectDirFile": "%APPDATA%\\Hermes\\project-dir.json",
+    "activeProfileFile": "%APPDATA%\\Hermes\\active-profile.json"
+  },
+  "launcher": "scripts\\start-hermes-desktop-msc.ps1",
+  "syncScript": "scripts\\sync-hermes-msc-profile.ps1",
+  "profileTemplates": "scripts\\hermes-profile\\msc",
+  "npmScript": "npm run desktop",
+  "cliAlias": "msc",
+  "desktopShortcut": "Hermes - MyStudioChannel",
+  "mem0": {
+    "userId": "jon",
+    "collection": "mystudiochannel_memories",
+    "qdrantPath": "%USERPROFILE%\\.mem0\\qdrant"
+  },
+  "notes": "Fully separate from JonBeatz personal profile (jonbeatz). Always quit Desktop before switching shortcuts; Ctrl+N for new session."
+}

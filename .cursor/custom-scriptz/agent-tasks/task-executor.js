@@ -306,7 +306,7 @@ async function executeTask(task, agent) {
     } else if (hasImageCheck) {
       console.log(`[Actuator] Activating ComfyUI image generator pipeline...`);
       addTaskComment(task.id, agent, "⚙️ *[Actuator]* Running ComfyUI workflow smoke test via `test-comfyui-workflows.ps1`...");
-      execSync('powershell -File D:\\AI_Models\\ComfyUI\\scripts\\test-comfyui-workflows.ps1', { stdio: 'inherit' });
+      execSync('powershell -File H:\\AI_Models\\ComfyUI\\scripts\\test-comfyui-workflows.ps1', { stdio: 'inherit' });
       summaryDetails = "ComfyUI landscape workflow generated and saved the output PNG cleanly!";
     } else if (hasDeployCheck) {
       console.log(`[Actuator] Testing FTP/SSH deploy parity checks...`);

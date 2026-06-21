@@ -53,6 +53,8 @@
                     "msc:hostinger:recover":  "node scripts/msc-hostinger-live-recover-ssh.mjs",
                     "msc:hostinger:module:sync":  "node scripts/msc-hostinger-module-sync.mjs",
                     "msc:hermes:module:sync":  "node scripts/msc-hermes-module-sync.mjs",
+                    "msc:hermes:profile:sync":  "powershell -ExecutionPolicy Bypass -File scripts/sync-hermes-msc-profile.ps1",
+                    "desktop":  "powershell -ExecutionPolicy Bypass -File scripts/start-hermes-desktop-msc.ps1",
                     "msc:google-api:module:sync":  "node scripts/msc-google-api-module-sync.mjs",
                     "msc:backup:module:sync":  "node scripts/msc-backup-module-sync.mjs",
                     "msc:portable:sync":  "node scripts/msc-portable-module-sync.mjs",

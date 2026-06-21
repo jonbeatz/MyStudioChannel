@@ -1,1037 +1,501 @@
-function Invoke-HermesTTS {
-    param([string]$text)
-    if ($text.Trim()) {
-        & "C:\Users\JONBEATZ\AppData\Local\hermes\hermes-agent\venv\Scripts\python.exe" -c "
-import sys, json, logging, subprocess
-logging.getLogger('tools.tts_tool').setLevel(logging.ERROR)
-logging.getLogger('tools.voice_mode').setLevel(logging.ERROR)
-sys.path.append(r'C:\Users\JONBEATZ\AppData\Local\hermes\hermes-agent')
-from tools.tts_tool import text_to_speech_tool
-from tools.voice_mode import play_audio_file
-
-text = sys.argv[1]
-try:
-    res = json.loads(text_to_speech_tool(text))
-    if res.get('success'):
-        play_audio_file(res['file_path'])
-    else:
-        # If primary (Gemini/Orus) fails, automatically fall back to Sonia (Edge TTS)!
-        # We print a clean diagnostic, switch to Sonia (Edge), speak, and restore Orus.
-        print('🎙️ Gemini/Orus API limit hit. Seamlessly falling back to Sonia (Edge TTS)...', file=sys.stderr)
-        
-        # 1. Switch config to Sonia (Edge)
-        subprocess.run(['hermes', 'config', 'set', 'tts.provider', 'edge'], stdout=subprocess.DEVNULL)
-        subprocess.run(['hermes', 'config', 'set', 'tts.edge.voice', 'en-GB-SoniaNeural'], stdout=subprocess.DEVNULL)
-        
-        # 2. Retry generation with the free fallback
-        res_fallback = json.loads(text_to_speech_tool(text))
-        if res_fallback.get('success'):
-            play_audio_file(res_fallback['file_path'])
-            
-        # 3. Restore config to Orus (Gemini)
-        subprocess.run(['hermes', 'config', 'set', 'tts.provider', 'gemini'], stdout=subprocess.DEVNULL)
-        subprocess.run(['hermes', 'config', 'set', 'tts.gemini.voice', 'Orus'], stdout=subprocess.DEVNULL)
-except Exception as e:
-    print('Error:', e, file=sys.stderr)
-" $text 2>$null
-    }
-}
-
-function test-voice {
-    $text = $args -join " "
-    Invoke-HermesTTS $text
-}
-
-function speak {
-    $text = $args -join " "
-    if (-not $text.Trim()) { return }
-    
-    # 1. Detect if the user wants to trigger our intelligent image generation pipeline
-    $isImageTrigger = $text -match '^\s*(make|generate|draw|paint|create)\b.*\b(image|photo|background|picture|logo|art|rendering|canvas)\b'
-    
-    if ($isImageTrigger) {
-        # Extract prompt by stripping standard prefixes
-        $cleanPrompt = $text -replace '^\s*(make|generate|draw|paint|create)\s+(me\s+)?(an?\s+)?(hd\s+)?(widescreen\s+)?(image|photo|background|picture|logo|art|rendering|painting|canvas)\s+(of\s+)?', ''
-        
-        # If the prompt ends with "widescreen" or "hd", strip those too
-        $cleanPrompt = $cleanPrompt -replace '\b(in\s+)?(hd|widescreen|1920x1080|16:9|landscape)\b', ''
-        $cleanPrompt = $cleanPrompt.Trim()
-        
-        # Invoke our new gen-image function and let it handle size parsing!
-        gen-image -prompt $cleanPrompt
-        return
-    }
-
-    # 2. Detect if the input is an AI query ONLY if it starts with an AI question or instruction/action word
-    $isAIQuery = $text -match '^\s*(how|what|why|who|where|when|can|could|should|would|will|is|are|do|does|did|tell|explain|write|create|analyze|review|suggest|check|run|test|get)\b'
-    
-    if ($isAIQuery) {
-        # Touch VRAM Activity timestamp for AI reasoning tasks
-        Update-VramActivity
-        
-        # Ensure a model is loaded for any local inference
-        Ensure-ModelLoaded
-        
-        # Execute oneshot query with Hermes, display response, and speak it out loud
-        $response = hermes -z $text
-        Write-Host $response
-        $cleanResponse = $response -join "`n"
-        Invoke-HermesTTS $cleanResponse
-    } else {
-        # Directly speak the plain text without calling the LLM
-        Invoke-HermesTTS $text
-    }
-}
-
-# --- Edge TTS Voice Shortcuts ---
-function set-voice-andrew {
-    hermes config set tts.provider edge | Out-Null
-    hermes config set tts.edge.voice en-US-AndrewMultilingualNeural | Out-Null
-    Invoke-HermesTTS "Andrew is active."
-    Write-Host "🎙️ Default voice set to Andrew (en-US-AndrewMultilingualNeural)" -ForegroundColor Cyan
-}
-
-function set-voice-sonia {
-    hermes config set tts.provider edge | Out-Null
-    hermes config set tts.edge.voice en-GB-SoniaNeural | Out-Null
-    Invoke-HermesTTS "Sonia is active."
-    Write-Host "🎙️ Default voice set to Sonia (en-GB-SoniaNeural)" -ForegroundColor Cyan
-}
-
-function set-voice-ryan {
-    hermes config set tts.provider edge | Out-Null
-    hermes config set tts.edge.voice en-GB-RyanNeural | Out-Null
-    Invoke-HermesTTS "Ryan is active."
-    Write-Host "🎙️ Default voice set to Ryan (en-GB-RyanNeural)" -ForegroundColor Cyan
-}
-
-# --- Gemini TTS Voice Shortcuts ---
-function set-voice-orus {
-    hermes config set tts.provider gemini | Out-Null
-    hermes config set tts.gemini.voice Orus | Out-Null
-    Invoke-HermesTTS "Orus is active."
-    Write-Host "🎙️ Default voice set to Orus (Gemini - Orus)" -ForegroundColor Cyan
-}
-
-function set-voice-charon {
-    hermes config set tts.provider gemini | Out-Null
-    hermes config set tts.gemini.voice Charon | Out-Null
-    Invoke-HermesTTS "Charon is active."
-    Write-Host "🎙️ Default voice set to Charon (Gemini - Charon)" -ForegroundColor Cyan
-}
-
-function set-voice-zephyr {
-    hermes config set tts.provider gemini | Out-Null
-    hermes config set tts.gemini.voice Zephyr | Out-Null
-    Invoke-HermesTTS "Zephyr is active."
-    Write-Host "🎙️ Default voice set to Zephyr (Gemini - Zephyr)" -ForegroundColor Cyan
-}
-
-function set-voice-kore {
-    hermes config set tts.provider gemini | Out-Null
-    hermes config set tts.gemini.voice Kore | Out-Null
-    Invoke-HermesTTS "Kore is active."
-    Write-Host "🎙️ Default voice set to Kore (Gemini - Kore)" -ForegroundColor Cyan
-}
-
-# --- VRAM & Memory Lifecycle Helpers ---
-function Update-VramActivity {
-    $stateFile = "__PROJECT_ROOT__\.vram-idle-state.json"
-    $timeStr = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
-    
-    $keepOn = $false
-    if (Test-Path $stateFile) {
-        try {
-            $json = Get-Content $stateFile -Raw -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue
-            if ($json -and $null -ne $json.KeepModelOn) {
-                $keepOn = $json.KeepModelOn
-            }
-        } catch {}
-    }
-    
-    $state = @{
-        LastActivityTime = $timeStr
-        KeepModelOn = $keepOn
-    }
-    $state | ConvertTo-Json | Out-File $stateFile -Encoding utf8 -ErrorAction SilentlyContinue
-}
-
-function Ensure-ModelLoaded {
-    $models = lms ps 2>$null
-    $hasModel = $false
-    foreach ($line in $models) {
-        if ($line -match "^\s*([a-zA-Z0-9_\-\.]+)\s*\|") {
-            $hasModel = $true
-            break
-        }
-    }
-    if (-not $hasModel) {
-        Write-Host "[J.A.R.V.I.S.] No active reasoning model found. Auto-loading Qwen 4B..." -ForegroundColor Yellow
-        load-qwen
-    }
-}
-
-# --- Mem0 J.A.R.V.I.S. Memory Layer Functions ---
-function remember {
-    $text = $args -join " "
-    if (-not $text.Trim()) {
-        Write-Warning "Usage: remember <text_to_store>"
-        return
-    }
-    
-    # Touch VRAM Activity timestamp & auto-load model if needed
-    Update-VramActivity
-    Ensure-ModelLoaded
-    
-    & "__PROJECT_ROOT__\scripts\mem0-chat.ps1" -Action "add" -Text $text
-}
-
-function recall {
-    $query = $args -join " "
-    if (-not $query.Trim()) {
-        Write-Warning "Usage: recall <query_to_search>"
-        return
-    }
-    
-    # Touch VRAM Activity timestamp & auto-load model if needed
-    Update-VramActivity
-    Ensure-ModelLoaded
-    
-    & "__PROJECT_ROOT__\scripts\mem0-chat.ps1" -Action "search" -Query $query
-}
-
-# --- LM Studio CLI Model Switcher Functions ---
-$script:MscLmsModels = [ordered]@{
-    qwen4    = @{ Key = 'qwen3-4b-instruct-2507'; Label = 'Qwen 4B (default — fast, Mem0)'; Task = 'light chat, memory, daily default' }
-    qwen9    = @{ Key = 'qwen3.5-9b'; Label = 'Qwen 3.5 9B (smarter local chat)'; Task = 'better answers when you can wait' }
-    coder14  = @{ Key = 'qwen2.5-coder-14b-instruct'; Label = 'Qwen Coder 14B'; Task = 'local coding — best fit for 16GB VRAM' }
-    deepseek33 = @{ Key = 'deepseek-coder-33b-instruct'; Label = 'DeepSeek Coder 33B'; Task = 'heavy coding tests' }
-    r1       = @{ Key = 'deepseek-r1-distill-qwen-14b'; Label = 'DeepSeek R1 14B'; Task = 'step-by-step reasoning' }
-    arsenic  = @{ Key = 'arsenic-shahrazad-12b-v4.4'; Label = 'Arsenic Shahrazad 12B'; Task = 'creative writing / RP' }
-}
-
-function Invoke-MscLmsLoad {
-    param(
-        [Parameter(Mandatory = $true)][string]$ModelKey,
-        [Parameter(Mandatory = $true)][string]$OkMessage
-    )
-    Update-VramActivity
-    lms load $ModelKey
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "[FAIL] Could not load: $ModelKey (lms exit $LASTEXITCODE)" -ForegroundColor Red
-        return
-    }
-    Write-Host "[OK] $OkMessage" -ForegroundColor Green
-    model-status
-}
-
-function load-qwen4 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.qwen4.Key -OkMessage 'Qwen 4B loaded (default)' }
-function load-qwen9 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.qwen9.Key -OkMessage 'Qwen 3.5 9B loaded' }
-function load-coder14 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.coder14.Key -OkMessage 'Qwen Coder 14B loaded' }
-function load-deepseek33 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.deepseek33.Key -OkMessage 'DeepSeek Coder 33B loaded' }
-function load-r1 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.r1.Key -OkMessage 'DeepSeek R1 14B loaded' }
-function load-arsenic { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.arsenic.Key -OkMessage 'Arsenic Shahrazad 12B loaded' }
-function load-qwen { load-qwen4 }
-function load-deepseek { load-deepseek33 }
-
-function load-model {
-    param([Parameter(Mandatory = $true, Position = 0)][string]$Name)
-    $n = $Name.Trim().ToLower() -replace '\s+', '' -replace '_', ''
-    $taskMap = @{
-        default = 'qwen4'; fast = 'qwen4'; mem0 = 'qwen4'; memory = 'qwen4'
-        smart = 'qwen9'; chat = 'qwen9'
-        code = 'coder14'; coder = 'coder14'; dev = 'coder14'
-        heavy = 'deepseek33'; deepseek = 'deepseek33'
-        reason = 'r1'; think = 'r1'
-        creative = 'arsenic'; story = 'arsenic'
-    }
-    if ($taskMap.ContainsKey($n)) { $n = $taskMap[$n] }
-    if ($script:MscLmsModels.Contains($n)) {
-        $entry = $script:MscLmsModels[$n]
-        Invoke-MscLmsLoad -ModelKey $entry.Key -OkMessage "$($entry.Label) loaded"
-        return
-    }
-    Invoke-MscLmsLoad -ModelKey $Name -OkMessage "Loaded $Name"
-}
-
-function list-models {
-    Write-Host ""
-    Write-Host "LM Studio shortcuts (load-model <nick> or load-<nick>):" -ForegroundColor Cyan
-    foreach ($prop in $script:MscLmsModels.Keys) {
-        $e = $script:MscLmsModels[$prop]
-        Write-Host ("  {0,-12} load-{0,-8} {1}" -f $prop, $e.Label) -ForegroundColor White
-        Write-Host ("              -> {0}" -f $e.Task) -ForegroundColor DarkGray
-    }
-    Write-Host ""
-    Write-Host "Task aliases: load-model code | smart | reason | creative | fast" -ForegroundColor DarkCyan
-    Write-Host ""
-    lms ls
-}
-
-function unload-model {
-    lms unload --all
-    Write-Host "[OK] Model unloaded" -ForegroundColor Yellow
-}
-
-function model-status {
-    lms ps
-}
-
-# --- Manual Overrides & VRAM Controls ---
-function keep-model-on {
-    $stateFile = "__PROJECT_ROOT__\.vram-idle-state.json"
-    $timeStr = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
-    $state = @{
-        LastActivityTime = $timeStr
-        KeepModelOn = $true
-    }
-    $state | ConvertTo-Json | Out-File $stateFile -Encoding utf8 -ErrorAction SilentlyContinue
-    Invoke-HermesTTS "Auto-unload disabled. Keeping model loaded."
-    Write-Host "[J.A.R.V.I.S.] Auto-unload disabled. Keeping model loaded indefinitely." -ForegroundColor Yellow
-}
-
-function keep-model-off {
-    $stateFile = "__PROJECT_ROOT__\.vram-idle-state.json"
-    $timeStr = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
-    $state = @{
-        LastActivityTime = $timeStr
-        KeepModelOn = $false
-    }
-    $state | ConvertTo-Json | Out-File $stateFile -Encoding utf8 -ErrorAction SilentlyContinue
-    Invoke-HermesTTS "Auto-unload safety restored."
-    Write-Host "[J.A.R.V.I.S.] Auto-unload safety restored. Models will unload after fifteen minutes of idle time." -ForegroundColor Green
-}
-
-function vram-status {
-    powershell -File "__PROJECT_ROOT__\scripts\vram-idle-manager.ps1"
-}
-
-function vram-unload {
-    powershell -File "__PROJECT_ROOT__\scripts\vram-idle-manager.ps1" -UnloadNow
-}
-
-function vram-daemon-start {
-    $existing = Get-Job -Name "VramIdleManager" -ErrorAction SilentlyContinue
-    if ($existing -and $existing.State -eq "Running") {
-        Write-Host "[J.A.R.V.I.S.] VRAM Idle Manager Daemon is already running as background job." -ForegroundColor Yellow
-        return
-    }
-    
-    Start-Job -Name "VramIdleManager" -ScriptBlock {
-        powershell -ExecutionPolicy Bypass -File "__PROJECT_ROOT__\scripts\vram-idle-manager.ps1" -Daemon
-    } | Out-Null
-    
-    Invoke-HermesTTS "V RAM Idle Manager daemon started successfully."
-    Write-Host "[OK] [J.A.R.V.I.S.] VRAM Idle Manager Daemon started as active background job." -ForegroundColor Green
-}
-
-function vram-daemon-stop {
-    Stop-Job -Name "VramIdleManager" -ErrorAction SilentlyContinue
-    Remove-Job -Name "VramIdleManager" -ErrorAction SilentlyContinue
-    Invoke-HermesTTS "V RAM Idle Manager daemon stopped."
-    Write-Host "[STOP] [J.A.R.V.I.S.] VRAM Idle Manager Daemon stopped." -ForegroundColor Red
-}
-
-# --- Free Image Generation Pipeline Function ---
-function gen-image {
-    param(
-        [Parameter(Mandatory=$true, Position=0)]
-        [string]$prompt,
-
-        [Parameter(Mandatory=$false)]
-        [string]$Path,
-
-        [Parameter(Mandatory=$false)]
-        [int]$Width = $null,
-
-        [Parameter(Mandatory=$false)]
-        [int]$Height = $null
-    )
-
-    # 1. Touch VRAM activity timestamp so our auto-unload daemon is in sync
-    Update-VramActivity
-
-    # 1b. Dimension parsing from prompt hints
-    $w = 1920
-    $h = 1080
-
-    if ($prompt -match '\b(4k|4K|ultra hd|ultra HD)\b') {
-        # Hugging Face serverless API limit is max 2048x2048. Scale 4K/ultra-hd widescreen to the absolute max 16:9 bounds.
-        $w = 2048
-        $h = 1152
-    } elseif ($prompt -match '\b(hd|HD|1080p|1080P|widescreen)\b') {
-        $w = 1920
-        $h = 1080
-    } elseif ($prompt -match '\b(vertical|phone|9:16)\b') {
-        $w = 1080
-        $h = 1920
-    } elseif ($prompt -match '\b(1024x768|4:3)\b') {
-        $w = 1024
-        $h = 768
-    }
-
-    # Override with explicitly passed parameters if provided
-    if ($null -ne $Width -and $Width -gt 0) {
-        $w = $Width
-    }
-    if ($null -ne $Height -and $Height -gt 0) {
-        $h = $Height
-    }
-
-    # 2. Setup path if not passed
-    $projectRoot = "__PROJECT_ROOT__"
-    $outputArg = ""
-    $resolvedPath = ""
-
-    if ($Path) {
-        $resolvedPath = [System.IO.Path]::GetFullPath($Path)
-        $outputArg = "--output", $resolvedPath
-    } else {
-        $timestamp = (Get-Date).ToString("yyyyMMdd-HHmmss")
-        $mediaDir = Join-Path $projectRoot "public\media"
-        if (-not (Test-Path $mediaDir)) {
-            New-Item -ItemType Directory -Path $mediaDir -Force | Out-Null
-        }
-        $resolvedPath = Join-Path $mediaDir "generated-$timestamp.png"
-        $resolvedPath = [System.IO.Path]::GetFullPath($resolvedPath)
-        $outputArg = "--output", $resolvedPath
-    }
-
-    Write-Host "[J.A.R.V.I.S.] Generating image..." -ForegroundColor Yellow
-    Write-Host "Prompt: $prompt" -ForegroundColor Cyan
-    Write-Host "Dimensions: ${w}x${h}" -ForegroundColor Cyan
-
-    $pythonPath = "C:\Users\JONBEATZ\AppData\Local\Programs\Python\Python312\python.exe"
-    $scriptPath = Join-Path $projectRoot "scripts\generate-image.py"
-
-    # 3. Call python image generation script
-    $responseRaw = & $pythonPath $scriptPath --prompt $prompt --width $w --height $h $outputArg 2>$null
-
-    if (-not $responseRaw) {
-        Write-Error "No response received from image generation layer."
-        return
-    }
-
-    try {
-        $response = $responseRaw | ConvertFrom-Json
-    } catch {
-        Write-Host "[Raw Output] $responseRaw" -ForegroundColor Red
-        Write-Error "Failed to parse JSON response from image generation layer."
-        return
-    }
-
-    if ($response -and $response.success) {
-        $file = $response.file_path
-        
-        # Resolve the clean absolute path for Start-Process to avoid any weird formatting
-        $cleanFile = Resolve-Path $file -ErrorAction SilentlyContinue
-        if ($cleanFile) {
-            $file = $cleanFile.ProviderPath
-        } else {
-            $file = [System.IO.Path]::GetFullPath($file)
-        }
-
-        # Ensure full UTF-8 emoji support in the console host so emojis don't render as '??' and break link parsing
-        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-        $displayFile = $file.Replace('\', '/')
-
-        Write-Host "[OK] [J.A.R.V.I.S.] Image successfully generated!" -ForegroundColor Green
-        Write-Host "Saved to: $file" -ForegroundColor Green
-
-        # 4. Speak confirmation
-        Invoke-HermesTTS "Image generated, opening now."
-
-        # 5. Automatically open the image in Windows native default photo viewer
-        Start-Process -FilePath $file
-    } else {
-        $err = $response.error
-        Write-Host "[J.A.R.V.I.S. Error] $err" -ForegroundColor Red
-        Invoke-HermesTTS "Excuse me, Jon. I encountered an error while generating your image."
-    }
-}
-
-function gen-image-local {
-    param(
-        [Parameter(Mandatory = $true, Position = 0)]
-        [string]$Prompt,
-        [Parameter(Mandatory = $false)]
-        [string]$OutputPath,
-        [Parameter(Mandatory = $false)]
-        [int]$Width = 0,
-        [Parameter(Mandatory = $false)]
-        [int]$Height = 0
-    )
-    Update-VramActivity
-    $w = 1920; $h = 1080
-    if ($Prompt -match '\b(square|1024x1024|1:1)\b') { $w = 1024; $h = 1024 }
-    elseif ($Prompt -match '\b(vertical|phone|9:16)\b') { $w = 1080; $h = 1920 }
-    if ($Width -gt 0) { $w = $Width }
-    if ($Height -gt 0) { $h = $Height }
-    $projectRoot = "__PROJECT_ROOT__"
-    if ([string]::IsNullOrWhiteSpace($OutputPath)) {
-        $timestamp = (Get-Date).ToString("yyyyMMdd-HHmmss")
-        $mediaDir = Join-Path $projectRoot "public\media"
-        if (-not (Test-Path $mediaDir)) { New-Item -ItemType Directory -Path $mediaDir -Force | Out-Null }
-        $OutputPath = Join-Path $mediaDir "generated-local-$timestamp.png"
-    }
-    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
-    $targetDir = [System.IO.Path]::GetDirectoryName($absoluteOutput)
-    if (-not (Test-Path $targetDir)) { New-Item -ItemType Directory -Path $targetDir -Force | Out-Null }
-    Write-Host "[J.A.R.V.I.S.] Local ComfyUI image generation (z-image-turbo)..." -ForegroundColor Yellow
-    $workflowFile = "D:\AI_Models\ComfyUI\workflows\txt2img-gen-image-local.json"
-    $overrides = @{
-        "4.text" = $Prompt; "6.width" = $w; "6.height" = $h
-        "8.seed" = Get-Random -Minimum 1 -Maximum 9999999999999
-    }
-    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
-    if ($resultFile -and (Test-Path $resultFile)) {
-        Write-Host "[OK] Saved to: $resultFile" -ForegroundColor Green
-        Invoke-HermesTTS "Local image generated, opening now."
-        Start-Process -FilePath $resultFile
-        return $resultFile
-    }
-    Invoke-HermesTTS "Local image generation failed."
-    return $null
-}
-
-function hermes { & "C:\Users\JONBEATZ\AppData\Local\hermes\hermes-agent\venv\Scripts\hermes.exe" $args }
-
-# === ComfyUI Functions (New, Separate from gen-image) ===
-
-function Start-ComfyUI {
-    param([switch]$Force)
-
-    if (-not $Force -and $env:MSC_COMFYUI_AUTO_START -ne '1') {
-        Write-Host "[ComfyUI] Auto-start disabled. Set `$env:MSC_COMFYUI_AUTO_START='1' or run: npm run msc:comfy:start" -ForegroundColor Yellow
-        return $false
-    }
-
-    $port = 8188
-    $url = "http://127.0.0.1:$port"
-    Write-Host "[ComfyUI] Checking ComfyUI server status..." -ForegroundColor Cyan
-    
-    $tcp = New-Object System.Net.Sockets.TcpClient
-    $connected = $false
-    try {
-        $tcp.Connect("127.0.0.1", $port)
-        $connected = $true
-        $tcp.Close()
-    } catch {
-        # Not running
-    }
-
-    if ($connected) {
-        Write-Host "[ComfyUI] Server is already running on port $port." -ForegroundColor Green
-        return $true
-    }
-
-    Write-Host "[ComfyUI] Server is not running. Starting ComfyUI Portable minimized..." -ForegroundColor Yellow
-    $comfyDir = "D:\AI_Models\ComfyUI"
-    $batPath = Join-Path $comfyDir "run_nvidia_gpu.bat"
-    
-    if (-not (Test-Path $batPath)) {
-        Write-Error "ComfyUI executable batch file not found at: $batPath"
-        return $false
-    }
-
-    # Start minimized background process
-    Start-Process -FilePath "cmd.exe" -ArgumentList "/c", "cd /d `"$comfyDir`" && $batPath" -WindowStyle Minimized
-
-    # Poll until server responds
-    Write-Host "[ComfyUI] Waiting for server to boot up on port $port (this may take up to 30 seconds)..." -ForegroundColor Yellow
-    $timeout = 40
-    $elapsed = 0
-    while ($elapsed -lt $timeout) {
-        Start-Sleep -Seconds 2
-        $elapsed += 2
-        $tcp = New-Object System.Net.Sockets.TcpClient
-        try {
-            $tcp.Connect("127.0.0.1", $port)
-            $connected = $true
-            $tcp.Close()
-            break
-        } catch {
-            # Still booting
-        }
-    }
-
-    if ($connected) {
-        Write-Host "[ComfyUI] Server successfully booted and is listening on port $port!" -ForegroundColor Green
-        return $true
-    } else {
-        Write-Error "Timed out waiting for ComfyUI server to start on port $port." -ForegroundColor Red
-        return $false
-    }
-}
-
-function Invoke-ComfyPrompt {
-    param(
-        [Parameter(Mandatory=$true)] [string]$WorkflowPath,
-        [Parameter(Mandatory=$true)] [hashtable]$Overrides,
-        [Parameter(Mandatory=$true)] [string]$FinalOutputPath
-    )
-
-    if (-not (Start-ComfyUI)) { return }
-
-    # 1. Read Workflow Template
-    if (-not (Test-Path $WorkflowPath)) {
-        Write-Error "Workflow template not found at: $WorkflowPath"
-        return
-    }
-    
-    # Read as raw string and parse JSON
-    $workflowRaw = Get-Content -Path $WorkflowPath -Raw
-    try {
-        $workflow = $workflowRaw | ConvertFrom-Json
-    } catch {
-        Write-Error "Failed to parse workflow template JSON."
-        return
-    }
-
-    # 2. Apply Overrides
-    foreach ($key in $Overrides.Keys) {
-        $val = $Overrides[$key]
-        $parts = $key.Split('.')
-        $nodeId = $parts[0]
-        $inputKey = $parts[1]
-        
-        if ($workflow.$nodeId -and $workflow.$nodeId.inputs) {
-            $workflow.$nodeId.inputs.$inputKey = $val
-        }
-    }
-
-    # Convert back to JSON payload
-    $payloadJson = $workflow | ConvertTo-Json -Depth 100 -Compress
-    $wrappedPayload = @{ prompt = $workflow } | ConvertTo-Json -Depth 100 -Compress
-
-    # 3. Post to ComfyUI
-    Write-Host "[ComfyUI] Submitting prompt payload to server..." -ForegroundColor Cyan
-    $headers = @{ "Content-Type" = "application/json" }
-    
-    try {
-        $response = Invoke-RestMethod -Uri "http://127.0.0.1:8188/prompt" -Method Post -Body $wrappedPayload -Headers $headers
-        $promptId = $response.prompt_id
-        Write-Host "[ComfyUI] Prompt successfully queued! ID: $promptId" -ForegroundColor Green
-    } catch {
-        Write-Error "Failed to queue ComfyUI prompt: $_"
-        return
-    }
-
-    # 4. Poll /history for Completion
-    Write-Host "[ComfyUI] Running generation. Polling for completion..." -ForegroundColor Yellow
-    $completed = $false
-    while (-not $completed) {
-        Start-Sleep -Seconds 2
-        try {
-            $history = Invoke-RestMethod -Uri "http://127.0.0.1:8188/history/$promptId" -Method Get
-            if ($history -and $history.$promptId) {
-                $completed = $true
-                $promptOutput = $history.$promptId
-                break
-            }
-        } catch {
-            Write-Warning "Error polling ComfyUI history API: $_"
-        }
-    }
-
-    # 5. Retrieve output file
-    $comfyOutputDir = "D:\AI_Models\ComfyUI\ComfyUI\output"
-    
-    $outputFiles = @()
-    if ($promptOutput.outputs) {
-        foreach ($prop in $promptOutput.outputs.PSObject.Properties) {
-            if ($prop.Value.images) {
-                $outputFiles += $prop.Value.images
-            }
-            if ($prop.Value.gifs) {
-                $outputFiles += $prop.Value.gifs
-            }
-        }
-    }
-
-    if ($outputFiles -and $outputFiles.Count -gt 0) {
-        $filename = $outputFiles[0].filename
-        $comfyFile = Join-Path $comfyOutputDir $filename
-        
-        if (Test-Path $comfyFile) {
-            $targetDir = [System.IO.Path]::GetDirectoryName($FinalOutputPath)
-            if (-not (Test-Path $targetDir)) { New-Item -ItemType Directory -Path $targetDir -Force | Out-Null }
-            
-            Copy-Item -Path $comfyFile -Destination $FinalOutputPath -Force
-            return $FinalOutputPath
-        }
-    }
-
-    Write-Error "Could not locate generated ComfyUI output image/video file in: $comfyOutputDir"
-    return $null
-}
-
-function edit-image {
-    param(
-        [Parameter(Mandatory=$true)] [string]$InputPath,
-        [Parameter(Mandatory=$true)] [string]$Prompt,
-        [string]$OutputPath = "",
-        [float]$Strength = 0.75,
-        [string]$TargetArea = ""
-    )
-
-    Write-Host "🤖 [J.A.R.V.I.S.] Initializing image-to-image editing workflow..." -ForegroundColor Green
-    Write-Host "Prompt: $Prompt" -ForegroundColor Green
-    if ($TargetArea) {
-        Write-Host "Target Area (Masked): $TargetArea" -ForegroundColor Green
-    } else {
-        Write-Host "Strength: $Strength" -ForegroundColor Green
-    }
-
-    $resolvedInput = Resolve-Path $InputPath -ErrorAction SilentlyContinue
-    if (-not $resolvedInput) {
-        Write-Error "Input image path not found: $InputPath"
-        return
-    }
-    $resolvedInputPath = $resolvedInput.ProviderPath
-
-    $comfyInputFolder = "D:\AI_Models\ComfyUI\ComfyUI\input"
-    if (-not (Test-Path $comfyInputFolder)) { New-Item -ItemType Directory -Path $comfyInputFolder -Force | Out-Null }
-    
-    $inputFileName = [System.IO.Path]::GetFileName($resolvedInputPath)
-    $comfyInputPath = Join-Path $comfyInputFolder $inputFileName
-    Copy-Item -Path $resolvedInputPath -Destination $comfyInputPath -Force
-
-    if ([string]::IsNullOrEmpty($OutputPath)) {
-        $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
-        $projectRoot = "D:\Cursor_Projectz\MyStudioChannel"
-        $OutputPath = Join-Path $projectRoot "public\media\edited-$timestamp.png"
-    }
-    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
-
-    if ($TargetArea) {
-        $workflowFile = "D:\AI_Models\ComfyUI\workflows\edit-image-masked.json"
-        $overrides = @{
-            "4.text" = $Prompt
-            "6.image" = $inputFileName
-            "11.text" = $TargetArea
-            "8.denoise" = 1.0
-        }
-    } else {
-        $workflowFile = "D:\AI_Models\ComfyUI\workflows\img2img.json"
-        $overrides = @{
-            "4.text" = $Prompt
-            "6.image" = $inputFileName
-            "8.denoise" = $Strength
-        }
-    }
-    
-    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
-
-    if ($resultFile) {
-        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-        Write-Host "[OK] [J.A.R.V.I.S.] Image successfully edited!" -ForegroundColor Green
-        Write-Host "Saved to: $resultFile" -ForegroundColor Green
-
-        Invoke-HermesTTS "Image edited, opening now."
-        Start-Process -FilePath $resultFile
-    } else {
-        Invoke-HermesTTS "Excuse me, Jon. I encountered an error while editing your image."
-    }
-}
-
-function inpaint-image {
-    param(
-        [Parameter(Mandatory=$true)] [string]$InputPath,
-        [Parameter(Mandatory=$true)] [string]$MaskPath,
-        [Parameter(Mandatory=$true)] [string]$Prompt,
-        [string]$OutputPath = ""
-    )
-
-    Write-Host "🤖 [J.A.R.V.I.S.] Initializing inpainting workflow..." -ForegroundColor Green
-    Write-Host "Prompt: $Prompt" -ForegroundColor Green
-
-    $resolvedInput = Resolve-Path $InputPath -ErrorAction SilentlyContinue
-    if (-not $resolvedInput) {
-        Write-Error "Input image path not found: $InputPath"
-        return
-    }
-    $resolvedInputPath = $resolvedInput.ProviderPath
-
-    $resolvedMask = Resolve-Path $MaskPath -ErrorAction SilentlyContinue
-    if (-not $resolvedMask) {
-        Write-Error "Mask image path not found: $MaskPath"
-        return
-    }
-    $resolvedMaskPath = $resolvedMask.ProviderPath
-
-    $comfyInputFolder = "D:\AI_Models\ComfyUI\ComfyUI\input"
-    if (-not (Test-Path $comfyInputFolder)) { New-Item -ItemType Directory -Path $comfyInputFolder -Force | Out-Null }
-
-    $inputFileName = [System.IO.Path]::GetFileName($resolvedInputPath)
-    $maskFileName = [System.IO.Path]::GetFileName($resolvedMaskPath)
-    
-    Copy-Item -Path $resolvedInputPath -Destination (Join-Path $comfyInputFolder $inputFileName) -Force
-    Copy-Item -Path $resolvedMaskPath -Destination (Join-Path $comfyInputFolder $maskFileName) -Force
-
-    if ([string]::IsNullOrEmpty($OutputPath)) {
-        $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
-        $projectRoot = "D:\Cursor_Projectz\MyStudioChannel"
-        $OutputPath = Join-Path $projectRoot "public\media\inpainted-$timestamp.png"
-    }
-    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
-
-    $overrides = @{
-        "4.text" = $Prompt
-        "6.image" = $inputFileName
-        "11.image" = $maskFileName
-    }
-
-    $workflowFile = "D:\AI_Models\ComfyUI\workflows\inpaint.json"
-
-    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
-
-    if ($resultFile) {
-        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-        Write-Host "[OK] [J.A.R.V.I.S.] Inpainting successfully completed!" -ForegroundColor Green
-        Write-Host "Saved to: $resultFile" -ForegroundColor Green
-
-        Invoke-HermesTTS "Image inpainting completed, opening now."
-        Start-Process -FilePath $resultFile
-    } else {
-        Invoke-HermesTTS "Excuse me, Jon. I encountered an error while inpainting your image."
-    }
-}
-
-# === ComfyUI Enhancements (Added June 2026) ===
-
-function upscale-image {
-    param(
-        [Parameter(Mandatory=$true)] [string]$InputPath,
-        [string]$OutputPath = ""
-    )
-
-    Write-Host "[J.A.R.V.I.S.] Initializing 4K upscaling workflow..." -ForegroundColor Green
-
-    $resolvedInput = Resolve-Path $InputPath -ErrorAction SilentlyContinue
-    if (-not $resolvedInput) {
-        Write-Error "Input image path not found: $InputPath"
-        return
-    }
-    $resolvedInputPath = $resolvedInput.ProviderPath
-
-    $comfyInputFolder = "D:\AI_Models\ComfyUI\ComfyUI\input"
-    if (-not (Test-Path $comfyInputFolder)) { New-Item -ItemType Directory -Path $comfyInputFolder -Force | Out-Null }
-    
-    $inputFileName = [System.IO.Path]::GetFileName($resolvedInputPath)
-    $comfyInputPath = Join-Path $comfyInputFolder $inputFileName
-    Copy-Item -Path $resolvedInputPath -Destination $comfyInputPath -Force
-
-    if ([string]::IsNullOrEmpty($OutputPath)) {
-        $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
-        $projectRoot = "D:\Cursor_Projectz\MyStudioChannel"
-        $OutputPath = Join-Path $projectRoot "public\media\upscaled-$timestamp.png"
-    }
-    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
-
-    $overrides = @{
-        "2.image" = $inputFileName
-    }
-
-    $workflowFile = "D:\AI_Models\ComfyUI\workflows\upscale-4k.json"
-    
-    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
-
-    if ($resultFile) {
-        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-        Write-Host "[OK] [J.A.R.V.I.S.] Image successfully upscaled!" -ForegroundColor Green
-        Write-Host "Saved to: $resultFile" -ForegroundColor Green
-
-        Invoke-HermesTTS "Image upscaled, opening now."
-        Start-Process -FilePath $resultFile
-    } else {
-        Invoke-HermesTTS "Excuse me, Jon. I encountered an error while upscaling your image."
-    }
-}
-
-function generate-video {
-    param(
-        [Parameter(Mandatory=$true)] [string]$Prompt,
-        [string]$OutputPath = ""
-    )
-
-    Write-Host "[J.A.R.V.I.S.] Initializing text-to-video generation workflow..." -ForegroundColor Green
-    Write-Host "Prompt: $Prompt" -ForegroundColor Green
-
-    if ([string]::IsNullOrEmpty($OutputPath)) {
-        $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
-        $projectRoot = "D:\Cursor_Projectz\MyStudioChannel"
-        $OutputPath = Join-Path $projectRoot "public\media\video-$timestamp.mp4"
-    }
-    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
-
-    $overrides = @{
-        "3.prompt" = $Prompt
-    }
-
-    $workflowFile = "D:\AI_Models\ComfyUI\workflows\txt2vid-cogvideo.json"
-    
-    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
-
-    if ($resultFile) {
-        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-        Write-Host "[OK] [J.A.R.V.I.S.] Video successfully generated!" -ForegroundColor Green
-        Write-Host "Saved to: $resultFile" -ForegroundColor Green
-
-        Invoke-HermesTTS "Video generation completed, opening now."
-        Start-Process -FilePath $resultFile
-    } else {
-        Invoke-HermesTTS "Excuse me, Jon. I encountered an error while generating your video."
-    }
-}
-
-function animate-image {
-    param(
-        [Parameter(Mandatory=$true)] [string]$InputPath,
-        [string]$OutputPath = "",
-        [string]$Motion = "zoom",
-        [int]$Duration = 5
-    )
-
-    Write-Host "[J.A.R.V.I.S.] Initializing image animation workflow..." -ForegroundColor Green
-    Write-Host "Motion: $Motion" -ForegroundColor Green
-    Write-Host "Duration: $Duration seconds" -ForegroundColor Green
-
-    $resolvedInput = Resolve-Path $InputPath -ErrorAction SilentlyContinue
-    if (-not $resolvedInput) {
-        Write-Error "Input image path not found: $InputPath"
-        return
-    }
-    $resolvedInputPath = $resolvedInput.ProviderPath
-
-    $comfyInputFolder = "D:\AI_Models\ComfyUI\ComfyUI\input"
-    if (-not (Test-Path $comfyInputFolder)) { New-Item -ItemType Directory -Path $comfyInputFolder -Force | Out-Null }
-    
-    $inputFileName = [System.IO.Path]::GetFileName($resolvedInputPath)
-    $comfyInputPath = Join-Path $comfyInputFolder $inputFileName
-    Copy-Item -Path $resolvedInputPath -Destination $comfyInputPath -Force
-
-    if ([string]::IsNullOrEmpty($OutputPath)) {
-        $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
-        $projectRoot = "D:\Cursor_Projectz\MyStudioChannel"
-        $OutputPath = Join-Path $projectRoot "public\media\animated-$timestamp.mp4"
-    }
-    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
-
-    # Map motion profile to SVD motion bucket id
-    $motionBucket = 127
-    if ($Motion -eq "pan") { $motionBucket = 160 }
-    elseif ($Motion -eq "orbit") { $motionBucket = 180 }
-    elseif ($Motion -eq "static") { $motionBucket = 40 }
-
-    # Calculate frames based on 6 FPS
-    $fps = 6
-    $frames = $Duration * $fps
-
-    $overrides = @{
-        "2.image" = $inputFileName
-        "3.video_frames" = $frames
-        "3.motion_bucket_id" = $motionBucket
-        "3.fps" = $fps
-        "6.frame_rate" = $fps
-    }
-
-    $workflowFile = "D:\AI_Models\ComfyUI\workflows\img2vid-svd.json"
-    
-    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
-
-    if ($resultFile) {
-        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-        Write-Host "[OK] [J.A.R.V.I.S.] Image successfully animated to video!" -ForegroundColor Green
-        Write-Host "Saved to: $resultFile" -ForegroundColor Green
-
-        Invoke-HermesTTS "Animation completed, opening now."
-        Start-Process -FilePath $resultFile
-    } else {
-        Invoke-HermesTTS "Excuse me, Jon. I encountered an error while animating your image."
-    }
-}
-
-function fix-face {
-    param(
-        [Parameter(Mandatory=$true)] [string]$InputPath,
-        [string]$Prompt = "highly detailed face, realistic eyes, detailed skin texture, raw photo, masterwork, 8k",
-        [string]$OutputPath = ""
-    )
-
-    Write-Host "[J.A.R.V.I.S.] Initializing face-detailing face restoration workflow..." -ForegroundColor Green
-    Write-Host "Prompt: $Prompt" -ForegroundColor Green
-
-    $resolvedInput = Resolve-Path $InputPath -ErrorAction SilentlyContinue
-    if (-not $resolvedInput) {
-        Write-Error "Input image path not found: $InputPath"
-        return
-    }
-    $resolvedInputPath = $resolvedInput.ProviderPath
-
-    $comfyInputFolder = "D:\AI_Models\ComfyUI\ComfyUI\input"
-    if (-not (Test-Path $comfyInputFolder)) { New-Item -ItemType Directory -Path $comfyInputFolder -Force | Out-Null }
-    
-    $inputFileName = [System.IO.Path]::GetFileName($resolvedInputPath)
-    $comfyInputPath = Join-Path $comfyInputFolder $inputFileName
-    Copy-Item -Path $resolvedInputPath -Destination $comfyInputPath -Force
-
-    if ([string]::IsNullOrEmpty($OutputPath)) {
-        $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
-        $projectRoot = "D:\Cursor_Projectz\MyStudioChannel"
-        $OutputPath = Join-Path $projectRoot "public\media\facefixed-$timestamp.png"
-    }
-    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
-
-    $overrides = @{
-        "4.image" = $inputFileName
-        "6.text"  = $Prompt
-    }
-
-    $workflowFile = "D:\AI_Models\ComfyUI\workflows\img2img-face-fix.json"
-    
-    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
-
-    if ($resultFile) {
-        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-        Write-Host "[OK] [J.A.R.V.I.S.] Facial restoration completed successfully!" -ForegroundColor Green
-        Write-Host "Saved to: $resultFile" -ForegroundColor Green
-
-        Invoke-HermesTTS "Facial detailing completed, opening now."
-        Start-Process -FilePath $resultFile
-    } else {
-        Invoke-HermesTTS "Excuse me, Jon. I encountered an error while restoring your facial features."
-    }
-}
-
-# === ComfyUI workstation control (explicit start/stop — voice-friendly) ===
-
-function comfy-start {
-    param([switch]$Force, [switch]$NoVRAMCheck, [switch]$UnloadLMStudio, [switch]$LowVram)
-    $script = Join-Path $env:MSC_REPO_ROOT ".cursor\custom-scriptz\start-comfyui.ps1"
-    if (-not (Test-Path $script)) { $script = "D:\Cursor_Projectz\MyStudioChannel\.cursor\custom-scriptz\start-comfyui.ps1" }
-    $args = @()
-    if ($Force) { $args += '-Force' }
-    if ($NoVRAMCheck) { $args += '-NoVRAMCheck' }
-    if ($UnloadLMStudio) { $args += '-UnloadLMStudio' }
-    if ($LowVram) { $args += '-LowVram' }
-    & $script @args
-}
-
-function comfy-stop {
-    param([switch]$DryRun)
-    $script = Join-Path $env:MSC_REPO_ROOT ".cursor\custom-scriptz\stop-comfyui.ps1"
-    if (-not (Test-Path $script)) { $script = "D:\Cursor_Projectz\MyStudioChannel\.cursor\custom-scriptz\stop-comfyui.ps1" }
-    if ($DryRun) { & $script -DryRun } else { & $script }
-}
-
-function comfy-restart {
-    param([switch]$Force, [switch]$NoVRAMCheck)
-    $script = Join-Path $env:MSC_REPO_ROOT ".cursor\custom-scriptz\restart-comfyui.ps1"
-    if (-not (Test-Path $script)) { $script = "D:\Cursor_Projectz\MyStudioChannel\.cursor\custom-scriptz\restart-comfyui.ps1" }
-    $args = @()
-    if ($Force) { $args += '-Force' }
-    if ($NoVRAMCheck) { $args += '-NoVRAMCheck' }
-    & $script @args
-}
-
+1|function Invoke-HermesTTS {
+2|    param([string]$text)
+3|    if ($text.Trim()) {
+4|        & "C:\Users\JONBEATZ\AppData\Local\hermes\hermes-agent\venv\Scripts\python.exe" -c "
+5|import sys, json, logging, subprocess
+6|logging.getLogger('tools.tts_tool').setLevel(logging.ERROR)
+7|logging.getLogger('tools.voice_mode').setLevel(logging.ERROR)
+8|sys.path.append(r'C:\Users\JONBEATZ\AppData\Local\hermes\hermes-agent')
+9|from tools.tts_tool import text_to_speech_tool
+10|from tools.voice_mode import play_audio_file
+11|
+12|text = sys.argv[1]
+13|try:
+14|    res = json.loads(text_to_speech_tool(text))
+15|    if res.get('success'):
+16|        play_audio_file(res['file_path'])
+17|    else:
+18|        # If primary (Gemini/Orus) fails, automatically fall back to Sonia (Edge TTS)!
+19|        # We print a clean diagnostic, switch to Sonia (Edge), speak, and restore Orus.
+20|        print('🎙️ Gemini/Orus API limit hit. Seamlessly falling back to Sonia (Edge TTS)...', file=sys.stderr)
+21|        
+22|        # 1. Switch config to Sonia (Edge)
+23|        subprocess.run(['hermes', 'config', 'set', 'tts.provider', 'edge'], stdout=subprocess.DEVNULL)
+24|        subprocess.run(['hermes', 'config', 'set', 'tts.edge.voice', 'en-GB-SoniaNeural'], stdout=subprocess.DEVNULL)
+25|        
+26|        # 2. Retry generation with the free fallback
+27|        res_fallback = json.loads(text_to_speech_tool(text))
+28|        if res_fallback.get('success'):
+29|            play_audio_file(res_fallback['file_path'])
+30|            
+31|        # 3. Restore config to Orus (Gemini)
+32|        subprocess.run(['hermes', 'config', 'set', 'tts.provider', 'gemini'], stdout=subprocess.DEVNULL)
+33|        subprocess.run(['hermes', 'config', 'set', 'tts.gemini.voice', 'Orus'], stdout=subprocess.DEVNULL)
+34|except Exception as e:
+35|    print('Error:', e, file=sys.stderr)
+36|" $text 2>$null
+37|    }
+38|}
+39|
+40|function test-voice {
+41|    $text = $args -join " "
+42|    Invoke-HermesTTS $text
+43|}
+44|
+45|function speak {
+46|    $text = $args -join " "
+47|    if (-not $text.Trim()) { return }
+48|    
+49|    # 1. Detect if the user wants to trigger our intelligent image generation pipeline
+50|    $isImageTrigger = $text -match '^\s*(make|generate|draw|paint|create)\b.*\b(image|photo|background|picture|logo|art|rendering|canvas)\b'
+51|    
+52|    if ($isImageTrigger) {
+53|        # Extract prompt by stripping standard prefixes
+54|        $cleanPrompt = $text -replace '^\s*(make|generate|draw|paint|create)\s+(me\s+)?(an?\s+)?(hd\s+)?(widescreen\s+)?(image|photo|background|picture|logo|art|rendering|painting|canvas)\s+(of\s+)?', ''
+55|        
+56|        # If the prompt ends with "widescreen" or "hd", strip those too
+57|        $cleanPrompt = $cleanPrompt -replace '\b(in\s+)?(hd|widescreen|1920x1080|16:9|landscape)\b', ''
+58|        $cleanPrompt = $cleanPrompt.Trim()
+59|        
+60|        # Invoke our new gen-image function and let it handle size parsing!
+61|        gen-image -prompt $cleanPrompt
+62|        return
+63|    }
+64|
+65|    # 2. Detect if the input is an AI query ONLY if it starts with an AI question or instruction/action word
+66|    $isAIQuery = $text -match '^\s*(how|what|why|who|where|when|can|could|should|would|will|is|are|do|does|did|tell|explain|write|create|analyze|review|suggest|check|run|test|get)\b'
+67|    
+68|    if ($isAIQuery) {
+69|        # Touch VRAM Activity timestamp for AI reasoning tasks
+70|        Update-VramActivity
+71|        
+72|        # Ensure a model is loaded for any local inference
+73|        Ensure-ModelLoaded
+74|        
+75|        # Execute oneshot query with Hermes, display response, and speak it out loud
+76|        $response = hermes -z $text
+77|        Write-Host $response
+78|        $cleanResponse = $response -join "`n"
+79|        Invoke-HermesTTS $cleanResponse
+80|    } else {
+81|        # Directly speak the plain text without calling the LLM
+82|        Invoke-HermesTTS $text
+83|    }
+84|}
+85|
+86|# --- Edge TTS Voice Shortcuts ---
+87|function set-voice-andrew {
+88|    hermes config set tts.provider edge | Out-Null
+89|    hermes config set tts.edge.voice en-US-AndrewMultilingualNeural | Out-Null
+90|    Invoke-HermesTTS "Andrew is active."
+91|    Write-Host "🎙️ Default voice set to Andrew (en-US-AndrewMultilingualNeural)" -ForegroundColor Cyan
+92|}
+93|
+94|function set-voice-sonia {
+95|    hermes config set tts.provider edge | Out-Null
+96|    hermes config set tts.edge.voice en-GB-SoniaNeural | Out-Null
+97|    Invoke-HermesTTS "Sonia is active."
+98|    Write-Host "🎙️ Default voice set to Sonia (en-GB-SoniaNeural)" -ForegroundColor Cyan
+99|}
+100|
+101|function set-voice-ryan {
+102|    hermes config set tts.provider edge | Out-Null
+103|    hermes config set tts.edge.voice en-GB-RyanNeural | Out-Null
+104|    Invoke-HermesTTS "Ryan is active."
+105|    Write-Host "🎙️ Default voice set to Ryan (en-GB-RyanNeural)" -ForegroundColor Cyan
+106|}
+107|
+108|# --- Gemini TTS Voice Shortcuts ---
+109|function set-voice-orus {
+110|    hermes config set tts.provider gemini | Out-Null
+111|    hermes config set tts.gemini.voice Orus | Out-Null
+112|    Invoke-HermesTTS "Orus is active."
+113|    Write-Host "🎙️ Default voice set to Orus (Gemini - Orus)" -ForegroundColor Cyan
+114|}
+115|
+116|function set-voice-charon {
+117|    hermes config set tts.provider gemini | Out-Null
+118|    hermes config set tts.gemini.voice Charon | Out-Null
+119|    Invoke-HermesTTS "Charon is active."
+120|    Write-Host "🎙️ Default voice set to Charon (Gemini - Charon)" -ForegroundColor Cyan
+121|}
+122|
+123|function set-voice-zephyr {
+124|    hermes config set tts.provider gemini | Out-Null
+125|    hermes config set tts.gemini.voice Zephyr | Out-Null
+126|    Invoke-HermesTTS "Zephyr is active."
+127|    Write-Host "🎙️ Default voice set to Zephyr (Gemini - Zephyr)" -ForegroundColor Cyan
+128|}
+129|
+130|function set-voice-kore {
+131|    hermes config set tts.provider gemini | Out-Null
+132|    hermes config set tts.gemini.voice Kore | Out-Null
+133|    Invoke-HermesTTS "Kore is active."
+134|    Write-Host "🎙️ Default voice set to Kore (Gemini - Kore)" -ForegroundColor Cyan
+135|}
+136|
+137|# --- VRAM & Memory Lifecycle Helpers ---
+138|function Update-VramActivity {
+139|    $stateFile = "__PROJECT_ROOT__\.vram-idle-state.json"
+140|    $timeStr = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+141|    
+142|    $keepOn = $false
+143|    if (Test-Path $stateFile) {
+144|        try {
+145|            $json = Get-Content $stateFile -Raw -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue
+146|            if ($json -and $null -ne $json.KeepModelOn) {
+147|                $keepOn = $json.KeepModelOn
+148|            }
+149|        } catch {}
+150|    }
+151|    
+152|    $state = @{
+153|        LastActivityTime = $timeStr
+154|        KeepModelOn = $keepOn
+155|    }
+156|    $state | ConvertTo-Json | Out-File $stateFile -Encoding utf8 -ErrorAction SilentlyContinue
+157|}
+158|
+159|function Ensure-ModelLoaded {
+160|    $models = lms ps 2>$null
+161|    $hasModel = $false
+162|    foreach ($line in $models) {
+163|        if ($line -match "^\s*([a-zA-Z0-9_\-\.]+)\s*\|") {
+164|            $hasModel = $true
+165|            break
+166|        }
+167|    }
+168|    if (-not $hasModel) {
+169|        Write-Host "[J.A.R.V.I.S.] No active reasoning model found. Auto-loading Qwen 4B..." -ForegroundColor Yellow
+170|        load-qwen
+171|    }
+172|}
+173|
+174|# --- Mem0 J.A.R.V.I.S. Memory Layer Functions ---
+175|function remember {
+176|    $text = $args -join " "
+177|    if (-not $text.Trim()) {
+178|        Write-Warning "Usage: remember <text_to_store>"
+179|        return
+180|    }
+181|    
+182|    # Touch VRAM Activity timestamp & auto-load model if needed
+183|    Update-VramActivity
+184|    Ensure-ModelLoaded
+185|    
+186|    & "__PROJECT_ROOT__\scripts\mem0-chat.ps1" -Action "add" -Text $text
+187|}
+188|
+189|function recall {
+190|    $query = $args -join " "
+191|    if (-not $query.Trim()) {
+192|        Write-Warning "Usage: recall <query_to_search>"
+193|        return
+194|    }
+195|    
+196|    # Touch VRAM Activity timestamp & auto-load model if needed
+197|    Update-VramActivity
+198|    Ensure-ModelLoaded
+199|    
+200|    & "__PROJECT_ROOT__\scripts\mem0-chat.ps1" -Action "search" -Query $query
+201|}
+202|
+203|# --- LM Studio CLI Model Switcher Functions ---
+204|$script:MscLmsModels = [ordered]@{
+205|    qwen4    = @{ Key = 'qwen3-4b-instruct-2507'; Label = 'Qwen 4B (default — fast, Mem0)'; Task = 'light chat, memory, daily default' }
+206|    qwen9    = @{ Key = 'qwen3.5-9b'; Label = 'Qwen 3.5 9B (smarter local chat)'; Task = 'better answers when you can wait' }
+207|    coder14  = @{ Key = 'qwen2.5-coder-14b-instruct'; Label = 'Qwen Coder 14B'; Task = 'local coding — best fit for 16GB VRAM' }
+208|    deepseek33 = @{ Key = 'deepseek-coder-33b-instruct'; Label = 'DeepSeek Coder 33B'; Task = 'heavy coding tests' }
+209|    r1       = @{ Key = 'deepseek-r1-distill-qwen-14b'; Label = 'DeepSeek R1 14B'; Task = 'step-by-step reasoning' }
+210|    arsenic  = @{ Key = 'arsenic-shahrazad-12b-v4.4'; Label = 'Arsenic Shahrazad 12B'; Task = 'creative writing / RP' }
+211|}
+212|
+213|function Invoke-MscLmsLoad {
+214|    param(
+215|        [Parameter(Mandatory = $true)][string]$ModelKey,
+216|        [Parameter(Mandatory = $true)][string]$OkMessage
+217|    )
+218|    Update-VramActivity
+219|    lms load $ModelKey
+220|    if ($LASTEXITCODE -ne 0) {
+221|        Write-Host "[FAIL] Could not load: $ModelKey (lms exit $LASTEXITCODE)" -ForegroundColor Red
+222|        return
+223|    }
+224|    Write-Host "[OK] $OkMessage" -ForegroundColor Green
+225|    model-status
+226|}
+227|
+228|function load-qwen4 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.qwen4.Key -OkMessage 'Qwen 4B loaded (default)' }
+229|function load-qwen9 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.qwen9.Key -OkMessage 'Qwen 3.5 9B loaded' }
+230|function load-coder14 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.coder14.Key -OkMessage 'Qwen Coder 14B loaded' }
+231|function load-deepseek33 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.deepseek33.Key -OkMessage 'DeepSeek Coder 33B loaded' }
+232|function load-r1 { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.r1.Key -OkMessage 'DeepSeek R1 14B loaded' }
+233|function load-arsenic { Invoke-MscLmsLoad -ModelKey $script:MscLmsModels.arsenic.Key -OkMessage 'Arsenic Shahrazad 12B loaded' }
+234|function load-qwen { load-qwen4 }
+235|function load-deepseek { load-deepseek33 }
+236|
+237|function load-model {
+238|    param([Parameter(Mandatory = $true, Position = 0)][string]$Name)
+239|    $n = $Name.Trim().ToLower() -replace '\s+', '' -replace '_', ''
+240|    $taskMap = @{
+241|        default = 'qwen4'; fast = 'qwen4'; mem0 = 'qwen4'; memory = 'qwen4'
+242|        smart = 'qwen9'; chat = 'qwen9'
+243|        code = 'coder14'; coder = 'coder14'; dev = 'coder14'
+244|        heavy = 'deepseek33'; deepseek = 'deepseek33'
+245|        reason = 'r1'; think = 'r1'
+246|        creative = 'arsenic'; story = 'arsenic'
+247|    }
+248|    if ($taskMap.ContainsKey($n)) { $n = $taskMap[$n] }
+249|    if ($script:MscLmsModels.Contains($n)) {
+250|        $entry = $script:MscLmsModels[$n]
+251|        Invoke-MscLmsLoad -ModelKey $entry.Key -OkMessage "$($entry.Label) loaded"
+252|        return
+253|    }
+254|    Invoke-MscLmsLoad -ModelKey $Name -OkMessage "Loaded $Name"
+255|}
+256|
+257|function list-models {
+258|    Write-Host ""
+259|    Write-Host "LM Studio shortcuts (load-model <nick> or load-<nick>):" -ForegroundColor Cyan
+260|    foreach ($prop in $script:MscLmsModels.Keys) {
+261|        $e = $script:MscLmsModels[$prop]
+262|        Write-Host ("  {0,-12} load-{0,-8} {1}" -f $prop, $e.Label) -ForegroundColor White
+263|        Write-Host ("              -> {0}" -f $e.Task) -ForegroundColor DarkGray
+264|    }
+265|    Write-Host ""
+266|    Write-Host "Task aliases: load-model code | smart | reason | creative | fast" -ForegroundColor DarkCyan
+267|    Write-Host ""
+268|    lms ls
+269|}
+270|
+271|function unload-model {
+272|    lms unload --all
+273|    Write-Host "[OK] Model unloaded" -ForegroundColor Yellow
+274|}
+275|
+276|function model-status {
+277|    lms ps
+278|}
+279|
+280|# --- Manual Overrides & VRAM Controls ---
+281|function keep-model-on {
+282|    $stateFile = "__PROJECT_ROOT__\.vram-idle-state.json"
+283|    $timeStr = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+284|    $state = @{
+285|        LastActivityTime = $timeStr
+286|        KeepModelOn = $true
+287|    }
+288|    $state | ConvertTo-Json | Out-File $stateFile -Encoding utf8 -ErrorAction SilentlyContinue
+289|    Invoke-HermesTTS "Auto-unload disabled. Keeping model loaded."
+290|    Write-Host "[J.A.R.V.I.S.] Auto-unload disabled. Keeping model loaded indefinitely." -ForegroundColor Yellow
+291|}
+292|
+293|function keep-model-off {
+294|    $stateFile = "__PROJECT_ROOT__\.vram-idle-state.json"
+295|    $timeStr = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+296|    $state = @{
+297|        LastActivityTime = $timeStr
+298|        KeepModelOn = $false
+299|    }
+300|    $state | ConvertTo-Json | Out-File $stateFile -Encoding utf8 -ErrorAction SilentlyContinue
+301|    Invoke-HermesTTS "Auto-unload safety restored."
+302|    Write-Host "[J.A.R.V.I.S.] Auto-unload safety restored. Models will unload after fifteen minutes of idle time." -ForegroundColor Green
+303|}
+304|
+305|function vram-status {
+306|    powershell -File "__PROJECT_ROOT__\scripts\vram-idle-manager.ps1"
+307|}
+308|
+309|function vram-unload {
+310|    powershell -File "__PROJECT_ROOT__\scripts\vram-idle-manager.ps1" -UnloadNow
+311|}
+312|
+313|function vram-daemon-start {
+314|    $existing = Get-Job -Name "VramIdleManager" -ErrorAction SilentlyContinue
+315|    if ($existing -and $existing.State -eq "Running") {
+316|        Write-Host "[J.A.R.V.I.S.] VRAM Idle Manager Daemon is already running as background job." -ForegroundColor Yellow
+317|        return
+318|    }
+319|    
+320|    Start-Job -Name "VramIdleManager" -ScriptBlock {
+321|        powershell -ExecutionPolicy Bypass -File "__PROJECT_ROOT__\scripts\vram-idle-manager.ps1" -Daemon
+322|    } | Out-Null
+323|    
+324|    Invoke-HermesTTS "V RAM Idle Manager daemon started successfully."
+325|    Write-Host "[OK] [J.A.R.V.I.S.] VRAM Idle Manager Daemon started as active background job." -ForegroundColor Green
+326|}
+327|
+328|function vram-daemon-stop {
+329|    Stop-Job -Name "VramIdleManager" -ErrorAction SilentlyContinue
+330|    Remove-Job -Name "VramIdleManager" -ErrorAction SilentlyContinue
+331|    Invoke-HermesTTS "V RAM Idle Manager daemon stopped."
+332|    Write-Host "[STOP] [J.A.R.V.I.S.] VRAM Idle Manager Daemon stopped." -ForegroundColor Red
+333|}
+334|
+335|# --- Free Image Generation Pipeline Function ---
+336|function gen-image {
+337|    param(
+338|        [Parameter(Mandatory=$true, Position=0)]
+339|        [string]$prompt,
+340|
+341|        [Parameter(Mandatory=$false)]
+342|        [string]$Path,
+343|
+344|        [Parameter(Mandatory=$false)]
+345|        [int]$Width = $null,
+346|
+347|        [Parameter(Mandatory=$false)]
+348|        [int]$Height = $null
+349|    )
+350|
+351|    # 1. Touch VRAM activity timestamp so our auto-unload daemon is in sync
+352|    Update-VramActivity
+353|
+354|    # 1b. Dimension parsing from prompt hints
+355|    $w = 1920
+356|    $h = 1080
+357|
+358|    if ($prompt -match '\b(4k|4K|ultra hd|ultra HD)\b') {
+359|        # Hugging Face serverless API limit is max 2048x2048. Scale 4K/ultra-hd widescreen to the absolute max 16:9 bounds.
+360|        $w = 2048
+361|        $h = 1152
+362|    } elseif ($prompt -match '\b(hd|HD|1080p|1080P|widescreen)\b') {
+363|        $w = 1920
+364|        $h = 1080
+365|    } elseif ($prompt -match '\b(vertical|phone|9:16)\b') {
+366|        $w = 1080
+367|        $h = 1920
+368|    } elseif ($prompt -match '\b(1024x768|4:3)\b') {
+369|        $w = 1024
+370|        $h = 768
+371|    }
+372|
+373|    # Override with explicitly passed parameters if provided
+374|    if ($null -ne $Width -and $Width -gt 0) {
+375|        $w = $Width
+376|    }
+377|    if ($null -ne $Height -and $Height -gt 0) {
+378|        $h = $Height
+379|    }
+380|
+381|    # 2. Setup path if not passed
+382|    $projectRoot = "__PROJECT_ROOT__"
+383|    $outputArg = ""
+384|    $resolvedPath = ""
+385|
+386|    if ($Path) {
+387|        $resolvedPath = [System.IO.Path]::GetFullPath($Path)
+388|        $outputArg = "--output", $resolvedPath
+389|    } else {
+390|        $timestamp = (Get-Date).ToString("yyyyMMdd-HHmmss")
+391|        $mediaDir = Join-Path $projectRoot "public\media"
+392|        if (-not (Test-Path $mediaDir)) {
+393|            New-Item -ItemType Directory -Path $mediaDir -Force | Out-Null
+394|        }
+395|        $resolvedPath = Join-Path $mediaDir "generated-$timestamp.png"
+396|        $resolvedPath = [System.IO.Path]::GetFullPath($resolvedPath)
+397|        $outputArg = "--output", $resolvedPath
+398|    }
+399|
+400|    Write-Host "[J.A.R.V.I.S.] Generating image..." -ForegroundColor Yellow
+401|    Write-Host "Prompt: $prompt" -ForegroundColor Cyan
+402|    Write-Host "Dimensions: ${w}x${h}" -ForegroundColor Cyan
+403|
+404|    $pythonPath = "C:\Users\JONBEATZ\AppData\Local\Programs\Python\Python312\python.exe"
+405|    $scriptPath = Join-Path $projectRoot "scripts\generate-image.py"
+406|
+407|    # 3. Call python image generation script
+408|    $responseRaw = & $pythonPath $scriptPath --prompt $prompt --width $w --height $h $outputArg 2>$null
+409|
+410|    if (-not $responseRaw) {
+411|        Write-Error "No response received from image generation layer."
+412|        return
+413|    }
+414|
+415|    try {
+416|        $response = $responseRaw | ConvertFrom-Json
+417|    } catch {
+418|        Write-Host "[Raw Output] $responseRaw" -ForegroundColor Red
+419|        Write-Error "Failed to parse JSON response from image generation layer."
+420|        return
+421|    }
+422|
+423|    if ($response -and $response.success) {
+424|        $file = $response.file_path
+425|        
+426|        # Resolve the clean absolute path for Start-Process to avoid any weird formatting
+427|        $cleanFile = Resolve-Path $file -ErrorAction SilentlyContinue
+428|        if ($cleanFile) {
+429|            $file = $cleanFile.ProviderPath
+430|        } else {
+431|            $file = [System.IO.Path]::GetFullPath($file)
+432|        }
+433|
+434|        # Ensure full UTF-8 emoji support in the console host so emojis don't render as '??' and break link parsing
+435|        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+436|        $displayFile = $file.Replace('\', '/')
+437|
+438|        Write-Host "[OK] [J.A.R.V.I.S.] Image successfully generated!" -ForegroundColor Green
+439|        Write-Host "Saved to: $file" -ForegroundColor Green
+440|
+441|        # 4. Speak confirmation
+442|        Invoke-HermesTTS "Image generated, opening now."
+443|
+444|        # 5. Automatically open the image in Windows native default photo viewer
+445|        Start-Process -FilePath $file
+446|    } else {
+447|        $err = $response.error
+448|        Write-Host "[J.A.R.V.I.S. Error] $err" -ForegroundColor Red
+449|        Invoke-HermesTTS "Excuse me, Jon. I encountered an error while generating your image."
+450|    }
+451|}
+452|
+453|function gen-image-local {
+454|    param(
+455|        [Parameter(Mandatory = $true, Position = 0)]
+456|        [string]$Prompt,
+457|        [Parameter(Mandatory = $false)]
+458|        [string]$OutputPath,
+459|        [Parameter(Mandatory = $false)]
+460|        [int]$Width = 0,
+461|        [Parameter(Mandatory = $false)]
+462|        [int]$Height = 0
+463|    )
+464|    Update-VramActivity
+465|    $w = 1920; $h = 1080
+466|    if ($Prompt -match '\b(square|1024x1024|1:1)\b') { $w = 1024; $h = 1024 }
+467|    elseif ($Prompt -match '\b(vertical|phone|9:16)\b') { $w = 1080; $h = 1920 }
+468|    if ($Width -gt 0) { $w = $Width }
+469|    if ($Height -gt 0) { $h = $Height }
+470|    $projectRoot = "__PROJECT_ROOT__"
+471|    if ([string]::IsNullOrWhiteSpace($OutputPath)) {
+472|        $timestamp = (Get-Date).ToString("yyyyMMdd-HHmmss")
+473|        $mediaDir = Join-Path $projectRoot "public\media"
+474|        if (-not (Test-Path $mediaDir)) { New-Item -ItemType Directory -Path $mediaDir -Force | Out-Null }
+475|        $OutputPath = Join-Path $mediaDir "generated-local-$timestamp.png"
+476|    }
+477|    $absoluteOutput = [System.IO.Path]::GetFullPath($OutputPath)
+478|    $targetDir = [System.IO.Path]::GetDirectoryName($absoluteOutput)
+479|    if (-not (Test-Path $targetDir)) { New-Item -ItemType Directory -Path $targetDir -Force | Out-Null }
+480|    Write-Host "[J.A.R.V.I.S.] Local ComfyUI image generation (z-image-turbo)..." -ForegroundColor Yellow
+481|    $workflowFile = "H:\AI_Models\ComfyUI\workflows\txt2img-gen-image-local.json"
+482|    $overrides = @{
+483|        "4.text" = $Prompt; "6.width" = $w; "6.height" = $h
+484|        "8.seed" = Get-Random -Minimum 1 -Maximum 9999999999999
+485|    }
+486|    $resultFile = Invoke-ComfyPrompt -WorkflowPath $workflowFile -Overrides $overrides -FinalOutputPath $absoluteOutput
+487|    if ($resultFile -and (Test-Path $resultFile)) {
+488|        Write-Host "[OK] Saved to: $resultFile" -ForegroundColor Green
+489|        Invoke-HermesTTS "Local image generated, opening now."
+490|        Start-Process -FilePath $resultFile
+491|        return $resultFile
+492|    }
+493|    Invoke-HermesTTS "Local image generation failed."
+494|    return $null
+495|}
+496|
+497|function hermes { & "C:\Users\JONBEATZ\AppData\Local\hermes\hermes-agent\venv\Scripts\hermes.exe" $args }
+498|
+499|# === ComfyUI Functions (New, Separate from gen-image) ===
+500|
+501|

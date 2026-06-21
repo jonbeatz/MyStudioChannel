@@ -47,9 +47,32 @@ Always run commands from the project root using PowerShell:
 
 ---
 
-## 4. Launching Hermes with Project Context
+## 4. Hermes Desktop (one-click MSC profile)
 
-To start chatting with Hermes loaded with this exact project context, run the following command from the project root:
+| Item | Value |
+| :--- | :--- |
+| **Desktop shortcut** | **Hermes - MyStudioChannel** (Desktop) |
+| **Or run** | `npm run desktop` from repo root |
+| **Hermes profile** | `msc` (isolated from `jonbeatz` personal) |
+| **Config reference** | `hermes-desktop-profile.json` |
+
+The launcher sets `%APPDATA%\Hermes\project-dir.json` and `active-profile.json` before opening Desktop. **Fully quit** Hermes before switching to **Hermes - JonBeatz**; start a **new session** (`Ctrl+N`) after switching.
+
+Profile templates live in `scripts/hermes-profile/msc/` and sync via `scripts/sync-hermes-msc-profile.ps1`.
+
+---
+
+## 5. Launching Hermes with Project Context (CLI)
+
+To start chatting with Hermes loaded with this exact project context from a terminal:
+
+```powershell
+msc chat
+# or
+hermes -p msc chat
+```
+
+Legacy one-shot:
 
 ```powershell
 hermes -z "Let's load the project's architecture, TRUTH.md, and rules. Ask me what task I should perform next."
