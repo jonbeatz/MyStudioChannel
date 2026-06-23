@@ -1,6 +1,6 @@
-# Delegates to portable Hermes google-api home (LiteLLM + ngrok only)
-$HermesStop = 'D:\Hermes\custom-scriptz\google-api\scripts\stop-google-api-desktop.ps1'
+# Delegates to portable Hermes deepseek-api home (D:\Hermes\projects\_core-scripts\deepseek-api)
+$HermesStop = 'D:\Hermes\projects\_core-scripts\deepseek-api\scripts\stop-deepseek.ps1'
 if (-not (Test-Path $HermesStop)) {
-    throw "Hermes google-api not found. Run: D:\Hermes\custom-scriptz\google-api\install-from-msc.ps1"
+    throw "deepseek-api not found."
 }
-& $HermesStop @args
+& powershell -NoProfile -ExecutionPolicy Bypass -File $HermesStop @args

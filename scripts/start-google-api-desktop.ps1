@@ -1,6 +1,6 @@
-# Delegates to portable Hermes google-api home (D:\Hermes\custom-scriptz\google-api)
-$HermesStart = 'D:\Hermes\custom-scriptz\google-api\scripts\start-google-api-desktop.ps1'
+# Delegates to portable Hermes deepseek-api home (D:\Hermes\projects\_core-scripts\deepseek-api)
+$HermesStart = 'D:\Hermes\projects\_core-scripts\deepseek-api\scripts\start-deepseek.ps1'
 if (-not (Test-Path $HermesStart)) {
-    throw "Hermes google-api not found. Run: D:\Hermes\custom-scriptz\google-api\install-from-msc.ps1"
+    throw "deepseek-api not found. Run: D:\Hermes\projects\_core-scripts\deepseek-api\scripts\Start-My-DeepSeek-API.ps1"
 }
-& $HermesStart @args
+& powershell -NoProfile -ExecutionPolicy Bypass -File $HermesStart @args
