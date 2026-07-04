@@ -142,5 +142,5 @@ When booting up a session, you **must** execute the following sequence:
 
 ---
 
-*Last Updated: 2026-06-19 (v10.0.0 · `MSC-Website-v10` active · `MSC-Website-v9` frozen @ `0007312`)*
+*Last Updated: 2026-07-03 (v10.0.0 · `MSC-Website-v10` active · `MSC-Website-v9` frozen @ `0007312`)*
 <sub>· Powered by the MyStudioChannel Media Engine</sub>
