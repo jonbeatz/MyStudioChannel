@@ -1,11 +1,11 @@
-# J.A.R.V.I.S. TTS — profile-independent (works in Cursor agent shells)
+# Draven TTS — profile-independent (works in Cursor agent shells)
 param(
     [Parameter(Mandatory = $true, Position = 0)]
     [string]$Text
 )
 
 $ErrorActionPreference = "Stop"
-$Tag = '[J.A.R.V.I.S.]'
+$Tag = '[Draven]'
 
 $pythonPath = "C:\Users\JONBEATZ\AppData\Local\hermes\hermes-agent\venv\Scripts\python.exe"
 $hermesRoot = "C:\Users\JONBEATZ\AppData\Local\hermes\hermes-agent"
@@ -21,7 +21,7 @@ if (-not $Text.Trim()) {
     exit 1
 }
 
-$env:JARVIS_SPEAK_TEXT = $Text
+$env:DRAVEN_SPEAK_TEXT = $Text
 
 $result = & $pythonPath -c @"
 import json, logging, os, sys
@@ -31,7 +31,7 @@ sys.path.append(r'$hermesRoot')
 from tools.tts_tool import text_to_speech_tool
 from tools.voice_mode import play_audio_file
 
-text = os.environ.get('JARVIS_SPEAK_TEXT', '').strip()
+text = os.environ.get('DRAVEN_SPEAK_TEXT', '').strip()
 if not text:
     print(json.dumps({'success': False, 'error': 'empty text'}))
     sys.exit(1)
@@ -48,7 +48,7 @@ except Exception as e:
     sys.exit(1)
 "@ 2>&1
 
-Remove-Item Env:JARVIS_SPEAK_TEXT -ErrorAction SilentlyContinue
+Remove-Item Env:DRAVEN_SPEAK_TEXT -ErrorAction SilentlyContinue
 
 if ($LASTEXITCODE -ne 0) {
     Write-Warning "$Tag Speech synthesis failed."

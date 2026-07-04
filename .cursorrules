@@ -25,6 +25,13 @@ Use this file as the high-level base. Detailed guidance is split into scoped fil
 - **Fix Local:** **Prompt-Cheat-Sheet.md** item **40** — agents run **`npm run dev:recover`**, wait for **Ready**, then smoke **`http://localhost:3000/`** and **`/admin`** (report HTTP status; suggest hard-refresh if **200**).
 - If local dev breaks, the **agent** runs recovery from repo root (`npm run dev:recover`, `dev:fresh`, or `repair:dev` as needed) — do not only tell Jon to run commands; Jon may still confirm in the browser. Smoke URLs: `http://localhost:3000/` and `/admin`.
 
+## Draven memory (AI assistant cross-session)
+
+Draven (the AI assistant) has his own isolated Mem0 at `draven_memories` / `qdrant_draven`:
+- Search before sessions: `npm run msc:draven:search -- "query"`
+- Store context after tasks: `npm run msc:draven:add -- "summary"`
+- This is separate from MSC's own `msc:mem0:add/search`
+
 ## Skills and specialized rules
 
 - Nova conventions: `.cursor/skills/Nova/SKILL.md`

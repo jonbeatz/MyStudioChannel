@@ -1,5 +1,15 @@
 {
   "mcpServers": {
+    "context7": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ],
+      "_comment": "Version-accurate library docs - reduces API hallucinations (2026 baseline MCP)"
+    },
     "local-wp": {
       "command": "cmd",
       "args": [
