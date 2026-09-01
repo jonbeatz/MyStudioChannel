@@ -43,8 +43,8 @@
         "@browserbasehq/mcp"
       ],
       "env": {
-        "BROWSERBASE_API_KEY": "bb_live_iwuF69yEwYCUx7l7cALivMpIAnU",
-        "BROWSERBASE_PROJECT_ID": "713e6b70-0afc-4fea-a824-75fc3e4c9f8e"
+        "BROWSERBASE_API_KEY": "REPLACE_WITH_BROWSERBASE_API_KEY",
+        "BROWSERBASE_PROJECT_ID": "REPLACE_WITH_BROWSERBASE_PROJECT_ID"
       },
       "_comment": "Cloud browser automation with Browserbase and Stagehand."
     },
@@ -57,7 +57,7 @@
         "@21st-dev/magic@latest"
       ],
       "env": {
-        "API_KEY": "bd5cc7d159e95e09b7a4ad5329d59e5f03d47182a0665aa62eccaf5f393f712e"
+        "API_KEY": "REPLACE_WITH_21ST_DEV_MAGIC_API_KEY"
       },
       "_comment": "Allows building beautiful frontend components directly into the codebase with 21st.dev Magic MCP."
     },
